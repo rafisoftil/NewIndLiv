@@ -1,0 +1,1653 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\obj\\Release\\net8.0\\scopedcss\\projectbundle\\IndiaLivings_Web_UI.bundle.scp.css",
+      "PackagePath": "staticwebassets\\IndiaLivings_Web_UI.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\css\\custom\\main.css",
+      "PackagePath": "staticwebassets\\css\\custom\\main.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\css\\vendor\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\vendor\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\css\\vendor\\emojionearea.min.css",
+      "PackagePath": "staticwebassets\\css\\vendor\\emojionearea.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\css\\vendor\\nice-select.min.css",
+      "PackagePath": "staticwebassets\\css\\vendor\\nice-select.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\css\\vendor\\slick.min.css",
+      "PackagePath": "staticwebassets\\css\\vendor\\slick.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\flaticon\\Flaticon.eot",
+      "PackagePath": "staticwebassets\\fonts\\flaticon\\Flaticon.eot"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\flaticon\\Flaticon.svg",
+      "PackagePath": "staticwebassets\\fonts\\flaticon\\Flaticon.svg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\flaticon\\Flaticon.ttf",
+      "PackagePath": "staticwebassets\\fonts\\flaticon\\Flaticon.ttf"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\flaticon\\Flaticon.woff",
+      "PackagePath": "staticwebassets\\fonts\\flaticon\\Flaticon.woff"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\flaticon\\Flaticon.woff2",
+      "PackagePath": "staticwebassets\\fonts\\flaticon\\Flaticon.woff2"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\flaticon\\_flaticon.scss",
+      "PackagePath": "staticwebassets\\fonts\\flaticon\\_flaticon.scss"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\flaticon\\flaticon.css",
+      "PackagePath": "staticwebassets\\fonts\\flaticon\\flaticon.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\flaticon\\flaticon.html",
+      "PackagePath": "staticwebassets\\fonts\\flaticon\\flaticon.html"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-brands-400.eot",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-brands-400.eot"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-brands-400.svg",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-brands-400.svg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-brands-400.ttf",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-brands-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-brands-400.woff",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-brands-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-brands-400.woff2",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-brands-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-regular-400.eot",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-regular-400.eot"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-regular-400.svg",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-regular-400.svg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-regular-400.ttf",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-regular-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-regular-400.woff",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-regular-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-regular-400.woff2",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-regular-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-solid-900.eot",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-solid-900.eot"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-solid-900.svg",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-solid-900.svg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-solid-900.ttf",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-solid-900.ttf"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-solid-900.woff",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-solid-900.woff"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fa-solid-900.woff2",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fa-solid-900.woff2"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\fonts\\font-awesome\\fontawesome.css",
+      "PackagePath": "staticwebassets\\fonts\\font-awesome\\fontawesome.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\about\\01.jpg",
+      "PackagePath": "staticwebassets\\images\\about\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\about\\02.jpg",
+      "PackagePath": "staticwebassets\\images\\about\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\about\\03.jpg",
+      "PackagePath": "staticwebassets\\images\\about\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\about\\04.jpg",
+      "PackagePath": "staticwebassets\\images\\about\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\app-store.png",
+      "PackagePath": "staticwebassets\\images\\app-store.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\avatar\\01.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\avatar\\02.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\avatar\\03.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\avatar\\04.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\bg\\01.jpg",
+      "PackagePath": "staticwebassets\\images\\bg\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\bg\\02.png",
+      "PackagePath": "staticwebassets\\images\\bg\\02.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\bg\\03.jpg",
+      "PackagePath": "staticwebassets\\images\\bg\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\bg\\04.png",
+      "PackagePath": "staticwebassets\\images\\bg\\04.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\blog-suggest\\01.jpg",
+      "PackagePath": "staticwebassets\\images\\blog-suggest\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\blog-suggest\\02.jpg",
+      "PackagePath": "staticwebassets\\images\\blog-suggest\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\blog-suggest\\03.jpg",
+      "PackagePath": "staticwebassets\\images\\blog-suggest\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\blog-suggest\\04.jpg",
+      "PackagePath": "staticwebassets\\images\\blog-suggest\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\blog\\01.jpg",
+      "PackagePath": "staticwebassets\\images\\blog\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\blog\\02.jpg",
+      "PackagePath": "staticwebassets\\images\\blog\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\blog\\03.jpg",
+      "PackagePath": "staticwebassets\\images\\blog\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\blog\\04.jpg",
+      "PackagePath": "staticwebassets\\images\\blog\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\blog\\05.jpg",
+      "PackagePath": "staticwebassets\\images\\blog\\05.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\blog\\06.jpg",
+      "PackagePath": "staticwebassets\\images\\blog\\06.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\agriculture.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\agriculture.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\animals.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\animals.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\automobiles.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\automobiles.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\bussiness.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\bussiness.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\education.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\education.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\electronics.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\electronics.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\fashions.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\fashions.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\furnitures.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\furnitures.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\gadgets.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\gadgets.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\hospitality.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\hospitality.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\motorbikes.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\motorbikes.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\category\\properties.jpg",
+      "PackagePath": "staticwebassets\\images\\category\\properties.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\cities\\01.jpg",
+      "PackagePath": "staticwebassets\\images\\cities\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\cities\\02.jpg",
+      "PackagePath": "staticwebassets\\images\\cities\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\cities\\03.jpg",
+      "PackagePath": "staticwebassets\\images\\cities\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\cities\\04.jpg",
+      "PackagePath": "staticwebassets\\images\\cities\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\cities\\05.jpg",
+      "PackagePath": "staticwebassets\\images\\cities\\05.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\cities\\06.jpg",
+      "PackagePath": "staticwebassets\\images\\cities\\06.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\counter\\ads.png",
+      "PackagePath": "staticwebassets\\images\\counter\\ads.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\counter\\review.png",
+      "PackagePath": "staticwebassets\\images\\counter\\review.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\counter\\user.png",
+      "PackagePath": "staticwebassets\\images\\counter\\user.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\logo.png",
+      "PackagePath": "staticwebassets\\images\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\pay-card\\01.jpg",
+      "PackagePath": "staticwebassets\\images\\pay-card\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\pay-card\\02.jpg",
+      "PackagePath": "staticwebassets\\images\\pay-card\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\pay-card\\03.jpg",
+      "PackagePath": "staticwebassets\\images\\pay-card\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\pay-card\\04.jpg",
+      "PackagePath": "staticwebassets\\images\\pay-card\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\play-store.png",
+      "PackagePath": "staticwebassets\\images\\play-store.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\01.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\02.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\03.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\04.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\05.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\05.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\06.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\06.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\07.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\07.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\08.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\08.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\09.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\09.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\10.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\10.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\11.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\11.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\12.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\12.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\13.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\13.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\14.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\14.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\15.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\15.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\product\\16.jpg",
+      "PackagePath": "staticwebassets\\images\\product\\16.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\agriculture.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\agriculture.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\animals.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\animals.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\automobile.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\automobile.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\bussiness.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\bussiness.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\education.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\education.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\electronics.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\electronics.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\essentials.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\essentials.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\fashion.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\fashion.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\food.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\food.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\furniture.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\furniture.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\gadgets.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\gadgets.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\hardware.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\hardware.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\hospitality.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\hospitality.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\jewellery.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\jewellery.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\motorbike.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\motorbike.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\musics.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\musics.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\properties.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\properties.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\services.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\services.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\software.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\software.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\suggest\\sports.png",
+      "PackagePath": "staticwebassets\\images\\suggest\\sports.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\team\\01.jpg",
+      "PackagePath": "staticwebassets\\images\\team\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\team\\02.jpg",
+      "PackagePath": "staticwebassets\\images\\team\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\team\\03.jpg",
+      "PackagePath": "staticwebassets\\images\\team\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\team\\04.jpg",
+      "PackagePath": "staticwebassets\\images\\team\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\team\\05.jpg",
+      "PackagePath": "staticwebassets\\images\\team\\05.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\team\\06.jpg",
+      "PackagePath": "staticwebassets\\images\\team\\06.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\team\\07.jpg",
+      "PackagePath": "staticwebassets\\images\\team\\07.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\images\\user.png",
+      "PackagePath": "staticwebassets\\images\\user.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\custom\\counterup.js",
+      "PackagePath": "staticwebassets\\js\\custom\\counterup.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\custom\\emojionearea.js",
+      "PackagePath": "staticwebassets\\js\\custom\\emojionearea.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\custom\\main.js",
+      "PackagePath": "staticwebassets\\js\\custom\\main.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\custom\\nice-select.js",
+      "PackagePath": "staticwebassets\\js\\custom\\nice-select.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\custom\\nicescroll.js",
+      "PackagePath": "staticwebassets\\js\\custom\\nicescroll.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\custom\\slick.js",
+      "PackagePath": "staticwebassets\\js\\custom\\slick.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\vendor\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\js\\vendor\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\vendor\\counterup.min.js",
+      "PackagePath": "staticwebassets\\js\\vendor\\counterup.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\vendor\\emojionearea.min.js",
+      "PackagePath": "staticwebassets\\js\\vendor\\emojionearea.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\vendor\\jquery-1.12.4.min.js",
+      "PackagePath": "staticwebassets\\js\\vendor\\jquery-1.12.4.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\vendor\\nice-select.min.js",
+      "PackagePath": "staticwebassets\\js\\vendor\\nice-select.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\vendor\\nicescroll.min.js",
+      "PackagePath": "staticwebassets\\js\\vendor\\nicescroll.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\vendor\\popper.min.js",
+      "PackagePath": "staticwebassets\\js\\vendor\\popper.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\vendor\\slick.min.js",
+      "PackagePath": "staticwebassets\\js\\vendor\\slick.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\js\\vendor\\waypoints.min.js",
+      "PackagePath": "staticwebassets\\js\\vendor\\waypoints.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\External_Styles.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\External_Styles.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\custom\\ad-post.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\custom\\ad-post.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\custom\\bookmark.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\custom\\bookmark.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\custom\\dashboard.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\custom\\dashboard.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\custom\\main.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\custom\\main.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\custom\\message.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\custom\\message.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\custom\\my-ads.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\custom\\my-ads.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\custom\\notification.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\custom\\notification.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\custom\\profile.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\custom\\profile.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\custom\\setting.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\custom\\setting.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\vendor\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\vendor\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\vendor\\emojionearea.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\vendor\\emojionearea.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\vendor\\nice-select.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\vendor\\nice-select.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\css\\vendor\\slick.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\css\\vendor\\slick.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\wwwroot\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\flaticon\\Flaticon.eot",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\flaticon\\Flaticon.eot"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\flaticon\\Flaticon.svg",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\flaticon\\Flaticon.svg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\flaticon\\Flaticon.ttf",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\flaticon\\Flaticon.ttf"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\flaticon\\Flaticon.woff",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\flaticon\\Flaticon.woff"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\flaticon\\Flaticon.woff2",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\flaticon\\Flaticon.woff2"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\flaticon\\_flaticon.scss",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\flaticon\\_flaticon.scss"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\flaticon\\flaticon.css",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\flaticon\\flaticon.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\flaticon\\flaticon.html",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\flaticon\\flaticon.html"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-brands-400.eot",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-brands-400.eot"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-brands-400.svg",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-brands-400.svg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-brands-400.ttf",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-brands-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-brands-400.woff",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-brands-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-brands-400.woff2",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-brands-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-regular-400.eot",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-regular-400.eot"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-regular-400.svg",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-regular-400.svg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-regular-400.ttf",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-regular-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-regular-400.woff",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-regular-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-regular-400.woff2",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-regular-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-solid-900.eot",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-solid-900.eot"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-solid-900.svg",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-solid-900.svg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-solid-900.ttf",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-solid-900.ttf"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-solid-900.woff",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-solid-900.woff"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fa-solid-900.woff2",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fa-solid-900.woff2"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\fonts\\font-awesome\\fontawesome.css",
+      "PackagePath": "staticwebassets\\wwwroot\\fonts\\font-awesome\\fontawesome.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\about\\01.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\about\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\about\\02.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\about\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\about\\03.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\about\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\about\\04.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\about\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\app-store.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\app-store.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\avatar\\01.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\avatar\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\avatar\\02.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\avatar\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\avatar\\03.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\avatar\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\avatar\\04.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\avatar\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\bg\\01.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\bg\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\bg\\02.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\bg\\02.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\bg\\03.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\bg\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\bg\\04.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\bg\\04.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\blog-suggest\\01.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\blog-suggest\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\blog-suggest\\02.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\blog-suggest\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\blog-suggest\\03.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\blog-suggest\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\blog-suggest\\04.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\blog-suggest\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\blog\\01.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\blog\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\blog\\02.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\blog\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\blog\\03.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\blog\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\blog\\04.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\blog\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\blog\\05.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\blog\\05.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\blog\\06.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\blog\\06.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\agriculture.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\agriculture.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\animals.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\animals.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\automobiles.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\automobiles.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\business.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\business.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\bussiness.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\bussiness.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\education.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\education.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\electronics.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\electronics.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\fashions.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\fashions.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\furnitures.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\furnitures.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\gadgets.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\gadgets.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\hospitality.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\hospitality.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\motorbikes.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\motorbikes.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\category\\properties.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\category\\properties.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\cities\\01.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\cities\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\cities\\02.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\cities\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\cities\\03.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\cities\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\cities\\04.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\cities\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\cities\\05.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\cities\\05.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\cities\\06.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\cities\\06.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\counter\\ads.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\counter\\ads.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\counter\\review.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\counter\\review.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\counter\\user.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\counter\\user.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\logo.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\pay-card\\01.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\pay-card\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\pay-card\\02.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\pay-card\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\pay-card\\03.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\pay-card\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\pay-card\\04.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\pay-card\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\play-store.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\play-store.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\01.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\02.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\03.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\04.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\05.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\05.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\06.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\06.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\07.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\07.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\08.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\08.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\09.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\09.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\10.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\10.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\11.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\11.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\12.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\12.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\13.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\13.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\14.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\14.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\15.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\15.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\product\\16.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\product\\16.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\agriculture.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\agriculture.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\animals.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\animals.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\automobile.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\automobile.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\bussiness.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\bussiness.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\education.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\education.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\electronics.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\electronics.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\essentials.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\essentials.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\fashion.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\fashion.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\food.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\food.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\furniture.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\furniture.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\gadgets.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\gadgets.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\hardware.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\hardware.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\hospitality.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\hospitality.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\jewellery.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\jewellery.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\motorbike.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\motorbike.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\musics.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\musics.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\properties.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\properties.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\services.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\services.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\software.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\software.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\suggest\\sports.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\suggest\\sports.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\team\\01.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\team\\01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\team\\02.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\team\\02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\team\\03.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\team\\03.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\team\\04.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\team\\04.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\team\\05.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\team\\05.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\team\\06.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\team\\06.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\team\\07.jpg",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\team\\07.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\images\\user.png",
+      "PackagePath": "staticwebassets\\wwwroot\\images\\user.png"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\custom\\Login.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\custom\\Login.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\custom\\counterup.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\custom\\counterup.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\custom\\emojionearea.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\custom\\emojionearea.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\custom\\main.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\custom\\main.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\custom\\nice-select.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\custom\\nice-select.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\custom\\nicescroll.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\custom\\nicescroll.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\custom\\slick.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\custom\\slick.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\vendor\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\vendor\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\vendor\\counterup.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\vendor\\counterup.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\vendor\\emojionearea.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\vendor\\emojionearea.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\vendor\\jquery-1.12.4.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\vendor\\jquery-1.12.4.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\vendor\\nice-select.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\vendor\\nice-select.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\vendor\\nicescroll.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\vendor\\nicescroll.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\vendor\\popper.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\vendor\\popper.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\vendor\\slick.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\vendor\\slick.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\js\\vendor\\waypoints.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\js\\vendor\\waypoints.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\DoveSquare\\source\\repos\\Sarada\\IndiaLivings\\IndiaLivings_Web_UI\\wwwroot\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\wwwroot\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.IndiaLivings_Web_UI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.build.IndiaLivings_Web_UI.props",
+      "PackagePath": "build\\IndiaLivings_Web_UI.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.IndiaLivings_Web_UI.props",
+      "PackagePath": "buildMultiTargeting\\IndiaLivings_Web_UI.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildTransitive.IndiaLivings_Web_UI.props",
+      "PackagePath": "buildTransitive\\IndiaLivings_Web_UI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

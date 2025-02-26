@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>India_Leavings - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/India_Leavings_Web_UI.styles.css" asp-append-version="true" /> *@
+    <!-- FAVICON -->
+    <link rel="icon" href="images/favicon.png">
+
+    <!-- FONTS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMMb12QKmrCGLR7IxJ6kvTEh8P5F06IMj6mvZ0d" crossorigin="anonymous">
+    <link rel="stylesheet" href="fonts/flaticon/flaticon.css" />
+    <link rel="stylesheet" href="fonts/font-awesome/fontawesome.css" />
+    <link rel="stylesheet" href="~/css/custom/main.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/css/vendor/bootstrap.min.css" /> *@
+</head>
+<body>
+    
+    <partial name="~/Views/Shared/_Header.cshtml" />
+
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
+    <partial name="~/Views/Shared/_Footer.cshtml" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/vendor/slick.min.js"></script>
+    <script src="~/js/custom/slick.js"></script>
+    <script src="~/js/custom/main.js"></script>
+   
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\IndiaLivings_Web_UI.props" />
+</Project>

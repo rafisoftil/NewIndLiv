@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\IndiaLivings_Web_UI.props" />
+</Project>

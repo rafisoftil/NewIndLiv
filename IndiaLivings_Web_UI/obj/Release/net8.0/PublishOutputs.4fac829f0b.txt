@@ -1,0 +1,16 @@
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\IndiaLivings_Web_UI.exe
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\appsettings.Development.json
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\appsettings.json
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\IndiaLivings_Web_UI.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\IndiaLivings_Web_UI.deps.json
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\IndiaLivings_Web_UI.runtimeconfig.json
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\IndiaLivings_Web_UI.pdb
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\Newtonsoft.Json.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\System.Data.SqlClient.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\runtimes\win-arm64\native\sni.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\runtimes\win-x64\native\sni.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\runtimes\win-x86\native\sni.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\runtimes\unix\lib\net8.0\System.Data.SqlClient.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net8.0\System.Data.SqlClient.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\IndiaLivings_Web_DAL.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\obj\Release\net8.0\PubTmp\Out\IndiaLivings_Web_DAL.pdb

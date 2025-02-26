@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>IndiaLivings_Web_DAL</id>
+    <version>1.0.0</version>
+    <authors>IndiaLivings_Web_DAL</authors>
+    <description>Package Description</description>
+    <repository type="git" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="System.Data.SqlClient" version="4.9.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\bin\Debug\net8.0\IndiaLivings_Web_DAL.dll" target="lib\net8.0\IndiaLivings_Web_DAL.dll" />
+  </files>
+</package>

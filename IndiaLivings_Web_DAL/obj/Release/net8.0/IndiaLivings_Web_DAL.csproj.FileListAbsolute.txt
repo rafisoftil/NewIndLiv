@@ -1,0 +1,12 @@
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\bin\Release\net8.0\IndiaLivings_Web_DAL.deps.json
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\bin\Release\net8.0\IndiaLivings_Web_DAL.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\bin\Release\net8.0\IndiaLivings_Web_DAL.pdb
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Release\net8.0\IndiaLivings_Web_DAL.csproj.AssemblyReference.cache
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Release\net8.0\IndiaLivings_Web_DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Release\net8.0\IndiaLivings_Web_DAL.AssemblyInfoInputs.cache
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Release\net8.0\IndiaLivings_Web_DAL.AssemblyInfo.cs
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Release\net8.0\IndiaLivings_Web_DAL.csproj.CoreCompileInputs.cache
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Release\net8.0\IndiaLivings_Web_DAL.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Release\net8.0\refint\IndiaLivings_Web_DAL.dll
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Release\net8.0\IndiaLivings_Web_DAL.pdb
+C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Release\net8.0\ref\IndiaLivings_Web_DAL.dll

@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<header class="header-part">
+    <div class="container">
+        <div class="header-content">
+            <div class="header-left">
+                @* <button type="button" class="header-widget sidebar-btn">
+                <i class="fas fa-align-left"></i>
+                </button> *@
+                <a class="text-dark header-logo" asp-area="" asp-controller="Dashboard" asp-action="Dashboard">
+                    <img src="@Url.Content("~/images/logo.png")" alt="logo">
+                </a>
+                <a class="text-dark header-widget header-user" asp-area="" asp-controller="Dashboard" asp-action="Login">
+                    <img src="@Url.Content("~/images/user.png")" alt="user">
+                    <span>Join Me</span>
+                </a>
+                <button type="button" class="header-widget search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <form class="header-form">
+                <div class="header-search">
+                    <button type="submit" title="Search Submit "><i class="fas fa-search"></i></button>
+                    <input type="text" placeholder="Search, Whatever you needs...">
+                    <button type="button" title="Search Option" class="option-btn"><i class="fas fa-sliders-h"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</header>
