@@ -1,5 +1,6 @@
 ﻿using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Dynamic;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
@@ -8,14 +9,16 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <summary>
         /// Landing Page
         /// </summary>
-        /// <returns>Initially, this will be the landing page</returns>
+        /// <returns>Initially, this page will be the loaded</returns>
         public IActionResult Dashboard()
         {
             CategoryViewModel category = new CategoryViewModel();
-            List<CategoryViewModel> categories = category.GetCategoryCount();
-            ViewData["Categories"] = categories;
-            return View();
+            List<CategoryViewModel> categoryList = category.GetCategoryCount();
+            dynamic data = new ExpandoObject();
+            data.Categories = categoryList;
+            return View(data);
         }
+
         /// <summary>
         /// Sign Up / Sign In Page
         /// </summary>
@@ -39,10 +42,38 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns>To verify whether User is existing or not</returns>
         [HttpPost]
-        public IActionResult Login(string userName,string password)
+        public JsonResult Login(string userName, string password)
         {
+            int StatusCode = 0;
+            dynamic JsonData = null;
+            UserViewModel user = new UserViewModel();
+            user = user.ValidateUser(userName, password);
+            if (user != null)
+            {
 
-            return View();
+                JsonData = new
+                {
+                    StatusCode = 200,
+                    userId = user.userID,
+                    userRole = user.userRoleName,
+                    userImage = user.userImagePath
+                };
+
+            }
+            else if (user == null)
+                JsonData = new
+                {
+                    StatusCode = 400
+                };
+            else
+            {
+                JsonData = new
+                {
+                    StatusCode = 500
+                };
+            }
+            
+            return Json(JsonData);
         }
     }
 }

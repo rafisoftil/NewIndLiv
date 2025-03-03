@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_DAL.Repositories;
+using Newtonsoft.Json;
 
 namespace IndiaLivings_Web_DAL.Helpers
 {
-    internal class AuthenticationHelper : IAuthenticationRepository
+    public class AuthenticationHelper : IAuthenticationRepository
     {
 
         //AuthenticationRepository _authenticationRepository;
@@ -22,19 +19,28 @@ namespace IndiaLivings_Web_DAL.Helpers
 
         public void deleteUser() { }
 
-        public bool validateUser()
+        public List<UserModel> ActiveUserList()
         {
-            bool isUserExist = false;
+            List<UserModel> users = new List<UserModel>();
+            var userList = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/GetActiveListofUsers");
+            users = JsonConvert.DeserializeObject<List<UserModel>>(userList);
+            return users;
+
+        }
+        public UserModel validateUser(string userName, string password)
+        {
+            UserModel user = null;
             try
             {
-                var user = ServiceAPI.Get_async_Api("CheckUserLogin");
-
+                user = new UserModel();
+                string response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/CheckUserLogin?strUserName="+userName+"&strPWD="+password);
+                user = JsonConvert.DeserializeObject<UserModel>(response);
             }
             catch (Exception ex)
             {
 
             }
-            return isUserExist;
+            return user;
         }
     }
 }

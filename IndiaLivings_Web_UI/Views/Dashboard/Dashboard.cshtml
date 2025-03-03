@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    ViewBag.Title = "Home";
+}
 <section class="banner-part">
     <div class="container">
         <div class="banner-content">
@@ -12,10 +14,21 @@
     </div>
 </section>
 
-<section class="suggest-part" id="Category_slide">
-    <div>
-        <div>
+<section class="suggest-part">
+    <div class="container">
 
+        <div class="suggest-slider slider-arrow">
+            @foreach (var category in Model.Categories)
+            {
+                if (@category.CategoryCount > 0)
+                {
+                    <a target="_blank" href="/UserDashboard/AdList/@category.CategoryID" class="suggest-card">
+                        <img class="slide-show" src=@category.CategoryImage alt="@category.CategoryName">
+                        <h6>@category.CategoryName</h6>
+                        <p>@("(" + category.CategoryCount + ") ads")</p>
+                    </a>
+                }                
+            }
         </div>
     </div>
    
@@ -2128,18 +2141,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-     var categories = @Html.Raw(Json.Serialize(ViewData["Categories"]));
-     var SlidebarContent='<div class="container"><div class="suggest-slider slider-arrow">';
-     $.each(categories, function(index,category){
-         if(category.categoryCount){
-                SlidebarContent+='<a href="#" class="suggest-card">'+
-                '<img src="'+category.categoryImage+'" alt="computer">'+
-                '<h6>'+category.categoryName+'</h6><p>('+category.categoryCount+') ads</p></a>'
-         }          
-     })
      
-     SlidebarContent+='</div></div>';
-     $("#Category_slide").append(SlidebarContent);
     });
     
 </script>

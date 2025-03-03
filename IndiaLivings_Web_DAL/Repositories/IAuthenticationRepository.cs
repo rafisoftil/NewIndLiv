@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IndiaLivings_Web_DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace IndiaLivings_Web_DAL.Repositories
         /// To Verify whether User exists or not
         /// </summary>
         /// <returns> returns true if user exists if not, returns false</returns>
-        public bool validateUser();
+        public UserModel validateUser(string userName,string passwordB);
+
     }
 }
