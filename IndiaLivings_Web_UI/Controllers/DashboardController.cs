@@ -1,7 +1,7 @@
 ﻿using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
-
+using Microsoft.AspNetCore.Session;
 namespace IndiaLivings_Web_UI.Controllers
 {
     public class DashboardController : Controller
@@ -48,9 +48,12 @@ namespace IndiaLivings_Web_UI.Controllers
             dynamic JsonData = null;
             UserViewModel user = new UserViewModel();
             user = user.ValidateUser(userName, password);
+            HttpContext.Session.SetString("userName","");
+            HttpContext.Session.SetString("Role", "");
             if (user != null)
             {
-
+                HttpContext.Session.SetString("userName", user.username);
+                HttpContext.Session.SetString("Role",user.userRoleName);
                 JsonData = new
                 {
                     StatusCode = 200,
@@ -72,7 +75,7 @@ namespace IndiaLivings_Web_UI.Controllers
                     StatusCode = 500
                 };
             }
-            
+
             return Json(JsonData);
         }
     }

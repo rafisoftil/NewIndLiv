@@ -267,19 +267,14 @@
                     Password: $("#password").val()
                 },
                 success: function (response) {
-                    debugger;
                     if (response.statusCode == 200) {
-                        window.location.href = '@Url.Action("Dashboard", "Dashboard")';
-                    }
-                    else if (response.statusCode == 400) {
-                        //showToast('Invalid Credentials', 'Failed');
-                    }
-                    else if (response.statusCode == 500) {
-                        //showToast('Something went wrong. Please contact your Admin.', 'Failed');
-                    }
-                    else{
+                        if (response.userId) {
+                            window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+                        }
+                        else {
 
-                    }
+                        }                        
+                    }                   
                 },
                 error: function (error) {
                     //showToast('Something went wrong. Please contact your Admin.', 'Failed');

@@ -7,16 +7,24 @@
     <div class="container">
         <div class="header-content">
             <div class="header-left">
-                @* <button type="button" class="header-widget sidebar-btn">
-                <i class="fas fa-align-left"></i>
-                </button> *@
+
+                @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
+                {
+                    <button type="button" class="header-widget sidebar-btn">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                }
                 <a class="text-dark header-logo" asp-area="" asp-controller="Dashboard" asp-action="Dashboard">
                     <img src="@Url.Content("~/images/logo.png")" alt="logo">
                 </a>
-                <a class="text-dark header-widget header-user" asp-area="" asp-controller="Dashboard" asp-action="Login">
-                    <img src="@Url.Content("~/images/user.png")" alt="user">
-                    <span>Join Me</span>
-                </a>
+                @if (string.IsNullOrEmpty(Context.Session.GetString("userName")))
+                {
+                    <a class="text-dark header-widget header-user" asp-area="" asp-controller="Dashboard" asp-action="Login">
+                        <img src="@Url.Content("~/images/user.png")" alt="user">
+                        <span>Join Me</span>
+                    </a>
+                }
+                
                 <button type="button" class="header-widget search-btn">
                     <i class="fas fa-search"></i>
                 </button>
@@ -28,6 +36,35 @@
                     <button type="button" title="Search Option" class="option-btn"><i class="fas fa-sliders-h"></i></button>
                 </div>
             </form>
+             @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
+                {
+                        <div class="header-right">
+                            <ul class="header-list">
+                                <li class="header-item">
+                                    <a href="bookmark.html" class="header-widget">
+                                        <i class="fas fa-heart"></i>
+                                        <sup>0</sup>
+                                    </a>
+                                </li>
+                                <li class="header-item">
+                                    <button type="button" class="header-widget">
+                                        <i class="fas fa-envelope"></i>
+                                        <sup>0</sup>
+                                    </button>
+                                </li>
+                                <li class="header-item">
+                                    <button type="button" class="header-widget">
+                                        <i class="fas fa-bell"></i>
+                                        <sup>0</sup>
+                                    </button>
+                                </li>
+                            </ul>
+                            <a href="~/UserDashboard/AdPost" class="btn btn-inline post-btn">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>post your ad</span>
+                            </a>
+                        </div>
+                    }
         </div>
     </div>
 </header>
