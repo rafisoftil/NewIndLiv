@@ -34,12 +34,13 @@ $('.search-btn').on('click', function(){
 //========================================
 //          SIDEBAR MENU SLIDE
 //========================================
-$('.sidebar-btn').on('click', function(){
+$('.sidebar-btn').on('click', function () {
     $('.sidebar-part').addClass('active');
-    $('.sidebar-cross').on('click', function(){
+});
+$('.sidebar-cross').on('click', function () {
         $('.sidebar-part').removeClass('active');
     });
-});
+
 
 
 //========================================

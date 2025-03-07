@@ -1,0 +1,12 @@
+﻿<section>
+    <aside class="sidebar-part">
+        @if (!string.IsNullOrEmpty(Context.Session.GetString("Role")) && Context.Session.GetString("Role") == "Administrator")
+        {
+            <partial name="~/Views/Shared/_AdminSideBarContent.cshtml" />
+        }
+        else if(!string.IsNullOrEmpty(Context.Session.GetString("Role")) && Context.Session.GetString("Role") == "User")
+        {
+            <partial name="~/Views/Shared/_UserSideBarContent.cshtml" />
+        }
+    </aside>
+</section>

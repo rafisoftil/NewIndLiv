@@ -1,0 +1,77 @@
+﻿<div class="sidebar-body">
+    <div class="sidebar-header">
+        <a href="index.html" class="sidebar-logo"><img src="~/images/logo.png" alt="logo"></a>
+        <button class="sidebar-cross"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="sidebar-content">
+        @* <div class="sidebar-profile">
+        <a href="#" class="sidebar-avatar"><img src="images/avatar/01.jpg" alt="avatar"></a>
+        <h4><a href="#" class="sidebar-name">Jackon Honson</a></h4>
+        <a href="ad-post.html" class="btn btn-inline sidebar-post">
+        <i class="fas fa-plus-circle"></i>
+        <span>post your ad</span>
+        </a>
+        </div> *@
+        <div class="sidebar-menu">
+            <ul class="navbar-list">
+                <li class="navbar-item"><a class="navbar-link" asp-controller="Dashboard" asp-action="MasterPage">Home</a></li>
+                <li class="navbar-item navbar-dropdown">
+                    <a class="navbar-link" href="#">
+                        <span>Users</span>
+                        <i class="fas fa-greater-than"></i>
+                    </a>
+                    <ul class="dropdown-list">
+                        <li><a class="dropdown-link" asp-area="" asp-controller="User" asp-action="UserMainPage">Manage Users</a></li>
+                        <li><a class="dropdown-link" asp-area="" asp-controller="Role" asp-action="RoleMainPage">User Roles</a></li>
+                        <li><a class="dropdown-link" asp-area="" asp-controller="Membership" asp-action="MembershipMainPage">User Memberships</a></li>
+                    </ul>
+                </li>
+                <li class="navbar-item navbar-dropdown">
+                    <a class="navbar-link" href="#">
+                        <span>Products</span>
+                        <i class="fas fa-greater-than"></i>
+                    </a>
+                    <ul class="dropdown-list">
+                        <li><a class="dropdown-link" asp-area="" asp-controller="Category" asp-action="CategoryMainPage" asp-route-id="">Category</a></li>
+                        <li><a class="dropdown-link" asp-area="" asp-controller="SubCategory" asp-action="SubCategoryMainPage">Sub Category</a></li>
+                        <li><a class="dropdown-link" asp-area="" asp-controller="Product" asp-action="ProductsMainPage">Manage Products</a></li>
+                    </ul>
+                </li>
+                <li class="navbar-item navbar-dropdown">
+                    <a class="navbar-link" href="#">
+                        <span>Billing</span>
+                        <i class="fas fa-greater-than"></i>
+                    </a>
+                    <ul class="dropdown-list">
+                        <li><a class="dropdown-link" href="ad-details-grid.html">Order Details</a></li>
+                        <li><a class="dropdown-link" href="ad-details-left.html">Billing Info</a></li>
+                    </ul>
+                </li>
+                <li class="navbar-item navbar-dropdown">
+                    <a class="navbar-link" href="#">
+                        <span>Membership</span>
+                        <i class="fas fa-greater-than"></i>
+                    </a>
+                    <ul class="dropdown-list6os2ss">
+                        <li><a class="dropdown-link" href="about.html">Membership Access Level</a></li>
+                    </ul>
+                </li>
+                <li class="navbar-item navbar-dropdown">
+                    <a class="navbar-link" href="#">
+                        <span>Ads Management</span>
+                        <i class="fas fa-greater-than"></i>
+                    </a>
+                    <ul class="dropdown-list">
+                        <li><a class="dropdown-link" href="compare.html">Review Ads</a></li>
+                        <li><a class="dropdown-link" href="cities.html">Manage Ads</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-footer">
+            <p>All Rights Reserved By <a href="#">Classicads</a></p>
+            <p>Developed By <a href="https://themeforest.net/user/mironcoder">Mironcoder</a></p>
+        </div>
+    </div>
+</div>
