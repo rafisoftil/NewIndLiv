@@ -1,4 +1,5 @@
 ﻿using IndiaLivings_Web_DAL.Helpers;
+using IndiaLivings_Web_DAL.Models;
 
 namespace IndiaLivings_Web_UI.Models
 {
@@ -32,6 +33,8 @@ namespace IndiaLivings_Web_UI.Models
 
         public string membershipName { get; set; }
 
+        public byte userImageInfo { get; set; }
+
         #endregion
 
         #region Methods
@@ -48,7 +51,7 @@ namespace IndiaLivings_Web_UI.Models
             AuthenticationHelper authenticationHelper = new AuthenticationHelper();
             try
             {
-                var userDetails = authenticationHelper.validateUser(UserName,password);
+                var userDetails = authenticationHelper.validateUser(UserName, password);
                 if (userDetails != null)
                 {
                     user.userID = userDetails.userID;
@@ -60,7 +63,7 @@ namespace IndiaLivings_Web_UI.Models
                     user.userEmail = userDetails.userEmail;
                     user.userMobile = userDetails.userMobile;
                     user.userFullAddress = userDetails.userFullAddress;
-                    user.userImagePath = userDetails.userImagePath;                    
+                    user.userImagePath = userDetails.userImagePath;
                     user.userRoleID = userDetails.userRoleID;
                     user.userRoleName = userDetails.userRoleName;
                     user.userWebsite = userDetails.userWebsite;
@@ -70,7 +73,7 @@ namespace IndiaLivings_Web_UI.Models
             }
             catch (Exception ex)
             {
-
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
 
             return user;
@@ -80,6 +83,45 @@ namespace IndiaLivings_Web_UI.Models
         {
             bool isInsert = false;
             return isInsert;
+        }
+
+        public List<UserViewModel> UsersList()
+        {
+            List<UserViewModel> users = new List<UserViewModel>();
+            AuthenticationHelper AH = new AuthenticationHelper();
+            try
+            {
+                var userList = AH.ActiveUserList();
+                if (userList != null) {
+                    foreach (var userDetails in userList)
+                    {
+                        UserViewModel user= new UserViewModel();
+                        user.userID = userDetails.userID;
+                        user.username = userDetails.username;
+                        user.userFirstName = userDetails.userFirstName;
+                        user.userMiddleName = userDetails.userMiddleName;
+                        user.userLastName = userDetails.userLastName;
+                        user.userDescription = userDetails.userDescription;
+                        user.userEmail = userDetails.userEmail;
+                        user.userMobile = userDetails.userMobile;
+                        user.userFullAddress = userDetails.userFullAddress;
+                        user.userImagePath = userDetails.userImagePath;
+                        user.userRoleID = userDetails.userRoleID;
+                        user.userRoleName = userDetails.userRoleName;
+                        user.userWebsite = userDetails.userWebsite;
+                        user.userDOB = userDetails.userDOB;
+                        user.IsActive = userDetails.IsActive;
+                        users.Add(user);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+
+            return users;
         }
         #endregion
     }

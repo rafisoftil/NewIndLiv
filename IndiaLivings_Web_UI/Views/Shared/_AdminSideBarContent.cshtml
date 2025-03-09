@@ -14,16 +14,23 @@
         </div> *@
         <div class="sidebar-menu">
             <ul class="navbar-list">
-                <li class="navbar-item"><a class="navbar-link" asp-controller="Dashboard" asp-action="MasterPage">Home</a></li>
-                <li class="navbar-item navbar-dropdown">
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard"><i class="fas fa-home">Home</i></a></li>
+                <li class="navbar-item navbar-dropdown">                    
                     <a class="navbar-link" href="#">
                         <span>Users</span>
                         <i class="fas fa-greater-than"></i>
                     </a>
                     <ul class="dropdown-list">
-                        <li><a class="dropdown-link" asp-area="" asp-controller="User" asp-action="UserMainPage">Manage Users</a></li>
-                        <li><a class="dropdown-link" asp-area="" asp-controller="Role" asp-action="RoleMainPage">User Roles</a></li>
-                        <li><a class="dropdown-link" asp-area="" asp-controller="Membership" asp-action="MembershipMainPage">User Memberships</a></li>
+                        <li>
+                            <a class="navbar-link" asp-controller="Dashboard" asp-action="ManageUsers"><i class="fas fa-user">Manage Users</i></a>
+                        </li>
+                        <li>
+                            <a class="navbar-link" asp-controller="Dashboard" asp-action="Users"><i class="fas fa-critical-role">Roles</i></a>
+                        </li>
+                        <li>
+                            <a class="navbar-link" asp-controller="Dashboard" asp-action="Users"><i class="">User Membership</i></a>
+                        </li>
                     </ul>
                 </li>
                 <li class="navbar-item navbar-dropdown">

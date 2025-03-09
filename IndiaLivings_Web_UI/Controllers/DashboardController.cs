@@ -44,7 +44,7 @@ namespace IndiaLivings_Web_UI.Controllers
         [HttpPost]
         public JsonResult Login(string userName, string password)
         {
-            int StatusCode = 0;
+
             dynamic JsonData = null;
             UserViewModel user = new UserViewModel();
             user = user.ValidateUser(userName, password);
@@ -77,6 +77,18 @@ namespace IndiaLivings_Web_UI.Controllers
             }
 
             return Json(JsonData);
+        }
+
+        /// <summary>
+        /// Users List Page
+        /// </summary>
+        /// <returns> List of all active users</returns>
+        public IActionResult ManageUsers()
+        {
+            UserViewModel user = new UserViewModel();
+            List<UserViewModel> userList= new List<UserViewModel>();
+            userList = user.UsersList();
+            return View(userList.ToList());
         }
     }
 }
