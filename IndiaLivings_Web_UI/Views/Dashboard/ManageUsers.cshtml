@@ -1,27 +1,32 @@
 ﻿@model IEnumerable<IndiaLivings_Web_UI.Models.UserViewModel>
 @using NonFactors.Mvc.Grid
-<h4>Manage Users</h4>
+@{
+    ViewBag.Title = "Manage Users";
+}
+<h4 class="m-2">Manage Users</h4>
+<link href="~/css/mvc-grid/mvc-grid.css" rel="stylesheet" />
 <div> 
     
     @(
         Html.Grid(Model).Build(col =>
-            {
-                col.Add(Model => Model.username).Titled("User Name");
-                col.Add(Model => Model.userFirstName).Titled("First Name");
-                col.Add(Model => Model.userLastName).Titled("Last Name");
-                col.Add(Model => Model.userEmail).Titled("Email");
-                col.Add(Model => Model.userFullAddress).Titled("Address");
-                col.Add(Model => Model.IsActive).Titled("Status");
-            })
-        .Sortable().Filterable().Empty("No data Found")
-        @* .Pageable(pager =>
+                    {
+                        col.Add().RenderedAs((model, row) => row + 1).Titled("#").Css("text-center");
+                        col.Add(Model => Model.username).Titled("User Name");
+                        col.Add(Model => Model.userFirstName).Titled("First Name");
+                        col.Add(Model => Model.userLastName).Titled("Last Name");
+                        col.Add(Model => Model.userEmail).Titled("Email");
+                        col.Add(Model => Model.userFullAddress).Titled("Address");
+                        col.Add(Model => Model.IsActive).Titled("Status").RenderedAs(model => model.IsActive == true ? "Active" : "In-Active");
+                    })
+        @* .Sortable().Filterable() *@
+        .Empty("No data Found") 
+           .Pageable(pager =>
         {
             pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
             pager.ShowPageSizes = false;
             pager.PagesToDisplay = 3;
-            pager.CurrentPage = 1;
-            pager.RowsPerPage = 5;
-        }) *@
+            @* pager.CurrentPage = 1; *@
+            pager.RowsPerPage = 10;
+        })
         )
-    )
 </div>

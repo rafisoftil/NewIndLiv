@@ -21,9 +21,6 @@
     <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
     <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
     <link rel="stylesheet" href="~/css/custom/main.css" asp-append-version="true" />
-    @* <link rel="stylesheet" href="~/css/custom/user-form.css"> *@
-    @* <link rel="stylesheet" href="~/css/vendor/bootstrap.min.css" /> *@
-    @* <script src="~/js/custom/login.js"></script> *@
     <style>
 
         /* Toast container */
@@ -215,12 +212,17 @@
                     </p>
                 </div>
             </div>
-
+            
             <div id="toast-container"></div>
         </div>
 
-
     </section>
+    <div class="d-none spinner-css" role="status">
+        <img style="height: 100px" src="~/images/spinner.gif" />
+    </div>
+   @*  <div class="spinner-border spinner-css" role="status">
+        <span class="sr-only">Loading...</span>
+    </div> *@
     <!--=====================================
                 USER-FORM PART END
     =======================================-->
@@ -255,6 +257,7 @@
         else{
             $("#userNameError").hide();
             $("#passwordError").hide();
+            $(".spinner-css").show();
             var data = {
                 userName: $("#userName").val(),
                 Password: $("#password").val()
@@ -267,6 +270,7 @@
                     Password: $("#password").val()
                 },
                 success: function (response) {
+                    $(".spinner-css").hide();
                     if (response.statusCode == 200) {
                         if (response.userId) {
                             window.location.href = '@Url.Action("Dashboard", "Dashboard")';
@@ -277,6 +281,7 @@
                     }                   
                 },
                 error: function (error) {
+                    $(".spinner-css").hide();
                     //showToast('Something went wrong. Please contact your Admin.', 'Failed');
                 }
 
