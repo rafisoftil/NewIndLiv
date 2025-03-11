@@ -217,8 +217,8 @@
         </div>
 
     </section>
-    <div class="d-none spinner-css" role="status">
-        <img style="height: 100px" src="~/images/spinner.gif" />
+    <div class="spinner-css d-none" role="status">
+        <img src="~/images/spinner.gif" />
     </div>
    @*  <div class="spinner-border spinner-css" role="status">
         <span class="sr-only">Loading...</span>
@@ -257,7 +257,8 @@
         else{
             $("#userNameError").hide();
             $("#passwordError").hide();
-            $(".spinner-css").show();
+            $(".spinner-css").removeClass('d-none');
+            $(".user-form-part").css({ '-webkit-filter': 'blur(2px)', 'filter': 'blur(2px)' });
             var data = {
                 userName: $("#userName").val(),
                 Password: $("#password").val()
@@ -269,19 +270,23 @@
                     userName: $("#userName").val(),
                     Password: $("#password").val()
                 },
-                success: function (response) {
-                    $(".spinner-css").hide();
+                success: function (response) {                  
+                    
                     if (response.statusCode == 200) {
                         if (response.userId) {
                             window.location.href = '@Url.Action("Dashboard", "Dashboard")';
                         }
                         else {
 
-                        }                        
+                        }  
+                        $(".user-form-part").css({ '-webkit-filter': 'blur(0px)', 'filter': 'blur(0px)' });
+                        $(".spinner-css").addClass('d-none');
                     }                   
                 },
                 error: function (error) {
-                    $(".spinner-css").hide();
+                    $(".user-form-part").css({ '-webkit-filter': 'blur(0px)', 'filter': 'blur(0px)' });
+                    $(".spinner-css").addClass('d-none');
+
                     //showToast('Something went wrong. Please contact your Admin.', 'Failed');
                 }
 
