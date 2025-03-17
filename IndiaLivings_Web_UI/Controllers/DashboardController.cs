@@ -48,12 +48,14 @@ namespace IndiaLivings_Web_UI.Controllers
             dynamic JsonData = null;
             UserViewModel user = new UserViewModel();
             user = user.ValidateUser(userName, password);
+            HttpContext.Session.SetString("UserId", "");
             HttpContext.Session.SetString("userName","");
             HttpContext.Session.SetString("Role", "");
             if (user != null)
             {
                 HttpContext.Session.SetString("userName", user.username);
                 HttpContext.Session.SetString("Role",user.userRoleName);
+                HttpContext.Session.SetInt32("UserId", user.userID);
                 JsonData = new
                 {
                     StatusCode = 200,
@@ -89,6 +91,15 @@ namespace IndiaLivings_Web_UI.Controllers
             List<UserViewModel> userList= new List<UserViewModel>();
             userList = user.UsersList();
             return View(userList.ToList());
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("userName");
+            HttpContext.Session.Remove("userId");
+            HttpContext.Session.Remove("Role");
+            //HttpContext.Session.Remove("userName");
+            return RedirectToAction("Login");
         }
     }
 }
