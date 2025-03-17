@@ -48,12 +48,12 @@ namespace IndiaLivings_Web_UI.Controllers
             dynamic JsonData = null;
             UserViewModel user = new UserViewModel();
             user = user.ValidateUser(userName, password);
-            HttpContext.Session.SetString("userName","");
+            HttpContext.Session.SetString("userName", "");
             HttpContext.Session.SetString("Role", "");
             if (user != null)
             {
                 HttpContext.Session.SetString("userName", user.username);
-                HttpContext.Session.SetString("Role",user.userRoleName);
+                HttpContext.Session.SetString("Role", user.userRoleName);
                 JsonData = new
                 {
                     StatusCode = 200,
@@ -86,9 +86,21 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult ManageUsers()
         {
             UserViewModel user = new UserViewModel();
-            List<UserViewModel> userList= new List<UserViewModel>();
+            List<UserViewModel> userList = new List<UserViewModel>();
             userList = user.UsersList();
             return View(userList.ToList());
+        }
+        /// <summary>
+        /// Roles 
+        /// </summary>
+        /// <returns> List of Roles will be returned</returns>
+        public IActionResult GetRoles()
+        {
+
+            RoleViewModel roleViewModel = new RoleViewModel();
+            List<RoleViewModel> Roles = new List<RoleViewModel>();
+            Roles = roleViewModel.GetRoles();
+            return View(Roles.ToList());  
         }
     }
 }

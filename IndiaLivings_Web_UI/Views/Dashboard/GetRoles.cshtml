@@ -1,0 +1,38 @@
+﻿@model IEnumerable<IndiaLivings_Web_UI.Models.RoleViewModel>
+@using NonFactors.Mvc.Grid
+@{
+    ViewBag.Title = "Role Users";
+    <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
+    <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
+}
+
+<div class="container">
+    <script src="~/js/mvc-grid/mvc-grid.js"></script>
+
+    <h4 class="m-2">Roles</h4>
+
+    <div class="container-fluid" style="width:50%; height:300px" >
+        @(
+            Html.Grid(Model).Build(col =>
+                {
+                    col.Add().RenderedAs((model, row) => row + 1).Titled("#").Width("1%").Css("text-center");
+                    @* col.Add(Model => Model.RoleID).Titled("RoleID"); *@
+                    col.Add(Model => Model.RoleName).Titled("Role Name");
+                col.Add(Model => Model.RoleStatus).Titled("Status").RenderedAs(model => model.RoleStatus == true ? "Active" : "In-Active");
+            })
+            @* .Sortable().Filterable() *@
+            .Empty("No data Found")
+            .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
+                pager.ShowPageSizes = false;
+                pager.PagesToDisplay = 3;
+                pager.CurrentPage = 1;
+                pager.RowsPerPage = 10;
+            })
+            )
+    </div>
+</div>
+<script>
+    document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+</script>    
