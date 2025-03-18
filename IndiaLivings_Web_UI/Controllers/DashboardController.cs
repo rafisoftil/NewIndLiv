@@ -99,7 +99,7 @@ namespace IndiaLivings_Web_UI.Controllers
 
             RoleViewModel roleViewModel = new RoleViewModel();
             List<RoleViewModel> Roles = new List<RoleViewModel>();
-            Roles = roleViewModel.GetRoles();
+            Roles = roleViewModel.GetAllRoles();
             return View(Roles.ToList());  
         }
     }

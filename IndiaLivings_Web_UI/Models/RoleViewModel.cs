@@ -1,4 +1,7 @@
-﻿namespace IndiaLivings_Web_UI.Models
+﻿using IndiaLivings_Web_DAL.Helpers;
+using IndiaLivings_Web_DAL.Models;
+
+namespace IndiaLivings_Web_UI.Models
 {
     public class RoleViewModel
     {
@@ -6,17 +9,30 @@
         public string RoleName { get; set; }
         public bool RoleStatus { get; set; }
 
-        public List<RoleViewModel> GetRoles()
+        public List<RoleViewModel> GetAllRoles()
         {
-            List<RoleViewModel>roles = new List<RoleViewModel>();
-            RoleViewModel R1=new RoleViewModel { RoleID = 1, RoleName = "Administrator", RoleStatus = true };
-            RoleViewModel R2 = new RoleViewModel { RoleID = 2, RoleName = "User", RoleStatus = true };
-            RoleViewModel R3 = new RoleViewModel { RoleID = 3, RoleName = "Guest", RoleStatus = true };
-            roles.Add(R1);
-            roles.Add(R2);
-            roles.Add(R3);
+            List<RoleViewModel> roles = new List<RoleViewModel>();  
+            AuthenticationHelper AH = new AuthenticationHelper();
+            try
+            {
+                var roleList = AH.RolesList();
+                if (roleList != null)
+                {
+                    foreach (var roleDetails in roleList)
+                    {
+                        RoleViewModel role = new RoleViewModel();
+                        role.RoleID = roleDetails.RoleID;
+                        role.RoleName = roleDetails.RoleName;
+                        role.RoleStatus = roleDetails.IsActive;
+                        roles.Add(role);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
             return roles;
-
         }
     }
     
