@@ -34,6 +34,5 @@ namespace IndiaLivings_Web_UI.Models
             }
             return roles;
         }
-    }
-    
+    }   
 }

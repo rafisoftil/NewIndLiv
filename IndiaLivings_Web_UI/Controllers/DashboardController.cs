@@ -96,11 +96,10 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <returns> List of Roles will be returned</returns>
         public IActionResult GetRoles()
         {
-
             RoleViewModel roleViewModel = new RoleViewModel();
             List<RoleViewModel> Roles = new List<RoleViewModel>();
             Roles = roleViewModel.GetAllRoles();
             return View(Roles.ToList());  
         }
     }
-}
+}  

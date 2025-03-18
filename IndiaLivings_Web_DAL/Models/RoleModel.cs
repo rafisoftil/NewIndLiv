@@ -12,4 +12,5 @@ namespace IndiaLivings_Web_DAL.Models
         public string RoleName { get; set; }
         public bool IsActive { get; set; }
     }
+
 }

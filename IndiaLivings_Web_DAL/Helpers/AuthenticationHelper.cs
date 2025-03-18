@@ -55,7 +55,6 @@ namespace IndiaLivings_Web_DAL.Helpers
             {
 
             }
-
             return role;
 
         }
