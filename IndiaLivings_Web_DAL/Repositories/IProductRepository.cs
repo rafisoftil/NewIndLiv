@@ -10,5 +10,8 @@ namespace IndiaLivings_Web_DAL.Repositories
     public interface IProductRepository
     {
         public List<CategoryModel> GetCategoriesCount();
+        public List<SubCategoryModel> GetSubCategories(int CategoryId);
+
+        public List<AdConitionTypeModel> GetAdConditions();
     }
 }

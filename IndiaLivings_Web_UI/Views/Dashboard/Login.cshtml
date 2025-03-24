@@ -24,50 +24,7 @@
     <style>
 
         /* Toast container */
-        .toast_success {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            z-index: 9999;
-
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-
-        }
-
-        .toast_failed {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #dc3545;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            z-index: 9999;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-
-        }
-
-
-
-        .valid {
-            color: green;
-        }
-
-        .invalid {
-            color: red;
-        }
-
-        .tick {
-            color: green;
-            font-size: 24px;
-            visibility: hidden;
-        }
+       
     </style>
 </head>
 <body>
@@ -83,7 +40,6 @@
                 <p>Biggest Online Advertising Marketplace in the World.</p>
             </div>
         </div>
-
         <div class="user-form-category">
             <div class="user-form-header">
                 <a href="#"><img src="/images/logo.png" alt="logo"></a>
@@ -120,7 +76,7 @@
                         <div class="col-12">
                             <div class="form-group d-flex">
                                 <input type="password" class="form-control" placeholder="Password" id="password" name="password" />
-                                <i class="eye fas fa-eye-slash mt-3" style="margin:-5%;" onclick="fn_toggle_pswd()"></i>
+                                <i class="eye fas fa-eye-slash mt-3" style="margin:-5%;" onclick="fn_toggle_pswd('password')"></i>
                             </div>
                             <div> 
                                 <small id="passwordError" class="text-danger" style="display:none;">
@@ -169,35 +125,48 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Phone number">
-                                <small class="form-alert">Please follow this example - 01XXXXXXXXX</small>
+                                <input type="text" id="userSignUp" name="userSignUp" onchange="checkDuplicate()" 
+                                    class="form-control" placeholder="User name should be either Phone Number or Email">
+                                <small id="userSignUpError" style="display:none;" class="text-danger">
+                                    Please Enter Unique User Name
+                                    </small>
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Password">
-                                <button class="form-icon"><i class="eye fas fa-eye"></i></button>
-                                <small class="form-alert">Password must be 6 characters</small>
+                            <div class="form-group d-flex">
+                                <input type="password" class="form-control" placeholder="Password must be 6 characters" 
+                                id="passwordSignUp" name="passwordSignUp" />
+                                <i class="eye fas fa-eye-slash mt-3" style="margin:-5%;" onclick="fn_toggle_pswd('passwordSignUp')"></i>
                             </div>
+                            <div>
+                                <small id="passwordSignUpError" class="text-danger" style="display:none;">
+                                    Password is Required
+                                </small>
+                            </div>                            
                         </div>
                         <div class="col-12">
-                            <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Repeat Password">
-                                <button class="form-icon"><i class="eye fas fa-eye"></i></button>
-                                <small class="form-alert">Password must be 6 characters</small>
+                            <div class="form-group d-flex">
+                                <input type="password" class="form-control" placeholder="Confirm Password must be equal to password"
+                                       id="confirmPassword" name="confirmPassword" />
+                                <i class="eye fas fa-eye-slash mt-3" style="margin:-5%;" onclick="fn_toggle_pswd('confirmPassword')"></i>
                             </div>
+                            <div>
+                                <small id="passwordError" class="text-danger" style="display:none;">
+                                    Confirm Password is Required
+                                </small>
+                            </div>                           
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="signup-check">
+                                    <input type="checkbox" class="custom-control-input" id="signup-check" name="signup-check">
                                     <label class="custom-control-label" for="signup-check">I agree to the all <a href="#">terms & consitions</a> of bebostha.</label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-inline">
+                                <button type="button" class="btn btn-inline" onclick="AddUser()">
                                     <i class="fas fa-user-check"></i>
                                     <span>Create new account</span>
                                 </button>
@@ -215,11 +184,11 @@
             
             <div id="toast-container"></div>
         </div>
-
-    </section>
-    <div class="spinner-css d-none" role="status">
+<div class="spinner-css d-none" role="status">
         <img src="~/images/spinner.gif" />
     </div>
+    </section>
+    
    @*  <div class="spinner-border spinner-css" role="status">
         <span class="sr-only">Loading...</span>
     </div> *@
@@ -277,7 +246,7 @@
                             window.location.href = '@Url.Action("Dashboard", "Dashboard")';
                         }
                         else {
-
+                            showToast('Invalid Credentials.', 'error');
                         }  
                         $(".user-form-part").css({ '-webkit-filter': 'blur(0px)', 'filter': 'blur(0px)' });
                         $(".spinner-css").addClass('d-none');
@@ -287,22 +256,135 @@
                     $(".user-form-part").css({ '-webkit-filter': 'blur(0px)', 'filter': 'blur(0px)' });
                     $(".spinner-css").addClass('d-none');
 
-                    //showToast('Something went wrong. Please contact your Admin.', 'Failed');
+                    showToast('Something went wrong. Please contact your Admin.', 'warning');
                 }
 
             });
            
         }
     }
+    // bool userExists=false;
+    // bool passwordValid = false;
+    
+    function checkDuplicate() {
+        if ($("#userSignUp").val() != null || $("#userSignUp").val() != "") {
+            $(".user-form-part").css({ '-webkit-filter': 'blur(2px)', 'filter': 'blur(2px)' });
+            $(".spinner-css").addClass('d-flex');
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("verifyUserName", "Dashboard")',
+                data: {
+                    userName: $("#userSignUp").val()
+                },
+                success: function (response) {
 
-    /// Password Icon toggle event
-    function fn_toggle_pswd() {
-        if ($("#password").attr('type') === 'password')
-            $("#password").attr('type', 'text');
-        else if ($("#password").attr('type') === 'text')
-            $("#password").attr('type', 'password');
-        $("#password").focus();
+                    if (response.statusCode == 200) {
+                        if (response.isExist) {
+                            // showToast('User Name already exists', 'error');
+                            $("#userSignUp").val("");
+                        }                        
+                        $(".user-form-part").css({ '-webkit-filter': 'blur(0px)', 'filter': 'blur(0px)' });
+                        $(".spinner-css").addClass('d-none');
+                    }
+                },
+                error: function (error) {
+                    $(".user-form-part").css({ '-webkit-filter': 'blur(0px)', 'filter': 'blur(0px)' });
+                    $(".spinner-css").addClass('d-none');
+
+                    showToast('Something went wrong. Please contact your Admin.', 'warning');
+                }
+
+            });
+        }
 
     }
+
+    function comparePassword() {
+
+    }
+
+    /// Password Icon toggle event
+    function fn_toggle_pswd(id) {
+        if ($("#"+id).attr('type') === 'password')
+            $("#"+id).attr('type', 'text');
+        else if ($("#" + id).attr('type') === 'text')
+        $("#" + id).attr('type', 'password');
+        $("#" + id).focus();
+
+    }
+    function showToast(message, type) {
+
+        var toast = document.getElementById("toast-container");
+
+        // Ensure newlines are properly converted to HTML breaks
+        message = message.replace(/\n/g, '<br />');
+
+        if (type == "Success") {
+            toast.className = "toast_success";
+        }
+        else if (type == "error") {
+            toast.className = "toast_failed";
+
+        }
+        else if(type=="warning"){
+            toast.className = "toast_warning";
+        }
+
+        toast.innerHTML = message;
+        document.body.appendChild(toast);
+
+
+        toast.style.display = "block";
+        // Automatically remove the toast after 3 seconds
+        setTimeout(function () {
+            toast.style.display = "none";
+        }, 3000);
+    }
+
+    function AddUser() {
+        if ($("#userSignUp").val() == null || $("#userSignUp").val() == "") {
+            $("#userSignUpError").show();
+        }
+        else if ($("#passwordSignUp").val() == null || $("#passwordSignUp").val() == "") {
+            $("#passwordSignUpError").show();
+        }
+        else if (!$("#signup-check").is(':checked')) {
+
+        }
+        else {
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("RegisterUser", "Dashboard")',
+                data: {
+                    userName: $("#userSignUp").val(),
+                    Password: $("#passwordSignUp").val()
+                },
+                success: function (response) {
+
+                    if (response.statusCode == 200) {
+                        if (response.userId) {
+                            window.location.href = '@Url.Action("Dashboard", "Login")';
+                            showToast('Registration completed Successfully. Please login for further actions', 'success');
+                        }
+                        else {
+                            showToast('Something went wrong. Please contact your Administrator', 'error');
+                        }
+                        $(".user-form-part").css({ '-webkit-filter': 'blur(0px)', 'filter': 'blur(0px)' });
+                        $(".spinner-css").addClass('d-none');
+                    }
+                },
+                error: function (error) {
+                    $(".user-form-part").css({ '-webkit-filter': 'blur(0px)', 'filter': 'blur(0px)' });
+                    $(".spinner-css").addClass('d-none');
+
+                    showToast('Something went wrong. Please contact your Admin.', 'warning');
+                }
+
+            });
+        }
+
+    }
+
 
 </script>

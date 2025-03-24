@@ -130,18 +130,18 @@ $('.product-widget-link').on('click', function(){
 //========================================
 //        PASSWORD HIDE & SHOW
 //========================================
-$(".eye").on('click', function(){
-    $(".eye").toggleClass("fa-eye-slash");
-    $(".eye").toggleClass("fa-eye");
+//$(".eye").on('click', function(){
+//    $(".eye").toggleClass("fa-eye-slash");
+//    $(".eye").toggleClass("fa-eye");
 
-    var input = $("#pass");
-    if (input.attr("type") === "password") {
-        input.attr("type", "text");
-    }
-    else {
-        input.attr("type", "password");
-    }
-});
+//    var input = $("#pass");
+//    if (input.attr("type") === "password") {
+//        input.attr("type", "text");
+//    }
+//    else {
+//        input.attr("type", "password");
+//    }
+//});
 
 
 //========================================

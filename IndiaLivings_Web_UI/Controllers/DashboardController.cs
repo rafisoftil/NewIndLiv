@@ -32,9 +32,40 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns>To Create New User, Create User will be called</returns>
         [HttpPost]
-        public IActionResult CreateUser()
+        public JsonResult RegisterUser(string userName,string password)
         {
-            return View();
+            object JsonData = null;
+            UserViewModel user = new UserViewModel();
+            user.username = userName;
+            user.password = password;
+            bool isRegistered = false;
+            try
+            {
+                isRegistered = user.RegisterUser(user);
+            }
+            catch (Exception ex) { 
+            }
+            return Json(JsonData);
+        }
+        /// <summary>
+        /// 
+        
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        public JsonResult verifyUserName(string userName) { 
+            UserViewModel user = new UserViewModel();
+            object JsonData = null;
+            bool isExist = false;
+            isExist = user.checkDuplicate(userName);
+            JsonData = new
+            {
+                StatusCode = 200,
+                isExist = isExist
+            };
+            return Json(JsonData);
         }
 
         /// <summary>
@@ -47,14 +78,17 @@ namespace IndiaLivings_Web_UI.Controllers
 
             dynamic JsonData = null;
             UserViewModel user = new UserViewModel();
+            HttpContext.Session.SetObject("UserDetails", user);
             user = user.ValidateUser(userName, password);
+            HttpContext.Session.SetString("userName", "");
             HttpContext.Session.SetString("UserId", "");
             HttpContext.Session.SetString("userName","");
             HttpContext.Session.SetString("Role", "");
             if (user != null)
             {
+                HttpContext.Session.SetObject("UserDetails", user);
                 HttpContext.Session.SetString("userName", user.username);
-                HttpContext.Session.SetString("Role",user.userRoleName);
+                HttpContext.Session.SetString("Role", user.userRoleName);
                 HttpContext.Session.SetInt32("UserId", user.userID);
                 JsonData = new
                 {
@@ -88,13 +122,24 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult ManageUsers()
         {
             UserViewModel user = new UserViewModel();
-            List<UserViewModel> userList= new List<UserViewModel>();
+            List<UserViewModel> userList = new List<UserViewModel>();
             userList = user.UsersList();
             return View(userList.ToList());
         }
-
+        /// <summary>
+        /// Roles 
+        /// </summary>
+        /// <returns> List of Roles will be returned</returns>
+        public IActionResult GetRoles()
+        {
+            RoleViewModel roleViewModel = new RoleViewModel();
+            List<RoleViewModel> Roles = new List<RoleViewModel>();
+            Roles = roleViewModel.GetAllRoles();
+            return View(Roles.ToList());
+        }
         public IActionResult Logout()
         {
+            HttpContext.Session.SetObject("UserDetails", "");
             HttpContext.Session.Remove("userName");
             HttpContext.Session.Remove("userId");
             HttpContext.Session.Remove("Role");
@@ -102,4 +147,4 @@ namespace IndiaLivings_Web_UI.Controllers
             return RedirectToAction("Login");
         }
     }
-}
+}  
