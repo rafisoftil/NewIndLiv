@@ -56,5 +56,21 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return user;
         }
+        public List<RoleModel> RolesList()
+        {
+            List<RoleModel> role = null;
+            try
+            {
+                role = new List<RoleModel>();
+                var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/GetRoles");
+                role = JsonConvert.DeserializeObject<List<RoleModel>>(response);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return role;
+
+        }
     }
 }

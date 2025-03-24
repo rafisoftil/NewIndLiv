@@ -80,6 +80,7 @@ namespace IndiaLivings_Web_UI.Controllers
             UserViewModel user = new UserViewModel();
             HttpContext.Session.SetObject("UserDetails", user);
             user = user.ValidateUser(userName, password);
+            HttpContext.Session.SetString("userName", "");
             HttpContext.Session.SetString("UserId", "");
             HttpContext.Session.SetString("userName","");
             HttpContext.Session.SetString("Role", "");
@@ -87,7 +88,7 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 HttpContext.Session.SetObject("UserDetails", user);
                 HttpContext.Session.SetString("userName", user.username);
-                HttpContext.Session.SetString("Role",user.userRoleName);
+                HttpContext.Session.SetString("Role", user.userRoleName);
                 HttpContext.Session.SetInt32("UserId", user.userID);
                 JsonData = new
                 {
@@ -121,11 +122,20 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult ManageUsers()
         {
             UserViewModel user = new UserViewModel();
-            List<UserViewModel> userList= new List<UserViewModel>();
+            List<UserViewModel> userList = new List<UserViewModel>();
             userList = user.UsersList();
             return View(userList.ToList());
         }
-
+        /// <summary>
+        /// Roles 
+        /// </summary>
+        /// <returns> List of Roles will be returned</returns>
+        public IActionResult GetRoles()
+        {
+            RoleViewModel roleViewModel = new RoleViewModel();
+            List<RoleViewModel> Roles = new List<RoleViewModel>();
+            Roles = roleViewModel.GetAllRoles();
+            return View(Roles.ToList());
         public IActionResult Logout()
         {
             HttpContext.Session.SetObject("UserDetails", "");
@@ -136,4 +146,4 @@ namespace IndiaLivings_Web_UI.Controllers
             return RedirectToAction("Login");
         }
     }
-}
+}  
