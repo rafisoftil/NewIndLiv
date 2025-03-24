@@ -40,29 +40,5 @@
 </body>
 </html>
 <script>
-    function showToast(message, type) {
-
-        var toast = document.getElementById("toast-container");
-
-        // Ensure newlines are properly converted to HTML breaks
-        message = message.replace(/\n/g, '<br />');
-
-        if (type == "Success") {
-            toast.className = "toast_success";
-        }
-        else if (type == "Failed") {
-            toast.className = "toast_failed";
-
-        }
-
-        toast.innerHTML = message;
-        document.body.appendChild(toast);
-
-
-        toast.style.display = "block";
-        // Automatically remove the toast after 3 seconds
-        setTimeout(function () {
-            toast.style.display = "none";
-        }, 3000);
-    }
+    
 </script>

@@ -42,18 +42,6 @@ namespace IndiaLivings_Web_UI.Models
             List<CategoryViewModel> categories = new List<CategoryViewModel>();
             ProductHelper category = new ProductHelper();
             var lst = category.GetCategoriesCount();
-            //var categoryList = ServiceAPI.GetApi("https://api.indialivings.com/api/Category/GetActiveListofCategory?intCategoryID=0");
-            //var cats = JsonConvert.DeserializeObject<List<Category>>(categoryList);
-            ////categoryList.ToList();
-            //foreach (var category in cats)
-            //{
-            //    CategoryViewModel categoryModel = new CategoryViewModel();
-            //    categoryModel.CategoryID = category.intCategoryID;
-            //    categoryModel.CategoryName = category.strCategoryName;
-            //    categoryModel.CategoryImage = category.strCategoryImage;
-            //    categoryModel.IsActive = category.IsActive;
-            //    categories.Add(categoryModel);
-            //}
             return categories;
         }
 
@@ -76,7 +64,7 @@ namespace IndiaLivings_Web_UI.Models
                 }
             }
             catch (Exception ex) {
-
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
 
             return categories;

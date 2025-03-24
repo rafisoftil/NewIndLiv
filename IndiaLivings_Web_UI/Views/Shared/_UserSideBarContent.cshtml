@@ -9,9 +9,9 @@
             @* <img src="images/avatar/01.jpg" alt="avatar"> *@
             </a>
         <h4>@Context.Session.GetString("userName")</h4>
-            <a class="btn btn-inline sidebar-post" asp-controller="Dashboard" asp-action="Dashboard">
+            <a class="btn btn-inline sidebar-post" asp-controller="User" asp-action="PostAd">
                 <i class="fas fa-plus-circle"></i>
-                <span>post your ad</span>
+                <span>Post Your Ad</span>
             </a>
         </div>
         <div class="sidebar-menu">
@@ -23,10 +23,10 @@
                     <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">Profile</a>
                 </li>
                 <li class="navbar-item">
-                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">Ad Post</a>
+                    <a class="navbar-link" asp-controller="User" asp-action="PostAd">Ad Post</a>
                 </li>
                 <li class="navbar-item">
-                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">My Ads</a>
+                    <a class="navbar-link" asp-controller="User" asp-action="AdsList">My Ads</a>
                 </li>
                 <li class="navbar-item">
                     <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">Settings</a>

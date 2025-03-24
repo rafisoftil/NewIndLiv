@@ -1,5 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
+using Newtonsoft.Json;
 
 namespace IndiaLivings_Web_UI.Models
 {
@@ -9,20 +10,20 @@ namespace IndiaLivings_Web_UI.Models
         public int userID { get; set; }
         public string username { get; set; }
         public string password { get; set; }
-        public string userFirstName { get; set; }
-        public string userMiddleName { get; set; }
-        public string userLastName { get; set; }
-        public string userDescription { get; set; }
-        public string userEmail { get; set; }
+        public string userFirstName { get; set; }=string.Empty;
+        public string userMiddleName { get; set; } = string.Empty;  
+        public string userLastName { get; set; } = string.Empty;
+        public string userDescription { get; set; } = string.Empty;
+        public string userEmail { get; set; } = string.Empty;
         public string? userMobile { get; set; }
-        public int userAddressID { get; set; }
-        public string userFullAddress { get; set; }
-        public string userImagePath { get; set; }
+        public int userAddressID { get; set; }      
+        public string userFullAddress { get; set; } = string.Empty;
+        public string userImagePath { get; set; } = string.Empty;
         public int userRoleID { get; set; } = 0;
-        public string userRoleName { get; set; }
-        public string userWebsite { get; set; }
+        public string userRoleName { get; set; } = string.Empty;
+        public string userWebsite { get; set; } = string.Empty;
         public DateTime? userDOB { get; set; }
-        public string emailConfirmed { get; set; }
+        public string emailConfirmed { get; set; } = string.Empty;
         public bool IsActive { get; set; }
         public DateTime? createdDate { get; set; }
         public string createdBy { get; set; }
@@ -79,10 +80,55 @@ namespace IndiaLivings_Web_UI.Models
             return user;
         }
 
-        public bool RegisterUser()
+        /// <summary>
+        /// Creating unique User
+        /// </summary>
+        /// <returns> whether User Created or not will be returned</returns>
+        public bool RegisterUser(UserViewModel userVM)
         {
             bool isInsert = false;
+            UserModel userModel = new UserModel();
+            AuthenticationHelper AH=new AuthenticationHelper();
+            try
+            {
+                
+                userModel.username = userVM.username;
+                userModel.password = userVM.password;
+                userModel.IsActive = true;
+                userModel.userRoleID = 2;
+                userModel.createdDate =DateTime.Now;
+                userModel.updatedDate = DateTime.Now;
+
+                userModel.userDOB = userVM.userDOB == null ? DateTime.MinValue : (DateTime)userVM.userDOB;
+                userModel.IsActive = true;
+                userModel.createdBy = "User";
+                userModel.userRoleName = "User";                
+                if (userVM.username.Contains("@"))
+                    userModel.userEmail = userVM.username;
+                else
+                    userModel.userMobile = userVM.username;
+                isInsert = AH.registerUser(userModel);
+
+            }
+            catch (Exception ex) {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            
             return isInsert;
+        }
+
+        public bool checkDuplicate(string userName)
+        {
+            bool isExist = false;
+            AuthenticationHelper AH=new AuthenticationHelper();
+            try
+            {
+                isExist = AH.checkDuplicate(userName);
+            }catch(Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return isExist;
         }
 
         public List<UserViewModel> UsersList()
@@ -92,10 +138,11 @@ namespace IndiaLivings_Web_UI.Models
             try
             {
                 var userList = AH.ActiveUserList();
-                if (userList != null) {
+                if (userList != null)
+                {
                     foreach (var userDetails in userList)
                     {
-                        UserViewModel user= new UserViewModel();
+                        UserViewModel user = new UserViewModel();
                         user.userID = userDetails.userID;
                         user.username = userDetails.username;
                         user.userFirstName = userDetails.userFirstName;
@@ -125,4 +172,5 @@ namespace IndiaLivings_Web_UI.Models
         }
         #endregion
     }
+    
 }
