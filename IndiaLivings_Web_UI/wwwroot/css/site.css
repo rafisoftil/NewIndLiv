@@ -936,15 +936,42 @@ body {
 .mvc-grid-table > table tr:nth-child(even) {
     background-color: #c7e6f3b8;
 }
-.spinner-css {
+
+#spinner {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 5%;
-    height: 10%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(255, 255, 255, 0.8); /* Light transparent background */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+}
+
+.toast_success {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 9999;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.toast_failed {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 9999;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
