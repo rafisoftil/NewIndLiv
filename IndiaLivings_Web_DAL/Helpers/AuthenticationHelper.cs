@@ -6,11 +6,25 @@ namespace IndiaLivings_Web_DAL.Helpers
 {
     public class AuthenticationHelper : IAuthenticationRepository
     {
-
-        //AuthenticationRepository _authenticationRepository;
-        public void registerUser()
+        public bool registerUser(UserModel user)
         {
+            bool isRegistered = false;
+            var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/AddUser", user);
+            if(response == "1")
+                isRegistered= true;
+            return isRegistered;
 
+        }
+
+        public bool checkDuplicate(string userName)
+        {
+            dynamic user=null;
+            bool isUserExists = false;
+            var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/GetUserByUserName?strUserName=" + userName);
+            user=JsonConvert.DeserializeObject(response);
+            if(user.Count>0)
+                isUserExists = true;
+            return isUserExists;
         }
 
         public void updateUser()
@@ -33,7 +47,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 user = new UserModel();
-                string response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/CheckUserLogin?strUserName="+userName+"&strPWD="+password);
+                string response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/CheckUserLogin?strUserName=" + userName + "&strPWD=" + password);
                 user = JsonConvert.DeserializeObject<UserModel>(response);
             }
             catch (Exception ex)

@@ -44,7 +44,7 @@ namespace IndiaLivings_Web_DAL
             }
         }
 
-        public static async Task<string> Post_Api(string apiUrl)
+        public static string Post_Api(string apiUrl,object clsObject)
         {
             var handler = new HttpClientHandler
             {
@@ -60,31 +60,23 @@ namespace IndiaLivings_Web_DAL
                     // Set the default headers for JSON content
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     client.Timeout = TimeSpan.FromSeconds(30); // Optional: Timeout after 30 seconds (adjust as needed)
-
-                    // Send the GET request
-                    var response = await client.GetAsync(apiUrl);
-
-                    // Check the response status
-                    if (response.IsSuccessStatusCode)
-                    {
-                        responseString = await response.Content.ReadAsStringAsync();  // Successful response
-                    }
+                    string jsonPostData = JsonConvert.SerializeObject(clsObject);
+                    var content = new StringContent(jsonPostData, Encoding.UTF8, "application/json");
+                    var response = client.PostAsync(apiUrl, content).Result;
+                    if(response.IsSuccessStatusCode)
+                        responseString= response.Content.ReadAsStringAsync().Result;
                     else
-                    {
-                        // Handle error response
-                        responseString = $"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}";
-                    }
+                        responseString = $"Error: {response.StatusCode}, {response.Content.ReadAsStringAsync().Result}";
+
                 }
                 catch (Exception ex)
                 {
-                    // Capture the exception and include more detailed information
-                    responseString = $"Exception: {ex.Message}\nStackTrace: {ex.StackTrace}";
-                    // Optionally log the exception here
+                    ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
                 }
             }
 
             return responseString;
-        }
+        }   
 
 
     }

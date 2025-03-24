@@ -1,0 +1,64 @@
+﻿<div class="sidebar-body">
+    <div class="sidebar-header">
+        <a href="index.html" class="sidebar-logo"><img src="~/images/logo.png" alt="logo"></a>
+        <button class="sidebar-cross"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="sidebar-content">
+        <div class="sidebar-profile">
+        <a href="#" class="sidebar-avatar">
+            @* <img src="images/avatar/01.jpg" alt="avatar"> *@
+            </a>
+        <h4>@Context.Session.GetString("userName")</h4>
+            <a class="btn btn-inline sidebar-post" asp-controller="User" asp-action="PostAd">
+                <i class="fas fa-plus-circle"></i>
+                <span>Post Your Ad</span>
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="navbar-list">
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">Dashboard</a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">Profile</a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="User" asp-action="PostAd">Ad Post</a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="User" asp-action="AdsList">My Ads</a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">Settings</a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">
+                        <span>Bookmark</span>
+                        <span>0</span>
+                    </a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">
+                        <span>Message</span>
+                        <span>0</span>
+                    </a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">
+                        <span>Notification</span>
+                        <span>0</span>
+                    </a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Logout">Logout</a>
+                </li>
+                
+            </ul>
+        </div>
+
+        <div class="sidebar-footer">
+            <p>All Rights Reserved By <a href="#">Classicads</a></p>
+            <p>Developed By <a href="https://themeforest.net/user/mironcoder">Mironcoder</a></p>
+        </div>
+    </div>
+</div>
