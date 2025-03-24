@@ -136,6 +136,7 @@ namespace IndiaLivings_Web_UI.Controllers
             List<RoleViewModel> Roles = new List<RoleViewModel>();
             Roles = roleViewModel.GetAllRoles();
             return View(Roles.ToList());
+        }
         public IActionResult Logout()
         {
             HttpContext.Session.SetObject("UserDetails", "");
