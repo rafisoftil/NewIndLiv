@@ -54,6 +54,16 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);    
             return View(wishlist);
         }
-
+        /// <summary>
+        /// My Ads Page
+        /// </summary>
+        /// <returns> Ads created by User </returns>
+        public IActionResult MyAds()
+        {
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            ProductViewModel productModel = new ProductViewModel();
+            List<ProductViewModel> products = productModel.GetAds(productOwner);
+            return View(products);
+        }
     }
 }

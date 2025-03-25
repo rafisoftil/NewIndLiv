@@ -217,24 +217,6 @@ namespace IndiaLivings_Web_UI.Controllers
         }
 
         /// <summary>
-        /// Updates Manage Users Page
-        /// </summary>
-        /// <returns> User update status </returns>
-        public IActionResult UpdateUser([FromBody] UserViewModel user)
-        {
-            try
-            {
-                UserViewModel userViewModel = new UserViewModel();
-                var response = userViewModel.UpdateUser(user);
-                return Json(new { message = response });
-            }
-            catch (Exception)
-            {
-
-                return Json(new { message = "Error updating user status" });
-            }
-        }
-        /// <summary>
         /// Roles 
         /// </summary>
         /// <returns> List of Roles will be returned</returns>
