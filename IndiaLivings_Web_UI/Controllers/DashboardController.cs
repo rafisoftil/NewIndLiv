@@ -42,6 +42,10 @@ namespace IndiaLivings_Web_UI.Controllers
             try
             {
                 isRegistered = user.RegisterUser(user);
+                JsonData = new
+                {
+                    StatusCode = 200
+                };
             }
             catch (Exception ex) { 
             }
