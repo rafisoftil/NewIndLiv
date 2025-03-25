@@ -72,5 +72,37 @@ namespace IndiaLivings_Web_DAL.Helpers
             return role;
 
         }
+
+        public string UpdateUser(UserModel user)
+        {
+            string response = null;
+            try
+            {
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/UpdateUser", user);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return response;
+
+        }
+
+        public List<UserModel> GetUserByUsername(string userName)
+        {
+            List<UserModel> users = new List<UserModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserByUserName?strUserName={userName}");
+                users = JsonConvert.DeserializeObject<List<UserModel>>(response);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return users;
+        }
     }
 }
