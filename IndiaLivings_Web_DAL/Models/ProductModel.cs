@@ -36,6 +36,10 @@ namespace IndiaLivings_Web_DAL.Models
         public string updatedBy { get; set; } = string.Empty;
         public int Error_Id { get; set; } = 0;
         public string Error_Message { get; set; } = string.Empty;
+        public string strProductImageName { get; set; } = string.Empty;
+        public byte[] byteProductImageData { get; set; } = [];
+        public string strProductImageType { get; set; } = string.Empty;
+        public string productAdminReviewStatus { get; set; } = string.Empty;
 
     }
 }
