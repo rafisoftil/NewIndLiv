@@ -1,4 +1,5 @@
-﻿using IndiaLivings_Web_UI.Models;
+﻿using IndiaLivings_Web_DAL.Models;
+using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 
@@ -41,6 +42,17 @@ namespace IndiaLivings_Web_UI.Controllers
                 
             }
             return Json(JsonData);
+        }
+        /// <summary>
+        /// Users WishList Page
+        /// </summary>
+        /// <returns> List of all wishlists will be reurned</returns>
+        public IActionResult Bookmark()
+        {
+            ProductViewModel productModel = new ProductViewModel();
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);    
+            return View(wishlist);
         }
 
     }
