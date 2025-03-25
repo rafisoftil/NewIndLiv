@@ -86,7 +86,9 @@ namespace IndiaLivings_Web_UI.Controllers
             HttpContext.Session.SetString("Role", "");
             if (user != null)
             {
-                HttpContext.Session.SetObject("UserDetails", user);
+                HttpContext.Session.SetString("Mobile", user.userMobile);
+                HttpContext.Session.SetString("Email", user.userEmail);
+                HttpContext.Session.SetString("Address", user.userFullAddress);
                 HttpContext.Session.SetString("userName", user.username);
                 HttpContext.Session.SetString("Role", user.userRoleName);
                 HttpContext.Session.SetInt32("UserId", user.userID);

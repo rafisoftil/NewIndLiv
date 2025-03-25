@@ -24,7 +24,7 @@ namespace IndiaLivings_Web_DAL.Helpers
         public List<AdConitionTypeModel> GetAdConditions()
         {
             List<AdConitionTypeModel> adConitions = new List<AdConitionTypeModel>();
-            string url = "https://api.indialivings.com/api/AdConditions/GetAllAdConditionsTypeName?strAdConditionTypeName=''";
+            string url = "https://api.indialivings.com/api/AdConditions/GetAllAdConditionsTypeName";
             var lst = ServiceAPI.Get_async_Api(url);
             adConitions = JsonConvert.DeserializeObject<List<AdConitionTypeModel>>(lst);
             return adConitions;
