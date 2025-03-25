@@ -2,12 +2,10 @@
 using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using Newtonsoft.Json;
-
 namespace IndiaLivings_Web_UI.Models
 {
     public class ProductViewModel
     {
-
         public int productId { get; set; } = 0;
         public string productName { get; set; } = string.Empty;
         public string productDescription { get; set; } = string.Empty;
@@ -48,6 +46,7 @@ namespace IndiaLivings_Web_UI.Models
             try
             {
                 var wishList = PH.GetProductsbyOwner(userid);
+
                 if (wishList != null)
                 {
                     foreach (var wishDetails in wishList)
@@ -68,7 +67,6 @@ namespace IndiaLivings_Web_UI.Models
             }
             return products;
         }
-
         public List<ProductViewModel> AdsList(int status)
         {
             List<ProductViewModel> products = new List<ProductViewModel>();

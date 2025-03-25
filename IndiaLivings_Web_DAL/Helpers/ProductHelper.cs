@@ -32,8 +32,9 @@ namespace IndiaLivings_Web_DAL.Helpers
         public List<ProductModel> GetProductsbyOwner(int userid)
         {
             try
-            {
-                List<ProductModel> products = new List<ProductModel>();
+
+            {   List<ProductModel> products=new List<ProductModel>();
+
                 var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetAllProductsByOwner?intProductOwner={userid}");
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
                 return products;
