@@ -44,7 +44,7 @@ namespace IndiaLivings_Web_DAL
             }
         }
 
-        public static string Post_Api(string apiUrl,object clsObject)
+        public static string Post_Api(string apiUrl, object clsObject = null)
         {
             var handler = new HttpClientHandler
             {

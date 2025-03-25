@@ -1,0 +1,177 @@
+﻿using IndiaLivings_Web_DAL;
+using IndiaLivings_Web_DAL.Helpers;
+using IndiaLivings_Web_DAL.Models;
+using Newtonsoft.Json;
+
+namespace IndiaLivings_Web_UI.Models
+{
+    public class ProductViewModel
+    {
+
+        public int productId { get; set; } = 0;
+        public string productName { get; set; } = string.Empty;
+        public string productDescription { get; set; } = string.Empty;
+        public string productAdTags { get; set; } = string.Empty;
+        public decimal productPrice { get; set; } = 0;
+        public int productQuantity { get; set; } = 0;
+        public int productCondition { get; set; } = 0;
+        public int productCategoryID { get; set; } = 0;
+        public string productCategoryName { get; set; } = string.Empty;
+        public int productsubCategoryID { get; set; } = 0;
+        public string productSubCategoryName { get; set; } = string.Empty;
+        public string productPriceCondition { get; set; } = string.Empty;
+        public string productAdCategory { get; set; } = string.Empty;
+        public string productImageName { get; set; } = string.Empty;
+        public string productImagePath { get; set; } = string.Empty;
+        public bool productSold { get; set; }
+        public int productOwner { get; set; } = 0;
+        public string productOwnerName { get; set; } = string.Empty;
+        public int productMembershipID { get; set; } = 0;
+        public string productMembershipName { get; set; } = string.Empty;
+        public bool productAdminReview { get; set; }
+        public string productAdminReviewStatus { get; set; } = string.Empty;
+        public string IsActiveStatus { get; set; } = string.Empty;
+        public bool IsActive { get; set; }
+        public DateTime createdDate { get; set; } = DateTime.MinValue;
+        public string createdBy { get; set; } = string.Empty;
+        public DateTime updatedDate { get; set; } = DateTime.MinValue;
+        public string updatedBy { get; set; } = string.Empty;
+        public int Error_Id { get; set; } = 0;
+        public string Error_Message { get; set; } = string.Empty;
+
+
+
+        public List<ProductViewModel> GetAllWishlist(int userid)
+        {
+            List<ProductViewModel> products = new List<ProductViewModel>();
+            ProductHelper PH = new ProductHelper();
+            try
+            {
+                var wishList = PH.GetProductsbyOwner(userid);
+                if (wishList != null)
+                {
+                    foreach (var wishDetails in wishList)
+                    {
+                        ProductViewModel product = new ProductViewModel();
+                        product.productId = wishDetails.productId;
+                        product.productName = wishDetails.productName;
+                        product.productImageName = wishDetails.productImageName;
+                        product.productPrice = wishDetails.productPrice;
+                        product.productDescription = wishDetails.productDescription;
+                        products.Add(product);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return products;
+        }
+
+        public List<ProductViewModel> AdsList(int status)
+        {
+            List<ProductViewModel> products = new List<ProductViewModel>();
+            ProductHelper PH = new ProductHelper();
+            try
+            {
+                var productList = PH.GetAdsList(status);
+                if (productList != null)
+                {
+                    foreach (var productDetails in productList)
+                    {
+                        ProductViewModel product = new ProductViewModel();
+                        product.productId = productDetails.productId;
+                        product.productName = productDetails.productName;
+                        product.productCategoryName = productDetails.productCategoryName;
+                        product.productDescription = productDetails.productDescription;
+                        product.productPrice = productDetails.productPrice;
+                        product.productAdminReviewStatus = productDetails.productAdminReviewStatus;
+                        product.productOwner = productDetails.productOwner;
+                        product.IsActiveStatus = productDetails.IsActiveStatus;
+                        product.productAdminReview = productDetails.productAdminReview;
+                        product.productPriceCondition = productDetails.productPriceCondition;
+                        product.createdDate = productDetails.createdDate;
+                        product.createdBy = productDetails.createdBy;
+                        products.Add(product);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+
+            return products;
+        }
+
+        public string UpdateAdStatus(int productid, bool status, string username)
+        {
+            ProductHelper PH = new ProductHelper();
+            var updatedStatus = "";
+            try
+            {
+                updatedStatus = PH.UpdateAdAdminReview(productid, status, username);
+
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+
+            return updatedStatus;
+        }
+    }
+
+    public class ProductImageDetails
+    {
+        public int intProductImageID { get; set; }
+        public int intProductID { get; set; }
+        public string strProductImageName { get; set; }
+        public byte[] byteProductImageData { get; set; }
+        public string strProductImageType { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime createdDate { get; set; } = DateTime.MinValue;
+        public string createdBy { get; set; } = string.Empty;
+        public DateTime updatedDate { get; set; } = DateTime.MinValue;
+        public string updatedBy { get; set; } = string.Empty;
+
+        public List<ProductImageDetails> GetImage(int productId)
+        {
+            List<ProductImageDetails> products = new List<ProductImageDetails>();
+            ProductHelper PH = new ProductHelper();
+            try
+            {
+                var productList = PH.GetProductImage(productId);
+                if (productList != null)
+                {
+                    foreach (var productDetails in productList)
+                    {
+                        ProductImageDetails product = new ProductImageDetails();
+                        product.intProductImageID = productDetails.intProductImageID;
+                        product.intProductID = productDetails.intProductID;
+                        product.strProductImageName = productDetails.strProductImageName;
+                        product.byteProductImageData = productDetails.byteProductImageData;
+                        product.strProductImageType = productDetails.strProductImageType;
+                        product.IsActive = productDetails.IsActive;
+                        product.createdDate = productDetails.createdDate;
+                        product.createdBy = productDetails.createdBy;
+                        product.updatedDate = productDetails.updatedDate;
+                        product.updatedBy = productDetails.updatedBy;
+                        products.Add(product);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+
+            return products;
+        }
+    }
+
+}
