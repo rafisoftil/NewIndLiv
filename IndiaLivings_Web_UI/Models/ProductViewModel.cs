@@ -36,8 +36,7 @@ namespace IndiaLivings_Web_UI.Models
         public string updatedBy { get; set; } = string.Empty;
         public int Error_Id { get; set; } = 0;
         public string Error_Message { get; set; } = string.Empty;
-
-
+        public byte[] byteProductImageData { get; set; }
 
         public List<ProductViewModel> GetAllWishlist(int userid)
         {
@@ -120,6 +119,44 @@ namespace IndiaLivings_Web_UI.Models
 
 
             return updatedStatus;
+        }
+
+        public List<ProductViewModel> GetAds(int ownerid)
+        {
+            List<ProductViewModel> products = new List<ProductViewModel>();
+            ProductHelper PH = new ProductHelper();
+            try
+            {
+                var productList = PH.GetAdsByOwner(ownerid);
+                if (productList != null)
+                {
+                    foreach (var productDetails in productList)
+                    {
+                        ProductViewModel product = new ProductViewModel();
+                        product.productId = productDetails.productId;
+                        product.productName = productDetails.productName;
+                        product.productCategoryName = productDetails.productCategoryName;
+                        product.productDescription = productDetails.productDescription;
+                        product.productPrice = productDetails.productPrice;
+                        product.productAdminReviewStatus = productDetails.productAdminReviewStatus;
+                        product.productOwner = productDetails.productOwner;
+                        product.IsActiveStatus = productDetails.IsActiveStatus;
+                        product.productAdminReview = productDetails.productAdminReview;
+                        product.productPriceCondition = productDetails.productPriceCondition;
+                        product.byteProductImageData = productDetails.byteProductImageData;
+                        product.createdDate = productDetails.createdDate;
+                        product.createdBy = productDetails.createdBy;
+                        products.Add(product);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+
+            return products;
         }
     }
 

@@ -30,6 +30,7 @@ namespace IndiaLivings_Web_DAL.Models
         public string productMembershipName { get; set; } = string.Empty;
         public bool productAdminReview { get; set; }
         public bool IsActive { get; set; }
+        public string IsActiveStatus { get; set; } = string.Empty;
         public DateTime createdDate { get; set; } = DateTime.MinValue;
         public string createdBy { get; set; } = string.Empty;
         public DateTime updatedDate { get; set; } = DateTime.MinValue;
