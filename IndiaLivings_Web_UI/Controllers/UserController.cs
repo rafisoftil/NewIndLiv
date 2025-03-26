@@ -63,34 +63,37 @@ namespace IndiaLivings_Web_UI.Controllers
         [HttpPost]
         public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
         {
-            AdViewModel ad = new AdViewModel();
-            ad.productName = FormData["productName"].ToString();
-            ad.productDescription = FormData["AdDescription"].ToString();
-            ad.productAdTags = FormData["adTag"].ToString();
-            ad.productPrice = Convert.ToDecimal(FormData["productPrice"]);
-            ad.productQuantity = FormData[""];
-            ad.productCondition = FormData[""];
-            ad.productCategoryID = FormData[""];
-            ad.productCategoryName = FormData[""];
-            ad.productsubCategoryID = FormData[""];
-            ad.productSubCategoryName = FormData[""];
-            ad.productPriceCondition = FormData[""];
-            ad.productAdCategory = FormData[""];
-            ad.strProductImageName = productImage.FileName;
-            ad.byteProductImageData =  [];//productImage.OpenReadStream();
-            ad.strProductImageType = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
-            ad.productSold = false;
-            ad.productOwner = Convert.ToInt32(HttpContext.Session.GetString("userID"));
-            ad.productOwnerName = HttpContext.Session.GetString("userID");
-            ad.productMembershipID = FormData[""];
-            ad.productMembershipName = FormData[""];
-            ad.productAdminReview = FormData[""];
-            ad.createdDate = DateTime.Now;
-            ad.createdBy = HttpContext.Session.GetString("userName").ToString();
-            ad.updatedDate = DateTime.Now; ;
-            ad.updatedBy = HttpContext.Session.GetString("userName").ToString();
-            var productname =
-            return View();
+            bool isInsert = false;
+            ProductViewModel PVM = new ProductViewModel();
+            PVM.productName = FormData["productName"].ToString();
+            PVM.productDescription = FormData["AdDescription"].ToString();
+            PVM.productAdTags = FormData["adTag"].ToString();
+            PVM.productPrice = Convert.ToDecimal(FormData["productPrice"]);
+            PVM.productQuantity = Convert.ToInt32(FormData["productQuantity"]);
+            PVM.productCondition = FormData["product_Condition"].ToString().ToUpper() == "NEW" ? 1 : 0;
+            PVM.productCategoryID = Convert.ToInt32(FormData["category"].ToString());
+            //PVM.productCategoryName = FormData[""];
+            PVM.productsubCategoryID = Convert.ToInt32(FormData["subCategory"].ToString());
+            //PVM.productSubCategoryName = FormData[""];
+            PVM.productPriceCondition = FormData["price_Condition"];
+            PVM.productAdCategory = FormData["Ad_Category"];
+            PVM.productImageName = productImage.FileName;
+            PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
+            //PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
+            PVM.productSold = false;
+            PVM.productOwner = Convert.ToInt32(HttpContext.Session.GetString("userID"));
+            PVM.productOwnerName = HttpContext.Session.GetString("userName");
+            //PVM.productMembershipID = FormData[""];
+            //PVM.productMembershipName = FormData[""];
+            //PVM.productAdminReview = FormData[""];
+            PVM.createdDate = DateTime.Now;
+            PVM.createdBy = HttpContext.Session.GetString("userName").ToString();
+            PVM.updatedDate = DateTime.Now; 
+            PVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
+            isInsert = PVM.CreateNewAdd(PVM);
+
+            
+            return RedirectToAction("PostAd");
         }
 
     }

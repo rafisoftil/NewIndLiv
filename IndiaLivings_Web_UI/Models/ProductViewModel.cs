@@ -65,5 +65,44 @@ namespace IndiaLivings_Web_UI.Models
             return products;
         }
 
+        public bool CreateNewAdd(ProductViewModel product)
+        {
+            bool isCreated = false;
+            ProductHelper PH = new ProductHelper();
+            try
+            {
+                ProductModel PVM = new ProductModel();
+                PVM.productName=product.productName;
+                PVM.productDescription=product.productDescription;
+                PVM.productAdTags = product.productAdTags;
+                PVM.productPrice = product.productPrice;
+                PVM.productQuantity = product.productQuantity;
+                PVM.productCondition = product.productCondition;
+                PVM.productCategoryID = product.productCategoryID; 
+                PVM.productCategoryName = product.productCategoryName;
+                PVM.productsubCategoryID = product.productsubCategoryID;
+                PVM.productSubCategoryName = product.productSubCategoryName;
+                PVM.productPriceCondition = product.productPriceCondition;
+                PVM.productAdCategory = product.productAdCategory;
+                PVM.productImageName = product.productImageName;
+                PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
+                                          //PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
+                PVM.productSold = false;
+                PVM.productOwner = product.productOwner;
+                PVM.productOwnerName = product.productOwnerName;
+                //PVM.productMembershipID = FormData[""];
+                //PVM.productMembershipName = FormData[""];
+                //PVM.productAdminReview = FormData[""];
+                PVM.createdDate = product.createdDate;
+                PVM.createdBy = product.createdBy;//HttpContext.Session.GetString("userName").ToString();
+                PVM.updatedDate =product.updatedDate;
+                PVM.updatedBy = product.updatedBy;
+                isCreated = PH.InsertProduct(PVM);
+            }
+            catch (Exception ex) { 
+            }
+            return isCreated;
+        }
+
     }
 }

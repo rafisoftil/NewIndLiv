@@ -66,12 +66,16 @@
                                     <input type="text" class="form-control" id="productName" name="productName" placeholder="Type your product title here">
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="form-group">
+                                <div class="form-group col-6">
                                     <label class="form-label">product image</label>
                                     <input type="file" id="productImage" name="productImage" class="form-control">
                                 </div>
-                            </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Product Quantity</label>
+                                        <input type="number" class="form-control" id="productQuantity" name="productQuantity" placeholder="Enter your pricing amount" />
+                                    </div>
+                                </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label class="form-label">Product Category</label>
@@ -92,11 +96,11 @@
                                         
                                     </select>
                                 </div>
-                            </div>
+                            </div>                            
                             <div class="col-4">
                                 <div class="form-group">
                                     <label class="form-label">Price</label>
-                                    <input type="number" class="form-control" id="productPrice" name="productPrice" placeholder="Enter your pricing amount">
+                                    <input type="number" class="form-control" id="productPrice" name="productPrice" minValue="0" placeholder="Enter your pricing amount" />
                                 </div>
                             </div>
                             <div class="col-md-4 col-lg-4">
@@ -105,10 +109,11 @@
                                         <li>
                                             <label class="form-label">Price Condition</label>
                                         </li>
+                                        @* <input type=hidden id="PriceRadioValue" name= /> *@
                                         @foreach(var priceCondition in Model.priceConditions)
                                         {
                                             <li>
-                                                <input type="radio" id="@priceCondition.strAdConditionName" name="@priceCondition.strAdConditionType">
+                                                <input type="radio" id="@priceCondition.strAdConditionName" name="price_Condition" class="PriceCondition" value="@priceCondition.strAdConditionName" />
                                                 <label for="fix-check" class="form-check-text">@priceCondition.strAdConditionName</label>
                                             </li>
                                         }                                       
@@ -124,7 +129,7 @@
                                          @foreach(var AdCat in Model.Ad_Categories)
                                         {
                                             <li>
-                                                <input type="checkbox" class="form-check" id="@AdCat.strAdConditionName" name="@AdCat.strAdConditionName">
+                                                <input type="checkbox" class="form-check" id="@AdCat.strAdConditionName" name="Ad_Category" value="@AdCat.strAdConditionName" />
                                                 <label for="fix-check" class="form-check-text">@AdCat.strAdConditionName</label>
                                             </li>
                                         } 
@@ -141,7 +146,7 @@
                                          @foreach(var PrdCond in Model.productConditions)
                                         {
                                             <li>
-                                                    <input type="checkbox" class="form-check" id="@PrdCond.strAdConditionName" name="@PrdCond.strAdConditionName" />
+                                                    <input type="radio" class="form-check" id="@PrdCond.strAdConditionName" name="product_Condition" value="@PrdCond.strAdConditionName" />
                                                 <label for="fix-check" class="form-check-text">@PrdCond.strAdConditionName</label>
                                             </li>
                                         }                                        
@@ -170,25 +175,25 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="AuthorName" name="AuthorName" value="@Context.Session.GetString("userName") placeholder="Your Name">
+                                    <input type="text" class="form-control" id="AuthorName" name="AuthorName" value="@Context.Session.GetString("userName")" placeholder="Your Name" />
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="AuthorEmail" name="AuthorEmail" value="@Context.Session.GetString("Email") placeholder="Your Email">
+                                    <input type="email" class="form-control" id="AuthorEmail" name="AuthorEmail" value="@Context.Session.GetString("Email")" placeholder="Your Email" />
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-label">Number</label>
-                                    <input type="number" class="form-control" id="AuthorMobile" name="AuthorMobile" value="@Context.Session.GetString("Mobile") placeholder="Your Number">
+                                    <input type="number" class="form-control" id="AuthorMobile" name="AuthorMobile" value="@Context.Session.GetString("Mobile")" placeholder="Your Number" />
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="AuthorAddress" name="AuthorAddress" value="@Context.Session.GetString("Address") placeholder="Your Address">
+                                    <input type="text" class="form-control" id="AuthorAddress" name="AuthorAddress" value="@Context.Session.GetString("Address")" placeholder="Your Address" />
                                 </div>
                             </div>
                         </div>
@@ -334,5 +339,9 @@
             }
         });
 
+    }
+    function priceRadioChange(){
+        var checkedRadio=$(".PriceCondition").is(":checked").val();
+        alert(checkedRadio);
     }
 </script>

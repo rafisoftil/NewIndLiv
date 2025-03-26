@@ -42,6 +42,14 @@ namespace IndiaLivings_Web_DAL.Helpers
                 throw;
             }
         }
+        public bool InsertProduct(ProductModel product)
+        {
+            bool isInsert = false;
+            var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Product/addProduct", product);
+            if(response=="1")
+                isInsert = true;
+            return isInsert;
+        }
     }
 }
 
