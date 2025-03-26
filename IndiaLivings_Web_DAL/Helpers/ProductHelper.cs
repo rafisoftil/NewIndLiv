@@ -24,7 +24,7 @@ namespace IndiaLivings_Web_DAL.Helpers
         public List<AdConitionTypeModel> GetAdConditions()
         {
             List<AdConitionTypeModel> adConitions = new List<AdConitionTypeModel>();
-            string url = "https://api.indialivings.com/api/AdConditions/GetAllAdConditionsTypeName?strAdConditionTypeName=''";
+            string url = "https://api.indialivings.com/api/AdConditions/GetAllAdConditionsTypeName";
             var lst = ServiceAPI.Get_async_Api(url);
             adConitions = JsonConvert.DeserializeObject<List<AdConitionTypeModel>>(lst);
             return adConitions;
@@ -87,7 +87,15 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return productImage;
         }
-
+        public bool InsertProduct(ProductModel product)
+        {
+            bool isInsert = false;
+            var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Product/addProduct", product);
+            if(!response.Contains("Error"))
+                isInsert = true;
+            return isInsert;
+        }
+    
         public List<ProductModel> GetAdsByOwner(int userid)
         {
             List<ProductModel> products = new List<ProductModel>();

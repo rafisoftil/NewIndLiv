@@ -13,5 +13,7 @@ namespace IndiaLivings_Web_DAL.Repositories
         public List<SubCategoryModel> GetSubCategories(int CategoryId);
 
         public List<AdConitionTypeModel> GetAdConditions();
+
+        public bool InsertProduct(ProductModel product);
     }
 }
