@@ -59,6 +59,17 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);    
             return View(wishlist);
         }
+        /// <summary>
+        /// My Ads Page
+        /// </summary>
+        /// <returns> Ads created by User </returns>
+        public IActionResult MyAds()
+        {
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            ProductViewModel productModel = new ProductViewModel();
+            List<ProductViewModel> products = productModel.GetAds(productOwner);
+            return View(products);
+        }
 
         [HttpPost]
         public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
@@ -78,14 +89,15 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.productPriceCondition = FormData["price_Condition"];
             PVM.productAdCategory = FormData["Ad_Category"];
             PVM.productImageName = productImage.FileName;
+            PVM.productAdminReviewStatus = "";
             PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
-            //PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
+            PVM.productImageType = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
             PVM.productSold = false;
             PVM.productOwner = Convert.ToInt32(HttpContext.Session.GetString("userID"));
             PVM.productOwnerName = HttpContext.Session.GetString("userName");
             //PVM.productMembershipID = FormData[""];
             //PVM.productMembershipName = FormData[""];
-            //PVM.productAdminReview = FormData[""];
+            PVM.productAdminReview = true;
             PVM.createdDate = DateTime.Now;
             PVM.createdBy = HttpContext.Session.GetString("userName").ToString();
             PVM.updatedDate = DateTime.Now; 

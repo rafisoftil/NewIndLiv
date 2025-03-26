@@ -132,6 +132,92 @@ namespace IndiaLivings_Web_UI.Controllers
             userList = user.UsersList();
             return View(userList.ToList());
         }
+
+        /// <summary>
+        /// Review Ads Page
+        /// </summary>
+        /// <returns> List of all Ads to be reviewed </returns>
+        public IActionResult ReviewAds()
+        {
+            try
+            {
+                ProductViewModel productModel = new ProductViewModel();
+                List<ProductViewModel> products = productModel.AdsList(1);
+                return View(products);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Manage Ads Page
+        /// </summary>
+        /// <returns> List of all Ads (Status of active ads can be changed) </returns>
+        public IActionResult ManageAds()
+        {
+            try
+            {
+                ProductViewModel productModel = new ProductViewModel();
+                List<ProductViewModel> products = productModel.AdsList(0);
+                return View(products);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Review Ad
+        /// </summary>
+        /// <returns> Changed Status </returns>
+        public IActionResult UpdateAdAdminReview(int productid, bool status)
+        {
+            try
+            {
+                ProductViewModel productModel = new ProductViewModel();
+                string updatedBy = HttpContext.Session.GetString("userName");
+                var reviewStatus = productModel.UpdateAdStatus(productid, status, updatedBy);
+                return Json(new { message = reviewStatus });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Image Details Page
+        /// </summary>
+        /// <returns> Get image in bytes </returns>
+        public IActionResult GetImageDetails(int productid)
+        {
+            try
+            {
+                ProductImageDetailsViewModel productImageDetails = new ProductImageDetailsViewModel();
+                List<ProductImageDetailsViewModel> imageDetails = productImageDetails.GetImage(productid);
+
+                if (imageDetails.Any())
+                {
+                    var image = imageDetails.FirstOrDefault().byteProductImageData;
+                    string base64String = Convert.ToBase64String(image);
+                    return Json(new { image = base64String });
+                }
+                else
+                {
+                    return Json(new { image = "" }); 
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { image = "" }); 
+            }
+        }
+
         /// <summary>
         /// Roles 
         /// </summary>
