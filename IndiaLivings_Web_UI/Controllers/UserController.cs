@@ -26,7 +26,9 @@ namespace IndiaLivings_Web_UI.Controllers
         }
         public IActionResult AdsList()
         {
-            return View();
+            ProductViewModel productModel = new ProductViewModel();
+            List<ProductViewModel> products = productModel.GetAds(0);
+            return View(products);
         }
         public JsonResult GetSubCategories(int Category)
         {

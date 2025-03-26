@@ -975,3 +975,10 @@ body {
     z-index: 9999;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
+
+.slide-show {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50%;
+    object-fit: cover;
+}
