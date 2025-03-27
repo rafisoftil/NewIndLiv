@@ -1,6 +1,7 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Dynamic;
 
 namespace IndiaLivings_Web_UI.Controllers
@@ -28,6 +29,10 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(0);
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);
+            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            ViewBag.WishlistIds = wishlistIds;
             return View(products);
         }
         public JsonResult GetSubCategories(int Category)
@@ -60,6 +65,27 @@ namespace IndiaLivings_Web_UI.Controllers
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);    
             return View(wishlist);
+        }
+        /// <summary>
+        /// Update Wishlist Page
+        /// </summary>
+        /// <returns> Message on wishlist action</returns>
+        public JsonResult UpdateBookmarks(int productID, string createdBy, int status)
+        {
+            object JsonData = null;
+            ProductViewModel productModel = new ProductViewModel();
+            int userID = HttpContext.Session.GetInt32("UserId") ?? 0;
+            try
+            {
+                string response = productModel.UpdateWishlist(productID, userID, createdBy, status);
+                JsonData = new { StatusCode = 200 };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return Json(JsonData);
         }
         /// <summary>
         /// My Ads Page
