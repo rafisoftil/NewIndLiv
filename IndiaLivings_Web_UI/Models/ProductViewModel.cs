@@ -56,6 +56,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.productName = wishDetails.productName;
                         product.productImageName = wishDetails.productImageName;
                         product.productPrice = wishDetails.productPrice;
+                        product.productAdCategory = wishDetails.productAdCategory;
                         product.productDescription = wishDetails.productDescription;
                         product.byteProductImageData = wishDetails.byteProductImageData;
                         product.createdBy = wishDetails.createdBy;
@@ -194,6 +195,7 @@ namespace IndiaLivings_Web_UI.Models
                         ProductViewModel product = new ProductViewModel();
                         product.productId = productDetails.productId;
                         product.productName = productDetails.productName;
+                        product.productAdCategory = productDetails.productAdCategory;
                         product.productCategoryName = productDetails.productCategoryName;
                         product.productDescription = productDetails.productDescription;
                         product.productPrice = productDetails.productPrice;

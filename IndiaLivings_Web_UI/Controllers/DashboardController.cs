@@ -14,8 +14,11 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             CategoryViewModel category = new CategoryViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
+            ProductViewModel product = new ProductViewModel();
+            List<ProductViewModel> productsList = product.GetAds(0);
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
+            data.Products = productsList;
             return View(data);
         }
 

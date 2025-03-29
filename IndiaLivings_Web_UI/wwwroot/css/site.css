@@ -982,3 +982,12 @@ body {
     border-radius: 50%;
     object-fit: cover;
 }
+
+.mvc-grid-filter {
+    color: white !important;
+}
+
+.mvc-grid-sort {
+    color: white !important;
+    font-weight: bold !important
+}
