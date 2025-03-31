@@ -25,12 +25,15 @@ namespace IndiaLivings_Web_UI.Controllers
             data.productConditions = productConditions;
             return View(data);
         }
-        public IActionResult AdsList()
+        public IActionResult AdsList(int categoryid)
         {
             ProductViewModel productModel = new ProductViewModel();
-            List<ProductViewModel> products = productModel.GetAds(0);
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);
+            List<ProductViewModel> products = productModel.GetAds(productOwner);
+            if (categoryid != 0)
+            {
+               products = products.Where(product => product.productCategoryID == categoryid).ToList();
+            }
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
             return View(products);
@@ -136,5 +139,9 @@ namespace IndiaLivings_Web_UI.Controllers
             return RedirectToAction("PostAd");
         }
 
+        public IActionResult Settings()
+        {
+            return View();
+        }
     }
 }

@@ -108,6 +108,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.IsActiveStatus = productDetails.IsActiveStatus;
                         product.productAdminReview = productDetails.productAdminReview;
                         product.productPriceCondition = productDetails.productPriceCondition;
+                        product.productCategoryID = productDetails.productCategoryID;
                         product.createdDate = productDetails.createdDate;
                         product.createdBy = productDetails.createdBy;
                         products.Add(product);
@@ -196,6 +197,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.productId = productDetails.productId;
                         product.productName = productDetails.productName;
                         product.productAdCategory = productDetails.productAdCategory;
+                        product.productCategoryID = productDetails.productCategoryID;
                         product.productCategoryName = productDetails.productCategoryName;
                         product.productDescription = productDetails.productDescription;
                         product.productPrice = productDetails.productPrice;
