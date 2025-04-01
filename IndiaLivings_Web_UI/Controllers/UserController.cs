@@ -8,6 +8,17 @@ namespace IndiaLivings_Web_UI.Controllers
 {
     public class UserController : Controller
     {
+        public IActionResult Dashboard()
+        {
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            ProductViewModel productViewModel = new ProductViewModel();
+            List<ProductViewModel> products = productViewModel.GetAds(productOwner);
+            ViewBag.ActiveAds = products.Count();
+            ViewBag.BookingAds = products.Where(p => p.productAdCategory.Equals("Booking")).ToList().Count();
+            ViewBag.SalesAds = products.Where(p => p.productAdCategory.Equals("Sale")).ToList().Count();
+            ViewBag.RentalAds = products.Where(p => p.productAdCategory.Equals("Rent")).ToList().Count();
+            return View();
+        }
         public IActionResult PostAd()
         {
             CategoryViewModel category = new CategoryViewModel();
