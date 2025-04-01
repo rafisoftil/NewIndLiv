@@ -1,4 +1,5 @@
-﻿using IndiaLivings_Web_DAL.Models;
+﻿using System.Net.Http;
+using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_DAL.Repositories;
 using Newtonsoft.Json;
 
@@ -10,19 +11,19 @@ namespace IndiaLivings_Web_DAL.Helpers
         {
             bool isRegistered = false;
             var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/AddUser", user);
-            if(response == "1")
-                isRegistered= true;
+            if (response == "1")
+                isRegistered = true;
             return isRegistered;
 
         }
 
         public bool checkDuplicate(string userName)
         {
-            dynamic user=null;
+            dynamic user = null;
             bool isUserExists = false;
             var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/GetUserByUserName?strUserName=" + userName);
-            user=JsonConvert.DeserializeObject(response);
-            if(user.Count>0)
+            user = JsonConvert.DeserializeObject(response);
+            if (user.Count > 0)
                 isUserExists = true;
             return isUserExists;
         }
@@ -104,5 +105,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return users;
         }
+
+       
     }
 }

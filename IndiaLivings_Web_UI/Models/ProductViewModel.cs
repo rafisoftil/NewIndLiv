@@ -1,4 +1,5 @@
-﻿using IndiaLivings_Web_DAL;
+﻿using System.Collections.Generic;
+using IndiaLivings_Web_DAL;
 using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ namespace IndiaLivings_Web_UI.Models
 {
     public class ProductViewModel
     {
+        public int productCount { get; set; }
         public int productId { get; set; } = 0;
         public string productName { get; set; } = string.Empty;
         public string productDescription { get; set; } = string.Empty;
@@ -66,6 +68,26 @@ namespace IndiaLivings_Web_UI.Models
             }
             return products;
         }
+        public int GetwishlistCount(int productOwnerID)
+        {
+            try
+            {  
+                ProductHelper productHelper = new ProductHelper();
+                int wishlistCount = productHelper.GetCount(productOwnerID);
+                return wishlistCount; 
+            }
+            catch (Exception ex)
+            {
+                
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                return 0;
+            }
+        }
+
+
+
+
+
         public List<ProductViewModel> AdsList(int status)
         {
             List<ProductViewModel> products = new List<ProductViewModel>();
@@ -207,6 +229,7 @@ namespace IndiaLivings_Web_UI.Models
 
             return products;
         }
+
     }
 
 }
