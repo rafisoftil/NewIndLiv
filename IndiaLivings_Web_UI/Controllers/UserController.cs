@@ -8,6 +8,10 @@ namespace IndiaLivings_Web_UI.Controllers
 {
     public class UserController : Controller
     {
+        /// <summary>
+        /// Users Dashboard Page
+        /// </summary>
+        /// <returns>Ads count created by user</returns>
         public IActionResult Dashboard()
         {
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
@@ -36,6 +40,10 @@ namespace IndiaLivings_Web_UI.Controllers
             data.productConditions = productConditions;
             return View(data);
         }
+        /// <summary>
+        /// Ads List
+        /// </summary>
+        /// <returns> List of all Ads will be reurned</returns>
         public IActionResult AdsList(int categoryid)
         {
             ProductViewModel productModel = new ProductViewModel();
@@ -148,11 +156,6 @@ namespace IndiaLivings_Web_UI.Controllers
 
             
             return RedirectToAction("PostAd");
-        }
-
-        public IActionResult Settings()
-        {
-            return View();
         }
     }
 }

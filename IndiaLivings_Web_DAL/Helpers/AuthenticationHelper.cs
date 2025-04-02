@@ -104,5 +104,33 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return users;
         }
+        public string AddPasswordReset(int userid, string username, string token, string expirationTime, string createdby)
+        {
+            try
+            {
+                var response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/AddUserPasswordReset?intUserID={userid}&strUserName={username}&strUserPasswordToken={token}&dtmUserTokenExpiration={expirationTime}&createdBy={createdby}");
+                return response;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<PasswordReset> GetPasswordReset(int userid, string username, string token)
+        {
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserPasswordReset?intUserID={userid}&strUserName={username}&strUserPasswordToken={token}");
+                var resetInfo = JsonConvert.DeserializeObject<List<PasswordReset>>(response);
+                return resetInfo;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
