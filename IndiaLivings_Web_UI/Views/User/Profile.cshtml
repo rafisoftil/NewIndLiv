@@ -70,7 +70,7 @@
                     <div class="single-content">
                         <h2>profile</h2>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="~/Dashboard/Dashboard">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">profile</li>
                         </ol>
                     </div>
@@ -92,14 +92,14 @@
                     <div class="col-lg-12">
                         <div class="dash-menu-list">
                             <ul>
-                                <li><a href="@Url.Action("Dashboard", "UserDashboard")">dashboard</a></li>
-                                <li><a class="active" href="@Url.Action("Profile", "UserDashboard")">Profile</a></li>
-                                <li><a href="@Url.Action("AdPost", "UserDashboard")">ad post</a></li>
-                                <li><a href="@Url.Action("MyAds", "UserDashboard")">my ads</a></li>
-                                <li><a href="@Url.Action("Settings", "UserDashboard")">settings</a></li>
-                                <li><a href="@Url.Action("Bookmark", "UserDashboard")">bookmarks</a></li>
-                                <li><a href="@Url.Action("Message", "UserDashboard")">message</a></li>
-                                <li><a href="@Url.Action("Notification", "UserDashboard")">notification</a></li>
+                                <li><a href="@Url.Action("Dashboard", "User")">dashboard</a></li>
+                                <li><a class="active" href="@Url.Action("Profile", "User")">Profile</a></li>
+                                <li><a href="@Url.Action("AdPost", "User")">ad post</a></li>
+                                <li><a href="@Url.Action("MyAds", "User")">my ads</a></li>
+                                <li><a href="@Url.Action("Settings", "User")">settings</a></li>
+                                <li><a href="@Url.Action("Bookmark", "User")">bookmarks</a></li>
+                                <li><a href="@Url.Action("Message", "User")">message</a></li>
+                                <li><a href="@Url.Action("Notification", "User")">notification</a></li>
                                 <li><a href="@Url.Action("Login", "Dashboard")">logout</a></li>
                             </ul>
                         </div>
@@ -121,7 +121,7 @@
                     <div class="account-card">
                         <div class="account-title">
                             <h3>Membership</h3>
-                            <a href="setting.html">Edit</a>
+                            <a href="~/User/Settings">Edit</a>
                         </div>
                         <ul class="account-card-list">
                             <li><h5>Status</h5><p></p></li>
@@ -133,7 +133,7 @@
                     <div class="account-card">
                         <div class="account-title">
                             <h3>Contact Info</h3>
-                            <a href="setting.html">Edit</a>
+                            <a href="~/User/Settings">Edit</a>
                         </div>
                         <ul class="account-card-list">
                             @foreach (var user in Model.Users)
@@ -150,7 +150,7 @@
                     <div class="account-card">
                         <div class="account-title">
                             <h3>Billing Address</h3>
-                            <a href="setting.html">Edit</a>
+                            <a href="~/User/Settings">Edit</a>
                         </div>
                         <ul class="account-card-list">
                            
@@ -163,7 +163,7 @@
                     <div class="account-card">
                         <div class="account-title">
                             <h3>Shipping Address</h3>
-                            <a href="setting.html">Edit</a>
+                            <a href="~/User/Settings">Edit</a>
                         </div>
                         <ul class="account-card-list">
                             <li><h5>Post Code:</h5><p></p></li>

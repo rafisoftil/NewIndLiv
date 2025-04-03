@@ -41,9 +41,9 @@
                         <div class="header-right">
                             <ul class="header-list">
                                 <li class="header-item">
-                                    <a href="bookmark.html" class="header-widget">
+                                    <a href="~/User/Bookmark" class="header-widget">
                                         <i class="fas fa-heart"></i>
-                                <sup>@ViewData["wishlistcount"]</sup>
+                                   <sup>@Context.Session.GetInt32("wishlistCount")</sup>
                                     </a>
                                 </li>
                                 <li class="header-item">

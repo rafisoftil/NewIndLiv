@@ -17,7 +17,8 @@ namespace IndiaLivings_Web_UI.Controllers
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
             int productCount = product.GetwishlistCount(productOwnerID);
-            ViewData["wishlistcount"] = productCount;
+            HttpContext.Session.SetInt32("wishlistCount", productCount);
+            //ViewData["wishlistcount"] = productCount;
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
             return View(data);

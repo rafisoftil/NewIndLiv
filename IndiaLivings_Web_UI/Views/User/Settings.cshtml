@@ -1,0 +1,475 @@
+﻿@model List<UserViewModel>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>India_Leavings - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <link rel="icon" href="images/favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMMb12QKmrCGLR7IxJ6kvTEh8P5F06IMj6mvZ0d" crossorigin="anonymous">
+    <link href="~/fonts/flaticon/flaticon.css" rel="stylesheet" />
+    <link href="~/fonts/font-awesome/fontawesome.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/css/vendor/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="~/css/custom/main.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/custom/setting.css" />
+    <style>
+
+        /* Toast container */
+        .toast_success {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 9999;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .toast_failed {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 9999;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="mobile-nav">
+        <div class="container">
+            <div class="mobile-group">
+                <a href="index.html" class="mobile-widget">
+                    <i class="fas fa-home"></i>
+                    <span>home</span>
+                </a>
+                <a href="user-form.html" class="mobile-widget">
+                    <i class="fas fa-user"></i>
+                    <span>join me</span>
+                </a>
+                <a href="ad-post.html" class="mobile-widget plus-btn">
+                    <i class="fas fa-plus"></i>
+                    <span>Ad Post</span>
+                </a>
+                <a href="notification.html" class="mobile-widget">
+                    <i class="fas fa-bell"></i>
+                    <span>notify</span>
+                    <sup>0</sup>
+                </a>
+                <a href="message.html" class="mobile-widget">
+                    <i class="fas fa-envelope"></i>
+                    <span>message</span>
+                    <sup>0</sup>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <section class="single-banner dashboard-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="single-content">
+                        <h2>setting</h2>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="~/Dashboard/Dashboard">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">setting</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="dash-header-part">
+        <div class="container">
+            <div class="dash-header-card">
+                <partial name="~/Views/Shared/_ProfileCard.cshtml" />
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="dash-menu-list">
+                            <ul>
+                                <li><a href="@Url.Action("Dashboard", "User")">dashboard</a></li>
+                                <li><a href="@Url.Action("Profile", "User")">Profile</a></li>
+                                <li><a href="@Url.Action("AdPost", "User")">ad post</a></li>
+                                <li><a href="@Url.Action("MyAds", "User")">my ads</a></li>
+                                <li><a class="active" href="@Url.Action("Settings", "User")">settings</a></li>
+                                <li><a href="@Url.Action("Bookmark", "User")">bookmarks</a></li>
+                                <li><a href="@Url.Action("Message", "User")">message</a></li>
+                                <li><a href="@Url.Action("Notification", "User")">notification</a></li>
+                                <li><a href="@Url.Action("Login", "Dashboard")">logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="toast-container"></div>
+        </div>
+    </section>
+    <div class="setting-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="account-card alert fade show">
+                        <div class="account-title">
+                            <h3>Edit Profile</h3>
+                            <button data-dismiss="alert">close</button>
+                        </div>
+                        <form class="setting-form">
+                            <div class="row">
+                                <div class="row" style="display: flex; gap: 20px; margin-left:initial !important; width:100%">
+                                    <div class="col-lg-4" style="flex: 1;">
+                                        <div class="form-group">
+                                            <label class="form-label">First Name</label>
+                                            <input type="text" id="txt_firstname" class="form-control" placeholder="Type First Name" value="@Model[0].userFirstName">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4" style="flex: 1;">
+                                        <div class="form-group">
+                                            <label class="form-label">Middle Name</label>
+                                            <input type="text" id="txt_middlename" class="form-control" placeholder="Type Middle Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4" style="flex: 1;">
+                                        <div class="form-group">
+                                            <label class="form-label">Last Name</label>
+                                            <input type="text" id="txt_lastname" class="form-control" placeholder="Type Last Name">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Description</label>
+                                        <input type="text" id="txt_description" class="form-control" placeholder="Type Description">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Email</label>
+                                        <input type="text" id="txt_Email" class="form-control" placeholder="Type Email">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Company</label>
+                                        <input type="text" id="txt_company" class="form-control" placeholder="Type Company">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Address</label>
+                                        <input type="text" id="txt_address" class="form-control" placeholder="Type Address">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-label">City</label>
+                                        <input type="text" id="txt_city" class="form-control" placeholder="Type City">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-label">State</label>
+                                        <input type="text" id="txt_state" class="form-control" placeholder="Select State">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Post Code</label>
+                                        <input type="text" id="txt_postcode" class="form-control" placeholder="Type Post Code">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Country</label>
+                                        <input type="text" id="txt_Country" class="form-control" placeholder="Select Country">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Website</label>
+                                        <input type="text" id="txt_website" class="form-control" placeholder="Type WebSite">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Phone</label>
+                                        <input type="text" id="txt_phone" class="form-control" placeholder="Type Phone">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Birthday</label>
+                                        <input type="date" id="txt_dob" class="form-control" value="Select Date of Birth">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Profile Image</label>
+                                        <input type="file" id="txt_profile_img" class="form-control">
+                                        <input type="text" id="file_name" value="@Model[0].userImagePath" hidden>
+                                        <div class="dash-avatar">
+                                            <a href="#">
+                                                <img src="@Url.Content(ViewBag.UserProfileImgPath + Model[0].userID + "/" + Model[0].userImagePath)"
+                                                     onerror="this.onerror=null;this.src='../images/user_profile/dummy_profileimg.png';" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button class="btn btn-inline" onclick="updateProfile(); return false;">
+                                        <i class="fas fa-user-check"></i>
+                                        <span>update profile</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="currency">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Choose a Currency</h4>
+                    <button class="fas fa-times" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <button class="modal-link active">United States Doller (USD) - $</button>
+                    <button class="modal-link">Euro (EUR) - €</button>
+                    <button class="modal-link">British Pound (GBP) - £</button>
+                    <button class="modal-link">Australian Dollar (AUD) - A$</button>
+                    <button class="modal-link">Canadian Dollar (CAD) - C$</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="language">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Choose a Language</h4>
+                    <button class="fas fa-times" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <button class="modal-link active">English</button>
+                    <button class="modal-link">bangali</button>
+                    <button class="modal-link">arabic</button>
+                    <button class="modal-link">germany</button>
+                    <button class="modal-link">spanish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="loadingOverlay" class="d-none">
+        <img style="height: 100px" src="~/images/spinner.gif" />
+    </div>
+
+    <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/js/vendor/popper.min.js"></script>
+    <script src="~/js/vendor/bootstrap.min.js"></script>
+
+    <script src="~/js/custom/main.js"></script>
+    <script type="text/javascript">
+
+                function Show_Loading() {
+                    const loadingOverlay = document.getElementById('loadingOverlay');
+                    loadingOverlay.classList.remove('d-none');
+                }
+
+                // Function to hide loading overlay
+                function Hide_Loading() {
+                    const loadingOverlay = document.getElementById('loadingOverlay');
+                    loadingOverlay.classList.add('d-none');
+                }
+
+                // Function to display toast message
+                function showToast(message, type) {
+                    var toast = document.getElementById("toast-container");
+
+                    // Ensure newlines are properly converted to HTML breaks
+                    message = message.replace(/\n/g, '<br />');
+
+                    if (type == "Success") {
+                        toast.className = "toast_success";
+                    }
+                    else if (type == "Failed") {
+                        toast.className = "toast_failed";
+                    }
+
+                    toast.innerHTML = message;
+                    document.body.appendChild(toast);
+
+                    toast.style.display = "block";
+
+                    // Automatically remove the toast after 3 seconds
+                    setTimeout(function () {
+                        toast.style.display = "none";
+                    }, 3000);
+                }
+
+
+            function updateProfile() {
+                Show_Loading();
+
+                // Data validation (example)
+                if (!validateForm()) {
+                    Hide_Loading();
+                    showToast('Please correct the errors in the form.', 'Failed');
+                    return;
+                }
+
+                var formData = new FormData();
+
+                // Append data to the form
+                formData.append('userFirstName', document.getElementById('txt_firstname').value);
+                formData.append('userLastName', document.getElementById('txt_lastname').value);
+                formData.append('userMiddleName', document.getElementById('txt_middlename').value);
+                formData.append('userFullAddress', document.getElementById('txt_address').value);
+                formData.append('userWebsite', document.getElementById('txt_website').value);
+                formData.append('userMobile', document.getElementById('txt_phone').value);
+                formData.append('userDOB', document.getElementById('txt_dob').value);
+                formData.append('userImagePath', document.getElementById('file_name').value);
+                formData.append('userDescription', document.getElementById('txt_description').value);
+                formData.append('userEmail', document.getElementById('txt_Email').value);
+
+                // Append the image file (if a new one is selected)
+                var userProfileImg = document.getElementById("txt_profile_img").files[0];
+                if (userProfileImg) {
+                    formData.append('userProfileImg', userProfileImg);
+                }
+
+                $.ajax({
+                    url: '@Url.Action("UpdateProfile", "User")',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        Hide_Loading();
+
+                        // Handle success response (assuming JSON)
+                        if (response && response.message) {
+                            showToast(response.message, 'Success');
+                        } else {
+                            showToast('Profile updated successfully!', 'Success');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Hide_Loading();
+
+                        // Handle error response (assuming JSON)
+                        let errorMessage = 'An error occurred. Please try again.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        } else if (xhr.status === 400) {
+                            errorMessage = 'Please check the entered details.';
+                        }
+                        showToast(errorMessage, 'Failed');
+                    }
+                });
+            }
+
+            function GetUserList() {
+                Show_Loading();
+                $.ajax({
+                    url: '@Url.Action("GetUserListByUserid", "User")',
+                    type: 'POST',
+                    data: {},
+                    success: function (response) {
+                        Hide_Loading();
+                        document.getElementById('txt_firstname').value = response.userFirstName;
+                        document.getElementById('txt_lastname').value = response.userLastName;
+                        document.getElementById('txt_middlename').value = response.userMiddleName;
+                        document.getElementById('txt_description').value = response.userDescription;
+                        document.getElementById('txt_Email').value = response.userEmail;
+                        document.getElementById('txt_address').value = response.userFullAddress;
+                        document.getElementById('txt_website').value = response.userWebsite;
+                        document.getElementById('txt_phone').value = response.userMobile;
+                        document.getElementById('file_name').value = response.userImagePath;
+                        document.getElementById('txt_dob').value = convertToDate(response.userDOB);
+                        document.getElementById('user_username').value = response.userMiddleName + ' .' + response.userFirstName + ' ' + response.userLastName;
+                        document.getElementById('user_mobile').value = response.userMobile;
+                    },
+                    error: function (xhr, status, error) {
+                        Hide_Loading();
+                        showToast('An error occurred. Please contact IndiaLivings support for assistance', 'Failed');
+                    }
+                });
+            }
+
+            // --- Helper Functions ---
+
+            // Example client-side validation
+            function validateForm() {
+                let isValid = true;
+
+                // Example: Check if first name is empty
+                if (document.getElementById('txt_firstname').value.trim() === '') {
+                    isValid = false;
+                    showInputError('txt_firstname', 'First name is required');
+                } else {
+                    clearInputError('txt_firstname');
+                }
+
+                // Add more validation rules as needed...
+
+                return isValid;
+            }
+
+            function showInputError(elementId, errorMessage) {
+                let element = document.getElementById(elementId);
+                element.classList.add('error-input');
+                let errorElement = document.getElementById(elementId + '-error');
+                if (!errorElement) {
+                    errorElement = document.createElement('div');
+                    errorElement.id = elementId + '-error';
+                    errorElement.className = 'error-message';
+                    element.parentNode.insertBefore(errorElement, element.nextSibling);
+                }
+                errorElement.textContent = errorMessage;
+            }
+
+            function clearInputError(elementId) {
+                let element = document.getElementById(elementId);
+                element.classList.remove('error-input');
+                let errorElement = document.getElementById(elementId + '-error');
+                if (errorElement) {
+                    errorElement.textContent = '';
+                }
+            }
+
+            // Function to format date in YYYY-MM-DD format
+            function convertToDate(dateString) {
+                if (!dateString) return '';
+
+                let inputDate = new Date(dateString);
+                if (isNaN(inputDate.getTime())) return '';
+
+                let year = inputDate.getFullYear();
+                let month = String(inputDate.getMonth() + 1).padStart(2, '0');
+                let day = String(inputDate.getDate()).padStart(2, '0');
+
+                return `${year}-${month}-${day}`;
+            }
+</script>
+
+        </body>
+        </html>
