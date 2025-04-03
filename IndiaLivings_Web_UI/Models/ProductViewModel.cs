@@ -47,7 +47,7 @@ namespace IndiaLivings_Web_UI.Models
             ProductHelper PH = new ProductHelper();
             try
             {
-                var wishList = PH.GetProductsbyOwner(userid);
+                var wishList = PH.GetWishlistItems(userid);
 
                 if (wishList != null)
                 {
@@ -58,7 +58,10 @@ namespace IndiaLivings_Web_UI.Models
                         product.productName = wishDetails.productName;
                         product.productImageName = wishDetails.productImageName;
                         product.productPrice = wishDetails.productPrice;
+                        product.productAdCategory = wishDetails.productAdCategory;
                         product.productDescription = wishDetails.productDescription;
+                        product.byteProductImageData = wishDetails.byteProductImageData;
+                        product.createdBy = wishDetails.createdBy;
                         products.Add(product);
                     }
                 }
@@ -69,6 +72,23 @@ namespace IndiaLivings_Web_UI.Models
             }
             return products;
         }
+      
+        public string UpdateWishlist(int productID, int userID, string createdBy, int status)
+        {
+            string response = String.Empty;
+            ProductHelper PH = new ProductHelper();
+            
+            try
+            {
+                response = PH.UpdateWishlist(productID, userID, createdBy, status);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+      
         public int GetwishlistCount(int productOwnerID)
         {
             try
@@ -84,11 +104,7 @@ namespace IndiaLivings_Web_UI.Models
                 return 0;
             }
         }
-
-
-
-
-
+      
         public List<ProductViewModel> AdsList(int status)
         {
             List<ProductViewModel> products = new List<ProductViewModel>();
@@ -111,6 +127,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.IsActiveStatus = productDetails.IsActiveStatus;
                         product.productAdminReview = productDetails.productAdminReview;
                         product.productPriceCondition = productDetails.productPriceCondition;
+                        product.productCategoryID = productDetails.productCategoryID;
                         product.createdDate = productDetails.createdDate;
                         product.createdBy = productDetails.createdBy;
                         products.Add(product);
@@ -198,6 +215,8 @@ namespace IndiaLivings_Web_UI.Models
                         ProductViewModel product = new ProductViewModel();
                         product.productId = productDetails.productId;
                         product.productName = productDetails.productName;
+                        product.productAdCategory = productDetails.productAdCategory;
+                        product.productCategoryID = productDetails.productCategoryID;
                         product.productCategoryName = productDetails.productCategoryName;
                         product.productDescription = productDetails.productDescription;
                         product.productPrice = productDetails.productPrice;
