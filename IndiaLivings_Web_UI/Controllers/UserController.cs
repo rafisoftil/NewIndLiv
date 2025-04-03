@@ -1,12 +1,29 @@
-﻿using IndiaLivings_Web_DAL.Models;
+﻿using IndiaLivings_Web_DAL.Helpers;
+using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Dynamic;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
     public class UserController : Controller
     {
+        /// <summary>
+        /// Users Dashboard Page
+        /// </summary>
+        /// <returns>Ads count created by user</returns>
+        public IActionResult Dashboard()
+        {
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            ProductViewModel productViewModel = new ProductViewModel();
+            List<ProductViewModel> products = productViewModel.GetAds(productOwner);
+            ViewBag.ActiveAds = products.Count();
+            ViewBag.BookingAds = products.Where(p => p.productAdCategory.Equals("Booking")).ToList().Count();
+            ViewBag.SalesAds = products.Where(p => p.productAdCategory.Equals("Sale")).ToList().Count();
+            ViewBag.RentalAds = products.Where(p => p.productAdCategory.Equals("Rent")).ToList().Count();
+            return View();
+        }
         public IActionResult PostAd()
         {
             CategoryViewModel category = new CategoryViewModel();
@@ -24,9 +41,22 @@ namespace IndiaLivings_Web_UI.Controllers
             data.productConditions = productConditions;
             return View(data);
         }
-        public IActionResult AdsList()
+        /// <summary>
+        /// Ads List
+        /// </summary>
+        /// <returns> List of all Ads will be reurned</returns>
+        public IActionResult AdsList(int categoryid)
         {
-            return View();
+            ProductViewModel productModel = new ProductViewModel();
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<ProductViewModel> products = productModel.GetAds(productOwner);
+            if (categoryid != 0)
+            {
+               products = products.Where(product => product.productCategoryID == categoryid).ToList();
+            }
+            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            ViewBag.WishlistIds = wishlistIds;
+            return View(products);
         }
         public JsonResult GetSubCategories(int Category)
         {
@@ -56,8 +86,32 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             ProductViewModel productModel = new ProductViewModel();
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);    
+            List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);
+
             return View(wishlist);
+        }
+
+
+        /// <summary>
+        /// Update Wishlist Page
+        /// </summary>
+        /// <returns> Message on wishlist action</returns>
+        public JsonResult UpdateBookmarks(int productID, string createdBy, int status)
+        {
+            object JsonData = null;
+            ProductViewModel productModel = new ProductViewModel();
+            int userID = HttpContext.Session.GetInt32("UserId") ?? 0;
+            try
+            {
+                string response = productModel.UpdateWishlist(productID, userID, createdBy, status);
+                JsonData = new { StatusCode = 200 };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return Json(JsonData);
         }
         /// <summary>
         /// My Ads Page
@@ -70,7 +124,15 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> products = productModel.GetAds(productOwner);
             return View(products);
         }
-
+        public ActionResult Profile()
+        {
+            string username = HttpContext.Session.GetString("userName");
+            var userViewModel = new UserViewModel();
+            List<UserViewModel> users = new List<UserViewModel>();
+            users = userViewModel.GetUsersInfo(username);             
+            return View(users);
+         }
+         
         [HttpPost]
         public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
         {
@@ -107,6 +169,9 @@ namespace IndiaLivings_Web_UI.Controllers
             
             return RedirectToAction("PostAd");
         }
-
     }
+
 }
+
+
+

@@ -2,11 +2,8 @@
 @using NonFactors.Mvc.Grid
 @{
     ViewBag.Title = "Manage Users";
-    <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css"/>
-    <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
 }
 <div class="container"> 
-    <script src="~/js/mvc-grid/mvc-grid.js"></script>
 
     <h4 class="m-2">Manage Users</h4>
 
@@ -37,6 +34,7 @@
         )
     </div>
 </div>
+<script src="~/js/mvc-grid/mvc-grid.js"></script>
 <script>
     document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
     function Edit(userId){

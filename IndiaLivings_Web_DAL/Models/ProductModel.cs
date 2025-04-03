@@ -41,6 +41,7 @@ namespace IndiaLivings_Web_DAL.Models
         public byte[] byteProductImageData { get; set; } = [];
         public string strProductImageType { get; set; } = string.Empty;
         public string productAdminReviewStatus { get; set; } = string.Empty;
+        public int intproductCount { get; set; }
 
     }
 }

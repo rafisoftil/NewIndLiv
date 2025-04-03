@@ -1,4 +1,5 @@
-﻿using IndiaLivings_Web_DAL;
+﻿using System.Collections.Generic;
+using IndiaLivings_Web_DAL;
 using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ namespace IndiaLivings_Web_UI.Models
 {
     public class ProductViewModel
     {
+        public int productCount { get; set; }
         public int productId { get; set; } = 0;
         public string productName { get; set; } = string.Empty;
         public string productDescription { get; set; } = string.Empty;
@@ -45,7 +47,7 @@ namespace IndiaLivings_Web_UI.Models
             ProductHelper PH = new ProductHelper();
             try
             {
-                var wishList = PH.GetProductsbyOwner(userid);
+                var wishList = PH.GetWishlistItems(userid);
 
                 if (wishList != null)
                 {
@@ -56,7 +58,10 @@ namespace IndiaLivings_Web_UI.Models
                         product.productName = wishDetails.productName;
                         product.productImageName = wishDetails.productImageName;
                         product.productPrice = wishDetails.productPrice;
+                        product.productAdCategory = wishDetails.productAdCategory;
                         product.productDescription = wishDetails.productDescription;
+                        product.byteProductImageData = wishDetails.byteProductImageData;
+                        product.createdBy = wishDetails.createdBy;
                         products.Add(product);
                     }
                 }
@@ -67,6 +72,39 @@ namespace IndiaLivings_Web_UI.Models
             }
             return products;
         }
+      
+        public string UpdateWishlist(int productID, int userID, string createdBy, int status)
+        {
+            string response = String.Empty;
+            ProductHelper PH = new ProductHelper();
+            
+            try
+            {
+                response = PH.UpdateWishlist(productID, userID, createdBy, status);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+      
+        public int GetwishlistCount(int productOwnerID)
+        {
+            try
+            {  
+                ProductHelper productHelper = new ProductHelper();
+                int wishlistCount = productHelper.GetCount(productOwnerID);
+                return wishlistCount; 
+            }
+            catch (Exception ex)
+            {
+                
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                return 0;
+            }
+        }
+      
         public List<ProductViewModel> AdsList(int status)
         {
             List<ProductViewModel> products = new List<ProductViewModel>();
@@ -89,6 +127,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.IsActiveStatus = productDetails.IsActiveStatus;
                         product.productAdminReview = productDetails.productAdminReview;
                         product.productPriceCondition = productDetails.productPriceCondition;
+                        product.productCategoryID = productDetails.productCategoryID;
                         product.createdDate = productDetails.createdDate;
                         product.createdBy = productDetails.createdBy;
                         products.Add(product);
@@ -176,6 +215,8 @@ namespace IndiaLivings_Web_UI.Models
                         ProductViewModel product = new ProductViewModel();
                         product.productId = productDetails.productId;
                         product.productName = productDetails.productName;
+                        product.productAdCategory = productDetails.productAdCategory;
+                        product.productCategoryID = productDetails.productCategoryID;
                         product.productCategoryName = productDetails.productCategoryName;
                         product.productDescription = productDetails.productDescription;
                         product.productPrice = productDetails.productPrice;
@@ -200,5 +241,54 @@ namespace IndiaLivings_Web_UI.Models
             return products;
         }
     }
+  
+    public class ProductImageDetails
+    {
+        public int intProductImageID { get; set; }
+        public int intProductID { get; set; }
+        public string strProductImageName { get; set; }
+        public byte[] byteProductImageData { get; set; }
+        public string strProductImageType { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime createdDate { get; set; } = DateTime.MinValue;
+        public string createdBy { get; set; } = string.Empty;
+        public DateTime updatedDate { get; set; } = DateTime.MinValue;
+        public string updatedBy { get; set; } = string.Empty;
 
+        public List<ProductImageDetails> GetImage(int productId)
+        {
+            List<ProductImageDetails> products = new List<ProductImageDetails>();
+            ProductHelper PH = new ProductHelper();
+            try
+            {
+                var productList = PH.GetProductImage(productId);
+                if (productList != null)
+                {
+                    foreach (var productDetails in productList)
+                    {
+                        ProductImageDetails product = new ProductImageDetails();
+                        product.intProductImageID = productDetails.intProductImageID;
+                        product.intProductID = productDetails.intProductID;
+                        product.strProductImageName = productDetails.strProductImageName;
+                        product.byteProductImageData = productDetails.byteProductImageData;
+                        product.strProductImageType = productDetails.strProductImageType;
+                        product.IsActive = productDetails.IsActive;
+                        product.createdDate = productDetails.createdDate;
+                        product.createdBy = productDetails.createdBy;
+                        product.updatedDate = productDetails.updatedDate;
+                        product.updatedBy = productDetails.updatedBy;
+                        products.Add(product);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+
+            return products;
+        }
+
+    }
 }

@@ -1,4 +1,5 @@
-﻿using IndiaLivings_Web_DAL.Models;
+﻿using System.Net.Http;
+using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_DAL.Repositories;
 using Newtonsoft.Json;
 
@@ -10,19 +11,19 @@ namespace IndiaLivings_Web_DAL.Helpers
         {
             bool isRegistered = false;
             var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/AddUser", user);
-            if(response == "1")
-                isRegistered= true;
+            if (response == "1")
+                isRegistered = true;
             return isRegistered;
 
         }
 
         public bool checkDuplicate(string userName)
         {
-            dynamic user=null;
+            dynamic user = null;
             bool isUserExists = false;
             var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/GetUserByUserName?strUserName=" + userName);
-            user=JsonConvert.DeserializeObject(response);
-            if(user.Count>0)
+            user = JsonConvert.DeserializeObject(response);
+            if (user.Count > 0)
                 isUserExists = true;
             return isUserExists;
         }
@@ -103,6 +104,34 @@ namespace IndiaLivings_Web_DAL.Helpers
                 throw;
             }
             return users;
+        }
+        public string AddPasswordReset(int userid, string username, string token, string expirationTime, string createdby)
+        {
+            try
+            {
+                var response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/AddUserPasswordReset?intUserID={userid}&strUserName={username}&strUserPasswordToken={token}&dtmUserTokenExpiration={expirationTime}&createdBy={createdby}");
+                return response;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<PasswordReset> GetPasswordReset(int userid, string username, string token)
+        {
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserPasswordReset?intUserID={userid}&strUserName={username}&strUserPasswordToken={token}");
+                var resetInfo = JsonConvert.DeserializeObject<List<PasswordReset>>(response);
+                return resetInfo;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

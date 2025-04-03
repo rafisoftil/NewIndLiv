@@ -982,3 +982,11 @@ body {
 .mvc-grid-sort {
     color: #FFFFFF !important;
 }
+
+
+.slide-show {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50%;
+    object-fit: cover;
+}
