@@ -24,7 +24,7 @@
         .RenderedAs(model => model.IsActive == true ? "Active" : "In-Active");
                 col.Add().RenderedAs(Model => Html.Raw("<a name='ed' id='ed' href='javascript:void(0)' onclick=Edit('" + Model.userID + "')><i class='fas fa-edit' alt='Edit' /></a>"));
             })
-        @* .Sortable().Filterable() *@
+        .Sortable().Filterable()
         .Empty("No data Found") 
            .Pageable(pager =>
         {

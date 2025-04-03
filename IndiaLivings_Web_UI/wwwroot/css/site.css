@@ -975,3 +975,10 @@ body {
     z-index: 9999;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
+
+.mvc-grid-filter {
+    color:#FFFFFF !important;
+}
+.mvc-grid-sort {
+    color: #FFFFFF !important;
+}

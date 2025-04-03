@@ -312,6 +312,9 @@
 
 <script type="text/javascript">
 
+    $(document).ready(function () {
+     alert(@ViewBag.Message);
+    });
     function LoadSubCategories() {
         var selectedCategory = $('#category').find(":selected").val();        
         $('#subCategory').empty();
@@ -340,8 +343,5 @@
         });
 
     }
-    function priceRadioChange(){
-        var checkedRadio=$(".PriceCondition").is(":checked").val();
-        alert(checkedRadio);
-    }
+    
 </script>
