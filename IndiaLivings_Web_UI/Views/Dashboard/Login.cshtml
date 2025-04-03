@@ -323,8 +323,8 @@
                         }
                         else {
                             showToast('Invalid Credentials.', 'error');
+                            $("#spinner").addClass('d-none');
                         }
-                        $("#spinner").addClass('d-none');
                     }
                 },
                 error: function (error) {
@@ -384,7 +384,7 @@
             }
         }
 
-        function sendEmail() {
+    function sendEmail() {
         
             var UserData = {
                 email: $("#Email").val()
