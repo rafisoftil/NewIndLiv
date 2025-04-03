@@ -170,7 +170,7 @@ namespace IndiaLivings_Web_UI.Models
 
             return users;
         }
-
+      
         public List<UserViewModel> GetUsersInfo(string username)
         {
             List<UserViewModel> users = new List<UserViewModel>();
@@ -189,6 +189,7 @@ namespace IndiaLivings_Web_UI.Models
                         user.userID = userDetails.userID;
                         user.userMobile = userDetails.userMobile;
                         user.username = userDetails.username;
+                        user.userWebsite = userDetails.userWebsite;
                         users.Add(user);
                     }
                 }
@@ -201,6 +202,7 @@ namespace IndiaLivings_Web_UI.Models
 
             return users;
         }
+      
         #endregion
     }
     

@@ -14,9 +14,13 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult Dashboard()
         {
             CategoryViewModel category = new CategoryViewModel();
-            List<CategoryViewModel> categoryList = category.GetCategoryCount();
             ProductViewModel product = new ProductViewModel();
+            List<CategoryViewModel> categoryList = category.GetCategoryCount();
             List<ProductViewModel> productsList = product.GetAds(0);
+            int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
+            int productCount = product.GetwishlistCount(productOwnerID);
+            ViewData["wishlistcount"] = productCount;
+            
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
             data.Products = productsList;

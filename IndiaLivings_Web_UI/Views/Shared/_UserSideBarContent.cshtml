@@ -20,7 +20,7 @@
                     <a class="navbar-link" asp-controller="User" asp-action="Dashboard">Dashboard</a>
                 </li>
                 <li class="navbar-item">
-                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">Profile</a>
+                    <a class="navbar-link" asp-controller="User" asp-action="Profile">Profile</a>
                 </li>
                 <li class="navbar-item">
                     <a class="navbar-link" asp-controller="User" asp-action="PostAd">Ad Post</a>
@@ -34,7 +34,7 @@
                 <li class="navbar-item">
                     <a class="navbar-link" asp-controller="User" asp-action="Bookmark">
                         <span>Bookmark</span>
-                        <span>0</span>
+                        <span>@ViewData["wishlistcount"]</span>
                     </a>
                 </li>
                 <li class="navbar-item">
