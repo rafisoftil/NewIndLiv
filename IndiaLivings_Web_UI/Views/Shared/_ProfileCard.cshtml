@@ -1,8 +1,6 @@
 ﻿@* @model IndiaLivings_Web_UI.Models.UserViewModel *@
 
-@{
-    UserViewModel userObj = Context.Session.GetObject<UserViewModel>("UserDetails");
-}
+
 
 <div class="row">
     <div class="col-lg-5">
@@ -11,20 +9,20 @@
                 <a href="#"><img src="images/avatar/01.jpg" alt="avatar"></a>
             </div>
             <div class="dash-intro">
-                <h4><a href="#">@userObj.username</a></h4>                
+                <h4><a href="#">@Context.Session.GetString("userName")</a></h4>                
                 <h5>new seller</h5>
                 <ul class="dash-meta">
                     <li>
                         <i class="fas fa-phone-alt"></i>
-                        <span>@userObj.userMobile</span>
+                        <span>@Context.Session.GetString("Mobile")</span>
                     </li>
                     <li>
                         <i class="fas fa-envelope"></i>
-                        <span>@userObj.userEmail</span>
+                        <span>@Context.Session.GetString("Email")</span>
                     </li>
                     <li>
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>@userObj.userFullAddress</span>
+                        <span>@Context.Session.GetString("Address")</span>
                     </li>
                 </ul>
             </div>

@@ -13,11 +13,16 @@ namespace IndiaLivings_Web_UI.Controllers
             CategoryViewModel category = new CategoryViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             AdConditionViewModel adCondition = new AdConditionViewModel();
-            List<AdConitionTypeViewModel> adConitions = new List<AdConitionTypeViewModel>();
+            List<AdConditionViewModel> adConitions = new List<AdConditionViewModel>();
             adConitions = adCondition.GetAllAdConditionsTypeName("");
+            var priceConditions = adConitions.Where(x => x.strAdConditionType.Equals("Price Condition")).ToList();
+            var Ad_Categories = adConitions.Where(x => x.strAdConditionType.Equals("Ad Category")).ToList();
+            var productConditions = adConitions.Where(x => x.strAdConditionType.Equals("Product Condition")).ToList();
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
-            data.AdConitions = adConitions;
+            data.priceConditions = priceConditions;
+            data.Ad_Categories = Ad_Categories;
+            data.productConditions = productConditions;
             return View(data);
         }
         public IActionResult AdsList()
@@ -69,20 +74,50 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> products = productModel.GetAds(productOwner);
             return View(products);
         }
-
-
         public ActionResult Profile()
         {
             string username = HttpContext.Session.GetString("userName");
             var userViewModel = new UserViewModel();
             List<UserViewModel> users = new List<UserViewModel>();
-            users = userViewModel.GetUsersInfo(username); 
-            var profileViewModel = new ProfileViewModel
-            {
-                Users = users,
-               
-            };
-            return View(profileViewModel); 
+            users = userViewModel.GetUsersInfo(username);             
+            return View(users);
+         }
+         
+        [HttpPost]
+        public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
+        {
+            bool isInsert = false;
+            ProductViewModel PVM = new ProductViewModel();
+            PVM.productName = FormData["productName"].ToString();
+            PVM.productDescription = FormData["AdDescription"].ToString();
+            PVM.productAdTags = FormData["adTag"].ToString();
+            PVM.productPrice = Convert.ToDecimal(FormData["productPrice"]);
+            PVM.productQuantity = Convert.ToInt32(FormData["productQuantity"]);
+            PVM.productCondition = FormData["product_Condition"].ToString().ToUpper() == "NEW" ? 1 : 0;
+            PVM.productCategoryID = Convert.ToInt32(FormData["category"].ToString());
+            //PVM.productCategoryName = FormData[""];
+            PVM.productsubCategoryID = Convert.ToInt32(FormData["subCategory"].ToString());
+            //PVM.productSubCategoryName = FormData[""];
+            PVM.productPriceCondition = FormData["price_Condition"];
+            PVM.productAdCategory = FormData["Ad_Category"];
+            PVM.productImageName = productImage.FileName;
+            PVM.productAdminReviewStatus = "";
+            PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
+            PVM.productImageType = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
+            PVM.productSold = false;
+            PVM.productOwner = Convert.ToInt32(HttpContext.Session.GetString("userID"));
+            PVM.productOwnerName = HttpContext.Session.GetString("userName");
+            //PVM.productMembershipID = FormData[""];
+            //PVM.productMembershipName = FormData[""];
+            PVM.productAdminReview = true;
+            PVM.createdDate = DateTime.Now;
+            PVM.createdBy = HttpContext.Session.GetString("userName").ToString();
+            PVM.updatedDate = DateTime.Now; 
+            PVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
+            isInsert = PVM.CreateNewAdd(PVM);
+
+            
+            return RedirectToAction("PostAd");
         }
 
     }

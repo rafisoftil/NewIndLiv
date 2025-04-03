@@ -20,20 +20,27 @@ namespace IndiaLivings_Web_UI.Models
         #endregion
 
         #region Methods
-        public List<AdConitionTypeViewModel> GetAllAdConditionsTypeName(string AdConditionType)
+        public List<AdConditionViewModel> GetAllAdConditionsTypeName(string AdConditionType)
         {
-            List<AdConitionTypeViewModel> AdConditions = new List<AdConitionTypeViewModel>();
+            List<AdConditionViewModel> AdConditions = new List<AdConditionViewModel>();
             ProductHelper product=new ProductHelper();
-            // Ensure the parameter is not null or empty, default to empty string if necessary
-            if (string.IsNullOrEmpty(AdConditionType))
-            {
-                AdConditionType = "";
-            }
-
+            // Ensure the parameter is not null or empty, default to empty string if necessary            
             try
             {
                 var lst=product.GetAdConditions();
-                foreach (var item in lst) { 
+                foreach (var item in lst) {
+                    foreach (var adCondition in item.strAdConditionType) { 
+                        AdConditionViewModel adConditionViewModel = new AdConditionViewModel();
+                        adConditionViewModel.strAdConditionType=adCondition.strAdConditionType;
+                        adConditionViewModel.strAdConditionName = adCondition.strAdConditionName;
+                        adConditionViewModel.intAdConditionID = adCondition.intAdConditionID;
+                        adConditionViewModel.IsActive = adCondition.IsActive;
+                        adConditionViewModel.createdDate = adCondition.createdDate;
+                        adConditionViewModel.createdBy = adCondition.createdBy;
+                        adConditionViewModel.updatedDate = adCondition.updatedDate;
+                        adConditionViewModel.updatedBy = adCondition.updatedBy;
+                        AdConditions.Add(adConditionViewModel);
+                    }
 
                 }
             }

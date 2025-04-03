@@ -94,7 +94,9 @@ namespace IndiaLivings_Web_UI.Controllers
             HttpContext.Session.SetString("Role", "");
             if (user != null)
             {
-                HttpContext.Session.SetObject("UserDetails", user);
+                HttpContext.Session.SetString("Mobile", user.userMobile);
+                HttpContext.Session.SetString("Email", user.userEmail);
+                HttpContext.Session.SetString("Address", user.userFullAddress);
                 HttpContext.Session.SetString("userName", user.username);
                 HttpContext.Session.SetString("Role", user.userRoleName);
                 HttpContext.Session.SetInt32("UserId", user.userID);
@@ -200,8 +202,8 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             try
             {
-                ProductImageDetails productImageDetails = new ProductImageDetails();
-                List<ProductImageDetails> imageDetails = productImageDetails.GetImage(productid);
+                ProductImageDetailsViewModel productImageDetails = new ProductImageDetailsViewModel();
+                List<ProductImageDetailsViewModel> imageDetails = productImageDetails.GetImage(productid);
 
                 if (imageDetails.Any())
                 {

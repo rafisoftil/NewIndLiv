@@ -268,7 +268,8 @@
     // bool passwordValid = false;
 
     function checkDuplicate() {
-        if ($("#userSignUp").val() != null || $("#userSignUp").val() != "") {
+        if($("#register-tab").hasClass("active")){
+            if ($("#userSignUp").val() != null || $("#userSignUp").val() != "") {
             $("#spinner").removeClass('d-none');
             $.ajax({
                 type: "POST",
@@ -294,6 +295,8 @@
 
             });
         }
+
+     }       
 
     }
 
