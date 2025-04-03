@@ -170,6 +170,34 @@ namespace IndiaLivings_Web_UI.Models
 
             return users;
         }
+        public List<UserViewModel> GetUsersInfo(string username)
+        {
+            List<UserViewModel> users = new List<UserViewModel>();
+            AuthenticationHelper AH = new AuthenticationHelper();
+            try
+            {
+                var userList = AH.GetUserByUsername(username);
+                if (userList != null)
+                {
+                    foreach (var userDetails in userList)
+                    {
+                        UserViewModel user = new UserViewModel();                
+                        user.userEmail = userDetails.userEmail;
+                        user.userMobile = userDetails.userMobile;
+                        user.userWebsite = userDetails.userWebsite;
+                        users.Add(user);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+
+            return users;
+        }
+
         #endregion
     }
     

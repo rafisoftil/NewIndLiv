@@ -44,6 +44,19 @@ namespace IndiaLivings_Web_DAL.Helpers
                 throw;
             }
         }
+        public int GetCount(int productOwnerID)
+        {
+            try
+            {
+                var wishlistCount = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetWishListCounts?intProductOwner={productOwnerID}");
+                int  count = JsonConvert.DeserializeObject<int>(wishlistCount);
+                return count;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public List<ProductModel> GetAdsList(int status)
         {

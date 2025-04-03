@@ -1,4 +1,5 @@
-﻿using IndiaLivings_Web_DAL.Models;
+﻿using IndiaLivings_Web_DAL.Helpers;
+using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
@@ -56,9 +57,12 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             ProductViewModel productModel = new ProductViewModel();
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);    
+            List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);
+
             return View(wishlist);
         }
+
+
         /// <summary>
         /// My Ads Page
         /// </summary>
@@ -70,7 +74,15 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> products = productModel.GetAds(productOwner);
             return View(products);
         }
-
+        public ActionResult Profile()
+        {
+            string username = HttpContext.Session.GetString("userName");
+            var userViewModel = new UserViewModel();
+            List<UserViewModel> users = new List<UserViewModel>();
+            users = userViewModel.GetUsersInfo(username);             
+            return View(users);
+         }
+         
         [HttpPost]
         public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
         {
@@ -109,4 +121,8 @@ namespace IndiaLivings_Web_UI.Controllers
         }
 
     }
+
 }
+
+
+
