@@ -46,7 +46,12 @@ namespace IndiaLivings_Web_DAL.Models
         public string strUserImageType { get; set; } = string.Empty;
 
         public byte[] byteUserImageData { get; set; } = [];
-        
+        public string userCity { get; set; } = string.Empty;
+        public string userState { get; set; } = string.Empty;
+        public string userCountry { get; set; } = string.Empty;
+        public int userPinCode { get; set; } = 0;
+        public bool isActive { get; set; }
+
         #endregion
 
     }

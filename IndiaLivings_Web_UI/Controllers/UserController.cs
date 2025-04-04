@@ -11,21 +11,26 @@ namespace IndiaLivings_Web_UI.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IConfiguration _configuration;
-        public UserController(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+        //private readonly IConfiguration _configuration;
+        //public UserController(IConfiguration configuration)
+        //{
+        //    _configuration = configuration;
+        //}
         public IActionResult PostAd()
         {
             CategoryViewModel category = new CategoryViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             AdConditionViewModel adCondition = new AdConditionViewModel();
-            List<AdConitionTypeViewModel> adConitions = new List<AdConitionTypeViewModel>();
+            List<AdConditionViewModel> adConitions = new List<AdConditionViewModel>();
             adConitions = adCondition.GetAllAdConditionsTypeName("");
+            var priceConditions = adConitions.Where(x => x.strAdConditionType.Equals("Price Condition")).ToList();
+            var Ad_Categories = adConitions.Where(x => x.strAdConditionType.Equals("Ad Category")).ToList();
+            var productConditions = adConitions.Where(x => x.strAdConditionType.Equals("Product Condition")).ToList();
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
-            data.AdConitions = adConitions;
+            data.priceConditions = priceConditions;
+            data.Ad_Categories = Ad_Categories;
+            data.productConditions = productConditions;
             return View(data);
         }
         public IActionResult AdsList()
@@ -77,239 +82,235 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> products = productModel.GetAds(productOwner);
             return View(products);
         }
-
-
         public ActionResult Profile()
         {
             string username = HttpContext.Session.GetString("userName");
             var userViewModel = new UserViewModel();
             List<UserViewModel> users = new List<UserViewModel>();
-            users = userViewModel.GetUsersInfo(username);
-            var profileViewModel = new ProfileViewModel
-            {
-                Users = users,
-
-            };
-            return View(profileViewModel);
-        }
-
-
-
-        //public IActionResult Settings(UserModel user)
-        //{
-        //    // Initialize the UserViewModel
-        //    UserViewModel userModel = new UserViewModel();
-
-        //    // Call UpdateUserDetails to get the updated UserViewModel
-        //    UserViewModel userProfile = userModel.UpdateUserProfile(user);
-
-        //    // Check if the userProfile is null
-        //    if (userProfile == null)
-        //    {
-        //        // Handle the case where userProfile is null (e.g., return a specific error message or view)
-        //        ViewBag.ErrorMessage = "User profile could not be loaded.";
-        //        return View(); // Or you can return a specific view indicating failure
-        //    }
-
-        //    // Return the updated user profile to the view
-        //    return View(userProfile);
-        //}
-
-        //public ActionResult UpdateProfile(UserModel user)
-        //{
-        //    UserViewModel userViewModel = new UserViewModel();
-
-        //    string response = string.Empty;
-
-        //    try
-        //    {
-        //        // Call the UpdateUserProfile method to update the user profile
-        //        response = userViewModel.UpdateUserDetails(user);
-
-        //        // Check if the response is successful or not
-        //        if (!string.IsNullOrEmpty(response) && response.Contains("error"))
-        //        {
-        //            // Optionally, you can set a failure message in ViewBag or TempData
-        //            ViewBag.Message = "There was an error updating the profile.";
-        //        }
-        //        else
-        //        {
-        //            // Optionally, set a success message
-        //            ViewBag.Message = "Profile updated successfully.";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log error and set failure message
-        //        ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
-        //        ViewBag.Message = "An unexpected error occurred.";
-        //    }
-
-
-        //    return View();
-        //}
-        public async Task<ActionResult> UpdateProfile(string firstName, string lastName, string middleName, string address, string website,
-                                      string phone, string birthday, string profileImg, string description, string email,
-                                      [FromForm] IFormFile userProfileImg)
+            users = userViewModel.GetUsersInfo(username);             
+            return View(users);
+         }
+         
+        [HttpPost]
+        public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
         {
-            //UserViewModel userModel = HttpContext.Session.GetObject<UserViewModel>("user");
-            string username = HttpContext.Session.GetString("userName");
-            var userModel = new UserViewModel();
-            List<UserViewModel> users = new List<UserViewModel>();
-            users = userModel.GetUsersInfo(username);
-            if (userModel == null)
-                return BadRequest("User not found.");
+            bool isInsert = false;
+            ProductViewModel PVM = new ProductViewModel();
+            PVM.productName = FormData["productName"].ToString();
+            PVM.productDescription = FormData["AdDescription"].ToString();
+            PVM.productAdTags = FormData["adTag"].ToString();
+            PVM.productPrice = Convert.ToDecimal(FormData["productPrice"]);
+            PVM.productQuantity = Convert.ToInt32(FormData["productQuantity"]);
+            PVM.productCondition = FormData["product_Condition"].ToString().ToUpper() == "NEW" ? 1 : 0;
+            PVM.productCategoryID = Convert.ToInt32(FormData["category"].ToString());
+            //PVM.productCategoryName = FormData[""];
+            PVM.productsubCategoryID = Convert.ToInt32(FormData["subCategory"].ToString());
+            //PVM.productSubCategoryName = FormData[""];
+            PVM.productPriceCondition = FormData["price_Condition"];
+            PVM.productAdCategory = FormData["Ad_Category"];
+            PVM.productImageName = productImage.FileName;
+            PVM.productAdminReviewStatus = "";
+            PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
+            PVM.productImageType = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
+            PVM.productSold = false;
+            PVM.productOwner = Convert.ToInt32(HttpContext.Session.GetString("userID"));
+            PVM.productOwnerName = HttpContext.Session.GetString("userName");
+            //PVM.productMembershipID = FormData[""];
+            //PVM.productMembershipName = FormData[""];
+            PVM.productAdminReview = true;
+            PVM.createdDate = DateTime.Now;
+            PVM.createdBy = HttpContext.Session.GetString("userName").ToString();
+            PVM.updatedDate = DateTime.Now; 
+            PVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
+            isInsert = PVM.CreateNewAdd(PVM);
 
-            // Update the user details
-            userModel.userID = 0;
-            userModel.username = username;
-            userModel.password = null;
-            userModel.userFirstName = firstName;
-            userModel.userLastName = lastName;
-            userModel.userMiddleName = middleName;
-            userModel.userFullAddress = address;
-            userModel.userWebsite = website;
-            userModel.userMobile = phone;
-            userModel.userDOB = Convert.ToDateTime(birthday);
-            userModel.userImagePath = profileImg;
-            userModel.userDescription = description;
-            userModel.userEmail = email;
-            //userModel.userCity = null;
-            //userModel.userState = null;
-            //userModel.userCountry = null;
-            //userModel.userPinCode = null;
-            //userModel.userRoleID = 0;
-            //userModel.userRoleName = null;
-            //userModel.strUserImageName = null;
-            //userModel.byteUserImageData = null;
-            //userModel.strUserImageType = null;
-            //userModel.emailConfirmed = null;
-            //userModel.isActive = true;
-            //userModel.createdDate = "2025-04-03T08:38:56.006Z";
-            //userModel.createdBy = null;
-            //userModel.updatedDate = "2025-04-03T08:38:56.006Z";
-            //userModel.updatedBy = "null";
-
-
-
-            string imageStatus = userModel.userImagePath;
-
-            // Handle image upload if there is a new image
-            if (userProfileImg != null)
-            {
-                imageStatus = HandleImageUpload(userProfileImg, userModel.userID.ToString());
-
-                if (imageStatus == "Invalid_file_type")
-                {
-                    return BadRequest("Invalid file type. Only .jpg, .jpeg, .png, .gif are allowed.");
-                }
-                else if (imageStatus == "File_size_exceed")
-                {
-                    return BadRequest("File size exceeds 1 MB.");
-                }
-            }
-
-            userModel.userImagePath = imageStatus;
-
-            try
-            {
-                // Await the result from the UpdateUserProfile method
-                var result = userModel.UpdateUserProfile(userModel);
-
-                if (result == "User Profile Updated Successfully.")
-                {
-                    // Serialize and save updated user to session
-                    HttpContext.Session.SetObject("user", userModel);
-
-                    // Delete previous image if the profile image is updated
-                    if (userProfileImg != null && profileImg != userModel.userImagePath)
-                    {
-                        DeleteUserImage(profileImg, userModel.userID.ToString());
-                    }
-
-                    return Ok("Profile updated successfully.");
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log the exception (this part is important for debugging)
-
-                return BadRequest($"An error occurred: {ex.Message}");
-            }
-
-            return BadRequest("Failed to update profile.");
+            
+            return RedirectToAction("PostAd");
         }
-
-        //// Handle image upload logic
-        private string HandleImageUpload(IFormFile profileImage, string userId)
+        public ActionResult upadteProfile(IFormFile profileImage, IFormCollection FormData)
         {
-            return UploadUserImage(profileImage, userId);
+            bool isInsert = false;
+            UserViewModel UVM = new UserViewModel();
+            UVM.userFirstName = FormData["userFirstName"].ToString();
+            UVM.userLastName = FormData["userLastName"].ToString();
+            UVM.userMiddleName = FormData["userMiddleName"].ToString();
+            UVM.userFullAddress = FormData["userFullAddress"].ToString();
+            UVM.userWebsite = FormData["userWebsite"].ToString();
+            UVM.userMobile = FormData["userMobile"].ToString();
+            UVM.userDOB = DateTime.TryParse(FormData["userDOB"].ToString(), out DateTime parsedDOB) ? parsedDOB : (DateTime?)null;
+            UVM.userImagePath = "";
+            UVM.userDescription = FormData["userDescription"].ToString();
+            UVM.userEmail = FormData["userEmail"].ToString();
+            UVM.userCity = FormData["userCity"].ToString();
+            UVM.userState = FormData["userState"].ToString();
+            UVM.userCountry = FormData["userCountry"].ToString();
+            UVM.userPinCode = Convert.ToInt32(FormData["userPinCode"].ToString());
+            //UVM.userRoleID = 0;
+            //UVM.userRoleName = null;
+            UVM.strUserImageName = profileImage.FileName;
+            UVM.byteUserImageData = "";
+            UVM.strUserImageType = profileImage.FileName != "" ? profileImage.FileName.Split(".")[1] : "";
+            UVM.emailConfirmed = FormData["emailConfirmed"].ToString();
+            UVM.isActive = true;
+            UVM.createdDate = DateTime.Now;
+            UVM.createdBy = HttpContext.Session.GetString("userName").ToString();
+            UVM.updatedDate = DateTime.Now;
+            UVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
+            isInsert = UVM.UpdateUserProfile(UVM);
+            return RedirectToAction("Settings");
         }
 
-        // Upload User Profile Image
-        public string UploadUserImage(IFormFile userImage, string userId)
-        {
-            var userProfileSettings = _configuration.GetSection("File_Paths:User_Profile");
-            string imgPath = userProfileSettings["Img_Path"];
-            int maxFileSizeMB = int.Parse(userProfileSettings["File_Size"]);
-            var allowedExtensions = userProfileSettings.GetSection("Extensions").Get<List<string>>();
 
-            if (userImage.Length <= maxFileSizeMB * 1024 * 1024)
-            {
-                string fileExtension = Path.GetExtension(userImage.FileName)?.ToLower();
-                if (allowedExtensions.Contains(fileExtension))
-                {
-                    string fileName = userImage.FileName;
-                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), imgPath, userId, fileName);
-                    string directoryPath = Path.GetDirectoryName(filePath);
 
-                    // Check and create the directory path if not exists
-                    if (!Directory.Exists(directoryPath))
-                    {
-                        Directory.CreateDirectory(directoryPath);
-                    }
 
-                    // Save the file
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        userImage.CopyTo(stream);
-                    }
+            //public async Task<ActionResult> UpdateProfile(IFormCollection FormData,  IFormFile userProfileImg)
+            //{
+            //    //UserViewModel userModel = HttpContext.Session.GetObject<UserViewModel>("user");
+            //    string username = HttpContext.Session.GetString("userName");
+            //    var userModel = new UserViewModel();
+            //    List<UserViewModel> users = new List<UserViewModel>();
+            //    users = userModel.GetUsersInfo(username);
+            //    if (userModel == null)
+            //        return BadRequest("User not found.");
+            //    UserViewModel UVM = new UserViewModel();
+            //    // Update the user details
 
-                    return fileName;
-                }
-                else
-                {
-                    return "Invalid_file_type";
-                }
-            }
-            else
-            {
-                return "File_size_exceed";
-            }
-        }
+            //    UVM.username = FormData["username"].ToString();
+            //   // UVM.password = null;
+            //    UVM.userFirstName = FormData["userFirstName"].ToString(); 
+            //    UVM.userLastName = FormData["userLastName"].ToString();
+            //    UVM.userMiddleName = FormData["userMiddleName"].ToString();
+            //    UVM.userFullAddress = FormData["userFullAddress"].ToString();
+            //    UVM.userWebsite = FormData["userWebsite"].ToString();
+            //    UVM.userMobile = FormData["userMobile"].ToString();
+            //    UVM.userDOB = DateTime.TryParse(FormData["userDOB"].ToString(), out DateTime parsedDOB)? parsedDOB: (DateTime?)null;
+            //    UVM.userImagePath = FormData["userImagePath"].ToString();
+            //    UVM.userDescription = FormData["userDescription"].ToString();
+            //    UVM.userEmail = FormData["userEmail"].ToString();
+            //    UVM.userCity = FormData["userCity"].ToString();
+            //    UVM.userState = FormData["userState"].ToString();
+            //    UVM.userCountry = FormData["userCountry"].ToString();
+            //    UVM.userPinCode = Convert.ToInt32(FormData["userPinCode"].ToString());
+            //    UVM.userRoleID = 0;
+            //    UVM.userRoleName = null;
+            //    UVM.strUserImageName = FormData["strUserImageName"].ToString();
+            //    UVM.byteUserImageData = FormData["byteUserImageData"].ToString();
+            //    UVM.strUserImageType = FormData["strUserImageType"].ToString();
+            //    UVM.emailConfirmed = FormData["emailConfirmed"].ToString();
+            //    UVM.isActive = true;
+            //    UVM.createdDate = DateTime.Now;
+            //    UVM.createdBy = HttpContext.Session.GetString("userName").ToString();
+            //    UVM.updatedDate = DateTime.Now;
+            //    UVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
 
-        // Delete User Image
-        private string DeleteUserImage(string filePath, string userId)
-        {
-            var imgPath = _configuration["File_Paths:User_Profile:Img_Path"];
-            try
-            {
-                var fullPath = Path.Combine(imgPath, userId, filePath);
-                if (System.IO.File.Exists(fullPath))
-                {
-                    System.IO.File.Delete(fullPath);
-                    return "File deleted successfully.";
-                }
-                return "File not found.";
-            }
-            catch (Exception ex)
-            {
+            //    string imageStatus = userModel.userImagePath;
+            //    // Handle image upload if there is a new image
+            //    if (userProfileImg != null)
+            //    {
+            //        imageStatus = HandleImageUpload(userProfileImg, userModel.userID.ToString());
 
-                return $"Error: {ex.Message}";
-            }
-        }
+            //        if (imageStatus == "Invalid_file_type")
+            //        {
+            //            return BadRequest("Invalid file type. Only .jpg, .jpeg, .png, .gif are allowed.");
+            //        }
+            //        else if (imageStatus == "File_size_exceed")
+            //        {
+            //            return BadRequest("File size exceeds 1 MB.");
+            //        }
+            //    }
+            //    userModel.userImagePath = imageStatus;
 
-        
+            //    try
+            //    {
+            //        var result = userModel.UpdateUserProfile(userModel);
+            //        if (result == "User Profile Updated Successfully.")
+            //        {
+            //            HttpContext.Session.SetObject("user", userModel);
+            //            //if (userProfileImg != null && userProfileImg != userModel.userImagePath)
+            //            //{
+            //            //    DeleteUserImage(userProfileImg, userModel.userID.ToString());
+            //            //}
+
+            //            return Ok("Profile updated successfully.");
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        return BadRequest($"An error occurred: {ex.Message}");
+            //    }
+            //    return BadRequest("Failed to update profile.");
+            //}
+
+            ////// Handle image upload logic
+            //private string HandleImageUpload(IFormFile profileImage, string userId)
+            //{
+            //    return UploadUserImage(profileImage, userId);
+            //}
+
+            //// Upload User Profile Image
+            //public string UploadUserImage(IFormFile userImage, string userId)
+            //{
+            //    var userProfileSettings = _configuration.GetSection("File_Paths:User_Profile");
+            //    string imgPath = userProfileSettings["Img_Path"];
+            //    int maxFileSizeMB = int.Parse(userProfileSettings["File_Size"]);
+            //    var allowedExtensions = userProfileSettings.GetSection("Extensions").Get<List<string>>();
+
+            //    if (userImage.Length <= maxFileSizeMB * 1024 * 1024)
+            //    {
+            //        string fileExtension = Path.GetExtension(userImage.FileName)?.ToLower();
+            //        if (allowedExtensions.Contains(fileExtension))
+            //        {
+            //            string fileName = userImage.FileName;
+            //            string filePath = Path.Combine(Directory.GetCurrentDirectory(), imgPath, userId, fileName);
+            //            string directoryPath = Path.GetDirectoryName(filePath);
+
+            //            // Check and create the directory path if not exists
+            //            if (!Directory.Exists(directoryPath))
+            //            {
+            //                Directory.CreateDirectory(directoryPath);
+            //            }
+
+            //            // Save the file
+            //            using (var stream = new FileStream(filePath, FileMode.Create))
+            //            {
+            //                userImage.CopyTo(stream);
+            //            }
+
+            //            return fileName;
+            //        }
+            //        else
+            //        {
+            //            return "Invalid_file_type";
+            //        }
+            //    }
+            //    else
+            //    {
+            //        return "File_size_exceed";
+            //    }
+            //}
+
+            //// Delete User Image
+            //private string DeleteUserImage(string filePath, string userId)
+            //{
+            //    var imgPath = _configuration["File_Paths:User_Profile:Img_Path"];
+            //    try
+            //    {
+            //        var fullPath = Path.Combine(imgPath, userId, filePath);
+            //        if (System.IO.File.Exists(fullPath))
+            //        {
+            //            System.IO.File.Delete(fullPath);
+            //            return "File deleted successfully.";
+            //        }
+            //        return "File not found.";
+            //    }
+            //    catch (Exception ex)
+            //    {
+
+            //        return $"Error: {ex.Message}";
+            //    }
+            //}
+
+
         public IActionResult Settings()
         {
             string username = HttpContext.Session.GetString("userName");
@@ -318,8 +319,8 @@ namespace IndiaLivings_Web_UI.Controllers
             users = userViewModel.GetUsersInfo(username);
             return View(users);
         }
-
-
+     
+       
     }
 
 }

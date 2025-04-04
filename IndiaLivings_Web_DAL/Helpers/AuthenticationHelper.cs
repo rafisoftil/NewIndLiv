@@ -80,19 +80,15 @@ namespace IndiaLivings_Web_DAL.Helpers
 
         }
 
-        public string UpdateUser(object user)
+        public bool updateUser(UserModel user)
         {
-            string response = null;
-            try
-            {
-                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/UpdateUser", user);
-            }
-            catch (Exception)
-            {
+            bool isInsert = false;
+            
+            var  response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/UpdateUser", user);
 
-                throw;
-            }
-            return response;
+            if (!response.Contains("Error"))
+                isInsert = true;
+            return isInsert;
 
         }
 

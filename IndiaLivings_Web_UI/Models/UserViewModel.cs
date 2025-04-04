@@ -36,6 +36,15 @@ namespace IndiaLivings_Web_UI.Models
         public string membershipName { get; set; }
 
         public byte userImageInfo { get; set; }
+        public string userCity { get; set; } = string.Empty;
+        public string userState { get; set; } = string.Empty;
+        public string userCountry { get; set; } = string.Empty;
+        public int userPinCode { get; set; } = 0;
+        public string strUserImageName { get; set; } = string.Empty;
+        public string byteUserImageData { get; set; } = string.Empty;
+        public string   strUserImageType { get; set; } = string.Empty;
+
+        public bool isActive = true;
 
         #endregion
 
@@ -248,29 +257,69 @@ namespace IndiaLivings_Web_UI.Models
 
         //    return apiResponse;
         //}
-        public string UpdateUserProfile(UserViewModel user)
+        //public string UpdateUserProfile(UserViewModel user)
+        //{
+        //    AuthenticationHelper authenticationHelper = new AuthenticationHelper();
+        //    try
+        //    {
+        //        // Post the user data to the API (await the asynchronous method)
+        //        var response = authenticationHelper.UpdateUser(user);
+
+        //        // Check the response to determine success or failure
+        //        if (response != null && response.Contains("User Update Success"))
+        //        {
+        //            return "User Profile Updated Successfully.";
+        //        }
+        //        else
+        //        {
+        //            return "User Update Failed. Please check with Admin.";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+                
+        //        return "An error occurred while updating the user profile.";
+        //    }
+        //}
+
+        public bool UpdateUserProfile(UserViewModel user)
         {
-            AuthenticationHelper authenticationHelper = new AuthenticationHelper();
+            bool isCreated = false;
+            AuthenticationHelper PH = new AuthenticationHelper();
             try
             {
-                // Post the user data to the API (await the asynchronous method)
-                var response = authenticationHelper.UpdateUser(user);
-
-                // Check the response to determine success or failure
-                if (response != null && response.Contains("User Update Success"))
-                {
-                    return "User Profile Updated Successfully.";
-                }
-                else
-                {
-                    return "User Update Failed. Please check with Admin.";
-                }
+                UserModel UVM = new UserModel();
+                UVM.userFirstName = user.userFirstName;
+                UVM.userLastName = user.userLastName;
+                UVM.userMiddleName = user.userMiddleName;
+                UVM.userFullAddress = user.userFullAddress;
+                UVM.userWebsite = user.userWebsite;
+                UVM.userMobile = user.userMobile;
+                UVM.userDOB = (DateTime)user.userDOB;
+                UVM.userImagePath = "";
+                UVM.userDescription = user.userDescription;
+                UVM.userEmail = user.userEmail;
+                UVM.userCity = user.userCity;
+                UVM.userState = user.userState;
+                UVM.userCountry = user.userCountry;
+                UVM.userPinCode = user.userPinCode;
+                //UVM.userRoleID = 0;
+                //UVM.userRoleName = null;
+                UVM.strUserImageName = user.strUserImageName;
+                UVM.byteUserImageData = [];
+                UVM.strUserImageType = user.strUserImageType;
+                UVM.emailConfirmed = user.emailConfirmed;
+                UVM.isActive = true;
+                UVM.createdDate = user.createdDate;
+                UVM.createdBy = user.createdBy;
+                UVM.updatedDate = (DateTime)user.updatedDate;
+                UVM.updatedBy = user.updatedBy;
+                isCreated = PH.updateUser(UVM);
             }
             catch (Exception ex)
             {
-                
-                return "An error occurred while updating the user profile.";
             }
+            return isCreated;
         }
 
 
