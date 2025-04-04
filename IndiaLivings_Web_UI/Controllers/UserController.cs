@@ -1,8 +1,5 @@
-﻿using IndiaLivings_Web_DAL.Helpers;
-using IndiaLivings_Web_DAL.Models;
-using IndiaLivings_Web_UI.Models;
+﻿using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Dynamic;
 
 namespace IndiaLivings_Web_UI.Controllers
@@ -45,6 +42,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Ads List
         /// </summary>
         /// <returns> List of all Ads will be reurned</returns>
+        /// // Need to be reviewed with Anoop
         public IActionResult AdsList(int categoryid)
         {
             ProductViewModel productModel = new ProductViewModel();
@@ -52,7 +50,7 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> products = productModel.GetAds(productOwner);
             if (categoryid != 0)
             {
-               products = products.Where(product => product.productCategoryID == categoryid).ToList();
+                products = products.Where(product => product.productCategoryID == categoryid).ToList();
             }
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
@@ -129,14 +127,23 @@ namespace IndiaLivings_Web_UI.Controllers
             string username = HttpContext.Session.GetString("userName");
             var userViewModel = new UserViewModel();
             List<UserViewModel> users = new List<UserViewModel>();
-            users = userViewModel.GetUsersInfo(username);             
+            users = userViewModel.GetUsersInfo(username);
+            //ProfileViewModel profileModel = new ProfileViewModel()
+            //{
+            //    Users = users
+            //};
             return View(users);
-         }
-         
+        }
+
         [HttpPost]
         public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
         {
             bool isInsert = false;
+            byte[] ImageBytes = [];
+            if (productImage != null)
+            {
+                ImageBytes = GetByteInfo(productImage);
+            }
             ProductViewModel PVM = new ProductViewModel();
             PVM.productName = FormData["productName"].ToString();
             PVM.productDescription = FormData["AdDescription"].ToString();
@@ -162,15 +169,25 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.productAdminReview = true;
             PVM.createdDate = DateTime.Now;
             PVM.createdBy = HttpContext.Session.GetString("userName").ToString();
-            PVM.updatedDate = DateTime.Now; 
+            PVM.updatedDate = DateTime.Now;
             PVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
             isInsert = PVM.CreateNewAdd(PVM);
 
-            
+
             return RedirectToAction("PostAd");
         }
-    }
 
+        public byte[] GetByteInfo(IFormFile productImage)
+        {
+            byte[] bytes = null;
+            using (var br = new MemoryStream())
+            {
+                productImage.OpenReadStream().CopyTo(br);
+                bytes = br.ToArray();
+            }
+            return bytes;
+        }
+    }
 }
 
 
