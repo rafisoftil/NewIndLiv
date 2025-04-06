@@ -3190,6 +3190,11 @@ textarea.form-control {
   background: var(--chalk);
 }
 
+.navbar-link:active {
+    color: var(--primary);
+    background: var(--chalk);
+}
+
 .navbar-link i {
   font-size: 10px;
 }

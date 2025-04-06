@@ -3,9 +3,9 @@
 *@
 @{
     ViewBag.Title = "Ad Post";
-                    <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
-                    <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
-                    <link rel="stylesheet" href="~/css/custom/ad-post.css"/>
+    <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
+    <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
+    <link rel="stylesheet" href="~/css/custom/ad-post.css"/>
 }
 
 <section class="single-banner dashboard-banner">
@@ -312,6 +312,9 @@
 
 <script type="text/javascript">
 
+    $(document).ready(function () {
+     alert(@ViewBag.Message);
+    });
     function LoadSubCategories() {
         var selectedCategory = $('#category').find(":selected").val();        
         $('#subCategory').empty();
@@ -340,8 +343,5 @@
         });
 
     }
-    function priceRadioChange(){
-        var checkedRadio=$(".PriceCondition").is(":checked").val();
-        alert(checkedRadio);
-    }
+    
 </script>

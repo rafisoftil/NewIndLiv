@@ -16,8 +16,6 @@
     <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
     <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
     <link rel="stylesheet" href="~/css/custom/main.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/custom/user-form.css">
-    <script src="~/js/custom/login.js"></script>
 </head>
 <body>
 <!--=====================================
@@ -503,6 +501,9 @@
         if ($("#userSignUp").val() == null || $("#userSignUp").val() == "") {
             $("#userSignUpError").show();
         }
+        // else if($("#userSignUp").val() != null || $("#userSignUp").val() != ""){
+        //     checkDuplicate();
+        // }
         else if ($("#passwordSignUp").val() == null || $("#passwordSignUp").val() == "") {
             $("#passwordSignUpError").text("Password is required");
             $("#passwordSignUpError").show();
@@ -511,7 +512,14 @@
             $("#passwordSignUpError").text("Password must be 6 characters long");
             $("#passwordSignUpError").show();
         }
+        else if($("#confirmPassword").val() == null || $("#confirmPassword").val() == ""){
+            $("#confirmPasswordError").html("");
+            $("#confirmPasswordError").html("Confirm Password is required");
+             $("#confirmPasswordError").show();
+        }
         else if ($("#passwordSignUp").val() != $("#confirmPassword").val()) {
+            $("#confirmPasswordError").html("");
+            $("#confirmPasswordError").html("Confirm Password must match with Password");
             $("#confirmPasswordError").show();
         }
         else if (!$("#signup-check").is(':checked')) {

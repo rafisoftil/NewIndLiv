@@ -34,27 +34,30 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ProductModel> products = new List<ProductModel>();
             try
             {   
-                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetWishlistProductsByOwner?intProductOwner={userid}");
+                var productsList = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Product/GetWishlistProductsByOwner?intProductOwner="+userid);
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
-                return products;
+                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
+            return products;
         }
         public int GetCount(int productOwnerID)
         {
+            int count = 0;
             try
             {
                 var wishlistCount = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetWishListCounts?intProductOwner={productOwnerID}");
-                int  count = JsonConvert.DeserializeObject<int>(wishlistCount);
-                return count;
+                count = JsonConvert.DeserializeObject<int>(wishlistCount);
+                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
+            return count;
         }
 
         public string UpdateWishlist(int productID, int userID, string createdBy, int status)
@@ -64,9 +67,9 @@ namespace IndiaLivings_Web_DAL.Helpers
             {
                 response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/AddWishList?productID={productID}&UserID={userID}&createdBy={createdBy}&IsActive={status}");
             }
-            catch (Exception)
-            { 
-                throw;
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return response;
         }
