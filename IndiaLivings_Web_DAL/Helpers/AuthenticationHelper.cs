@@ -59,7 +59,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             catch (Exception ex)
             {
-
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return user;
         }
@@ -74,7 +74,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             catch (Exception ex)
             {
-
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return role;
 
@@ -82,13 +82,26 @@ namespace IndiaLivings_Web_DAL.Helpers
 
         public bool updateUser(UserModel user)
         {
-            bool isInsert = false;
-            
-            var  response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/UpdateUser", user);
 
-            if (!response.Contains("Error"))
+           
+             bool response = false;
+            try
+            {
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/UpdateUser", user);
+                  if (!response.Contains("Error"))
                 isInsert = true;
-            return isInsert;
+           
+            }
+            catch (Exception ex)
+            {
+
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }               
+            
+       
+ return response;
+          
+
 
         }
 
@@ -100,14 +113,44 @@ namespace IndiaLivings_Web_DAL.Helpers
                 var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserByUserName?strUserName={userName}");
                 users = JsonConvert.DeserializeObject<List<UserModel>>(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source); 
             }
             return users;
         }
+        public string AddPasswordReset(int userid, string username, string token, string expirationTime, string createdby)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/AddUserPasswordReset?intUserID={userid}&strUserName={username}&strUserPasswordToken={token}&dtmUserTokenExpiration={expirationTime}&createdBy={createdby}");
+                
+            }
+            catch (Exception ex)
+            {
 
-       
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+
+        public List<PasswordReset> GetPasswordReset(int userid, string username, string token)
+        {
+            List<PasswordReset> resetInfo= new List<PasswordReset>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserPasswordReset?intUserID={userid}&strUserName={username}&strUserPasswordToken={token}");
+                resetInfo = JsonConvert.DeserializeObject<List<PasswordReset>>(response);
+                
+            }
+            catch (Exception ex)
+            {
+
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return resetInfo;
+        }
     }
 }

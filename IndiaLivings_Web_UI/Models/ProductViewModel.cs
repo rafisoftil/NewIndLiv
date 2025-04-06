@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using IndiaLivings_Web_DAL;
-using IndiaLivings_Web_DAL.Helpers;
+﻿using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
-using Newtonsoft.Json;
 namespace IndiaLivings_Web_UI.Models
 {
     public class ProductViewModel
@@ -46,7 +43,7 @@ namespace IndiaLivings_Web_UI.Models
             ProductHelper PH = new ProductHelper();
             try
             {
-                var wishList = PH.GetProductsbyOwner(userid);
+                var wishList = PH.GetWishlistItems(userid);
 
                 if (wishList != null)
                 {
@@ -57,7 +54,10 @@ namespace IndiaLivings_Web_UI.Models
                         product.productName = wishDetails.productName;
                         product.productImageName = wishDetails.productImageName;
                         product.productPrice = wishDetails.productPrice;
+                        product.productAdCategory = wishDetails.productAdCategory;
                         product.productDescription = wishDetails.productDescription;
+                        product.byteProductImageData = wishDetails.byteProductImageData;
+                        product.createdBy = wishDetails.createdBy;
                         products.Add(product);
                     }
                 }
@@ -68,25 +68,38 @@ namespace IndiaLivings_Web_UI.Models
             }
             return products;
         }
-        public int GetwishlistCount(int productOwnerID)
+
+        public string UpdateWishlist(int productID, int userID, string createdBy, int status)
         {
+            string response = String.Empty;
+            ProductHelper PH = new ProductHelper();
+
             try
-            {  
-                ProductHelper productHelper = new ProductHelper();
-                int wishlistCount = productHelper.GetCount(productOwnerID);
-                return wishlistCount; 
+            {
+                response = PH.UpdateWishlist(productID, userID, createdBy, status);
             }
             catch (Exception ex)
             {
-                
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+
+        public int GetwishlistCount(int productOwnerID)
+        {
+            try
+            {
+                ProductHelper productHelper = new ProductHelper();
+                int wishlistCount = productHelper.GetCount(productOwnerID);
+                return wishlistCount;
+            }
+            catch (Exception ex)
+            {
+
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
                 return 0;
             }
         }
-
-
-
-
 
         public List<ProductViewModel> AdsList(int status)
         {
@@ -110,6 +123,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.IsActiveStatus = productDetails.IsActiveStatus;
                         product.productAdminReview = productDetails.productAdminReview;
                         product.productPriceCondition = productDetails.productPriceCondition;
+                        product.productCategoryID = productDetails.productCategoryID;
                         product.createdDate = productDetails.createdDate;
                         product.createdBy = productDetails.createdBy;
                         products.Add(product);
@@ -124,6 +138,49 @@ namespace IndiaLivings_Web_UI.Models
 
             return products;
         }
+
+
+        public bool CreateNewAdd(ProductViewModel product)
+        {
+            bool isCreated = false;
+            ProductHelper PH = new ProductHelper();
+            try
+            {
+                ProductModel PVM = new ProductModel();
+                PVM.productName = product.productName;
+                PVM.productDescription = product.productDescription;
+                PVM.productAdTags = product.productAdTags;
+                PVM.productPrice = product.productPrice;
+                PVM.productQuantity = product.productQuantity;
+                PVM.productCondition = product.productCondition;
+                PVM.productCategoryID = product.productCategoryID;
+                PVM.productCategoryName = product.productCategoryName;
+                PVM.productsubCategoryID = product.productsubCategoryID;
+                PVM.productSubCategoryName = product.productSubCategoryName;
+                PVM.productPriceCondition = product.productPriceCondition;
+                PVM.productAdCategory = product.productAdCategory;
+                PVM.productImageName = product.productImageName;
+                PVM.strProductImageName = product.productImageName;
+                PVM.strProductImageType = product.productImageType;
+                PVM.byteProductImageData = [];
+                PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
+                                          //PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
+                PVM.productSold = false;
+                PVM.productOwner = product.productOwner;
+                PVM.productOwnerName = product.productOwnerName;
+                PVM.productAdminReview = product.productAdminReview;
+                PVM.createdDate = product.createdDate;
+                PVM.createdBy = product.createdBy;
+                PVM.updatedDate = product.updatedDate;
+                PVM.updatedBy = product.updatedBy;
+                isCreated = PH.InsertProduct(PVM);
+            }
+            catch (Exception ex)
+            {
+            }
+            return isCreated;
+        }
+
 
         public string UpdateAdStatus(int productid, bool status, string username)
         {
@@ -157,6 +214,8 @@ namespace IndiaLivings_Web_UI.Models
                         ProductViewModel product = new ProductViewModel();
                         product.productId = productDetails.productId;
                         product.productName = productDetails.productName;
+                        product.productAdCategory = productDetails.productAdCategory;
+                        product.productCategoryID = productDetails.productCategoryID;
                         product.productCategoryName = productDetails.productCategoryName;
                         product.productDescription = productDetails.productDescription;
                         product.productPrice = productDetails.productPrice;
@@ -227,9 +286,5 @@ namespace IndiaLivings_Web_UI.Models
             }
 
 
-            return products;
-        }
-
     }
-
 }

@@ -182,6 +182,7 @@ namespace IndiaLivings_Web_UI.Models
 
             return users;
         }
+      
         public List<UserViewModel> GetUsersInfo(string username)
         {
             List<UserViewModel> users = new List<UserViewModel>();
@@ -196,6 +197,10 @@ namespace IndiaLivings_Web_UI.Models
                         UserViewModel user = new UserViewModel();
                         user.userEmail = userDetails.userEmail;
                         user.userMobile = userDetails.userMobile;
+                        user.userFirstName = userDetails.userFirstName;
+                        user.userID = userDetails.userID;
+                        user.userMobile = userDetails.userMobile;
+                        user.username = userDetails.username;
                         user.userWebsite = userDetails.userWebsite;
                         users.Add(user);
                     }
@@ -209,79 +214,6 @@ namespace IndiaLivings_Web_UI.Models
 
             return users;
         }
-
-
-
-        //public string UpdateUserDetails(UserModel user)
-        //{
-        //    string apiResponse = null;
-        //    AuthenticationHelper authenticationHelper = new AuthenticationHelper();
-
-        //    try
-        //    {
-        //        // Call the UpdateUser method to update user data through the API
-        //        apiResponse = authenticationHelper.UpdateUser(user);
-
-        //        // You can process the apiResponse if needed
-        //        if (apiResponse != null)
-        //        {
-        //            // Assuming the response contains some indication of success
-        //            // For example, if response is "Success", you could populate the UserViewModel.
-        //            // Here, you could also deserialize the response to get updated user info if necessary.
-        //            if (apiResponse == "Success")
-        //            {
-        //                userFirstName = user.userFirstName;
-        //                userMiddleName = user.userMiddleName;
-        //                userLastName = user.userLastName;
-        //                userDescription = user.userDescription;
-        //                userEmail = user.userEmail;
-        //                userMobile = user.userMobile;
-        //                userFullAddress = user.userFullAddress;
-        //                userImagePath = user.userImagePath;
-        //                userRoleName = user.userRoleName;
-        //                userWebsite = user.userWebsite;
-        //                IsActive = user.IsActive;
-        //            }
-        //            else
-        //            {
-
-        //                throw new Exception("User update failed. Please try again.");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the error or handle the exception
-        //        ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
-        //    }
-
-        //    return apiResponse;
-        //}
-        //public string UpdateUserProfile(UserViewModel user)
-        //{
-        //    AuthenticationHelper authenticationHelper = new AuthenticationHelper();
-        //    try
-        //    {
-        //        // Post the user data to the API (await the asynchronous method)
-        //        var response = authenticationHelper.UpdateUser(user);
-
-        //        // Check the response to determine success or failure
-        //        if (response != null && response.Contains("User Update Success"))
-        //        {
-        //            return "User Profile Updated Successfully.";
-        //        }
-        //        else
-        //        {
-        //            return "User Update Failed. Please check with Admin.";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-                
-        //        return "An error occurred while updating the user profile.";
-        //    }
-        //}
-
         public bool UpdateUserProfile(UserViewModel user)
         {
             bool isCreated = false;
@@ -324,6 +256,7 @@ namespace IndiaLivings_Web_UI.Models
 
 
 
+
     }
 
 
@@ -337,7 +270,7 @@ namespace IndiaLivings_Web_UI.Models
     
 
 
-    #endregion
+   
 
     
 

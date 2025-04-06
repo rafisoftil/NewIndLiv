@@ -975,3 +975,20 @@ body {
     z-index: 9999;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
+
+.mvc-grid-filter {
+    color:#FFFFFF !important;
+}
+.mvc-grid-sort {
+    color: #FFFFFF !important;
+}
+
+
+
+
+.slide-show {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50%;
+    object-fit: cover;
+}

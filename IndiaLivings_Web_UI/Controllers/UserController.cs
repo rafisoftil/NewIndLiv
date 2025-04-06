@@ -1,3 +1,5 @@
+
+﻿using IndiaLivings_Web_UI.Models;
 ﻿using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
@@ -11,11 +13,24 @@ namespace IndiaLivings_Web_UI.Controllers
 {
     public class UserController : Controller
     {
-        //private readonly IConfiguration _configuration;
-        //public UserController(IConfiguration configuration)
-        //{
-        //    _configuration = configuration;
-        //}
+
+        /// <summary>
+        /// Users Dashboard Page
+        /// </summary>
+        /// <returns>Ads count created by user</returns>
+        public IActionResult Dashboard()
+        {
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            ProductViewModel productViewModel = new ProductViewModel();
+            List<ProductViewModel> products = productViewModel.GetAds(productOwner);
+            ViewBag.ActiveAds = products.Count();
+            ViewBag.BookingAds = products.Where(p => p.productAdCategory.Equals("Booking")).ToList().Count();
+            ViewBag.SalesAds = products.Where(p => p.productAdCategory.Equals("Sale")).ToList().Count();
+            ViewBag.RentalAds = products.Where(p => p.productAdCategory.Equals("Rent")).ToList().Count();
+            return View();
+        }
+
+      
         public IActionResult PostAd()
         {
             CategoryViewModel category = new CategoryViewModel();
@@ -33,9 +48,23 @@ namespace IndiaLivings_Web_UI.Controllers
             data.productConditions = productConditions;
             return View(data);
         }
-        public IActionResult AdsList()
+        /// <summary>
+        /// Ads List
+        /// </summary>
+        /// <returns> List of all Ads will be reurned</returns>
+        /// // Need to be reviewed with Anoop
+        public IActionResult AdsList(int categoryid)
         {
-            return View();
+            ProductViewModel productModel = new ProductViewModel();
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<ProductViewModel> products = productModel.GetAds(productOwner);
+            if (categoryid != 0)
+            {
+                products = products.Where(product => product.productCategoryID == categoryid).ToList();
+            }
+            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            ViewBag.WishlistIds = wishlistIds;
+            return View(products);
         }
         public JsonResult GetSubCategories(int Category)
         {
@@ -72,6 +101,27 @@ namespace IndiaLivings_Web_UI.Controllers
 
 
         /// <summary>
+        /// Update Wishlist Page
+        /// </summary>
+        /// <returns> Message on wishlist action</returns>
+        public JsonResult UpdateBookmarks(int productID, string createdBy, int status)
+        {
+            object JsonData = null;
+            ProductViewModel productModel = new ProductViewModel();
+            int userID = HttpContext.Session.GetInt32("UserId") ?? 0;
+            try
+            {
+                string response = productModel.UpdateWishlist(productID, userID, createdBy, status);
+                JsonData = new { StatusCode = 200 };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return Json(JsonData);
+        }
+        /// <summary>
         /// My Ads Page
         /// </summary>
         /// <returns> Ads created by User </returns>
@@ -87,14 +137,23 @@ namespace IndiaLivings_Web_UI.Controllers
             string username = HttpContext.Session.GetString("userName");
             var userViewModel = new UserViewModel();
             List<UserViewModel> users = new List<UserViewModel>();
-            users = userViewModel.GetUsersInfo(username);             
+            users = userViewModel.GetUsersInfo(username);
+            //ProfileViewModel profileModel = new ProfileViewModel()
+            //{
+            //    Users = users
+            //};
             return View(users);
-         }
-         
+        }
+
         [HttpPost]
         public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
         {
             bool isInsert = false;
+            byte[] ImageBytes = [];
+            if (productImage != null)
+            {
+                ImageBytes = GetByteInfo(productImage);
+            }
             ProductViewModel PVM = new ProductViewModel();
             PVM.productName = FormData["productName"].ToString();
             PVM.productDescription = FormData["AdDescription"].ToString();
@@ -120,11 +179,11 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.productAdminReview = true;
             PVM.createdDate = DateTime.Now;
             PVM.createdBy = HttpContext.Session.GetString("userName").ToString();
-            PVM.updatedDate = DateTime.Now; 
+            PVM.updatedDate = DateTime.Now;
             PVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
             isInsert = PVM.CreateNewAdd(PVM);
 
-            
+
             return RedirectToAction("PostAd");
         }
         public ActionResult upadteProfile(IFormFile profileImage, IFormCollection FormData)
@@ -158,159 +217,20 @@ namespace IndiaLivings_Web_UI.Controllers
             UVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
             isInsert = UVM.UpdateUserProfile(UVM);
             return RedirectToAction("Settings");
-        }
+        }        
 
 
-
-
-            //public async Task<ActionResult> UpdateProfile(IFormCollection FormData,  IFormFile userProfileImg)
-            //{
-            //    //UserViewModel userModel = HttpContext.Session.GetObject<UserViewModel>("user");
-            //    string username = HttpContext.Session.GetString("userName");
-            //    var userModel = new UserViewModel();
-            //    List<UserViewModel> users = new List<UserViewModel>();
-            //    users = userModel.GetUsersInfo(username);
-            //    if (userModel == null)
-            //        return BadRequest("User not found.");
-            //    UserViewModel UVM = new UserViewModel();
-            //    // Update the user details
-
-            //    UVM.username = FormData["username"].ToString();
-            //   // UVM.password = null;
-            //    UVM.userFirstName = FormData["userFirstName"].ToString(); 
-            //    UVM.userLastName = FormData["userLastName"].ToString();
-            //    UVM.userMiddleName = FormData["userMiddleName"].ToString();
-            //    UVM.userFullAddress = FormData["userFullAddress"].ToString();
-            //    UVM.userWebsite = FormData["userWebsite"].ToString();
-            //    UVM.userMobile = FormData["userMobile"].ToString();
-            //    UVM.userDOB = DateTime.TryParse(FormData["userDOB"].ToString(), out DateTime parsedDOB)? parsedDOB: (DateTime?)null;
-            //    UVM.userImagePath = FormData["userImagePath"].ToString();
-            //    UVM.userDescription = FormData["userDescription"].ToString();
-            //    UVM.userEmail = FormData["userEmail"].ToString();
-            //    UVM.userCity = FormData["userCity"].ToString();
-            //    UVM.userState = FormData["userState"].ToString();
-            //    UVM.userCountry = FormData["userCountry"].ToString();
-            //    UVM.userPinCode = Convert.ToInt32(FormData["userPinCode"].ToString());
-            //    UVM.userRoleID = 0;
-            //    UVM.userRoleName = null;
-            //    UVM.strUserImageName = FormData["strUserImageName"].ToString();
-            //    UVM.byteUserImageData = FormData["byteUserImageData"].ToString();
-            //    UVM.strUserImageType = FormData["strUserImageType"].ToString();
-            //    UVM.emailConfirmed = FormData["emailConfirmed"].ToString();
-            //    UVM.isActive = true;
-            //    UVM.createdDate = DateTime.Now;
-            //    UVM.createdBy = HttpContext.Session.GetString("userName").ToString();
-            //    UVM.updatedDate = DateTime.Now;
-            //    UVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
-
-            //    string imageStatus = userModel.userImagePath;
-            //    // Handle image upload if there is a new image
-            //    if (userProfileImg != null)
-            //    {
-            //        imageStatus = HandleImageUpload(userProfileImg, userModel.userID.ToString());
-
-            //        if (imageStatus == "Invalid_file_type")
-            //        {
-            //            return BadRequest("Invalid file type. Only .jpg, .jpeg, .png, .gif are allowed.");
-            //        }
-            //        else if (imageStatus == "File_size_exceed")
-            //        {
-            //            return BadRequest("File size exceeds 1 MB.");
-            //        }
-            //    }
-            //    userModel.userImagePath = imageStatus;
-
-            //    try
-            //    {
-            //        var result = userModel.UpdateUserProfile(userModel);
-            //        if (result == "User Profile Updated Successfully.")
-            //        {
-            //            HttpContext.Session.SetObject("user", userModel);
-            //            //if (userProfileImg != null && userProfileImg != userModel.userImagePath)
-            //            //{
-            //            //    DeleteUserImage(userProfileImg, userModel.userID.ToString());
-            //            //}
-
-            //            return Ok("Profile updated successfully.");
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        return BadRequest($"An error occurred: {ex.Message}");
-            //    }
-            //    return BadRequest("Failed to update profile.");
-            //}
-
-            ////// Handle image upload logic
-            //private string HandleImageUpload(IFormFile profileImage, string userId)
-            //{
-            //    return UploadUserImage(profileImage, userId);
-            //}
-
-            //// Upload User Profile Image
-            //public string UploadUserImage(IFormFile userImage, string userId)
-            //{
-            //    var userProfileSettings = _configuration.GetSection("File_Paths:User_Profile");
-            //    string imgPath = userProfileSettings["Img_Path"];
-            //    int maxFileSizeMB = int.Parse(userProfileSettings["File_Size"]);
-            //    var allowedExtensions = userProfileSettings.GetSection("Extensions").Get<List<string>>();
-
-            //    if (userImage.Length <= maxFileSizeMB * 1024 * 1024)
-            //    {
-            //        string fileExtension = Path.GetExtension(userImage.FileName)?.ToLower();
-            //        if (allowedExtensions.Contains(fileExtension))
-            //        {
-            //            string fileName = userImage.FileName;
-            //            string filePath = Path.Combine(Directory.GetCurrentDirectory(), imgPath, userId, fileName);
-            //            string directoryPath = Path.GetDirectoryName(filePath);
-
-            //            // Check and create the directory path if not exists
-            //            if (!Directory.Exists(directoryPath))
-            //            {
-            //                Directory.CreateDirectory(directoryPath);
-            //            }
-
-            //            // Save the file
-            //            using (var stream = new FileStream(filePath, FileMode.Create))
-            //            {
-            //                userImage.CopyTo(stream);
-            //            }
-
-            //            return fileName;
-            //        }
-            //        else
-            //        {
-            //            return "Invalid_file_type";
-            //        }
-            //    }
-            //    else
-            //    {
-            //        return "File_size_exceed";
-            //    }
-            //}
-
-            //// Delete User Image
-            //private string DeleteUserImage(string filePath, string userId)
-            //{
-            //    var imgPath = _configuration["File_Paths:User_Profile:Img_Path"];
-            //    try
-            //    {
-            //        var fullPath = Path.Combine(imgPath, userId, filePath);
-            //        if (System.IO.File.Exists(fullPath))
-            //        {
-            //            System.IO.File.Delete(fullPath);
-            //            return "File deleted successfully.";
-            //        }
-            //        return "File not found.";
-            //    }
-            //    catch (Exception ex)
-            //    {
-
-            //        return $"Error: {ex.Message}";
-            //    }
-            //}
-
-
+        public byte[] GetByteInfo(IFormFile productImage)
+        {
+            byte[] bytes = null;
+            using (var br = new MemoryStream())
+            {
+                productImage.OpenReadStream().CopyTo(br);
+                bytes = br.ToArray();
+            }
+            return bytes;
+        }   
+        
         public IActionResult Settings()
         {
             string username = HttpContext.Session.GetString("userName");
@@ -319,10 +239,9 @@ namespace IndiaLivings_Web_UI.Controllers
             users = userViewModel.GetUsersInfo(username);
             return View(users);
         }
-     
-       
-    }
+           
 
+    }
 }
 
 
