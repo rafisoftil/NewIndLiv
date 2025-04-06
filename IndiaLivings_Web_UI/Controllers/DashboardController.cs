@@ -18,9 +18,10 @@ namespace IndiaLivings_Web_UI.Controllers
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             List<ProductViewModel> productsList = product.GetAds(0);
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
-            int productCount = product.GetwishlistCount(productOwnerID);
-            ViewData["wishlistcount"] = productCount;
-            
+            int productCount = product.GetwishlistCount(productOwnerID);           
+
+            HttpContext.Session.SetInt32("wishlistCount", productCount);         
+
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
             data.Products = productsList;
@@ -99,9 +100,7 @@ namespace IndiaLivings_Web_UI.Controllers
             HttpContext.Session.SetString("Role", "");
             if (user != null)
             {
-                HttpContext.Session.SetString("Mobile", user.userMobile);
-                HttpContext.Session.SetString("Email", user.userEmail);
-                HttpContext.Session.SetString("Address", user.userFullAddress);
+                HttpContext.Session.SetObject("UserDetails", user);
                 HttpContext.Session.SetString("userName", user.username);
                 HttpContext.Session.SetString("Role", user.userRoleName);
                 HttpContext.Session.SetInt32("UserId", user.userID);
@@ -300,8 +299,8 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             try
             {
-                ProductImageDetailsViewModel productImageDetails = new ProductImageDetailsViewModel();
-                List<ProductImageDetailsViewModel> imageDetails = productImageDetails.GetImage(productid);
+                ProductImageDetails productImageDetails = new ProductImageDetails();
+                List<ProductImageDetails> imageDetails = productImageDetails.GetImage(productid);
 
                 if (imageDetails.Any())
                 {

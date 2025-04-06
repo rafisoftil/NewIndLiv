@@ -16,11 +16,8 @@
         public string productSubCategoryName { get; set; } 
         public string productPriceCondition { get; set; }
         public string productAdCategory { get; set; }
-        public string strProductImageName { get; set; }        
-        public byte[] byteProductImageData { get;set; }
-
-        public string strProductImageType { get; set; }
-
+        public string productImageName { get; set; } 
+        public string productImagePath { get; set; } 
         public bool productSold { get; set; }
         public int productOwner { get; set; } 
         public string productOwnerName { get; set; } 
