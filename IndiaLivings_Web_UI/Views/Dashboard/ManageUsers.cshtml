@@ -12,21 +12,22 @@
             Html.Grid(Model).Build(col =>{
                 col.Add(Model => Model.userID).Hidden();
                 col.Add().RenderedAs((model, row) => row + 1).Titled("#").Css("text-center");
-                col.Add(Model => Model.username).Titled("User Name");
+                const bool V = true;
+                col.Add(Model => Model.username).Titled("User Name").UsingFilterOptions();
                 col.Add(Model => Model.userFirstName).Titled("First Name");
                 col.Add(Model => Model.userLastName).Titled("Last Name");
                 col.Add(Model => Model.userEmail).Titled("Email");
                 col.Add(Model => Model.userFullAddress).Titled("Address");
-                col.Add(Model => Model.IsActive).Titled("Status")
+                col.Add(Model => Model.IsActive).Titled("Status").UsingFilterOptions()
         .RenderedAs(model => model.IsActive == true ? "Active" : "In-Active");
                 col.Add().RenderedAs(Model => Html.Raw("<a name='ed' id='ed' href='javascript:void(0)' onclick=Edit('" + Model.userID + "')><i class='fas fa-edit' alt='Edit' /></a>"));
             })
-        .Sortable().Filterable()
-        .Empty("No data Found") 
-           .Pageable(pager =>
-        {
-            pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
-            pager.ShowPageSizes = false;
+            @* .Sortable().Filterable() *@
+            .Empty("No data Found") 
+               .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<int, string> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
+                pager.ShowPageSizes = false;
             pager.PagesToDisplay = 3;
             pager.CurrentPage = 1;
             pager.RowsPerPage = 10;

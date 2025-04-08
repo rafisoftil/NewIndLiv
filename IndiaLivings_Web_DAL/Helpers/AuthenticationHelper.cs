@@ -127,12 +127,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return response;
         }
 
-        public List<PasswordReset> GetPasswordReset(int userid, string username, string token)
+        public List<PasswordReset> GetPasswordReset(string token)
         {
             List<PasswordReset> resetInfo = new List<PasswordReset>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserPasswordReset?intUserID={userid}&strUserName={username}&strUserPasswordToken={token}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserPasswordReset?strUserPasswordToken={token}");
                 resetInfo = JsonConvert.DeserializeObject<List<PasswordReset>>(response);
 
             }

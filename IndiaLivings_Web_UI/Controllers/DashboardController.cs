@@ -1,7 +1,7 @@
-﻿using IndiaLivings_Web_UI.Models;
+﻿using IndiaLivings_Web_DAL.Models;
+using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
-using Microsoft.AspNetCore.Session;
 using System.Net.Mail;
 namespace IndiaLivings_Web_UI.Controllers
 {
@@ -18,9 +18,9 @@ namespace IndiaLivings_Web_UI.Controllers
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             List<ProductViewModel> productsList = product.GetAds(0);
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
-            int productCount = product.GetwishlistCount(productOwnerID);           
+            int productCount = product.GetwishlistCount(productOwnerID);
 
-            HttpContext.Session.SetInt32("wishlistCount", productCount);         
+            HttpContext.Session.SetInt32("wishlistCount", productCount);
 
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
@@ -42,7 +42,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <returns>To Create New User, Create User will be called</returns> 
 
         [HttpPost]
-        public JsonResult RegisterUser(string userName,string password)
+        public JsonResult RegisterUser(string userName, string password)
         {
             object JsonData = null;
             UserViewModel user = new UserViewModel();
@@ -57,19 +57,21 @@ namespace IndiaLivings_Web_UI.Controllers
                     StatusCode = 200
                 };
             }
-            catch (Exception ex) { 
+            catch (Exception ex)
+            {
             }
             return Json(JsonData);
         }
         /// <summary>
         /// 
-        
+
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
 
         [HttpPost]
-        public JsonResult verifyUserName(string userName) { 
+        public JsonResult verifyUserName(string userName)
+        {
             UserViewModel user = new UserViewModel();
             object JsonData = null;
             bool isExist = false;
@@ -96,7 +98,7 @@ namespace IndiaLivings_Web_UI.Controllers
             user = user.ValidateUser(userName, password);
             HttpContext.Session.SetString("userName", "");
             HttpContext.Session.SetString("UserId", "");
-            HttpContext.Session.SetString("userName","");
+            HttpContext.Session.SetString("userName", "");
             HttpContext.Session.SetString("Role", "");
             if (user != null)
             {
@@ -133,20 +135,20 @@ namespace IndiaLivings_Web_UI.Controllers
         /// User Varification
         /// </summary>
         /// <returns>To verify whether User is existing or not</returns>
-        public bool CheckUserExists(string email)
-        {
-            UserViewModel user = new UserViewModel();
-            List<UserViewModel> userInfo = user.GetUsersInfo(email);
-            if (userInfo.Count() > 0)
-            {
-                HttpContext.Session.SetInt32("UserID", userInfo[0].userID);
-                HttpContext.Session.SetString("UserName", userInfo[0].username);
-                HttpContext.Session.SetString("UserEmail", userInfo[0].userEmail.ToString());
-                HttpContext.Session.SetString("UserPhone", userInfo[0].userMobile.ToString());
-                HttpContext.Session.SetString("UserFirstName", userInfo[0].userFirstName.ToString());
-            }
-            return (userInfo.Count != 0) ? true : false;
-        }
+        //public bool CheckUserExists(string email)
+        //{
+        //    UserViewModel user = new UserViewModel();
+
+        //    if (userInfo.Count() > 0)
+        //    {
+        //        HttpContext.Session.SetInt32("UserID", userInfo[0].userID);
+        //        HttpContext.Session.SetString("UserName", userInfo[0].username);
+        //        HttpContext.Session.SetString("UserEmail", userInfo[0].userEmail.ToString());
+        //        HttpContext.Session.SetString("UserPhone", userInfo[0].userMobile.ToString());
+        //        HttpContext.Session.SetString("UserFirstName", userInfo[0].userFirstName.ToString());
+        //    }
+        //    return (userInfo.Count != 0) ? true : false;
+        //}
 
         /// <summary>
         /// Send Email to User
@@ -154,27 +156,33 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <returns>Password Reset link to the user mail</returns>
         public IActionResult SendEmail(string email)
         {
+
+            var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            string senderEmail = configuration["EmailSender:Email"]; // Replace with your email
+            string senderPassword = configuration["EmailSender:Password"]; // Replace with your email password
+            string smtpHost = configuration["EmailSender:smtp"]; // Gmail SMTP host
+            int smtpPort = Convert.ToInt32(configuration["EmailSender:port"]); // TLS port for Gmail
+            string token = Guid.NewGuid().ToString();
+
+            //string resetLink = $"{Request.Scheme}://{Request.Host}/Dashboard/ForgotPassword/{userid}";
+            PasswordResetViewModel passwordReset = new PasswordResetViewModel();
+            UserViewModel user = new UserViewModel(); 
+            string message = string.Empty;
             try
             {
-                var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-                string senderEmail = configuration["EmailSender:Email"]; // Replace with your email
-                string senderPassword = configuration["EmailSender:Password"]; // Replace with your email password
-                string smtpHost = configuration["EmailSender:smtp"]; // Gmail SMTP host
-                int smtpPort = Convert.ToInt32(configuration["EmailSender:port"]); // TLS port for Gmail
-                string token = Guid.NewGuid().ToString();
-
-                //string resetLink = $"{Request.Scheme}://{Request.Host}/Dashboard/ForgotPassword/{userid}";
-                PasswordResetViewModel passwordReset = new PasswordResetViewModel();
-                int userid = HttpContext.Session.GetInt32("UserID") ?? 0;
-                string username = HttpContext.Session.GetString("UserName");
-                string createdby = HttpContext.Session.GetString("UserFirstName") ?? HttpContext.Session.GetString("UserName");
+                
+                List<UserViewModel> userInfo = user.GetUsersInfo(email);
+                int userid = userInfo[0].userID;
+                string username = userInfo[0].username;
+                string createdby = userInfo[0].username;
                 DateTime expirationtime = DateTime.Now.AddMinutes(30);
                 string formattedExpirationTime = expirationtime.ToString("yyyy-MM-dd HH:mm:ss");
                 string response = passwordReset.AddPasswordReset(userid, username, token, formattedExpirationTime, username);
-
+               
                 if (response.Contains("Record inserted"))
                 {
-                    string resetLink = Url.Action("ForgotPassword", "Dashboard", new { userid = userid, username = username, token = token }, Request.Scheme);
+                    string resetLink = Url.Action("ForgotPassword", "Dashboard", new { token = token }, Request.Scheme);
+                    //string resetLink = Url.Action("ForgotPassword", "Dashboard", new { userid = userid, username = username, token = token }, Request.Scheme);
                     var mailMessage = new MailMessage
                     {
                         From = new MailAddress(senderEmail),
@@ -189,36 +197,38 @@ namespace IndiaLivings_Web_UI.Controllers
                         smtpClient.Credentials = new System.Net.NetworkCredential(senderEmail, senderPassword);
                         smtpClient.EnableSsl = true;
                         smtpClient.Send(mailMessage);
+                        message = $"Password link sent successfully to {email}";
                     }
-                    return Json(new { success = true, message = $"Password link sent successfully to {email}" });
+
                 }
                 else
                 {
-                    return Json(new { success = true, message = $"Error while sending password. Please try again" });
+                    message = $"Error while sending password. Please try again";
                 }
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error sending email: " + ex.Message);
-                throw;
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
+            return Json(new { success = true, message = message });
         }
         /// <summary>
         /// Reset Password Path
         /// </summary>
         /// <returns>Forgot Password Modal</returns>
-        [Route("Dashboard/ForgotPassword/{userid}/{username}/{token}")]
-        public IActionResult ForgotPassword(int userid, string username, string token)
+        [Route("Dashboard/ForgotPassword/{token}")]
+        public IActionResult ForgotPassword(string token)
         {
             PasswordResetViewModel passwordReset = new PasswordResetViewModel();
-            List<PasswordResetViewModel> resetInfo = passwordReset.GetPasswordReset(userid, username, token);
+            List<PasswordResetViewModel> resetInfo = passwordReset.GetPasswordReset(token);
             if (resetInfo[0].UserTokenExpiration < Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")))
             {
                 return Json(new { message = "This link is expired. Please request for new link." });
             }
-            ViewBag.UserId = userid;
-            ViewBag.Username = username;
+            //ViewBag.UserId = userid;
+            //ViewBag.Username = username;
             return View();
         }
 
@@ -310,12 +320,12 @@ namespace IndiaLivings_Web_UI.Controllers
                 }
                 else
                 {
-                    return Json(new { image = "" }); 
+                    return Json(new { image = "" });
                 }
             }
             catch (Exception ex)
             {
-                return Json(new { image = "" }); 
+                return Json(new { image = "" });
             }
         }
 
@@ -340,4 +350,4 @@ namespace IndiaLivings_Web_UI.Controllers
             return RedirectToAction("Login");
         }
     }
-}  
+}
