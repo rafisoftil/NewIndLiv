@@ -161,7 +161,7 @@ namespace IndiaLivings_Web_UI.Models
                 PVM.productAdCategory = product.productAdCategory;
                 PVM.productImageName = product.productImageName;
                 PVM.strProductImageName = product.productImageName;
-                PVM.strProductImageType = product.productImageType;
+                //PVM.strProductImageType = product.productImageType;
                 PVM.byteProductImageData = [];
                 PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
                                           //PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
@@ -239,52 +239,5 @@ namespace IndiaLivings_Web_UI.Models
 
             return products;
         }
-    }
-
-    public class ProductImageDetails
-    {
-        public int intProductImageID { get; set; }
-        public int intProductID { get; set; }
-        public string strProductImageName { get; set; }
-        public byte[] byteProductImageData { get; set; }
-        public string strProductImageType { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime createdDate { get; set; } = DateTime.MinValue;
-        public string createdBy { get; set; } = string.Empty;
-        public DateTime updatedDate { get; set; } = DateTime.MinValue;
-        public string updatedBy { get; set; } = string.Empty;
-
-        public List<ProductImageDetails> GetImage(int productId)
-        {
-            List<ProductImageDetails> products = new List<ProductImageDetails>();
-            ProductHelper PH = new ProductHelper();
-            try
-            {
-                var productList = PH.GetProductImage(productId);
-                if (productList != null)
-                {
-                    foreach (var productDetails in productList)
-                    {
-                        ProductImageDetails product = new ProductImageDetails();
-                        product.intProductImageID = productDetails.intProductImageID;
-                        product.intProductID = productDetails.intProductID;
-                        product.strProductImageName = productDetails.strProductImageName;
-                        product.byteProductImageData = productDetails.byteProductImageData;
-                        product.strProductImageType = productDetails.strProductImageType;
-                        product.IsActive = productDetails.IsActive;
-                        product.createdDate = productDetails.createdDate;
-                        product.createdBy = productDetails.createdBy;
-                        product.updatedDate = productDetails.updatedDate;
-                        product.updatedBy = productDetails.updatedBy;
-                        products.Add(product);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
-            }
-
-
     }
 }

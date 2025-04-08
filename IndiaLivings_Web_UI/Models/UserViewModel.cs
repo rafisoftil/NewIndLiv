@@ -231,17 +231,17 @@ namespace IndiaLivings_Web_UI.Models
                 UVM.userImagePath = "";
                 UVM.userDescription = user.userDescription;
                 UVM.userEmail = user.userEmail;
-                UVM.userCity = user.userCity;
-                UVM.userState = user.userState;
-                UVM.userCountry = user.userCountry;
-                UVM.userPinCode = user.userPinCode;
+                //UVM.userCity = user.userCity;
+                //UVM.userState = user.userState;
+                //UVM.userCountry = user.userCountry;
+                //UVM.userPinCode = user.userPinCode;
                 //UVM.userRoleID = 0;
                 //UVM.userRoleName = null;
                 UVM.strUserImageName = user.strUserImageName;
                 UVM.byteUserImageData = [];
                 UVM.strUserImageType = user.strUserImageType;
                 UVM.emailConfirmed = user.emailConfirmed;
-                UVM.isActive = true;
+                //UVM.isActive = true;
                 UVM.createdDate = user.createdDate;
                 UVM.createdBy = user.createdBy;
                 UVM.updatedDate = (DateTime)user.updatedDate;
@@ -254,12 +254,8 @@ namespace IndiaLivings_Web_UI.Models
             return isCreated;
         }
 
-
-
-
+        #endregion
     }
-
-
 }
 
 

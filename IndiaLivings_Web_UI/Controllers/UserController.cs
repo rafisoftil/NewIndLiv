@@ -56,12 +56,12 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult AdsList(int categoryid)
         {
             ProductViewModel productModel = new ProductViewModel();
-            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<ProductViewModel> products = productModel.GetAds(productOwner);
+            List<ProductViewModel> products = productModel.GetAds(0);
             if (categoryid != 0)
             {
                 products = products.Where(product => product.productCategoryID == categoryid).ToList();
             }
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
             return View(products);
@@ -162,6 +162,7 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.productQuantity = Convert.ToInt32(FormData["productQuantity"]);
             PVM.productCondition = FormData["product_Condition"].ToString().ToUpper() == "NEW" ? 1 : 0;
             PVM.productCategoryID = Convert.ToInt32(FormData["category"].ToString());
+            PVM.byteProductImageData = ImageBytes;
             //PVM.productCategoryName = FormData[""];
             PVM.productsubCategoryID = Convert.ToInt32(FormData["subCategory"].ToString());
             //PVM.productSubCategoryName = FormData[""];
@@ -170,7 +171,7 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.productImageName = productImage.FileName;
             PVM.productAdminReviewStatus = "";
             PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
-            PVM.productImageType = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
+           // PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
             PVM.productSold = false;
             PVM.productOwner = Convert.ToInt32(HttpContext.Session.GetString("userID"));
             PVM.productOwnerName = HttpContext.Session.GetString("userName");
