@@ -23,6 +23,7 @@
                 if (@category.CategoryCount > 0)
                 {
                     <a target="_blank" href="@Url.Action("AdsList", "User", new { categoryid = category.CategoryID })" class="suggest-card">
+
                         <img class="slide-show" src=@category.CategoryImage alt="@category.CategoryName">
                         <h6>@category.CategoryName</h6>
                         <p>@("(" + category.CategoryCount + ") ads")</p>

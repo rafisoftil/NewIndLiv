@@ -20,7 +20,6 @@ namespace IndiaLivings_Web_UI.Models
         public string productAdCategory { get; set; } = string.Empty;
         public string productImageName { get; set; } = string.Empty;
         public string productImagePath { get; set; } = string.Empty;
-        public string productImageType { get; set; } = string.Empty;
         public bool productSold { get; set; }
         public int productOwner { get; set; } = 0;
         public string productOwnerName { get; set; } = string.Empty;
@@ -140,6 +139,7 @@ namespace IndiaLivings_Web_UI.Models
             return products;
         }
 
+
         public bool CreateNewAdd(ProductViewModel product)
         {
             bool isCreated = false;
@@ -161,7 +161,7 @@ namespace IndiaLivings_Web_UI.Models
                 PVM.productAdCategory = product.productAdCategory;
                 PVM.productImageName = product.productImageName;
                 PVM.strProductImageName = product.productImageName;
-                PVM.strProductImageType = product.productImageType;
+                //PVM.strProductImageType = product.productImageType;
                 PVM.byteProductImageData = [];
                 PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
                                           //PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
@@ -180,6 +180,7 @@ namespace IndiaLivings_Web_UI.Models
             }
             return isCreated;
         }
+
 
         public string UpdateAdStatus(int productid, bool status, string username)
         {
@@ -239,6 +240,4 @@ namespace IndiaLivings_Web_UI.Models
             return products;
         }
     }
-
-
 }

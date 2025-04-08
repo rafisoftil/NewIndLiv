@@ -46,9 +46,8 @@ namespace IndiaLivings_Web_UI.Models
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-
-
             return products;
+
         }
     }
 }

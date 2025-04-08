@@ -1,7 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_DAL.Repositories;
 using Newtonsoft.Json;
-using static System.Net.WebRequestMethods;
 
 namespace IndiaLivings_Web_DAL.Helpers
 {
@@ -24,7 +23,7 @@ namespace IndiaLivings_Web_DAL.Helpers
         public List<AdConitionTypeModel> GetAdConditions()
         {
             List<AdConitionTypeModel> adConitions = new List<AdConitionTypeModel>();
-            string url = "https://api.indialivings.com/api/AdConditions/GetAllAdConditionsTypeName";
+            string url = "https://api.indialivings.com/api/AdConditions/GetAllAdConditionsTypeName?strAdConditionTypeName=''";
             var lst = ServiceAPI.Get_async_Api(url);
             adConitions = JsonConvert.DeserializeObject<List<AdConitionTypeModel>>(lst);
             return adConitions;
@@ -33,10 +32,10 @@ namespace IndiaLivings_Web_DAL.Helpers
         {
             List<ProductModel> products = new List<ProductModel>();
             try
-            {   
-                var productsList = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Product/GetWishlistProductsByOwner?intProductOwner="+userid);
+            {
+                var productsList = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Product/GetWishlistProductsByOwner?intProductOwner=" + userid);
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
-                
+
             }
             catch (Exception ex)
             {
@@ -51,7 +50,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             {
                 var wishlistCount = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetWishListCounts?intProductOwner={productOwnerID}");
                 count = JsonConvert.DeserializeObject<int>(wishlistCount);
-                
+
             }
             catch (Exception ex)
             {
@@ -116,15 +115,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return productImage;
         }
-        public bool InsertProduct(ProductModel product)
-        {
-            bool isInsert = false;
-            var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Product/addProduct", product);
-            if(!response.Contains("Error"))
-                isInsert = true;
-            return isInsert;
-        }
-    
+
         public List<ProductModel> GetAdsByOwner(int userid)
         {
             List<ProductModel> products = new List<ProductModel>();
@@ -139,6 +130,24 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return products;
+        }
+
+        public bool InsertProduct(ProductModel product)
+        {
+            bool isInsert = false;
+            try
+            {
+                var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Product/addProduct", product);
+                if (!response.Contains("Error"))
+                    isInsert = true;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+            return isInsert;
         }
     }
 }

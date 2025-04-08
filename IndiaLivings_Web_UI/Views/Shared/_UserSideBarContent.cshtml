@@ -5,10 +5,10 @@
     </div>
     <div class="sidebar-content">
         <div class="sidebar-profile">
-        <a href="#" class="sidebar-avatar">
-            @* <img src="images/avatar/01.jpg" alt="avatar"> *@
+            <a href="#" class="sidebar-avatar">
+                @* <img src="images/avatar/01.jpg" alt="avatar"> *@
             </a>
-        <h4>@Context.Session.GetString("userName")</h4>
+            <h4>@Context.Session.GetString("userName")</h4>
             <a class="btn btn-inline sidebar-post" asp-controller="User" asp-action="PostAd">
                 <i class="fas fa-plus-circle"></i>
                 <span>Post Your Ad</span>
@@ -33,8 +33,8 @@
                 </li>
                 <li class="navbar-item">
                     <a class="navbar-link" asp-controller="User" asp-action="Bookmark">
-                        <span>Bookmark</span>
-                        <span>@ViewData["wishlistcount"]</span>
+                        <span>Bookmarks</span>
+                        <span>@Context.Session.GetInt32("wishlistCount")</span>
                     </a>
                 </li>
                 <li class="navbar-item">
@@ -52,7 +52,7 @@
                 <li class="navbar-item">
                     <a class="navbar-link" asp-controller="Dashboard" asp-action="Logout">Logout</a>
                 </li>
-                
+
             </ul>
         </div>
 
