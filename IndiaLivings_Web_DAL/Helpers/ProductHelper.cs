@@ -1,7 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_DAL.Repositories;
 using Newtonsoft.Json;
-using static System.Net.WebRequestMethods;
 
 namespace IndiaLivings_Web_DAL.Helpers
 {
@@ -33,10 +32,10 @@ namespace IndiaLivings_Web_DAL.Helpers
         {
             List<ProductModel> products = new List<ProductModel>();
             try
-            {   
-                var productsList = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Product/GetWishlistProductsByOwner?intProductOwner="+userid);
+            {
+                var productsList = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Product/GetWishlistProductsByOwner?intProductOwner=" + userid);
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
-                
+
             }
             catch (Exception ex)
             {
@@ -51,7 +50,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             {
                 var wishlistCount = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetWishListCounts?intProductOwner={productOwnerID}");
                 count = JsonConvert.DeserializeObject<int>(wishlistCount);
-                
+
             }
             catch (Exception ex)
             {
@@ -131,6 +130,24 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return products;
+        }
+
+        public bool InsertProduct(ProductModel product)
+        {
+            bool isInsert = false;
+            try
+            {
+                var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Product/addProduct", product);
+                if (!response.Contains("Error"))
+                    isInsert = true;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+            return isInsert;
         }
     }
 }

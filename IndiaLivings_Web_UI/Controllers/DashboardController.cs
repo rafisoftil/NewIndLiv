@@ -299,8 +299,8 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             try
             {
-                ProductImageDetails productImageDetails = new ProductImageDetails();
-                List<ProductImageDetails> imageDetails = productImageDetails.GetImage(productid);
+                ProductImageDetailsViewModel productImageDetails = new ProductImageDetailsViewModel();
+                List<ProductImageDetailsViewModel> imageDetails = productImageDetails.GetImage(productid);
 
                 if (imageDetails.Any())
                 {
