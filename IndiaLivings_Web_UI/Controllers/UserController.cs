@@ -152,6 +152,7 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.productQuantity = Convert.ToInt32(FormData["productQuantity"]);
             PVM.productCondition = FormData["product_Condition"].ToString().ToUpper() == "NEW" ? 1 : 0;
             PVM.productCategoryID = Convert.ToInt32(FormData["category"].ToString());
+            PVM.byteProductImageData = ImageBytes;
             //PVM.productCategoryName = FormData[""];
             PVM.productsubCategoryID = Convert.ToInt32(FormData["subCategory"].ToString());
             //PVM.productSubCategoryName = FormData[""];
