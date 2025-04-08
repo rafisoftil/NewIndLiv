@@ -1268,8 +1268,11 @@
 </section>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
 
+    $(document).ready(function () {
+        setTimeout(() => {
+            spinner.classList.add('d-none');
+        }, 500);
     });
 
 </script>
