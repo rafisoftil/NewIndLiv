@@ -1,11 +1,19 @@
+
 ﻿using IndiaLivings_Web_UI.Models;
+﻿using IndiaLivings_Web_DAL.Helpers;
+using IndiaLivings_Web_DAL.Models;
+using IndiaLivings_Web_UI.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Dynamic;
+using System.Globalization;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
     public class UserController : Controller
     {
+
         /// <summary>
         /// Users Dashboard Page
         /// </summary>
@@ -21,6 +29,8 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.RentalAds = products.Where(p => p.productAdCategory.Equals("Rent")).ToList().Count();
             return View();
         }
+
+      
         public IActionResult PostAd()
         {
             CategoryViewModel category = new CategoryViewModel();
@@ -177,6 +187,39 @@ namespace IndiaLivings_Web_UI.Controllers
 
             return RedirectToAction("PostAd");
         }
+        public ActionResult upadteProfile(IFormFile profileImage, IFormCollection FormData)
+        {
+            bool isInsert = false;
+            UserViewModel UVM = new UserViewModel();
+            UVM.userFirstName = FormData["userFirstName"].ToString();
+            UVM.userLastName = FormData["userLastName"].ToString();
+            UVM.userMiddleName = FormData["userMiddleName"].ToString();
+            UVM.userFullAddress = FormData["userFullAddress"].ToString();
+            UVM.userWebsite = FormData["userWebsite"].ToString();
+            UVM.userMobile = FormData["userMobile"].ToString();
+            UVM.userDOB = DateTime.TryParse(FormData["userDOB"].ToString(), out DateTime parsedDOB) ? parsedDOB : (DateTime?)null;
+            UVM.userImagePath = "";
+            UVM.userDescription = FormData["userDescription"].ToString();
+            UVM.userEmail = FormData["userEmail"].ToString();
+            UVM.userCity = FormData["userCity"].ToString();
+            UVM.userState = FormData["userState"].ToString();
+            UVM.userCountry = FormData["userCountry"].ToString();
+            UVM.userPinCode = Convert.ToInt32(FormData["userPinCode"].ToString());
+            //UVM.userRoleID = 0;
+            //UVM.userRoleName = null;
+            UVM.strUserImageName = profileImage.FileName;
+            UVM.byteUserImageData = "";
+            UVM.strUserImageType = profileImage.FileName != "" ? profileImage.FileName.Split(".")[1] : "";
+            UVM.emailConfirmed = FormData["emailConfirmed"].ToString();
+            UVM.isActive = true;
+            UVM.createdDate = DateTime.Now;
+            UVM.createdBy = HttpContext.Session.GetString("userName").ToString();
+            UVM.updatedDate = DateTime.Now;
+            UVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
+            isInsert = UVM.UpdateUserProfile(UVM);
+            return RedirectToAction("Settings");
+        }        
+
 
         public byte[] GetByteInfo(IFormFile productImage)
         {
@@ -187,9 +230,21 @@ namespace IndiaLivings_Web_UI.Controllers
                 bytes = br.ToArray();
             }
             return bytes;
+        }   
+        
+        public IActionResult Settings()
+        {
+            string username = HttpContext.Session.GetString("userName");
+            var userViewModel = new UserViewModel();
+            List<UserViewModel> users = new List<UserViewModel>();
+            users = userViewModel.GetUsersInfo(username);
+            return View(users);
         }
+           
+
     }
 }
+
 
 
 

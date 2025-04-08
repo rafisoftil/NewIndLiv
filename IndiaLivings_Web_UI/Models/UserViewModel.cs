@@ -1,5 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace IndiaLivings_Web_UI.Models
@@ -10,13 +11,13 @@ namespace IndiaLivings_Web_UI.Models
         public int userID { get; set; }
         public string username { get; set; }
         public string password { get; set; }
-        public string userFirstName { get; set; }=string.Empty;
-        public string userMiddleName { get; set; } = string.Empty;  
+        public string userFirstName { get; set; } = string.Empty;
+        public string userMiddleName { get; set; } = string.Empty;
         public string userLastName { get; set; } = string.Empty;
         public string userDescription { get; set; } = string.Empty;
         public string userEmail { get; set; } = string.Empty;
         public string? userMobile { get; set; }
-        public int userAddressID { get; set; }      
+        public int userAddressID { get; set; }
         public string userFullAddress { get; set; } = string.Empty;
         public string userImagePath { get; set; } = string.Empty;
         public int userRoleID { get; set; } = 0;
@@ -35,6 +36,15 @@ namespace IndiaLivings_Web_UI.Models
         public string membershipName { get; set; }
 
         public byte userImageInfo { get; set; }
+        public string userCity { get; set; } = string.Empty;
+        public string userState { get; set; } = string.Empty;
+        public string userCountry { get; set; } = string.Empty;
+        public int userPinCode { get; set; } = 0;
+        public string strUserImageName { get; set; } = string.Empty;
+        public string byteUserImageData { get; set; } = string.Empty;
+        public string   strUserImageType { get; set; } = string.Empty;
+
+        public bool isActive = true;
 
         #endregion
 
@@ -88,21 +98,21 @@ namespace IndiaLivings_Web_UI.Models
         {
             bool isInsert = false;
             UserModel userModel = new UserModel();
-            AuthenticationHelper AH=new AuthenticationHelper();
+            AuthenticationHelper AH = new AuthenticationHelper();
             try
             {
-                
+
                 userModel.username = userVM.username;
                 userModel.password = userVM.password;
                 userModel.IsActive = true;
                 userModel.userRoleID = 2;
-                userModel.createdDate =DateTime.Now;
+                userModel.createdDate = DateTime.Now;
                 userModel.updatedDate = DateTime.Now;
 
                 userModel.userDOB = userVM.userDOB == null ? DateTime.MinValue : (DateTime)userVM.userDOB;
                 userModel.IsActive = true;
                 userModel.createdBy = "User";
-                userModel.userRoleName = "User";                
+                userModel.userRoleName = "User";
                 if (userVM.username.Contains("@"))
                     userModel.userEmail = userVM.username;
                 else
@@ -110,21 +120,23 @@ namespace IndiaLivings_Web_UI.Models
                 isInsert = AH.registerUser(userModel);
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-            
+
             return isInsert;
         }
 
         public bool checkDuplicate(string userName)
         {
             bool isExist = false;
-            AuthenticationHelper AH=new AuthenticationHelper();
+            AuthenticationHelper AH = new AuthenticationHelper();
             try
             {
                 isExist = AH.checkDuplicate(userName);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
@@ -202,8 +214,63 @@ namespace IndiaLivings_Web_UI.Models
 
             return users;
         }
-      
-        #endregion
+        public bool UpdateUserProfile(UserViewModel user)
+        {
+            bool isCreated = false;
+            AuthenticationHelper PH = new AuthenticationHelper();
+            try
+            {
+                UserModel UVM = new UserModel();
+                UVM.userFirstName = user.userFirstName;
+                UVM.userLastName = user.userLastName;
+                UVM.userMiddleName = user.userMiddleName;
+                UVM.userFullAddress = user.userFullAddress;
+                UVM.userWebsite = user.userWebsite;
+                UVM.userMobile = user.userMobile;
+                UVM.userDOB = (DateTime)user.userDOB;
+                UVM.userImagePath = "";
+                UVM.userDescription = user.userDescription;
+                UVM.userEmail = user.userEmail;
+                UVM.userCity = user.userCity;
+                UVM.userState = user.userState;
+                UVM.userCountry = user.userCountry;
+                UVM.userPinCode = user.userPinCode;
+                //UVM.userRoleID = 0;
+                //UVM.userRoleName = null;
+                UVM.strUserImageName = user.strUserImageName;
+                UVM.byteUserImageData = [];
+                UVM.strUserImageType = user.strUserImageType;
+                UVM.emailConfirmed = user.emailConfirmed;
+                UVM.isActive = true;
+                UVM.createdDate = user.createdDate;
+                UVM.createdBy = user.createdBy;
+                UVM.updatedDate = (DateTime)user.updatedDate;
+                UVM.updatedBy = user.updatedBy;
+                isCreated = PH.updateUser(UVM);
+            }
+            catch (Exception ex)
+            {
+            }
+            return isCreated;
+        }
+
+
+
+
     }
-    
+
+
 }
+
+
+
+
+
+
+    
+
+
+   
+
+    
+

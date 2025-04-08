@@ -1,7 +1,13 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
+using System.Net.NetworkInformation;
+using System.Reflection.Metadata;
+using System.Reflection;
+using System.Runtime.Intrinsics.X86;
 using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_DAL.Repositories;
 using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IndiaLivings_Web_DAL.Helpers
 {
@@ -74,19 +80,28 @@ namespace IndiaLivings_Web_DAL.Helpers
 
         }
 
-        public string UpdateUser(UserModel user)
+        public bool updateUser(UserModel user)
         {
-            string response = null;
+
+           
+             bool response = false;
             try
             {
                 response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/UpdateUser", user);
+                  if (!response.Contains("Error"))
+                isInsert = true;
+           
             }
             catch (Exception ex)
             {
 
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
-            }
-            return response;
+            }               
+            
+       
+ return response;
+          
+
 
         }
 
