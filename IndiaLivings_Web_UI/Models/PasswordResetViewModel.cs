@@ -35,13 +35,13 @@ namespace IndiaLivings_Web_UI.Models
             return response;
         }
 
-        public List<PasswordResetViewModel> GetPasswordReset(int userid, string username, string token)
+        public List<PasswordResetViewModel> GetPasswordReset(string token)
         {
             AuthenticationHelper AH = new AuthenticationHelper();
             List<PasswordResetViewModel> passwordModel = new List<PasswordResetViewModel>();
             try
             {
-                var response = AH.GetPasswordReset(userid, username, token);
+                var response = AH.GetPasswordReset(token);
                 foreach (var item in response) 
                 {
                     PasswordResetViewModel model = new PasswordResetViewModel();

@@ -49,7 +49,7 @@ namespace IndiaLivings_Web_DAL.Models
         public string userCity { get; set; } = string.Empty;
         public string userState { get; set; } = string.Empty;
         public string userCountry { get; set; } = string.Empty;
-        public int userPinCode { get; set; } = 0;
+        public string userPinCode { get; set; } = string.Empty;
         public bool isActive { get; set; }
 
         #endregion
