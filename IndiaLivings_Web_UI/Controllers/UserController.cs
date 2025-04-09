@@ -23,13 +23,14 @@ namespace IndiaLivings_Web_UI.Controllers
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             ProductViewModel productViewModel = new ProductViewModel();
             List<ProductViewModel> products = productViewModel.GetAds(productOwner);
-            ViewBag.ActiveAds = products.Count();
+            int productsCount = products.Count();
+            HttpContext.Session.SetInt32("listingAds", productsCount);
+            ViewBag.ActiveAds = productsCount;
             ViewBag.BookingAds = products.Where(p => p.productAdCategory.Equals("Booking")).ToList().Count();
             ViewBag.SalesAds = products.Where(p => p.productAdCategory.Equals("Sale")).ToList().Count();
             ViewBag.RentalAds = products.Where(p => p.productAdCategory.Equals("Rent")).ToList().Count();
             return View();
         }
-
       
         public IActionResult PostAd()
         {
@@ -53,7 +54,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns> List of all Ads will be reurned</returns>
         /// // Need to be reviewed with Anoop
-        public IActionResult AdsList(int categoryid)
+        public IActionResult AdsList(int categoryid = 0, int page = 1)
         {
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(0);
@@ -64,6 +65,7 @@ namespace IndiaLivings_Web_UI.Controllers
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
+            ViewBag.CurrentPage = page;
             return View(products);
         }
         public JsonResult GetSubCategories(int Category)
@@ -95,7 +97,8 @@ namespace IndiaLivings_Web_UI.Controllers
             ProductViewModel productModel = new ProductViewModel();
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);
-
+            int wishlistCount = productModel.GetwishlistCount(productOwner);
+            HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
             return View(wishlist);
         }
 

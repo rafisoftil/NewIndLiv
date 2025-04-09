@@ -600,9 +600,13 @@
                 </div>
                 <div class="row">
                     @{
-                        List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>(); // Use ViewBag instead of Session
+                        List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
+                        var itemsPerPage = 12;
+                        int currentPage = ViewBag.CurrentPage;
+                        var pagedProducts = Model.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
+                        int productsOnPage = pagedProducts.Count;
                     }
-                    @foreach (var product in Model)
+                    @foreach (var product in pagedProducts)
                     {
                         <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
                             <div class="product-card">
@@ -650,18 +654,18 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="footer-pagection">
-                                <p class="page-info">Showing 12 of 60 Results</p>
+                                <p class="page-info">Showing @productsOnPage of @Model.Count() Results</p>
                                 <ul class="pagination">
                                     <li class="page-item">
                                         <a class="page-link" href="#">
                                             <i class="fas fa-long-arrow-alt-left"></i>
                                         </a>
                                     </li>
-                                    <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">...</li>
-                                    <li class="page-item"><a class="page-link" href="#">67</a></li>
+                                    <li class="page-item"><a class="page-link active" id="defaultPage" href="#">1</a></li>
+                                    @for (int i = 2; i <= (Model.Count() / itemsPerPage) + 1; i++)
+                                    {
+                                        <li class="page-item"><a class="page-link " href="#" id="currentPage" onclick="changePage(this, '@i')">@i</a></li>
+                                    }
                                     <li class="page-item">
                                         <a class="page-link" href="#">
                                             <i class="fas fa-long-arrow-alt-right"></i>
@@ -849,6 +853,10 @@
            LANGUAGE MODAL PART END
 =======================================-->
 <script type="text/javascript">
+    $(document).ready(function () {
+        // $('#defaultPage').removeClass('active');
+        // $('#currentPage').addClass('active');
+    });
 
     function AddToWishlist(button, productID, createdBy) {
         var isInWishlist = button.classList.contains("fas");
@@ -865,5 +873,9 @@
                 alert('Error in processing request.');
             }
         });
+    }
+
+    function changePage(curPage, page) {
+        window.location.href = '/User/AdsList?page=' + page;
     }
 </script>

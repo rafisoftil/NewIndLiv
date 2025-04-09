@@ -6,7 +6,7 @@
     <div class="sidebar-content">
         <div class="sidebar-profile">
             <a href="#" class="sidebar-avatar">
-                @* <img src="images/avatar/01.jpg" alt="avatar"> *@
+                <img src="@Url.Action("GetUserImage", "Dashboard")" onerror="this.onerror=null;this.src='../images/user.png';" alt="avatar">
             </a>
             <h4>@Context.Session.GetString("userName")</h4>
             <a class="btn btn-inline sidebar-post" asp-controller="User" asp-action="PostAd">
@@ -16,6 +16,9 @@
         </div>
         <div class="sidebar-menu">
             <ul class="navbar-list">
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">Home</a>
+                </li>
                 <li class="navbar-item">
                     <a class="navbar-link" asp-controller="User" asp-action="Dashboard">Dashboard</a>
                 </li>
