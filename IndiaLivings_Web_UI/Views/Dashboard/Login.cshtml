@@ -355,14 +355,14 @@
                 spinner.classList.remove('d-none');
 
                 $.ajax({
-                url: '@Url.Action("CheckUserExists", "Dashboard")',
+                url: '@Url.Action("verifyUserName", "Dashboard")',
                 type: 'POST',
-                data: {email: email}, // Convert email to JSON
+                data: { userName: email }, // Convert email to JSON
                 success: function (response) {
 
                     spinner.classList.add('d-none');
 
-                    if (response) {
+                    if (response.isExist) {
                         // Properly hide the modal
                         //$("#forgotPasswordModal").modal("hide");
 
@@ -423,6 +423,7 @@
     // bool passwordValid = false;
 
     function checkDuplicate() {
+        if ($("#register-tab").hasClass("active")) {
         if ($("#userSignUp").val() != null || $("#userSignUp").val() != "") {
             $("#spinner").removeClass('d-none');
             $.ajax({
@@ -449,7 +450,7 @@
 
             });
         }
-
+        }
     }
 
     function comparePassword() {
@@ -549,5 +550,8 @@
             });
         }
 
+    }
+    function hideEmailError(){
+        $("#emailError").hide();
     }
 </script>
