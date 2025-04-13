@@ -18,9 +18,9 @@ namespace IndiaLivings_Web_UI.Controllers
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             List<ProductViewModel> productsList = product.GetAds(0);
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
-            int productCount = product.GetwishlistCount(productOwnerID);
+            int wishlistCount = product.GetwishlistCount(productOwnerID);
 
-            HttpContext.Session.SetInt32("wishlistCount", productCount);
+            HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
 
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
@@ -326,6 +326,49 @@ namespace IndiaLivings_Web_UI.Controllers
             catch (Exception ex)
             {
                 return Json(new { image = "" });
+            }
+        }
+
+        /// <summary>
+        /// User Image
+        /// </summary>
+        /// <returns>UserImage in Bytes</returns>
+        public IActionResult GetUserImage()
+        {
+            var imageBytes = HttpContext.Session.GetObject<byte[]>("UserImage");
+            if (imageBytes != null)
+            {
+                return File(imageBytes, "image/jpeg");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        /// <summary>
+        /// Product Image
+        /// </summary>
+        /// <returns>ProductImage in Bytes</returns>
+        public IActionResult GetProductImage(int productid)
+        {
+            try
+            {
+                ProductImageDetailsViewModel productImageDetails = new ProductImageDetailsViewModel();
+                List<ProductImageDetailsViewModel> imageDetails = productImageDetails.GetImage(productid);
+
+                if (imageDetails.Any())
+                {
+                    var image = imageDetails.FirstOrDefault().byteProductImageData;
+                    return File(image, "image/jpeg");
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
             }
         }
 
