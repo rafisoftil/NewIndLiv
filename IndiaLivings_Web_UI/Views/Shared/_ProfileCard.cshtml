@@ -1,96 +1,33 @@
-﻿@* @model IndiaLivings_Web_UI.Models.UserViewModel *@
-
-@{
-    UserViewModel userObj = Context.Session.GetObject<UserViewModel>("UserDetails");
-}
-<style>
-    /* Style for the container */
-    .user-details {
-        font-family: Arial, sans-serif; /* Font for the whole section */
-        margin: 20px; /* Space around the section */
-        padding: 10px; /* Padding inside the container */
-        background-color: #f9f9f9; /* Light background */
-        border-radius: 8px; /* Rounded corners */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    }
-
-    /* Style for the list */
-    .dash-meta {
-        list-style: none; /* Remove bullet points */
-        padding: 0; /* Remove padding */
-        margin: 0; /* Remove margin */
-    }
-
-        /* Style for each list item */
-        .dash-meta li {
-            display: flex; /* Flexbox for horizontal alignment */
-            align-items: center; /* Vertically center the content */
-            margin-bottom: 10px; /* Space between list items */
-        }
-
-            /* Style for the icons */
-            .dash-meta li i {
-                font-size: 1.5rem; /* Larger icon size */
-                color: #2a9d8f; /* Icon color */
-                margin-right: 10px; /* Space between icon and text */
-            }
-
-            /* Style for the text (phone number, email, address) */
-            .dash-meta li span {
-                font-size: 1.1rem; /* Slightly larger text */
-                color: #333; /* Darker text color */
-                font-weight: 600; /* Bold text */
-            }
-
-</style>
-
-<div class="row">
+﻿<div class="row">
     <div class="col-lg-5">
         <div class="dash-header-left">
             <div class="dash-avatar">
-                <a href="#"><img src="@Context.Session.GetString("UserImage")" alt="avatar"></a>
+                <a href="#"><img src="" alt="avatar"></a>
             </div>
             <div class="dash-intro">
-                <h4><a href="#">@userObj.username</a></h4>                
+                <h4><a href="#">@Context.Session.GetString("userName")</a></h4>
                 <h5>new seller</h5>
-
-                @* <ul class="dash-meta">
+                <ul class="dash-meta" style="padding-left:0px;">
                     <li>
                         <i class="fas fa-phone-alt"></i>
-                        <span>@userObj.userMobile</span>
+                        <span>@Context.Session.GetString("Mobile")</span>
                     </li>
                     <li>
                         <i class="fas fa-envelope"></i>
-                        <span>@userObj.userEmail</span>
+                        <span>@Context.Session.GetString("Email")</span>
                     </li>
                     <li>
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>@userObj.userFullAddress</span>
-                    </li>
-                </ul> *@
-                <div class="user-details">
-                <ul class="dash-meta">
-                    <li>
-                        <i class="fas fa-phone-alt"></i>
-                        <span>@userObj.userMobile</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-envelope"></i>
-                        <span>@userObj.userEmail</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>@userObj.userFullAddress</span>
+                        <span>@Context.Session.GetString("Address")</span>
                     </li>
                 </ul>
-             </div>
             </div>
         </div>
     </div>
     <div class="col-lg-7">
         <div class="dash-header-right">
             <div class="dash-focus dash-list">
-                <h2>0</h2>
+                <h2>@Context.Session.GetInt32("wishlistCount")</h2>
                 <p>listing ads</p>
             </div>
             <div class="dash-focus dash-book">

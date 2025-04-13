@@ -1,13 +1,7 @@
 
-﻿using IndiaLivings_Web_UI.Models;
-﻿using IndiaLivings_Web_DAL.Helpers;
-using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System.Dynamic;
-using System.Globalization;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
@@ -30,7 +24,7 @@ namespace IndiaLivings_Web_UI.Controllers
             return View();
         }
 
-      
+
         public IActionResult PostAd()
         {
             CategoryViewModel category = new CategoryViewModel();
@@ -168,12 +162,13 @@ namespace IndiaLivings_Web_UI.Controllers
             //PVM.productSubCategoryName = FormData[""];
             PVM.productPriceCondition = FormData["price_Condition"];
             PVM.productAdCategory = FormData["Ad_Category"];
-            PVM.productImageName = productImage.FileName;
+            PVM.productImageName = productImage != null ? productImage.FileName : "";
+            
             PVM.productAdminReviewStatus = "";
             PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
-           // PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
+                                      // PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
             PVM.productSold = false;
-            PVM.productOwner = Convert.ToInt32(HttpContext.Session.GetString("userID"));
+            PVM.productOwner = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
             PVM.productOwnerName = HttpContext.Session.GetString("userName");
             //PVM.productMembershipID = FormData[""];
             //PVM.productMembershipName = FormData[""];
@@ -182,7 +177,7 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.createdBy = HttpContext.Session.GetString("userName").ToString();
             PVM.updatedDate = DateTime.Now;
             PVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
-            isInsert = PVM.CreateNewAdd(PVM);
+            isInsert = PVM.CreateNewAdd(PVM, productImage);
 
 
             return RedirectToAction("PostAd");
@@ -191,7 +186,7 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             bool isInsert = false;
             UserViewModel UVM = new UserViewModel();
-            UVM.userFirstName = FormData["userFirstName"].ToString();
+            UVM.userFirstName = FormData["userFirstName"].ToString(); 
             UVM.userLastName = FormData["userLastName"].ToString();
             UVM.userMiddleName = FormData["userMiddleName"].ToString();
             UVM.userFullAddress = FormData["userFullAddress"].ToString();
@@ -218,7 +213,7 @@ namespace IndiaLivings_Web_UI.Controllers
             UVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
             isInsert = UVM.UpdateUserProfile(UVM);
             return RedirectToAction("Settings");
-        }        
+        }
 
 
         public byte[] GetByteInfo(IFormFile productImage)
@@ -230,8 +225,8 @@ namespace IndiaLivings_Web_UI.Controllers
                 bytes = br.ToArray();
             }
             return bytes;
-        }   
-        
+        }
+
         public IActionResult Settings()
         {
             string username = HttpContext.Session.GetString("userName");
@@ -240,7 +235,7 @@ namespace IndiaLivings_Web_UI.Controllers
             users = userViewModel.GetUsersInfo(username);
             return View(users);
         }
-           
+
 
     }
 }
