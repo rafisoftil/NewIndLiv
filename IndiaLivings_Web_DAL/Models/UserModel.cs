@@ -11,6 +11,7 @@ namespace IndiaLivings_Web_DAL.Models
     {
         #region Properties
         public int userID { get; set; } = 0;
+        public string user { get; set; } = string.Empty;
         public string username { get; set; } = string.Empty;
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string password { get; set; }
@@ -51,6 +52,8 @@ namespace IndiaLivings_Web_DAL.Models
         public string userCountry { get; set; } = string.Empty;
         public string userPinCode { get; set; } = string.Empty;
         public bool isActive { get; set; }
+
+        public string userCompany { get; set; } = string.Empty;
 
         #endregion
 
