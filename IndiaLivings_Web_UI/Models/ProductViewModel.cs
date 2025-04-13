@@ -140,9 +140,10 @@ namespace IndiaLivings_Web_UI.Models
         }
 
 
-        public bool CreateNewAdd(ProductViewModel product)
+        public bool CreateNewAdd(ProductViewModel product,IFormFile productImage)
         {
             bool isCreated = false;
+            int isInserted = 0;
             ProductHelper PH = new ProductHelper();
             try
             {
@@ -162,7 +163,7 @@ namespace IndiaLivings_Web_UI.Models
                 PVM.productImageName = product.productImageName;
                 PVM.strProductImageName = product.productImageName;
                 //PVM.strProductImageType = product.productImageType;
-                PVM.byteProductImageData = [];
+                PVM.byteProductImageData = product.byteProductImageData;
                 PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
                                           //PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
                 PVM.productSold = false;
@@ -173,7 +174,13 @@ namespace IndiaLivings_Web_UI.Models
                 PVM.createdBy = product.createdBy;
                 PVM.updatedDate = product.updatedDate;
                 PVM.updatedBy = product.updatedBy;
-                isCreated = PH.InsertProduct(PVM);
+                isInserted = PH.InsertProduct(PVM);
+                if (isInserted > 0)
+                {
+                    PH.InserProductImage(isInserted, PVM.productImageName, PVM.strProductImageType, PVM.createdBy, productImage);
+                }
+
+                    isInserted = 1;
             }
             catch (Exception ex)
             {

@@ -1,5 +1,7 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_DAL.Repositories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
 
 namespace IndiaLivings_Web_DAL.Helpers
@@ -23,7 +25,7 @@ namespace IndiaLivings_Web_DAL.Helpers
         public List<AdConitionTypeModel> GetAdConditions()
         {
             List<AdConitionTypeModel> adConitions = new List<AdConitionTypeModel>();
-            string url = "https://api.indialivings.com/api/AdConditions/GetAllAdConditionsTypeName?strAdConditionTypeName=''";
+            string url = "https://api.indialivings.com/api/AdConditions/GetAllAdConditionsTypeName";
             var lst = ServiceAPI.Get_async_Api(url);
             adConitions = JsonConvert.DeserializeObject<List<AdConitionTypeModel>>(lst);
             return adConitions;
@@ -132,22 +134,33 @@ namespace IndiaLivings_Web_DAL.Helpers
             return products;
         }
 
-        public bool InsertProduct(ProductModel product)
+        public int InsertProduct(ProductModel product)
         {
-            bool isInsert = false;
+            int insertedId = 0;
             try
             {
                 var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Product/addProduct", product);
-                if (!response.Contains("Error"))
-                    isInsert = true;
-
+                response = response.Trim('\"');
+                insertedId = Convert.ToInt32(response);
+               
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
 
-            return isInsert;
+            return insertedId;
+        }
+
+        public bool InserProductImage(int productId,string imageName,string imageType,string createdBy,IFormFile productImage)
+        {
+            bool isInserted = false; 
+            string url="https://api.indialivings.com/api/Product/AddProductimages?intProductID=" + productId + "&strProductImageName=" + imageName + "&ProductImg" + productImage+ "&strProductImageType=" + imageType + "&createdBy=" + createdBy;
+            
+            var response = ServiceAPI.Post_Api(url);
+            response = response.Trim('\"');
+            //isInserted = (bool)response;
+            return isInserted;
         }
     }
 }

@@ -9,6 +9,6 @@ namespace IndiaLivings_Web_DAL.Models
     public class AdConitionTypeModel
     {
         public string AdConditionTypeName { get; set; }
-        public List<AdConditionModel> AdConditionType { get; set; }
+        public List<AdConditionModel> strAdConditionType { get; set; }
     }
 }
