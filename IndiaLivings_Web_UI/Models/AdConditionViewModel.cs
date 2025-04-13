@@ -34,7 +34,7 @@ namespace IndiaLivings_Web_UI.Models
                 var lst = product.GetAdConditions();
                 foreach (var item in lst)
                 {
-                    foreach (var condition in item.AdConditionType)
+                    foreach (var condition in item.strAdConditionType)
                     {
                         AdConditionViewModel ACVM = new AdConditionViewModel();
                         ACVM.intAdConditionID = condition.intAdConditionID;

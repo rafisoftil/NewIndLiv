@@ -9,6 +9,7 @@ namespace IndiaLivings_Web_UI.Models
     {
         #region Properties
         public int userID { get; set; }
+        public string user { get; set; } = string.Empty;
         public string username { get; set; }
         public string password { get; set; }
         public string userFirstName { get; set; } = string.Empty;
@@ -24,6 +25,7 @@ namespace IndiaLivings_Web_UI.Models
         public string userRoleName { get; set; } = string.Empty;
         public string userWebsite { get; set; } = string.Empty;
         public DateTime? userDOB { get; set; }
+        
         public string emailConfirmed { get; set; } = string.Empty;
         public bool IsActive { get; set; }
         public DateTime? createdDate { get; set; }
@@ -39,12 +41,14 @@ namespace IndiaLivings_Web_UI.Models
         public string userCity { get; set; } = string.Empty;
         public string userState { get; set; } = string.Empty;
         public string userCountry { get; set; } = string.Empty;
-        public int userPinCode { get; set; } = 0;
+        public string userPinCode { get; set; } 
         public string strUserImageName { get; set; } = string.Empty;
         public string byteUserImageData { get; set; } = string.Empty;
         public string   strUserImageType { get; set; } = string.Empty;
 
         public bool isActive = true;
+
+        public string userCompany {get;set;}=string.Empty;
 
         #endregion
 
@@ -197,11 +201,25 @@ namespace IndiaLivings_Web_UI.Models
                         UserViewModel user = new UserViewModel();
                         user.userEmail = userDetails.userEmail;
                         user.userMobile = userDetails.userMobile;
-                        user.userFirstName = userDetails.userFirstName;
-                        user.userID = userDetails.userID;
-                        user.userMobile = userDetails.userMobile;
-                        user.username = userDetails.username;
                         user.userWebsite = userDetails.userWebsite;
+                        user.userFirstName = userDetails.userFirstName;
+                        user.userMiddleName = userDetails.userMiddleName;
+                        user.userLastName = userDetails.userLastName;
+                        user.password = userDetails.password;
+                        user.userDescription = userDetails.userDescription;
+                        user.userFullAddress = userDetails.userFullAddress;
+                        user.byteUserImageData = Convert.ToBase64String(userDetails.byteUserImageData);
+                        user.userDOB =(DateTime)userDetails.userDOB;
+                        user.userCity = userDetails.userCity;
+                        user.userState = userDetails.userState;
+                        user.userCountry = userDetails.userCountry;
+                        user.userPinCode = userDetails.userPinCode;
+                        user.IsActive = userDetails.IsActive;
+                        user.strUserImageName = userDetails.strUserImageName;
+                        user.strUserImageType = userDetails.strUserImageType;
+                        user.byteUserImageData = Convert.ToBase64String(userDetails.byteUserImageData);
+                        user.userCompany = userDetails.userCompany;
+
                         users.Add(user);
                     }
                 }
@@ -210,7 +228,6 @@ namespace IndiaLivings_Web_UI.Models
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-
 
             return users;
         }
@@ -224,6 +241,7 @@ namespace IndiaLivings_Web_UI.Models
                 UVM.userFirstName = user.userFirstName;
                 UVM.userLastName = user.userLastName;
                 UVM.userMiddleName = user.userMiddleName;
+                UVM.password = user.password;
                 UVM.userFullAddress = user.userFullAddress;
                 UVM.userWebsite = user.userWebsite;
                 UVM.userMobile = user.userMobile;
@@ -250,6 +268,7 @@ namespace IndiaLivings_Web_UI.Models
             }
             catch (Exception ex)
             {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return isCreated;
         }
