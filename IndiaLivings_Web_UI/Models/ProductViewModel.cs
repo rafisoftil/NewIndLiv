@@ -143,7 +143,7 @@ namespace IndiaLivings_Web_UI.Models
         public bool CreateNewAdd(ProductViewModel product,IFormFile productImage)
         {
             bool isCreated = false;
-            int isInserted = 0;
+            int productId = 0;
             ProductHelper PH = new ProductHelper();
             try
             {
@@ -162,7 +162,7 @@ namespace IndiaLivings_Web_UI.Models
                 PVM.productAdCategory = product.productAdCategory;
                 PVM.productImageName = product.productImageName;
                 PVM.strProductImageName = product.productImageName;
-                //PVM.strProductImageType = product.productImageType;
+                PVM.strProductImageType = Path.GetExtension(product.productImageName)?.TrimStart('.').ToLower();
                 PVM.byteProductImageData = product.byteProductImageData;
                 PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
                                           //PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
@@ -174,16 +174,15 @@ namespace IndiaLivings_Web_UI.Models
                 PVM.createdBy = product.createdBy;
                 PVM.updatedDate = product.updatedDate;
                 PVM.updatedBy = product.updatedBy;
-                isInserted = PH.InsertProduct(PVM);
-                if (isInserted > 0)
+                productId = PH.InsertProduct(PVM);
+                if (productId > 0)
                 {
-                    PH.InserProductImage(isInserted, PVM.productImageName, PVM.strProductImageType, PVM.createdBy, productImage);
+                    isCreated = PH.InserProductImage(productId, PVM.productImageName, PVM.strProductImageType, PVM.createdBy, productImage);
                 }
-
-                    isInserted = 1;
             }
             catch (Exception ex)
             {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return isCreated;
         }
