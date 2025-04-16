@@ -3,6 +3,7 @@ using IndiaLivings_Web_DAL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace IndiaLivings_Web_DAL.Helpers
 {
@@ -154,13 +155,25 @@ namespace IndiaLivings_Web_DAL.Helpers
 
         public bool InserProductImage(int productId,string imageName,string imageType,string createdBy,IFormFile productImage)
         {
-            bool isInserted = false; 
-            string url="https://api.indialivings.com/api/Product/AddProductimages?intProductID=" + productId + "&strProductImageName=" + imageName + "&ProductImg" + productImage+ "&strProductImageType=" + imageType + "&createdBy=" + createdBy;
-            
-            var response = ServiceAPI.Post_Api(url);
-            response = response.Trim('\"');
-            //isInserted = (bool)response;
-            return isInserted;
+            var form = new MultipartFormDataContent();
+            if (productImage != null && productImage.Length > 0)
+            {
+                using var ms = new MemoryStream();
+                productImage.CopyToAsync(ms);
+                var byteArrayContent = new ByteArrayContent(ms.ToArray());
+                byteArrayContent.Headers.ContentType = new MediaTypeHeaderValue(productImage.ContentType);
+
+                form.Add(byteArrayContent, "ProductImg", productImage.FileName);
+            }
+            var Url = $"https://api.indialivings.com/api/Product/AddProductimages?intProductID={productId}&strProductImageName={imageName}&strProductImageType={imageType}&createdBy={createdBy}";
+            var task = ServiceAPI.PostMultipartApi(Url, form);
+            task.Wait(); // If you're not using async all the way
+            var response = task.Result?.Trim('\"');
+            if (response == "1")
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

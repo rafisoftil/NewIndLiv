@@ -1,4 +1,5 @@
 ﻿using IndiaLivings_Web_DAL.Models;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -76,8 +77,28 @@ namespace IndiaLivings_Web_DAL
             }
 
             return responseString;
-        }   
+        }
 
+        public static async Task<string> PostMultipartApi(string apiUrl, MultipartFormDataContent form)
+        {
+            using var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
+            };
 
+            using var client = new HttpClient(handler);
+            try
+            {
+                var response = await client.PostAsync(apiUrl, form);
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                return response.IsSuccessStatusCode ? responseString : $"Error: {response.StatusCode}, {responseString}";
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                return "Exception occurred.";
+            }
+        }
     }
 }
