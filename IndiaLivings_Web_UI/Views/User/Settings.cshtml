@@ -50,6 +50,12 @@
     </style>
 </head>
 <body>
+    @if (TempData["UpdateMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["UpdateMessage"]
+        </div>
+    }
 
     <nav class="mobile-nav">
         <div class="container">
@@ -130,169 +136,230 @@
                         </div>
                         <form class="setting-form" asp-action="UpdateUser" asp-controller="User" method="post" enctype="multipart/form-data">
                             <div class="row">
-                                <div class="row" style="display: flex; gap: 20px; margin-left:initial !important; width:100%">
-                                    <div class="col-lg-4" style="flex: 1;">
-                                        <div class="form-group">
-                                            <label class="form-label">First Name</label>
-                                            <input type="text" id="txt_firstname" name="txt_firstname" class="form-control" placeholder="Type First Name" value="@Model[0].userFirstName">
+                               
+                                    <div class="row" style="display: flex; gap: 20px; margin-left:initial !important; width:100%">
+                                        <div class="col-lg-4" style="flex: 1;">
+                                            <div class="form-group">
+                                                <label class="form-label">First Name</label>
+                                                <input type="text" id="txt_firstname" name="txt_firstname" class="form-control" placeholder="Type First Name" value="@Model[0].userFirstName">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4" style="flex: 1;">
+                                            <div class="form-group">
+                                                <label class="form-label">Middle Name</label>
+                                                <input type="text" id="txt_middlename" name="txt_middlename" class="form-control" placeholder="Type Middle Name" value="@Model[0].userMiddleName">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4" style="flex: 1;">
+                                            <div class="form-group">
+                                                <label class="form-label">Last Name</label>
+                                                <input type="text" id="txt_lastname" name="txt_lastname" class="form-control" placeholder="Type Last Name" value="@Model[0].userLastName">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4" style="flex: 1;">
                                         <div class="form-group">
-                                            <label class="form-label">Middle Name</label>
-                                            <input type="text" id="txt_middlename" name="txt_middlename" class="form-control" placeholder="Type Middle Name" value="@Model[0].userMiddleName">
+                                            <label class="form-label">password</label>
+                                            <input type="text" id="txt_password" name="txt_password" class="form-control" placeholder="Type password" value="@Model[0].password">
                                         </div>
                                     </div>
-                                    <div class="col-lg-4" style="flex: 1;">
-                                        <div class="form-group">
-                                            <label class="form-label">Last Name</label>
-                                            <input type="text" id="txt_lastname" name="txt_lastname" class="form-control" placeholder="Type Last Name" value="@Model[0].userLastName">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4" style="flex: 1;">
-                                    <div class="form-group">
-                                        <label class="form-label">password</label>
-                                        <input type="text" id="txt_password" name="txt_password" class="form-control" placeholder="Type password" value="@Model[0].password">
-                                    </div>
-                                </div>
-                            
 
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Description</label>
-                                        <input type="text" id="txt_description" name="txt_description" class="form-control" placeholder="Type Description" value="@Model[0].userDescription">
-                                    </div>
-                                </div>
 
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Email</label>
-                                        <input type="text" id="txt_Email" name="txt_Email" class="form-control" placeholder="Type Email" value="@Model[0].userEmail">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Company</label>
-                                        <input type="text" id="txt_company" name="txt_company" class="form-control" placeholder="Type Company" value="@Model[0].userCompany">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Address</label>
-                                        <input type="text" id="txt_address" name="txt_address" class="form-control" placeholder="Type Address" value="@Model[0].userFullAddress">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label">City</label>
-                                        <input type="text" id="txt_city" name="txt_city" class="form-control" placeholder="Type City" value="@Model[0].userCity">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label">State</label>
-                                        <input type="text" id="txt_state" name="txt_state" class="form-control" placeholder="Select State" value="@Model[0].userState">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Post Code</label>
-                                        <input type="text" id="txt_postcode" name="txt_postcode" class="form-control" placeholder="Type Post Code" value="@Model[0].userPinCode">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Country</label>
-                                        <input type="text" id="txt_Country" name="txt_Country" class="form-control" placeholder="Select Country" value="@Model[0].userCountry">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Website</label>
-                                        <input type="text" id="txt_website" name="txt_website" class="form-control" placeholder="Type WebSite" value="@Model[0].userWebsite">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Phone</label>
-                                        <input type="text" id="txt_phone" name="txt_phone" class="form-control" placeholder="Type Phone" value="@Model[0].userMobile">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Birthday</label>
-                                        <input type="date" id="txt_dob" name="txt_dob" class="form-control" value="@Model[0].userDOB">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Profile Image</label>
-                                        <input type="file" id="txt_profile_img" name="profileImage" class="form-control">
-                                        <input type="text" id="file_name" value="@Model[0].userImagePath" hidden>
-                                        <div class="dash-avatar">
-                                            <a href="#">
-                                                <img src="@Url.Content(ViewBag.UserProfileImgPath + Model[0].userID + "/" + Model[0].userImagePath)"
-                                                     onerror="this.onerror=null;this.src='../images/user_profile/dummy_profileimg.png';" />
-                                            </a>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Description</label>
+                                            <input type="text" id="txt_description" name="txt_description" class="form-control" placeholder="Type Description" value="@Model[0].userDescription">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <button class="btn btn-inline" onclick="UpdateUser(); return false;">
-                                        <i class="fas fa-user-check"></i>
-                                        <span>update profile</span>
-                                    </button>
-                                </div>
-                            </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Email</label>
+                                            <input type="text" id="txt_Email" name="txt_Email" class="form-control" placeholder="Type Email" value="@Model[0].userEmail">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Company</label>
+                                            <input type="text" id="txt_company" name="txt_company" class="form-control" placeholder="Type Company" value="@Model[0].userCompany">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Address</label>
+                                            <input type="text" id="txt_address" name="txt_address" class="form-control" placeholder="Type Address" value="@Model[0].userFullAddress">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Website</label>
+                                            <input type="text" id="txt_website" name="txt_website" class="form-control" placeholder="Type WebSite" value="@Model[0].userWebsite">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Phone</label>
+                                            <input type="text" id="txt_phone" name="txt_phone" class="form-control" placeholder="Type Phone" value="@Model[0].userMobile">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Birthday</label>
+                                            <input type="date" id="txt_dob" name="txt_dob" class="form-control" value="@Model[0].userDOB">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Profile Image</label>
+                                            <input type="file" id="txt_profile_img" name="profileImage" class="form-control">
+                                            <input type="text" id="file_name" value="@Model[0].userImagePath" hidden>
+                                            <div class="dash-avatar">
+                                                <a href="#">
+                                                    <img src="@Url.Content(ViewBag.UserProfileImgPath + Model[0].userID + "/" + Model[0].userImagePath)"
+                                                         onerror="this.onerror=null;this.src='../images/user_profile/dummy_profileimg.png';" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12"><hr></div> <div class="row mb-4">
+                                        <div class="col-lg-6">
+                                            <h4>Billing Address</h4>
+                                             
+                                            <div class="form-group">
+                                                <label class="form-label">City</label>
+                                            <input type="text" id="billing_city" name="txt_b_city" class="form-control" placeholder="Type City" value="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">State</label>
+                                            <input type="text" id="billing_state" name="txt_b_state" class="form-control" placeholder="Select State" value="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Postal Code</label>
+                                            <input type="text" id="billing_postcode" name="txt_b_postcode" class="form-control" placeholder="Type Post Code" value="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Country</label>
+                                            <input type="text" id="billing_country" name="txt_b_country" class="form-control" placeholder="Select Country" value="">
+                                            </div>
+
+                                            <div class="form-group"> 
+                                                <div class="form-check">
+
+                                                <input class="form-check-input" type="radio" name="shippingAddressOption" id="shippingSameAsBilling" value="true" onchange="toggleShippingFields()" >
+                                                    <label class="form-check-label" for="shippingSameAsBilling">
+                                                       Is billing address same as shipping address
+                                                    </label>
+                                                </div>
+                                            </div>
+                                      </div>
+                                        <div class="col-lg-6">
+                                            <h4>Shipping Address</h4>
+                                            <div class="form-group">
+                                                <label class="form-label">City</label>
+                                            <input type="text" id="shipping_city" name="txt_s_city" class="form-control" placeholder="Type City" value="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">State</label>
+                                            <input type="text" id="shipping_state" name="txt_s_state" class="form-control" placeholder="Select State" value="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Post Code</label>
+                                            <input type="text" id="shipping_postcode" name="txt_s_postcode" class="form-control" placeholder="Type Post Code" value="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Country</label>
+                                            <input type="text" id="shipping_country" name="txt_s_country" class="form-control" placeholder="Select Country" value="">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-12">
+                                            <button class="btn btn-inline" onclick="UpdateUser(); return false;">
+                                                <i class="fas fa-user-check"></i>
+                                                <span>update profile</span>
+                                            </button>
+                                        </div>
+                                    </div>
+							</div>
+
                         </form>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="modal fade" id="currency">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4>Choose a Currency</h4>
-                    <button class="fas fa-times" data-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <button class="modal-link active">United States Doller (USD) - $</button>
-                    <button class="modal-link">Euro (EUR) - €</button>
-                    <button class="modal-link">British Pound (GBP) - £</button>
-                    <button class="modal-link">Australian Dollar (AUD) - A$</button>
-                    <button class="modal-link">Canadian Dollar (CAD) - C$</button>
+
+            <div class="modal fade" id="currency">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4>Choose a Currency</h4>
+                            <button class="fas fa-times" data-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <button class="modal-link active">United States Doller (USD) - $</button>
+                            <button class="modal-link">Euro (EUR) - €</button>
+                            <button class="modal-link">British Pound (GBP) - £</button>
+                            <button class="modal-link">Australian Dollar (AUD) - A$</button>
+                            <button class="modal-link">Canadian Dollar (CAD) - C$</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="modal fade" id="language">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4>Choose a Language</h4>
-                    <button class="fas fa-times" data-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <button class="modal-link active">English</button>
-                    <button class="modal-link">bangali</button>
-                    <button class="modal-link">arabic</button>
-                    <button class="modal-link">germany</button>
-                    <button class="modal-link">spanish</button>
+            <div class="modal fade" id="language">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4>Choose a Language</h4>
+                            <button class="fas fa-times" data-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <button class="modal-link active">English</button>
+                            <button class="modal-link">bangali</button>
+                            <button class="modal-link">arabic</button>
+                            <button class="modal-link">germany</button>
+                            <button class="modal-link">spanish</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div id="loadingOverlay" class="d-none">
-        <img style="height: 100px" src="~/images/spinner.gif" />
-    </div>
+            <div id="loadingOverlay" class="d-none">
+                <img style="height: 100px" src="~/images/spinner.gif" />
+            </div>
 
-    <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="~/js/vendor/popper.min.js"></script>
-    <script src="~/js/vendor/bootstrap.min.js"></script>
+            <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+            <script src="~/js/vendor/popper.min.js"></script>
+            <script src="~/js/vendor/bootstrap.min.js"></script>
 
-    <script src="~/js/custom/main.js"></script>
-        </body>
-        </html>
+            <script src="~/js/custom/main.js"> </script>
+    <script>
+               function toggleShippingFields() {
+            var shippingSameAsBilling = document.getElementById("shippingSameAsBilling");
+
+            var shippingCity = document.getElementById("shipping_city");
+            var shippingState = document.getElementById("shipping_state");
+            var shippingPostcode = document.getElementById("shipping_postcode");
+            var shippingCountry = document.getElementById("shipping_country");
+
+            var billingCity = document.getElementById("billing_city");
+            var billingState = document.getElementById("billing_state");
+            var billingPostcode = document.getElementById("billing_postcode");
+            var billingCountry = document.getElementById("billing_country");
+
+            if (shippingSameAsBilling.checked) {
+                shippingCity.value = billingCity.value;
+                shippingState.value = billingState.value;
+                shippingPostcode.value = billingPostcode.value;
+                shippingCountry.value = billingCountry.value;
+            } else {
+                shippingCity.value = "";
+                shippingState.value = "";
+                shippingPostcode.value = "";
+                shippingCountry.value = "";
+            }
+        }
+
+    </script>
+</body>
+</html>

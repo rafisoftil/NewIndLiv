@@ -75,8 +75,6 @@ namespace IndiaLivings_Web_DAL.Helpers
 
         public bool updateUser(UserModel user)
         {
-
-
             bool isInsert = false;
             try
             {
@@ -91,10 +89,21 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return isInsert;
-
-
-
         }
+        public string UpdateAddress(int intUserID, string strUserContactFullAddress,string strUserContactCity,string strUserContactState,string strUserContactCountry,string strUserContactPinCode , int intUserAddressType)
+        {
+            string response = String.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/AddUserAddress?intUserID={intUserID}&strUserContactFullAddress={strUserContactFullAddress}&strUserContactCity={strUserContactCity}&strUserContactState={strUserContactState}&strUserContactCountry={strUserContactCountry}&strUserContactPinCode={strUserContactPinCode}&intUserAddressType={intUserAddressType}");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+
 
         public List<UserModel> GetUserByUsername(string userName)
         {
