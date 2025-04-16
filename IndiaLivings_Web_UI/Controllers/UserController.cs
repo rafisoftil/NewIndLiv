@@ -1,6 +1,7 @@
 
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.SqlServer.Server;
 using System.Dynamic;
 
 namespace IndiaLivings_Web_UI.Controllers
@@ -205,25 +206,43 @@ namespace IndiaLivings_Web_UI.Controllers
             UVM.userImagePath = "";
             UVM.userDescription = FormData["txt_description"].ToString();
             UVM.userEmail = FormData["txt_Email"].ToString();
-            UVM.userCity = FormData["txt_city"].ToString();
-            UVM.userState = FormData["txt_state"].ToString();
-            UVM.userCountry = FormData["txt_Country"].ToString();
-            UVM.userPinCode = FormData["txt_postcode"].ToString();
             UVM.userCompany = FormData["txt_company"].ToString();
             //UVM.userRoleID = 0;
             //UVM.userRoleName = null;
-            UVM.strUserImageName = profileImage.FileName;
+            //UVM.strUserImageName = profileImage.FileName;
             UVM.byteUserImageData = "";
-            UVM.strUserImageType = profileImage.FileName != "" ? profileImage.FileName.Split(".")[1] : "";
+            //UVM.strUserImageType = profileImage.FileName != "" ? profileImage.FileName.Split(".")[1] : "";
             //UVM.emailConfirmed = FormData["emailConfirmed"].ToString();
             UVM.isActive = true;
             UVM.createdDate = DateTime.Now;
             UVM.createdBy = HttpContext.Session.GetString("userName").ToString();
             UVM.updatedDate = DateTime.Now;
             UVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
-            isInsert = UVM.UpdateUserProfile(UVM);
+            bool shippingSameAsBilling = FormData["shippingAddressOption"] == "true";
+            var billingAddress = GetUserAddress(FormData, isBilling: true);
+            var shippingAddress = shippingSameAsBilling ? billingAddress: GetUserAddress(FormData, isBilling: false);
+            billingAddress.UpdateAddress(billingAddress.intUserID, billingAddress.strUserContactFullAddress, billingAddress.strUserContactCity, billingAddress.strUserContactState, billingAddress.strUserContactCountry, billingAddress.strUserContactPinCode, 1);
+            shippingAddress.UpdateAddress(shippingAddress.intUserID, shippingAddress.strUserContactFullAddress, shippingAddress.strUserContactCity, shippingAddress.strUserContactState, shippingAddress.strUserContactCountry, shippingAddress.strUserContactPinCode, 2);
+            bool isUpdated = UVM.UpdateUserProfile(UVM);
+            //TempData["UpdateMessage"] = isUpdated ?"User Profile updated successfully!" : "Update failed.";
+            TempData["UpdateMessage"] = "User Profile updated successfully";
             return RedirectToAction("Settings");
         }
+        public UserAddressViewModel GetUserAddress(IFormCollection FormData, bool isBilling)
+        {
+            string prefix = isBilling ? "txt_b_" : "txt_s_";
+            return new UserAddressViewModel
+            {
+                intUserID = HttpContext.Session.GetInt32("UserId") ?? 0,
+                strUserContactFullAddress = FormData["txt_address"],
+                strUserContactCity = FormData[$"{prefix}city"],
+                strUserContactState = FormData[$"{prefix}state"],
+                strUserContactCountry = FormData[$"{prefix}country"],
+                strUserContactPinCode = FormData[$"{prefix}postcode"],
+                intUserAddressType = isBilling ? 1 : 2
+            };
+        }
+
 
 
         public byte[] GetByteInfo(IFormFile productImage)
