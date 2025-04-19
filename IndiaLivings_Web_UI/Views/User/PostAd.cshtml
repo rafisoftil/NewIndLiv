@@ -376,8 +376,8 @@
         validateField('category', 'categoryError');
         validateField('subCategory', 'subCategoryError');
         validateField('productPrice', 'productPriceError');
-        validateField('AdDescription', 'AdDescriptionError');
-        validateField('AdTag', 'AdTagError');
+        //validateField('AdDescription', 'AdDescriptionError');
+        //validateField('AdTag', 'AdTagError');
         validateField('AuthorName', 'AuthorNameError');
         validateField('AuthorEmail', 'AuthorEmailError');
         validateField('AuthorMobile', 'AuthorMobileError');
@@ -387,17 +387,25 @@
         // Validate product image
         const productImage = document.getElementById('productImage');
         const productImageError = document.getElementById('productImageError');
-        if (!productImage.files || productImage.files.length === 0) {
-            productImageError.innerText = "Product image is required.";
-            productImageError.classList.remove('d-none');
-            isValid = false;
-        } else if (productImage.files[0].size > 5 * 1024 * 1024) {
+        if (productImage.files.length !== 0 && productImage.files[0].size > 5 * 1024 * 1024) {
             productImageError.innerText = "Image must be less than 5MB.";
             productImageError.classList.remove('d-none');
             isValid = false;
-        } else {
+        }   
+        else {
             productImageError.classList.add('d-none');
         }
+        // if (!productImage.files || productImage.files.length === 0) {
+        //     productImageError.innerText = "Product image is required.";
+        //     productImageError.classList.remove('d-none');
+        //     isValid = false;
+        // } else if (productImage.files[0].size > 5 * 1024 * 1024) {
+        //     productImageError.innerText = "Image must be less than 5MB.";
+        //     productImageError.classList.remove('d-none');
+        //     isValid = false;
+        // } else {
+        //     productImageError.classList.add('d-none');
+        // }
 
         // Price Condition radio validation
         const priceConditionSelected = document.querySelector('input[name="price_Condition"]:checked');
