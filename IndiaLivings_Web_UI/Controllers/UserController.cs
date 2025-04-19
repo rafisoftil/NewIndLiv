@@ -210,7 +210,7 @@ namespace IndiaLivings_Web_UI.Controllers
             //UVM.userRoleID = 0;
             //UVM.userRoleName = null;
             //UVM.strUserImageName = profileImage.FileName;
-            UVM.byteUserImageData = "";
+            UVM.byteUserImageData = [];
             //UVM.strUserImageType = profileImage.FileName != "" ? profileImage.FileName.Split(".")[1] : "";
             //UVM.emailConfirmed = FormData["emailConfirmed"].ToString();
             UVM.isActive = true;

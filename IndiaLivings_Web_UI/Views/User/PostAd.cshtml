@@ -440,6 +440,7 @@
 
         // Final submission
         if (!isValid) {
+            toast.removeClass('toast_success');
             toast.addClass('toast_failed');
             toast.text('Please fill all the required fields');
             toast.removeClass('d-none');
@@ -459,6 +460,7 @@
         processData: false,
         contentType: false,
         success: function (response) {
+            toast.removeClass('toast_failed');
             toast.addClass('toast_success');
             toast.text('Ad posted successfully!');
             // Optionally reset form or redirect
@@ -470,6 +472,7 @@
             spinner.classList.add('d-none');
         },
         error: function (xhr) {
+            toast.removeClass('toast_success');
             toast.addClass('toast_failed');
             toast.text('An error occurred while posting your ad.');
             toast.removeClass('d-none');

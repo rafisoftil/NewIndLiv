@@ -100,12 +100,18 @@ namespace IndiaLivings_Web_UI.Controllers
             HttpContext.Session.SetString("UserId", "");
             HttpContext.Session.SetString("userName", "");
             HttpContext.Session.SetString("Role", "");
+            HttpContext.Session.SetString("UserFullName", "");
             if (user != null)
             {
                 HttpContext.Session.SetObject("UserDetails", user);
                 HttpContext.Session.SetString("userName", user.username);
                 HttpContext.Session.SetString("Role", user.userRoleName);
                 HttpContext.Session.SetInt32("UserId", user.userID);
+                HttpContext.Session.SetObject("UserImage", user.byteUserImageData);
+                HttpContext.Session.SetString("UserFullName", user.userFirstName + " " + user.userMiddleName + " " + user.userLastName);
+                HttpContext.Session.SetString("Mobile", user.userMobile);
+                HttpContext.Session.SetString("Email", user.userEmail);
+                HttpContext.Session.SetString("Address", user.userFullAddress);
                 JsonData = new
                 {
                     StatusCode = 200,

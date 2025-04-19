@@ -43,7 +43,7 @@ namespace IndiaLivings_Web_UI.Models
         public string userCountry { get; set; } = string.Empty;
         public string userPinCode { get; set; } 
         public string strUserImageName { get; set; } = string.Empty;
-        public string byteUserImageData { get; set; } = string.Empty;
+        public byte[] byteUserImageData { get; set; } = [];
         public string   strUserImageType { get; set; } = string.Empty;
 
         public bool isActive = true;
@@ -84,6 +84,7 @@ namespace IndiaLivings_Web_UI.Models
                     user.userWebsite = userDetails.userWebsite;
                     user.userDOB = userDetails.userDOB;
                     user.IsActive = userDetails.IsActive;
+                    user.byteUserImageData = userDetails.byteUserImageData;
                 }
             }
             catch (Exception ex)
@@ -208,7 +209,7 @@ namespace IndiaLivings_Web_UI.Models
                         user.password = userDetails.password;
                         user.userDescription = userDetails.userDescription;
                         user.userFullAddress = userDetails.userFullAddress;
-                        user.byteUserImageData = Convert.ToBase64String(userDetails.byteUserImageData);
+                        user.byteUserImageData = userDetails.byteUserImageData;
                         user.userDOB =(DateTime)userDetails.userDOB;
                         user.userCity = userDetails.userCity;
                         user.userState = userDetails.userState;
@@ -217,7 +218,7 @@ namespace IndiaLivings_Web_UI.Models
                         user.IsActive = userDetails.IsActive;
                         user.strUserImageName = userDetails.strUserImageName;
                         user.strUserImageType = userDetails.strUserImageType;
-                        user.byteUserImageData = Convert.ToBase64String(userDetails.byteUserImageData);
+                        user.byteUserImageData = userDetails.byteUserImageData;
                         user.userCompany = userDetails.userCompany;
 
                         users.Add(user);
