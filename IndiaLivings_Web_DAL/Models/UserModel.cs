@@ -51,8 +51,6 @@ namespace IndiaLivings_Web_DAL.Models
         public string userState { get; set; } = string.Empty;
         public string userCountry { get; set; } = string.Empty;
         public string userPinCode { get; set; } = string.Empty;
-        public bool isActive { get; set; }
-
         public string userCompany { get; set; } = string.Empty;
 
         #endregion
