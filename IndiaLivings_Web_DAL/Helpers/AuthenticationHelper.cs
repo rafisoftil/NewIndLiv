@@ -152,5 +152,35 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return resetInfo;
         }
+        public string PasswordReset(string newPassword, string token)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/UpdatePasswordfromReset?tokenId={token}&newPassword={newPassword}").Trim('\"');
+
+            }
+            catch (Exception ex)
+            {
+
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string UpdatePassword(int userId, string newPassword)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/UpdateUserPassword?userId={userId}&newPassword={newPassword}").Trim('\"');
+
+            }
+            catch (Exception ex)
+            {
+
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }

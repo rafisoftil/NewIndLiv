@@ -200,6 +200,7 @@ namespace IndiaLivings_Web_UI.Models
                     foreach (var userDetails in userList)
                     {
                         UserViewModel user = new UserViewModel();
+                        user.username = userDetails.username;
                         user.userEmail = userDetails.userEmail;
                         user.userMobile = userDetails.userMobile;
                         user.userWebsite = userDetails.userWebsite;
