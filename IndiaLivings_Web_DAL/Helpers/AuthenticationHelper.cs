@@ -1,5 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_DAL.Repositories;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace IndiaLivings_Web_DAL.Helpers
@@ -181,6 +182,50 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return response;
+        }
+
+        public string InsertUserImage(int intUserID, string strUserImageName, string strUserImageType, string createdBy, IFormFile UserImag)
+        {
+            try
+            {
+                if (UserImag != null && UserImag.Length > 0 && UserImag.Length <= 2 * 1024 * 1024)
+                {
+                    var formData = new MultipartFormDataContent();
+                    formData.Add(new StringContent(intUserID.ToString()), "intUserID");
+                    formData.Add(new StringContent(strUserImageName), "strUserImageName");
+                    formData.Add(new StringContent(strUserImageType), "strUserImageType");
+                    formData.Add(new StringContent(createdBy), "createdBy");
+                    formData.Add(new StreamContent(UserImag.OpenReadStream()), "UserImg", UserImag.FileName);
+
+                    var response = ServiceAPI.PostMultipartApi($"https://api.indialivings.com/api/Users/AddUserImage?intUserID={intUserID}&strUserImageName={strUserImageName}&strUserImageType={strUserImageType}&createdBy={createdBy}", formData);
+                    response.Wait();
+                    var res = response.Result?.Trim('\"');
+                    if (res.Contains("Image uploaded successfully."))
+                    {
+                        return "Image uploaded successfully.";
+                    }
+                    else
+                    {
+                        return "Failed to upload image";
+                    }
+                }
+                else
+                {
+                    if (UserImag == null || UserImag.Length == 0)
+                    {
+                        return "No image file found.";
+                    }
+                    else
+                    {
+                        return "Invalid image or image size exceeds 2 MB.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                return "An error occurred while uploading the product image.";
+            }
         }
     }
 }
