@@ -105,6 +105,7 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 HttpContext.Session.SetObject("UserDetails", user);
                 HttpContext.Session.SetString("userName", user.username);
+                HttpContext.Session.SetInt32("RoleId", user.userRoleID);
                 HttpContext.Session.SetString("Role", user.userRoleName);
                 HttpContext.Session.SetInt32("UserId", user.userID);
                 HttpContext.Session.SetObject("UserImage", user.byteUserImageData);
@@ -400,6 +401,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 return NotFound();
             }
         }
+
         /// <summary>
         /// Product Image
         /// </summary>

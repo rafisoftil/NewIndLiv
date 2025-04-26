@@ -239,34 +239,35 @@ namespace IndiaLivings_Web_UI.Models
             AuthenticationHelper PH = new AuthenticationHelper();
             try
             {
-                UserModel UVM = new UserModel();
-                UVM.userFirstName = user.userFirstName;
-                UVM.userLastName = user.userLastName;
-                UVM.userMiddleName = user.userMiddleName;
-                UVM.password = user.password;
-                UVM.userFullAddress = user.userFullAddress;
-                UVM.userWebsite = user.userWebsite;
-                UVM.userMobile = user.userMobile;
-                UVM.userDOB = (DateTime)user.userDOB;
-                UVM.userImagePath = "";
-                UVM.userDescription = user.userDescription;
-                UVM.userEmail = user.userEmail;
-                //UVM.userCity = user.userCity;
-                //UVM.userState = user.userState;
-                //UVM.userCountry = user.userCountry;
-                //UVM.userPinCode = user.userPinCode;
-                //UVM.userRoleID = 0;
-                //UVM.userRoleName = null;
-                UVM.strUserImageName = user.strUserImageName;
-                UVM.byteUserImageData = [];
-                UVM.strUserImageType = user.strUserImageType;
-                UVM.emailConfirmed = user.emailConfirmed;
-                //UVM.isActive = true;
-                UVM.createdDate = user.createdDate;
-                UVM.createdBy = user.createdBy;
-                UVM.updatedDate = (DateTime)user.updatedDate;
-                UVM.updatedBy = user.updatedBy;
-                isCreated = PH.updateUser(UVM);
+                UserModel UM = new UserModel();
+                UM.userID = user.userID;
+                UM.username = user.username;
+                UM.password = user.password;
+                UM.userFirstName = user.userFirstName;
+                UM.userMiddleName = user.userMiddleName;
+                UM.userLastName = user.userLastName;
+                UM.userDescription = user.userDescription;
+                UM.userEmail = user.userEmail;
+                UM.userMobile = user.userMobile;
+                UM.userFullAddress = user.userFullAddress;
+                UM.userCity = user.userCity;
+                UM.userState = user.userState;
+                UM.userCountry = user.userCountry;
+                UM.userPinCode = user.userPinCode;
+                UM.userRoleID = user.userRoleID;
+                UM.userRoleName = user.userRoleName;
+                UM.userWebsite = user.userWebsite;              
+                UM.userDOB = (DateTime)user.userDOB;
+                UM.strUserImageName = user.strUserImageName;
+                UM.byteUserImageData = user.byteUserImageData;
+                UM.strUserImageType = user.strUserImageType;       
+                UM.emailConfirmed = user.emailConfirmed;
+                UM.IsActive = true;
+                UM.createdDate = user.createdDate;
+                UM.createdBy = user.createdBy;
+                UM.updatedDate = (DateTime)user.updatedDate;
+                UM.updatedBy = user.updatedBy;
+                isCreated = PH.updateUser(UM);
             }
             catch (Exception ex)
             {
