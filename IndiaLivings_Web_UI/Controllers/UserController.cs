@@ -1,4 +1,5 @@
 
+using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.SqlServer.Server;
@@ -227,6 +228,26 @@ namespace IndiaLivings_Web_UI.Controllers
             //TempData["UpdateMessage"] = isUpdated ?"User Profile updated successfully!" : "Update failed.";
             TempData["UpdateMessage"] = "User Profile updated successfully";
             return RedirectToAction("Settings");
+        }
+        public JsonResult UpdateUserImage(IFormFile imageFile)
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            string imageType = Path.GetExtension(imageFile.FileName)?.TrimStart('.').ToLower();
+            string createdBy = HttpContext.Session.GetString("userName").ToString();
+            UserViewModel userModel = new UserViewModel();
+            var response = userModel.UploadUserImage(userId, imageFile.FileName, imageType, createdBy, imageFile);
+            if (response)
+            {
+                var userViewModel = new UserViewModel();
+                List<UserViewModel> user = new List<UserViewModel>();
+                user = userViewModel.GetUsersInfo(createdBy);
+                HttpContext.Session.SetObject("UserImage", user[0].byteUserImageData);
+                return Json(new { Status = "Image Added" });
+            }
+            else
+            {
+                return Json(new { Status = "Upload Failed" });
+            }          
         }
         public UserAddressViewModel GetUserAddress(IFormCollection FormData, bool isBilling)
         {

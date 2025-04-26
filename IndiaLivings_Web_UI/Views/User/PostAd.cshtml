@@ -60,7 +60,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-label">Product Title</label>
+                                    <label class="form-label">Product Title<sup style="color: red">*</sup></label>
                                     <input type="text" class="form-control" id="productName" name="productName" placeholder="Type your product title here" required>
                                     <small id="productNameError" class="text-danger d-none">Product name is required.</small>
                                 </div>
@@ -72,14 +72,14 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label class="form-label">Product Quantity</label>
+                                    <label class="form-label">Product Quantity<sup style="color: red">*</sup></label>
                                     <input type="number" class="form-control" id="productQuantity" name="productQuantity" placeholder="Enter your pricing amount" />
                                     <small id="productQuantityError" class="text-danger d-none">Product quantity is required.</small>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label class="form-label">Product Category</label>
+                                    <label class="form-label">Product Category<sup style="color: red">*</sup></label>
                                     <select class="form-control custom-select" id="category" name="category" onchange="LoadSubCategories()">
                                         <option value="" selected>Select Category</option>
                                         @foreach (var category in Model.Categories)
@@ -92,7 +92,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label class="form-label">Product Sub-Category</label>
+                                    <label class="form-label">Product Sub-Category<sup style="color: red">*</sup></label>
                                     <select class="form-control custom-select" id="subCategory" name="subCategory">
                                         <option value="" selected>Select Sub Category</option>
                                     </select>
@@ -101,7 +101,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label class="form-label">Price</label>
+                                    <label class="form-label">Price<sup style="color: red">*</sup></label>
                                     <input type="number" class="form-control" id="productPrice" name="productPrice" min="0" placeholder="Enter your pricing amount" />
                                     <small id="productPriceError" class="text-danger d-none">Product price is required.</small>
                                 </div>
@@ -109,7 +109,7 @@
                             <div class="col-md-4 col-lg-4">
                                 <div class="form-group">
                                     <ul class="form-check-list">
-                                        <li><label class="form-label">Price Condition</label></li>
+                                        <li><label class="form-label">Price Condition<sup style="color: red">*</sup></label></li>
                                         @foreach (var priceCondition in Model.priceConditions)
                                         {
                                             <li>
@@ -124,7 +124,7 @@
                             <div class="col-md-4 col-lg-4">
                                 <div class="form-group">
                                     <ul class="form-check-list">
-                                        <li><label class="form-label">Ad Category</label></li>
+                                        <li><label class="form-label">Ad Category<sup style="color: red">*</sup></label></li>
                                         @foreach (var AdCat in Model.Ad_Categories)
                                         {
                                             <li>
@@ -139,7 +139,7 @@
                             <div class="col-md-4 col-lg-4">
                                 <div class="form-group">
                                     <ul class="form-check-list">
-                                        <li><label class="form-label">Product Condition</label></li>
+                                        <li><label class="form-label">Product Condition<sup style="color: red">*</sup></label></li>
                                         @foreach (var PrdCond in Model.productConditions)
                                         {
                                             <li>
@@ -174,28 +174,28 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="AuthorName" name="AuthorName" value="@Context.Session.GetString("userName")" placeholder="Your Name" />
+                                    <label class="form-label">Name<sup style="color: red">*</sup></label>
+                                    <input type="text" class="form-control" id="AuthorName" name="AuthorName" value="@Context.Session.GetString("UserFullName")" placeholder="Your Name" />
                                     <small id="AuthorNameError" class="text-danger d-none">Name is required.</small>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-label">Email</label>
+                                    <label class="form-label">Email<sup style="color: red">*</sup></label>
                                     <input type="email" class="form-control" id="AuthorEmail" name="AuthorEmail" value="@Context.Session.GetString("Email")" placeholder="Your Email" />
                                     <small id="AuthorEmailError" class="text-danger d-none">Valid email is required.</small>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-label">Number</label>
+                                    <label class="form-label">Number<sup style="color: red">*</sup></label>
                                     <input type="number" class="form-control" id="AuthorMobile" name="AuthorMobile" value="@Context.Session.GetString("Mobile")" placeholder="Your Number" />
                                     <small id="AuthorMobileError" class="text-danger d-none">Mobile number is required.</small>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-label">Address</label>
+                                    <label class="form-label">Address<sup style="color: red">*</sup></label>
                                     <input type="text" class="form-control" id="AuthorAddress" name="AuthorAddress" value="@Context.Session.GetString("Address")" placeholder="Your Address" />
                                     <small id="AuthorAddressError" class="text-danger d-none">Address is required.</small>
                                 </div>
@@ -246,7 +246,7 @@
                         </ul>
                     </div>
                     <div class="adpost-card pb-2">
-                        <div class="adpost-agree">
+                        <div class="adpost-agree mb">
                             <div class="form-group">
                                 <input type="checkbox" id="formCheck" class="form-check">
                             </div>
@@ -256,7 +256,7 @@
                         <div class="form-group text-right">
                             <button class="btn btn-inline" type="submit" onclick="publishAd(event)">
                                 <i class="fas fa-check-circle"></i>
-                                <span>Published your ad</span>
+                                <span>Publish your ad</span>
                             </button>
                         </div>
                     </div>
@@ -393,7 +393,7 @@
             isValid = false;
         }   
         else {
-            productImageError.classList.add('d-none');
+            productImageError.classList.add('d-none');  
         }
         // if (!productImage.files || productImage.files.length === 0) {
         //     productImageError.innerText = "Product image is required.";
