@@ -200,6 +200,7 @@ namespace IndiaLivings_Web_UI.Models
                     foreach (var userDetails in userList)
                     {
                         UserViewModel user = new UserViewModel();
+                        user.username = userDetails.username;
                         user.userEmail = userDetails.userEmail;
                         user.userMobile = userDetails.userMobile;
                         user.userWebsite = userDetails.userWebsite;
@@ -273,7 +274,24 @@ namespace IndiaLivings_Web_UI.Models
             }
             return isCreated;
         }
-
+        public bool UploadUserImage(int userId, string fileName, string imageType, string createdBy, IFormFile imageFile)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            bool result = false;
+            try
+            {
+                var response = AH.InsertUserImage(userId, fileName, imageType, createdBy, imageFile);
+                if (response == "Image uploaded successfully.")
+                {
+                    result = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return result;
+        }
         #endregion
     }
 }

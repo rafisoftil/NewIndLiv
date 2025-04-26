@@ -220,6 +220,7 @@ namespace IndiaLivings_Web_UI.Controllers
             }
             return Json(new { success = true, message = message });
         }
+
         /// <summary>
         /// Reset Password Path
         /// </summary>
@@ -229,13 +230,61 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             PasswordResetViewModel passwordReset = new PasswordResetViewModel();
             List<PasswordResetViewModel> resetInfo = passwordReset.GetPasswordReset(token);
-            if (resetInfo[0].UserTokenExpiration < Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")))
+            if (resetInfo[0].UserTokenExpiration < DateTime.Now)
             {
                 return Json(new { message = "This link is expired. Please request for new link." });
             }
-            //ViewBag.UserId = userid;
-            //ViewBag.Username = username;
+            ViewBag.token = token;
             return View();
+        }
+
+        /// <summary>
+        /// Resets password through link
+        /// </summary>
+        /// <returns>Password reset status</returns>
+        public IActionResult ResetPassword(string newPassword, string token)
+        {
+            PasswordResetViewModel passwordReset = new PasswordResetViewModel();
+            string reset = passwordReset.PasswordReset(newPassword, token);
+            return Json(new { message = reset });
+        }
+
+        /// <summary>
+        /// Validates current password while password update
+        /// </summary>
+        /// <returns>Password correct or not</returns>
+        public IActionResult ValidateUpdatePassword(string userName, string password)
+        {
+            dynamic JsonData = null;
+            UserViewModel user = new UserViewModel();
+            user = user.ValidateUser(userName, password);
+            if (user.userID != 0)
+            {
+                JsonData = new
+                {
+                    StatusCode = 200,
+                    userId = user.userID
+                };
+            }
+            else
+            {
+                JsonData = new
+                {
+                    StatusCode = 400,
+                    userId = 0
+                };
+            }
+            return Json(JsonData);
+        }
+        /// <summary>
+        /// Update Password from Login page
+        /// </summary>
+        /// <returns>Update Password Status</returns>
+        public IActionResult UpdatePassword(int userId, string newPassword)
+        {
+            PasswordResetViewModel passwordReset = new PasswordResetViewModel();
+            string reset = passwordReset.UpdatePassword(userId, newPassword);
+            return Json(new { message = reset });
         }
 
         /// <summary>
