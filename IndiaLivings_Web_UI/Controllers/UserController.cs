@@ -133,6 +133,11 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> products = productModel.GetAds(productOwner);
             return View(products);
         }
+
+        /// <summary>
+        /// User Contact and Address details
+        /// </summary>
+        /// <returns>User Contact details</returns>
         public ActionResult Profile()
         {
             string username = HttpContext.Session.GetString("userName");
@@ -146,6 +151,69 @@ namespace IndiaLivings_Web_UI.Controllers
             return View(users);
         }
 
+        /// <summary>
+        /// Update billing and shipping address
+        /// </summary>
+        /// <returns>Update status</returns>
+        public IActionResult UpdateAddress(string houseNo, string pincode, string country, string state, string city, int type)
+        {
+            string result = "Update Failed";
+            int intUserID = HttpContext.Session.GetInt32("UserId") ?? 0;
+            UserAddressViewModel address = new UserAddressViewModel();
+            result = address.UpdateAddress(intUserID, houseNo, city, state, country, pincode, type);
+            if (result.Contains("Updated")) {
+                result = "Address Updated";
+            }
+            return Json(new { status = result});
+        }
+
+        /// <summary>
+        /// Sends User Address details to Edit Modal 
+        /// </summary>
+        /// <returns>Current user address</returns>
+        public IActionResult UserAddressInfo(string houseNo, string pincode, string state, string city, string country, string type)
+        {
+            ViewBag.HouseNo = houseNo;
+            ViewBag.Pincode = pincode;
+            ViewBag.State = state;
+            ViewBag.City = city;
+            ViewBag.Country = country;
+            ViewBag.Type = type;
+            return PartialView("_UserAddressInfo");
+        }
+
+        /// <summary>
+        /// Country Names
+        /// </summary>
+        /// <returns> List of all Country names</returns>
+        public string GetCountryName()
+        {
+            UserViewModel user = new UserViewModel();
+            string countries = user.GetCountryName();
+            return countries;
+        }
+
+        /// <summary>
+        /// State names
+        /// </summary>
+        /// <returns> List of all states under given country id</returns>
+        public string GetStates(int countryId)
+        {
+            UserViewModel user = new UserViewModel();
+            string states = user.GetStateName(countryId);
+            return states;
+        }
+
+        /// <summary>
+        /// City names
+        /// </summary>
+        /// <returns> List of all cities under given state id</returns>
+        public string GetCities(int stateId)
+        {
+            UserViewModel user = new UserViewModel();
+            string cities = user.GetCityName(stateId);
+            return cities;
+        }
         [HttpPost]
         public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
         {
@@ -225,7 +293,7 @@ namespace IndiaLivings_Web_UI.Controllers
             UVM.byteUserImageData = ImageBytes;
             //UVM.userImagePath = "";
             UVM.emailConfirmed = "";
-            UVM.isActive = true;
+            UVM.IsActive = true;
             UVM.createdDate = DateTime.Now;
             UVM.createdBy = HttpContext.Session.GetString("userName").ToString();
             UVM.updatedDate = DateTime.Now;
@@ -266,20 +334,20 @@ namespace IndiaLivings_Web_UI.Controllers
                 return Json(new { Status = "Upload Failed" });
             }          
         }
-        public UserAddressViewModel GetUserAddress(IFormCollection FormData, bool isBilling)
-        {
-            string prefix = isBilling ? "txt_b_" : "txt_s_";
-            return new UserAddressViewModel
-            {
-                intUserID = HttpContext.Session.GetInt32("UserId") ?? 0,
-                strUserContactFullAddress = FormData["txt_address"],
-                strUserContactCity = FormData[$"{prefix}city"],
-                strUserContactState = FormData[$"{prefix}state"],
-                strUserContactCountry = FormData[$"{prefix}country"],
-                strUserContactPinCode = FormData[$"{prefix}postcode"],
-                intUserAddressType = isBilling ? 1 : 2
-            };
-        }
+        //public UserAddressViewModel GetUserAddress(IFormCollection FormData, bool isBilling)
+        //{
+        //    string prefix = isBilling ? "txt_b_" : "txt_s_";
+        //    return new UserAddressViewModel
+        //    {
+        //        intUserID = HttpContext.Session.GetInt32("UserId") ?? 0,
+        //        strUserContactFullAddress = FormData["txt_address"],
+        //        strUserContactCity = FormData[$"{prefix}city"],
+        //        strUserContactState = FormData[$"{prefix}state"],
+        //        strUserContactCountry = FormData[$"{prefix}country"],
+        //        strUserContactPinCode = FormData[$"{prefix}postcode"],
+        //        intUserAddressType = isBilling ? 1 : 2
+        //    };
+        //}
 
 
 

@@ -45,10 +45,8 @@ namespace IndiaLivings_Web_UI.Models
         public string strUserImageName { get; set; } = string.Empty;
         public byte[] byteUserImageData { get; set; } = [];
         public string   strUserImageType { get; set; } = string.Empty;
-
-        public bool isActive = true;
-
         public string userCompany {get;set;}=string.Empty;
+        public List<UserAddressViewModel> userAddressInfo { get; set; } = [];
 
         #endregion
 
@@ -191,6 +189,7 @@ namespace IndiaLivings_Web_UI.Models
         public List<UserViewModel> GetUsersInfo(string username)
         {
             List<UserViewModel> users = new List<UserViewModel>();
+            List<UserAddressViewModel> userAddress = new List<UserAddressViewModel>();
             AuthenticationHelper AH = new AuthenticationHelper();
             try
             {
@@ -200,6 +199,7 @@ namespace IndiaLivings_Web_UI.Models
                     foreach (var userDetails in userList)
                     {
                         UserViewModel user = new UserViewModel();
+                        UserAddressViewModel address = new UserAddressViewModel();
                         user.username = userDetails.username;
                         user.userEmail = userDetails.userEmail;
                         user.userMobile = userDetails.userMobile;
@@ -221,7 +221,18 @@ namespace IndiaLivings_Web_UI.Models
                         user.strUserImageType = userDetails.strUserImageType;
                         user.byteUserImageData = userDetails.byteUserImageData;
                         user.userCompany = userDetails.userCompany;
-
+                        address.UserBillingFullAddress = userDetails.userAddressInfo[0].UserBillingFullAddress;
+                        address.UserBillingCity = userDetails.userAddressInfo[0].UserBillingCity;
+                        address.UserBillingState = userDetails.userAddressInfo[0].UserBillingState;
+                        address.UserBillingCountry = userDetails.userAddressInfo[0].UserBillingCountry;
+                        address.UserBillingPinCode = userDetails.userAddressInfo[0].UserBillingPinCode;
+                        address.UserShippingFullAddress = userDetails.userAddressInfo[0].UserShippingFullAddress;
+                        address.UserShippingCity = userDetails.userAddressInfo[0].UserShippingCity;
+                        address.UserShippingState = userDetails.userAddressInfo[0].UserShippingState;
+                        address.UserShippingCountry = userDetails.userAddressInfo[0].UserShippingCountry;
+                        address.UserShippingPinCode = userDetails.userAddressInfo[0].UserShippingPinCode;
+                        userAddress.Add(address);
+                        user.userAddressInfo = userAddress;
                         users.Add(user);
                     }
                 }
@@ -286,6 +297,48 @@ namespace IndiaLivings_Web_UI.Models
                 {
                     result = true;
                 }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return result;
+        }
+        public string GetCountryName()
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            string result = "";
+            try
+            {
+                result = AH.GetCountryName();
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return result;
+        }
+        public string GetStateName(int countryId)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            string result = "";
+            try
+            {
+                result = AH.GetStateNames(countryId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return result;
+        }
+        public string GetCityName(int stateId)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            string result = "";
+            try
+            {
+                result = AH.GetCitiesNames(stateId);
             }
             catch (Exception ex)
             {

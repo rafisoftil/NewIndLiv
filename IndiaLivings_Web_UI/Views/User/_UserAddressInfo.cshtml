@@ -1,0 +1,224 @@
+﻿<!-- Edit Billing Address Modal -->
+<div class="modal fade" id="editBillingModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="billingAddressForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit @ViewBag.Type Address</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="userId" value="" />
+                    <div class="mb-3">
+                        <label for="editPinCode" class="form-label">House No</label>
+                        <input type="text" id="houseNo" name="pinCode" class="form-control" value="@ViewBag.HouseNo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPinCode" class="form-label">Pin Code</label>
+                        <input type="text" id="pinCode" name="pinCode" class="form-control" value="@ViewBag.Pincode">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCountry" class="form-label">Country</label>
+                        <select id="countryDropdown" class="form-control" style="width: 100%" value="" placeholder="select a country"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editState" class="form-label">State</label>
+                        <select id="stateDropdown" class="form-control" style="width: 100%" value="@ViewBag.State"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCity" class="form-label">City</label>
+                        <select id="cityDropdown" class="form-control" style="width: 100%" value="@ViewBag.City"></select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="changeAddress(@(ViewBag.Type == "shipping" ? 2 : 1))">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+            $.ajax({
+                url: '/User/GetCountryName',
+                type: 'GET',
+                success: function (response) {
+                    if (typeof response === "string") {
+                        response = JSON.parse(response);
+                    }
+
+                    const countries = response
+                        .filter(c => c && c.strCountryName)
+                        .sort((a, b) => a.strCountryName.localeCompare(b.strCountryName));
+
+                    let $dropdown = $('#countryDropdown');
+                    $dropdown.empty();
+
+                    $dropdown.append('<option value="">Please select your country</option>');
+
+                    countries.forEach(function (country) {
+                        $dropdown.append(
+                            $('<option></option>')
+                                .val(country.intCountryID)
+                                .text(country.strCountryName)
+                        );
+                    });
+                    const selectedCountry = "@ViewBag.Country".trim();
+                    if (selectedCountry) {
+                        let matchedOption = $dropdown.find('option').filter(function () {
+                            return $(this).text().trim() === selectedCountry;
+                        }).first();
+                        if (matchedOption.length) {
+                            $dropdown.val(matchedOption.val()).trigger('change');
+                        }
+                    } else {
+                        // Default to "Please select your country"
+                        $dropdown.val("").trigger('change');
+                    }
+
+                    $dropdown.select2({
+                        placeholder: "Select a country",
+                        allowClear: true
+                    });
+                },
+                error: function () {
+                    alert('Failed to load countries');
+                }
+            });
+
+        $('#countryDropdown').on('change', function () {
+            const selectedCountryId = $(this).val();
+            if (selectedCountryId) {
+                $.ajax({
+                    url: '/User/GetStates',
+                    type: 'GET',
+                    data: {countryId: selectedCountryId},
+                    success: function (states) {
+                        if (typeof states === "string") {
+                            states = JSON.parse(states);
+                        }
+
+                        const filteredStates = states
+                            .filter(s => s && s.strStateName && s.IsActive)
+                            .sort((a, b) => a.strStateName.localeCompare(b.strStateName));
+
+                        let $stateDropdown = $('#stateDropdown');
+                        $stateDropdown.empty().append('<option></option>');
+
+                        filteredStates.forEach(function (state) {
+                            $stateDropdown.append(
+                                $('<option></option>')
+                                    .val(state.intStateID)
+                                    .text(state.strStateName)
+                            );
+                        });
+
+                        const selectedState = "@ViewBag.State".trim();
+                        if (selectedState) {
+                            let matchedOption = $stateDropdown.find('option').filter(function () {
+                                return $(this).text().trim() === selectedState;
+                            }).first();
+                            if (matchedOption.length) {
+                                $stateDropdown.val(matchedOption.val()).trigger('change');
+                            }
+                        } else {
+                            $stateDropdown.val("").trigger('change');
+                        }
+
+                        $stateDropdown.select2({
+                            placeholder: "Select a state",
+                            allowClear: true
+                        });
+                    },
+                    error: function () {
+                        alert('Failed to load states');
+                    }
+                });
+            } else {
+                $('#stateDropdown').empty().trigger('change');
+            }
+        });
+
+        $('#stateDropdown').on('change', function () {
+            const selectedStateId = $(this).val();
+            if (selectedStateId) {
+                $.ajax({
+                    url: '/User/GetCities', 
+                    type: 'GET',
+                    data: {stateId: selectedStateId},
+                    success: function (cities) {
+                        if (typeof cities === "string") {
+                            cities = JSON.parse(cities);
+                        }
+
+                        const filteredCities = cities
+                            .filter(s => s && s.strCityName && s.IsActive)
+                            .sort((a, b) => a.strCityName.localeCompare(b.strCityName));
+
+                        let $cityDropdown = $('#cityDropdown');
+                        $cityDropdown.empty().append('<option></option>');
+
+                        filteredCities.forEach(function (city) {
+                            $cityDropdown.append(
+                                $('<option></option>')
+                                    .val(city.intCityID)
+                                    .text(city.strCityName)
+                            );
+                        });
+
+                        const selectedCity = "@ViewBag.City".trim();
+                        if (selectedCity) {
+                            let matchedOption = $cityDropdown.find('option').filter(function () {
+                                return $(this).text().trim() === selectedCity;
+                            }).first();
+                            if (matchedOption.length) {
+                                $cityDropdown.val(matchedOption.val()).trigger('change');
+                            }
+                        } else {
+                            // Default to "Please select your country"
+                            $cityDropdown.val("").trigger('change');
+                        }
+
+                        $stateDropdown.select2({
+                            placeholder: "Select a city",
+                            allowClear: true
+                        });
+                    },
+                    error: function () {
+                        alert('Failed to load cities');
+                    }
+                });
+            } else {
+                $('#cityDropdown').empty().trigger('change');
+            }
+        });
+    });
+
+    function changeAddress(type) {
+        const selectedCountryId = $('#countryDropdown option:selected').text();
+        const selectedStateId = $('#stateDropdown option:selected').text();
+        const selectedCityId = $('#cityDropdown option:selected').text();
+        const selectedPin = $('#pinCode').val();
+        const houseNo = $('#houseNo').val();
+
+        $.ajax({
+            url: '/User/UpdateAddress',
+            type: 'POST',
+            data: {houseNo: houseNo, pincode: selectedPin, country: selectedCountryId, state: selectedStateId, city: selectedCityId, type: type},
+            success: function (response) {
+                if (response.status == ("Address Updated")) {
+                    alert("Address Updated Successfully");
+                }
+                else {
+                    alert("Update Failed");
+                }
+            },
+            error: function () {
+                alert('Failed to Update Address');
+            }
+        });
+    }
+
+
+</script>
