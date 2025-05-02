@@ -2,6 +2,7 @@
 using IndiaLivings_Web_DAL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Text.Json.Nodes;
 
 namespace IndiaLivings_Web_DAL.Helpers
 {
@@ -226,6 +227,48 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
                 return "An error occurred while uploading the product image.";
             }
+        }
+        public string GetCountryName()
+        {
+            var response = "";
+            try
+            {
+                response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/GetCountryName");
+            }
+            catch (Exception ex)
+            {
+
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string GetStateNames(int countryId)
+        {
+            var response = "";
+            try
+            {
+                response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetStateName?intCountryID={countryId}");
+            }
+            catch (Exception ex)
+            {
+
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string GetCitiesNames(int stateId)
+        {
+            var response = "";
+            try
+            {
+                response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetCityName?intStateID={stateId}");
+            }
+            catch (Exception ex)
+            {
+
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
     }
 }
