@@ -53,12 +53,12 @@
     </style>
 </head>
 <body>
-    @if (TempData["UpdateMessage"] != null)
+    @* @if (TempData["UpdateMessage"] != null)
     {
         <div class="alert alert-success">
             @TempData["UpdateMessage"]
         </div>
-    }
+    } *@
 
     <nav class="mobile-nav">
         <div class="container">
@@ -183,14 +183,32 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label class="form-label">Company</label>
-                                            <input type="text" id="txt_company" name="txt_company" class="form-control" placeholder="Type Company" value="@Model[0].userCompany">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
                                             <label class="form-label">Address</label>
                                             <input type="text" id="txt_address" name="txt_address" class="form-control" placeholder="Type Address" value="@Model[0].userFullAddress">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">City</label>
+                                            <input type="text" id="txt_city" name="txt_city" class="form-control" placeholder="Type City" value="@Model[0].userCity">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">State</label>
+                                            <input type="text" id="txt_state" name="txt_state" class="form-control" placeholder="Select State" value="@Model[0].userState">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Post Code</label>
+                                            <input type="text" id="txt_postcode" name="txt_postcode" class="form-control" placeholder="Type Post Code" value="@Model[0].userPinCode">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Country</label>
+                                            <input type="text" id="txt_Country" name="txt_Country" class="form-control" placeholder="Select Country" value="@Model[0].userCountry">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -208,7 +226,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label">Birthday</label>
-                                            <input type="date" id="txt_dob" name="txt_dob" class="form-control" value="@Model[0].userDOB">
+                                        <input type="date" id="txt_dob" name="txt_dob" class="form-control" value="@Model[0].userDOB">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -216,17 +234,16 @@
                                             <label class="form-label">Profile Image</label>
                                             <input type="file" id="txt_profile_img" name="profileImage" class="form-control">
                                             <input type="text" id="file_name" value="@Model[0].userImagePath" hidden>
-                                            <div class="dash-avatar">
+                                            @* <div class="dash-avatar">
                                                 <a href="#">
-                                                    <img src="@Url.Content(ViewBag.UserProfileImgPath + Model[0].userID + "/" + Model[0].userImagePath)"
-                                                         onerror="this.onerror=null;this.src='../images/user_profile/dummy_profileimg.png';" />
+                                                <img src="@Url.Action("GetUserImage", "Dashboard")" onerror="this.onerror=null;this.src='../images/user.png';" alt="avatar">
                                                 </a>
-                                            </div>
+                                            </div> *@
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12"><hr></div> <div class="row mb-4">
-                                        <div class="col-lg-6">
+                                        @* <div class="col-lg-6">
                                             <h4>Billing Address</h4>
                                              
                                             <div class="form-group">
@@ -274,7 +291,7 @@
                                                 <label class="form-label">Country</label>
                                             <input type="text" id="shipping_country" name="txt_s_country" class="form-control" placeholder="Select Country" value="">
                                             </div>
-                                        </div>
+                                        </div> *@
 
 
                                         <div class="col-lg-12">

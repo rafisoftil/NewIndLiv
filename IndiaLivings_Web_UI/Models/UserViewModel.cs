@@ -45,10 +45,8 @@ namespace IndiaLivings_Web_UI.Models
         public string strUserImageName { get; set; } = string.Empty;
         public byte[] byteUserImageData { get; set; } = [];
         public string   strUserImageType { get; set; } = string.Empty;
-
-        public bool isActive = true;
-
         public string userCompany {get;set;}=string.Empty;
+        public List<UserAddressViewModel> userAddressInfo { get; set; } = [];
 
         #endregion
 
@@ -191,6 +189,7 @@ namespace IndiaLivings_Web_UI.Models
         public List<UserViewModel> GetUsersInfo(string username)
         {
             List<UserViewModel> users = new List<UserViewModel>();
+            List<UserAddressViewModel> userAddress = new List<UserAddressViewModel>();
             AuthenticationHelper AH = new AuthenticationHelper();
             try
             {
@@ -200,6 +199,7 @@ namespace IndiaLivings_Web_UI.Models
                     foreach (var userDetails in userList)
                     {
                         UserViewModel user = new UserViewModel();
+                        UserAddressViewModel address = new UserAddressViewModel();
                         user.username = userDetails.username;
                         user.userEmail = userDetails.userEmail;
                         user.userMobile = userDetails.userMobile;
@@ -221,7 +221,18 @@ namespace IndiaLivings_Web_UI.Models
                         user.strUserImageType = userDetails.strUserImageType;
                         user.byteUserImageData = userDetails.byteUserImageData;
                         user.userCompany = userDetails.userCompany;
-
+                        address.UserBillingFullAddress = userDetails.userAddressInfo[0].UserBillingFullAddress;
+                        address.UserBillingCity = userDetails.userAddressInfo[0].UserBillingCity;
+                        address.UserBillingState = userDetails.userAddressInfo[0].UserBillingState;
+                        address.UserBillingCountry = userDetails.userAddressInfo[0].UserBillingCountry;
+                        address.UserBillingPinCode = userDetails.userAddressInfo[0].UserBillingPinCode;
+                        address.UserShippingFullAddress = userDetails.userAddressInfo[0].UserShippingFullAddress;
+                        address.UserShippingCity = userDetails.userAddressInfo[0].UserShippingCity;
+                        address.UserShippingState = userDetails.userAddressInfo[0].UserShippingState;
+                        address.UserShippingCountry = userDetails.userAddressInfo[0].UserShippingCountry;
+                        address.UserShippingPinCode = userDetails.userAddressInfo[0].UserShippingPinCode;
+                        userAddress.Add(address);
+                        user.userAddressInfo = userAddress;
                         users.Add(user);
                     }
                 }
@@ -239,34 +250,35 @@ namespace IndiaLivings_Web_UI.Models
             AuthenticationHelper PH = new AuthenticationHelper();
             try
             {
-                UserModel UVM = new UserModel();
-                UVM.userFirstName = user.userFirstName;
-                UVM.userLastName = user.userLastName;
-                UVM.userMiddleName = user.userMiddleName;
-                UVM.password = user.password;
-                UVM.userFullAddress = user.userFullAddress;
-                UVM.userWebsite = user.userWebsite;
-                UVM.userMobile = user.userMobile;
-                UVM.userDOB = (DateTime)user.userDOB;
-                UVM.userImagePath = "";
-                UVM.userDescription = user.userDescription;
-                UVM.userEmail = user.userEmail;
-                //UVM.userCity = user.userCity;
-                //UVM.userState = user.userState;
-                //UVM.userCountry = user.userCountry;
-                //UVM.userPinCode = user.userPinCode;
-                //UVM.userRoleID = 0;
-                //UVM.userRoleName = null;
-                UVM.strUserImageName = user.strUserImageName;
-                UVM.byteUserImageData = [];
-                UVM.strUserImageType = user.strUserImageType;
-                UVM.emailConfirmed = user.emailConfirmed;
-                //UVM.isActive = true;
-                UVM.createdDate = user.createdDate;
-                UVM.createdBy = user.createdBy;
-                UVM.updatedDate = (DateTime)user.updatedDate;
-                UVM.updatedBy = user.updatedBy;
-                isCreated = PH.updateUser(UVM);
+                UserModel UM = new UserModel();
+                UM.userID = user.userID;
+                UM.username = user.username;
+                UM.password = user.password;
+                UM.userFirstName = user.userFirstName;
+                UM.userMiddleName = user.userMiddleName;
+                UM.userLastName = user.userLastName;
+                UM.userDescription = user.userDescription;
+                UM.userEmail = user.userEmail;
+                UM.userMobile = user.userMobile;
+                UM.userFullAddress = user.userFullAddress;
+                UM.userCity = user.userCity;
+                UM.userState = user.userState;
+                UM.userCountry = user.userCountry;
+                UM.userPinCode = user.userPinCode;
+                UM.userRoleID = user.userRoleID;
+                UM.userRoleName = user.userRoleName;
+                UM.userWebsite = user.userWebsite;              
+                UM.userDOB = (DateTime)user.userDOB;
+                UM.strUserImageName = user.strUserImageName;
+                UM.byteUserImageData = user.byteUserImageData;
+                UM.strUserImageType = user.strUserImageType;       
+                UM.emailConfirmed = user.emailConfirmed;
+                UM.IsActive = true;
+                UM.createdDate = user.createdDate;
+                UM.createdBy = user.createdBy;
+                UM.updatedDate = (DateTime)user.updatedDate;
+                UM.updatedBy = user.updatedBy;
+                isCreated = PH.updateUser(UM);
             }
             catch (Exception ex)
             {
@@ -285,6 +297,48 @@ namespace IndiaLivings_Web_UI.Models
                 {
                     result = true;
                 }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return result;
+        }
+        public string GetCountryName()
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            string result = "";
+            try
+            {
+                result = AH.GetCountryName();
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return result;
+        }
+        public string GetStateName(int countryId)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            string result = "";
+            try
+            {
+                result = AH.GetStateNames(countryId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return result;
+        }
+        public string GetCityName(int stateId)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            string result = "";
+            try
+            {
+                result = AH.GetCitiesNames(stateId);
             }
             catch (Exception ex)
             {
