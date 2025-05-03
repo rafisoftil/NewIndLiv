@@ -260,6 +260,7 @@ namespace IndiaLivings_Web_UI.Controllers
         public ActionResult UpdateUser(IFormFile profileImage, IFormCollection FormData)
         {
             bool isInsert = false;
+            var result = "Update Failed";
             UserViewModel UVM = new UserViewModel();
             UVM.userID = HttpContext.Session.GetInt32("UserId") ?? 0;
             UVM.username = HttpContext.Session.GetString("userName");
@@ -310,9 +311,11 @@ namespace IndiaLivings_Web_UI.Controllers
                     HttpContext.Session.SetObject("UserImage", user[0].byteUserImageData);
                 }
             }
-            //TempData["UpdateMessage"] = isUpdated ?"User Profile updated successfully!" : "Update failed.";
-            TempData["UpdateMessage"] = "User Profile updated successfully";
-            return RedirectToAction("Settings");
+            if (isUpdated)
+            {
+                result = "User Profile updated successfully";
+            } 
+            return Json(new {status = result });
         }
         public JsonResult UpdateUserImage(IFormFile imageFile)
         {
