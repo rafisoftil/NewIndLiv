@@ -119,18 +119,11 @@
     const cropperImage = document.getElementById('cropperImage');
     const cropModal = document.getElementById('cropModal');
     const profileImage = document.getElementById('profileImage');
-    const toast = document.getElementById('toast');
 
     fileInput.addEventListener('change', function () {
         const file = fileInput.files[0];
         if (file.size > 2 * 1024 * 1024) {
-            toast.classList.remove('d-none');
-            toast.classList.add('toast_failed');
-            toast.textContent = 'Image size should not exceed 2 MB';
-            setTimeout(() => {
-                toast.classList.add('d-none');
-                toast.classList.remove('toast_failed');
-            }, 3000);
+            ShowToast('failed', 'Image size should not exceed 2 MB');
             fileInput.value = "";
             return;
         }
