@@ -191,13 +191,13 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label">Phone</label>
-                                            <input type="text" id="txt_phone" name="txt_phone" class="form-control" placeholder="Type Phone" value="@Model[0].userMobile">
+                                        <input type="text" id="txt_phone" name="txt_phone" class="form-control" placeholder="Type Phone" value="@Model[0].userMobile">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label">Birthday</label>
-                                        <input type="date" id="txt_dob" name="txt_dob" class="form-control" value="@Model[0].userDOB">
+                                        <input type="date" id="txt_dob" name="txt_dob" class="form-control" value="@(((DateTime)Model[0].userDOB).ToString("yyyy-MM-dd"))">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -365,6 +365,7 @@
         var profileImg = $('#txt_profile_img');
         var profileImgErr = $('#profileImgErr');
         var password = $('#txt_password');
+        var phone = $('#txt_phone');
 
         // Reset errors
         profileImgErr.addClass('d-none').text('');
@@ -385,6 +386,12 @@
         } else if (password.val().length < 6) {
             password.addClass('is-invalid');
             password.after('<small id="passwordErr" class="text-danger">Password should be at least 6 characters</small>');
+            isValid = false;
+        }
+
+        if (phone.val().trim() === '') {
+            phone.addClass('is-invalid');
+            phone.after('<small id="passwordErr" class="text-danger">Please enter your phone no</small>');
             isValid = false;
         }
 
