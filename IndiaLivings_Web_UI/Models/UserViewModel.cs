@@ -244,10 +244,10 @@ namespace IndiaLivings_Web_UI.Models
 
             return users;
         }
-        public bool UpdateUserProfile(UserViewModel user)
+        public string UpdateUserProfile(UserViewModel user)
         {
-            bool isCreated = false;
-            AuthenticationHelper PH = new AuthenticationHelper();
+            string response = "An error occured while calling";
+            AuthenticationHelper AH = new AuthenticationHelper();
             try
             {
                 UserModel UM = new UserModel();
@@ -278,13 +278,13 @@ namespace IndiaLivings_Web_UI.Models
                 UM.createdBy = user.createdBy;
                 UM.updatedDate = (DateTime)user.updatedDate;
                 UM.updatedBy = user.updatedBy;
-                isCreated = PH.updateUser(UM);
+                response = AH.updateUser(UM);
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-            return isCreated;
+            return response;
         }
         public bool UploadUserImage(int userId, string fileName, string imageType, string createdBy, IFormFile imageFile)
         {
