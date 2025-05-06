@@ -21,36 +21,6 @@
 
     <link rel="stylesheet" href="~/css/custom/main.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/custom/setting.css" />
-    <style>
-
-        /* Toast container */
-        .toast_success {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            z-index: 9999;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .toast_failed {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #dc3545;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            z-index: 9999;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-    </style>
 </head>
 <body>
     @* @if (TempData["UpdateMessage"] != null)
@@ -160,8 +130,8 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label">City</label>
-                                            <select id="cityDropdown" class="form-control" style="width: 100%" value="@Model[0].userCity"></select>
+                                            <label class="form-label">Country</label>
+                                            <select id="countryDropdown" class="form-control" style="width: 100%" value="@Model[0].userCountry" placeholder="select a country"></select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -172,14 +142,14 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label">Post Code</label>
-                                            <input type="text" id="txt_postcode" name="txt_postcode" class="form-control" placeholder="Type Post Code" value="@Model[0].userPinCode">
+                                            <label class="form-label">City</label>
+                                            <select id="cityDropdown" class="form-control" style="width: 100%" value="@Model[0].userCity"></select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label">Country</label>
-                                            <select id="countryDropdown" class="form-control" style="width: 100%" value="@Model[0].userCountry" placeholder="select a country"></select>
+                                            <label class="form-label">Post Code</label>
+                                            <input type="text" id="txt_postcode" name="txt_postcode" class="form-control" placeholder="Type Post Code" value="@Model[0].userPinCode">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -416,6 +386,7 @@
                     spinner.classList.add('d-none');
                     if (response.status.includes("Success")) {
                         ShowToast('success', response.status);
+                        location.reload();
                     }
                     else {
                         ShowToast('failed', response.status);
