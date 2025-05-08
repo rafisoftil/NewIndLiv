@@ -104,7 +104,7 @@
                             .sort((a, b) => a.strStateName.localeCompare(b.strStateName));
 
                         let $stateDropdown = $('#stateDropdown');
-                        $stateDropdown.empty().append('<option></option>');
+                        $stateDropdown.empty().append('<option>Select your state</option>');
 
                         filteredStates.forEach(function (state) {
                             $stateDropdown.append(
@@ -157,7 +157,7 @@
                             .sort((a, b) => a.strCityName.localeCompare(b.strCityName));
 
                         let $cityDropdown = $('#cityDropdown');
-                        $cityDropdown.empty().append('<option></option>');
+                        $cityDropdown.empty().append('<option>Select your City</option>');
 
                         filteredCities.forEach(function (city) {
                             $cityDropdown.append(
@@ -201,21 +201,27 @@
         const selectedCityId = $('#cityDropdown option:selected').text();
         const selectedPin = $('#pinCode').val();
         const houseNo = $('#houseNo').val();
-
+        const spinner = document.getElementById('spinner');
+        $('#editBillingModal').hide();
+        $('.modal-backdrop').remove();
+        spinner.classList.remove('d-none');
         $.ajax({
             url: '/User/UpdateAddress',
             type: 'POST',
             data: {houseNo: houseNo, pincode: selectedPin, country: selectedCountryId, state: selectedStateId, city: selectedCityId, type: type},
             success: function (response) {
+                spinner.classList.add('d-none');
                 if (response.status == ("Address Updated")) {
-                    alert("Address Updated Successfully");
+                    ShowToast('success', 'Address Updated Successfully');
                 }
                 else {
-                    alert("Update Failed");
+                    ShowToast('failed', 'Update Failed');
                 }
+
             },
             error: function () {
-                alert('Failed to Update Address');
+                spinner.classList.add('d-none');
+                ShowToast('failed', 'Failed to Update Address');
             }
         });
     }
