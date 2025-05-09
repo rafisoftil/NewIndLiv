@@ -75,22 +75,19 @@ namespace IndiaLivings_Web_DAL.Helpers
 
         }
 
-        public bool updateUser(UserModel user)
+        public string updateUser(UserModel user)
         {
-            bool isInsert = false;
+            string response = "";
             try
             {
-                var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/UpdateUser", user);
-                if (!response.Contains("Error"))
-                    isInsert = true;
-
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/UpdateUser", user).Trim('\"');
             }
             catch (Exception ex)
             {
 
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-            return isInsert;
+            return response;
         }
         public string UpdateAddress(int intUserID, string strUserContactFullAddress,string strUserContactCity,string strUserContactState,string strUserContactCountry,string strUserContactPinCode , int intUserAddressType)
         {

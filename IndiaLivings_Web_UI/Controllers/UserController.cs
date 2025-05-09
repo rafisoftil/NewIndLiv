@@ -163,6 +163,7 @@ namespace IndiaLivings_Web_UI.Controllers
             result = address.UpdateAddress(intUserID, houseNo, city, state, country, pincode, type);
             if (result.Contains("Updated")) {
                 result = "Address Updated";
+                var sess = SessionUpdate();
             }
             return Json(new { status = result});
         }
@@ -260,6 +261,7 @@ namespace IndiaLivings_Web_UI.Controllers
         public ActionResult UpdateUser(IFormFile profileImage, IFormCollection FormData)
         {
             bool isInsert = false;
+            string result = "";
             UserViewModel UVM = new UserViewModel();
             UVM.userID = HttpContext.Session.GetInt32("UserId") ?? 0;
             UVM.username = HttpContext.Session.GetString("userName");
@@ -298,7 +300,7 @@ namespace IndiaLivings_Web_UI.Controllers
             UVM.createdBy = HttpContext.Session.GetString("userName").ToString();
             UVM.updatedDate = DateTime.Now;
             UVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
-            bool isUpdated = UVM.UpdateUserProfile(UVM);
+            result = UVM.UpdateUserProfile(UVM);
             if (profileImage != null)
             {
                 var response = UVM.UploadUserImage(UVM.userID, profileImage.FileName, UVM.strUserImageType, UVM.createdBy, profileImage);
@@ -310,9 +312,60 @@ namespace IndiaLivings_Web_UI.Controllers
                     HttpContext.Session.SetObject("UserImage", user[0].byteUserImageData);
                 }
             }
-            //TempData["UpdateMessage"] = isUpdated ?"User Profile updated successfully!" : "Update failed.";
-            TempData["UpdateMessage"] = "User Profile updated successfully";
-            return RedirectToAction("Settings");
+            if (result.Contains("Success"))
+            {
+                var sess = SessionUpdate();
+            }
+            return Json(new {status = result });
+        }
+
+        public JsonResult SessionUpdate()
+        {
+            dynamic JsonData = null;
+            UserViewModel user = new UserViewModel();
+            string userName = HttpContext.Session.GetString("userName");
+            HttpContext.Session.SetObject("UserDetails", user);
+            user = user.GetUsersInfo(userName)[0];
+            HttpContext.Session.SetString("userName", "");
+            HttpContext.Session.SetString("UserId", "");
+            HttpContext.Session.SetString("userName", "");
+            HttpContext.Session.SetString("Role", "");
+            HttpContext.Session.SetString("UserFullName", "");
+            if (user != null)
+            {
+                HttpContext.Session.SetObject("UserDetails", user);
+                HttpContext.Session.SetString("userName", user.username);
+                HttpContext.Session.SetInt32("RoleId", user.userRoleID);
+                HttpContext.Session.SetString("Role", user.userRoleName);
+                HttpContext.Session.SetInt32("UserId", user.userID);
+                HttpContext.Session.SetObject("UserImage", user.byteUserImageData);
+                HttpContext.Session.SetString("UserFullName", user.userFirstName + " " + user.userMiddleName + " " + user.userLastName);
+                HttpContext.Session.SetString("Mobile", user.userMobile.ToString());
+                HttpContext.Session.SetString("Email", user.userEmail);
+                HttpContext.Session.SetString("Address", user.userFullAddress);
+                JsonData = new
+                {
+                    StatusCode = 200,
+                    userId = user.userID,
+                    userRole = user.userRoleName,
+                    userImage = user.userImagePath
+                };
+
+            }
+            else if (user == null)
+                JsonData = new
+                {
+                    StatusCode = 400
+                };
+            else
+            {
+                JsonData = new
+                {
+                    StatusCode = 500
+                };
+            }
+
+            return Json(JsonData);
         }
         public JsonResult UpdateUserImage(IFormFile imageFile)
         {

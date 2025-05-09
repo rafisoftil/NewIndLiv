@@ -222,24 +222,28 @@
     =======================================-->
 <!-- Modal placeholder -->
 <div id="modalPlaceholder"></div>
+<div id="spinner" class="d-none">
+    <img style="height: 100px" src="~/images/spinner.gif" />
+</div>
+<div id="toast" class="d-none"></div>
+<!--=====================================
+            JS LINK PART START
+=======================================-->
+<!-- VENDOR -->
+<script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="~/js/vendor/popper.min.js"></script>
+<script src="~/js/vendor/bootstrap.min.js"></script>
 
-    <!--=====================================
-                JS LINK PART START
-    =======================================-->
-    <!-- VENDOR -->
-    <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="~/js/vendor/popper.min.js"></script>
-    <script src="~/js/vendor/bootstrap.min.js"></script>
-
-    <!-- CUSTOM -->
-    <script src="~/js/custom/main.js"></script>
-    <!--=====================================
-                JS LINK PART END
-    =======================================-->
+<!-- CUSTOM -->
+<script src="~/js/custom/main.js"></script>
+<!--=====================================
+            JS LINK PART END
+=======================================-->
 
 
 <script>
     function loadAddressModal(address, pincode, state, city, country, type) {
+        
         $.ajax({
             url: '/User/UserAddressInfo', // Controller action name
             type: 'GET',

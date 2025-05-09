@@ -952,6 +952,7 @@ body {
 
 .toast_success {
     position: fixed;
+    margin-top: 100px;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
@@ -965,6 +966,7 @@ body {
 
 .toast_failed {
     position: fixed;
+    margin-top: 100px;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
