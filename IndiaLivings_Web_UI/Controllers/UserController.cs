@@ -258,6 +258,23 @@ namespace IndiaLivings_Web_UI.Controllers
 
             return RedirectToAction("PostAd");
         }
+        public int UserAdCount()
+        {
+            int adsRemCount = 0;
+            try
+            {
+                AdsByMembershipViewModel adsRem = new AdsByMembershipViewModel();
+                int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+                List<AdsByMembershipViewModel> adData = adsRem.GetUserAdsRemaining(0);
+                adsRemCount = adData[0].userTotalAdsRemaining;
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return 2;
+            //return Json(new { response = adsRemCount});
+        }
         public ActionResult UpdateUser(IFormFile profileImage, IFormCollection FormData)
         {
             bool isInsert = false;
