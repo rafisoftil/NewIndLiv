@@ -272,8 +272,7 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-            return 2;
-            //return Json(new { response = adsRemCount});
+            return adsRemCount;
         }
         public ActionResult UpdateUser(IFormFile profileImage, IFormCollection FormData)
         {
