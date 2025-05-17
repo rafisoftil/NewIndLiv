@@ -200,6 +200,7 @@ namespace IndiaLivings_Web_UI.Models
                     {
                         UserViewModel user = new UserViewModel();
                         UserAddressViewModel address = new UserAddressViewModel();
+                        user.userID = userDetails.userID;
                         user.username = userDetails.username;
                         user.userEmail = userDetails.userEmail;
                         user.userMobile = userDetails.userMobile;
@@ -221,6 +222,8 @@ namespace IndiaLivings_Web_UI.Models
                         user.strUserImageType = userDetails.strUserImageType;
                         user.byteUserImageData = userDetails.byteUserImageData;
                         user.userCompany = userDetails.userCompany;
+                        user.userRoleID = userDetails.userRoleID;
+                        user.userRoleName = userDetails.userRoleName;
                         address.UserBillingFullAddress = userDetails.userAddressInfo[0].UserBillingFullAddress;
                         address.UserBillingCity = userDetails.userAddressInfo[0].UserBillingCity;
                         address.UserBillingState = userDetails.userAddressInfo[0].UserBillingState;
