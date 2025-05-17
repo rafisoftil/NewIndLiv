@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="NonFactors.Grid.Mvc6" Version="8.0.0" />
+    <PackageReference Include="RazorPay.Core" Version="1.0.2" />
   </ItemGroup>
 	<ItemGroup>
     <ProjectReference Include="..\IndiaLivings_Web_DAL\IndiaLivings_Web_DAL.csproj" />

@@ -402,8 +402,6 @@ namespace IndiaLivings_Web_UI.Controllers
         //    };
         //}
 
-
-
         public byte[] GetByteInfo(IFormFile productImage)
         {
             byte[] bytes = null;
@@ -422,6 +420,44 @@ namespace IndiaLivings_Web_UI.Controllers
             List<UserViewModel> users = new List<UserViewModel>();
             users = userViewModel.GetUsersInfo(username);
             return View(users);
+        }
+
+        public IActionResult success()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ProcessPayment(int Amount)
+        {
+            var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
+            string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
+            string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
+            paymentRequestViewModel =paymentRequestViewModel.ProcessRequest(Amount,ApiKey,SecretKey);
+            return View("Payment", paymentRequestViewModel);
+        }
+        private readonly IHttpContextAccessor httpContextAccessor;
+
+        [HttpPost]
+        public IActionResult CompleteRequest(IFormCollection formData)
+        {
+            var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            //IHttpContextAccessor httpContextAccessor=null;
+            string paymentCaptured = string.Empty;
+            string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
+            string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
+            PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
+            paymentCaptured = paymentRequestViewModel.CompleteRequest(formData["rzp_paymentid"], formData["rzp_orderid"],ApiKey,SecretKey);
+            //if (paymentCaptured == "captured")
+            //    return View("success");
+            //else
+            //    return View("failed");
+            return RedirectToAction("PostAd");
+        }
+        public IActionResult Payment()
+        {
+            return View();
         }
 
 
