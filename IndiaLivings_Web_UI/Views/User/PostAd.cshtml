@@ -62,19 +62,19 @@
                                 <div class="form-group">
                                     <label class="form-label">Product Title<sup style="color: red">*</sup></label>
                                     <input type="text" class="form-control" id="productName" name="productName" placeholder="Type your product title here" required>
-                                    <small id="productNameError" class="text-danger d-none">Product name is required.</small>
+                                    <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
                                 </div>
                             </div>
                             <div class="form-group col-6">
                                 <label class="form-label">Product Image</label>
                                 <input type="file" id="productImage" name="productImage" class="form-control">
-                                <small id="productImageError" class="text-danger d-none">Product image is required.</small>
+                                <small id="productImageError" class="text-danger d-none">Product Image is required.</small>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="form-label">Product Quantity<sup style="color: red">*</sup></label>
                                     <input type="number" class="form-control" id="productQuantity" name="productQuantity" placeholder="Enter your pricing amount" />
-                                    <small id="productQuantityError" class="text-danger d-none">Product quantity is required.</small>
+                                    <small id="productQuantityError" class="text-danger d-none">Product Quantity is required.</small>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -87,7 +87,7 @@
                                             <option value=@category.CategoryID>@category.CategoryName</option>
                                         }
                                     </select>
-                                    <small id="categoryError" class="text-danger d-none">Please select a category.</small>
+                                    <small id="categoryError" class="text-danger d-none">Please select a Category.</small>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -96,14 +96,14 @@
                                     <select class="form-control custom-select" id="subCategory" name="subCategory">
                                         <option value="" selected>Select Sub Category</option>
                                     </select>
-                                    <small id="subCategoryError" class="text-danger d-none">Please select a sub-category.</small>
+                                    <small id="subCategoryError" class="text-danger d-none">Please select a Sub-Category.</small>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label class="form-label">Price<sup style="color: red">*</sup></label>
                                     <input type="number" class="form-control" id="productPrice" name="productPrice" min="0" placeholder="Enter your pricing amount" />
-                                    <small id="productPriceError" class="text-danger d-none">Product price is required.</small>
+                                    <small id="productPriceError" class="text-danger d-none">Product Price is required.</small>
                                 </div>
                             </div>
                             <div class="col-md-4 col-lg-4">
@@ -118,7 +118,7 @@
                                             </li>
                                         }
                                     </ul>
-                                    <small id="priceConditionError" class="text-danger d-none">Please select a price condition.</small>
+                                    <small id="priceConditionError" class="text-danger d-none">Please select a Price Condition.</small>
                                 </div>
                             </div>
                             <div class="col-md-4 col-lg-4">
@@ -133,7 +133,7 @@
                                             </li>
                                         }
                                     </ul>
-                                    <small id="adCategoryError" class="text-danger d-none">Please select at least one ad category.</small>
+                                    <small id="adCategoryError" class="text-danger d-none">Please select at least one Ad Category.</small>
                                 </div>
                             </div>
                             <div class="col-md-4 col-lg-4">
@@ -148,21 +148,21 @@
                                             </li>
                                         }
                                     </ul>
-                                    <small id="productConditionError" class="text-danger d-none">Please select a product condition.</small>
+                                    <small id="productConditionError" class="text-danger d-none">Please select a Product Condition.</small>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-label">Ad Description</label>
                                     <textarea class="form-control" id="AdDescription" name="AdDescription" placeholder="Describe your message"></textarea>
-                                    <small id="AdDescriptionError" class="text-danger d-none">Ad description is required.</small>
+                                    <small id="AdDescriptionError" class="text-danger d-none">Ad Description is required.</small>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-label">Ad Tag</label>
                                     <textarea class="form-control" id="AdTag" name="AdTag" placeholder="Maximum of 15 keywords"></textarea>
-                                    <small id="AdTagError" class="text-danger d-none">Ad tag is required.</small>
+                                    <small id="AdTagError" class="text-danger d-none">Ad Tag is required.</small>
                                 </div>
                             </div>
                         </div>
@@ -183,7 +183,7 @@
                                 <div class="form-group">
                                     <label class="form-label">Email<sup style="color: red">*</sup></label>
                                     <input type="email" class="form-control" id="AuthorEmail" name="AuthorEmail" value="@Context.Session.GetString("Email")" placeholder="Your Email" />
-                                    <small id="AuthorEmailError" class="text-danger d-none">Valid email is required.</small>
+                                    <small id="AuthorEmailError" class="text-danger d-none">Email is required.</small>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -328,6 +328,7 @@
         var selectedCategory = $('#category').find(":selected").val();
         $('#subCategory').empty();
         $('#subCategory').append(new Option("Select Sub Category"));
+        const spinner = document.getElementById('spinner');
         spinner.classList.remove('d-none');
         $.ajax({
             type: "POST",
@@ -357,6 +358,26 @@
     function priceRadioChange() {
         var checkedRadio = $(".PriceCondition").is(":checked").val();
         alert(checkedRadio);
+    }
+    function AdCount() {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: '/User/UserAdCount',
+                type: 'GET',
+                success: function(response) {
+                    if (response > 0) {
+                        resolve(response); // Continue if valid
+                    } else {
+                        ShowToast('failed', 'Please choose a plan to proceed further');
+                        reject('No plan selected');
+                    }
+                },
+                error: function(xhr) {
+                    alert('Unable to make request: ' + xhr.status + ' ' + xhr.statusText);
+                    reject('Error calling UserAdCount');
+                }
+            });
+        });
     }
     function publishAd(event) {
         event.preventDefault(); // Prevent form submission
@@ -460,38 +481,45 @@
             }, 3000);
             return;
         }
+        //AdCount();
 
+        AdCount().then(function (count){
+            const spinner = document.getElementById('spinner');
+            let formData = new FormData($('#PostAdForm')[0]);
+            spinner.classList.remove('d-none');
+            $.ajax({
+                url: $('#PostAdForm').attr('action'),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    toast.removeClass('toast_failed');
+                    toast.addClass('toast_success');
+                    toast.text('Ad posted successfully!');
+                    // Optionally reset form or redirect
+                    $('#PostAdForm')[0].reset();
+                    toast.removeClass('d-none');
+                    setTimeout(() => {
+                        toast.addClass('d-none');
+                    }, 3000);
+                    spinner.classList.add('d-none');
+                },
+                error: function (xhr) {
+                    toast.removeClass('toast_success');
+                    toast.addClass('toast_failed');
+                    toast.text('An error occurred while posting your ad.');
+                    toast.removeClass('d-none');
+                    setTimeout(() => {
+                        toast.addClass('d-none');
+                    }, 3000);
+                    spinner.classList.add('d-none');
+                }
+            });
+        }).catch(function (error) {
+        console.log("Ad count check failed: " + error);
+        // Don't proceed to posting form
+        });
     // Form is valid: submit via AJAX
-    let formData = new FormData($('#PostAdForm')[0]);
-    spinner.classList.remove('d-none');
-    $.ajax({
-        url: $('#PostAdForm').attr('action'),
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-            toast.removeClass('toast_failed');
-            toast.addClass('toast_success');
-            toast.text('Ad posted successfully!');
-            // Optionally reset form or redirect
-            $('#PostAdForm')[0].reset();
-            toast.removeClass('d-none');
-            setTimeout(() => {
-                toast.addClass('d-none');
-            }, 3000);
-            spinner.classList.add('d-none');
-        },
-        error: function (xhr) {
-            toast.removeClass('toast_success');
-            toast.addClass('toast_failed');
-            toast.text('An error occurred while posting your ad.');
-            toast.removeClass('d-none');
-            setTimeout(() => {
-                toast.addClass('d-none');
-            }, 3000);
-            spinner.classList.add('d-none');
-        }
-    });
     }
 </script>

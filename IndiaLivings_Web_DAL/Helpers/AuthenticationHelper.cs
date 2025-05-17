@@ -267,5 +267,20 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
+        public List<AdsByMembershipModel> GetUserAdsRemaining(int userId)
+        {
+            List<AdsByMembershipModel> adData = new List<AdsByMembershipModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserAdsRemaining?UserID={userId}");
+                adData = JsonConvert.DeserializeObject<List<AdsByMembershipModel>>(response);
+            }
+            catch (Exception ex)
+            {
+
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return adData;
+        }
     }
 }
