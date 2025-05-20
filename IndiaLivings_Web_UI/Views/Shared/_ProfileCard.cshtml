@@ -1,13 +1,63 @@
+<style>
+    .profile-pic-container {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid #ddd;
+    }
+
+        .profile-pic-container img {
+            width: 100%;
+            height: 100%; 
+            object-fit: cover;
+        }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .profile-pic-container:hover .overlay {
+        opacity: 1;
+    }
+
+    .overlay i {
+        font-size: 24px;
+    }
+</style>
 
 ﻿<div class="row">
     <div class="col-lg-5">
         <div class="dash-header-left">
             <div class="dash-avatar">
-                <a href="#"><img src="" alt="avatar"></a>
+                <div class="profile-pic-container" onclick="document.getElementById('txt_profile_img').click();">
+                    <img id="profileImage" src="@Url.Action("GetUserImage", "Dashboard")" onerror="this.onerror=null;this.src='../images/user.png';" alt="Profile">
+                    <div class="overlay">
+                        <i class="fa fa-camera"></i>
+                    </div>
+                </div>
+                <input type="file" id="txt_profile_img" accept="image/*" style="display: none;">
             </div>
             <div class="dash-intro">
-                <h4><a href="#">@Context.Session.GetString("userName")</a></h4>
-                <h5>new seller</h5>
+                <h4>
+                    <a href="#">
+                        @(string.IsNullOrWhiteSpace(Context.Session.GetString("UserFullName")) ? Context.Session.GetString("userName") : Context.Session.GetString("UserFullName"))
+                    </a>
+                </h4>
+                <h5>@Context.Session.GetString("Role")</h5>
 
                 <ul class="dash-meta" style="padding-left:0px;">
                     <li>
@@ -51,3 +101,100 @@
         </div>
     </div>
 </div>
+<!-- Modal for cropping -->
+<div id="cropModal" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background-color:#000a; justify-content:center; align-items:center; z-index:9999;">
+    <div style="background: white; padding: 20px; border-radius: 10px; max-width: 90%; max-height: 90%;">
+        <div><img id="cropperImage" style="max-width:100%; max-height:500px;"></div>
+        <button onclick="cropImage()" class="btn-primary" style="margin-top: 10px; padding:10px;">Save</button>
+        <button onclick="closeCropModal()" class="btn-danger" style="margin-top: 10px; padding:10px;">Cancel</button>
+    </div>
+</div>
+<div id="spinner" class="d-none">
+    <img style="height: 100px" src="~/images/spinner.gif" />
+</div>
+<div id="toast" class="d-none"></div>
+<script>
+    let cropper;
+    const fileInput = document.getElementById('txt_profile_img');
+    const cropperImage = document.getElementById('cropperImage');
+    const cropModal = document.getElementById('cropModal');
+    const profileImage = document.getElementById('profileImage');
+
+    fileInput.addEventListener('change', function () {
+        const file = fileInput.files[0];
+        if (file.size > 2 * 1024 * 1024) {
+            ShowToast('failed', 'Image size should not exceed 2 MB');
+            fileInput.value = "";
+            return;
+        }
+        else if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                cropperImage.src = e.target.result;
+                cropModal.style.display = 'flex';
+                if (cropper) cropper.destroy(); // Reset if already exists
+                cropper = new Cropper(cropperImage, {
+                    aspectRatio: 1,
+                    viewMode: 1,
+                    movable: false,
+                    zoomable: true,
+                    rotatable: false,
+                    scalable: false,
+                    background: false
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function cropImage() {
+        const canvas = cropper.getCroppedCanvas({
+            width: 150,
+            height: 150
+        });
+   
+        canvas.toBlob(function (blob) {
+        const originalFile = document.getElementById('txt_profile_img').files[0];
+        const uploadedFileName = originalFile ? originalFile.name : "profile.png";
+        const imageFile = new File([blob], uploadedFileName, { type: blob.type });
+
+        const formData = new FormData();
+        formData.append("imageFile", imageFile); 
+        formData.append("OriginalFileName", uploadedFileName); 
+        spinner.classList.remove('d-none');
+        $.ajax({
+            url: '/User/UpdateUserImage',
+            type: 'POST',
+            data: formData,
+            contentType: false, 
+            processData: false, 
+            success: function(data) {
+                spinner.classList.add('d-none');
+                if (data.Status == "Upload Failed") {
+                    alert("Image Upload Failed. Please try again");
+                }
+                profileImage.src = canvas.toDataURL();
+                cropModal.style.display = 'none';
+                cropper.destroy();
+                cropper = null;
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                spinner.classList.add('d-none');
+            }
+        });
+    }, 'image/jpg');
+    }
+
+    function closeCropModal() {
+        cropModal.style.display = 'none';
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+        }
+    }
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>

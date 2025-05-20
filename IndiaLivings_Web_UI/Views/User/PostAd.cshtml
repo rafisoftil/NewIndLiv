@@ -2,7 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    ViewBag.Title = "Ad Post";
+    ViewBag.Title = "Post Ad";
     <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
     <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
     <link rel="stylesheet" href="~/css/custom/ad-post.css" />
@@ -46,15 +46,13 @@
                 </div>
             </div>
         </div>
-
-        <div id="toast-container"></div>
     </div>
 </section>
 <section class="adpost-part">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <form class="adpost-form" asp-controller="User" asp-action="PostAd" method="post" enctype="multipart/form-data">
+                <form id="PostAdForm" class="adpost-form" asp-controller="User" asp-action="PostAd" method="post" enctype="multipart/form-data">
                     <div class="adpost-card">
                         <div class="adpost-title">
                             <h3>Ad Information</h3>
@@ -62,54 +60,56 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-label">Product Title</label>
-                                    <input type="text" class="form-control" id="productName" name="productName" placeholder="Type your product title here">
+                                    <label class="form-label">Product Title<sup style="color: red">*</sup></label>
+                                    <input type="text" class="form-control" id="productName" name="productName" placeholder="Type your product title here" required>
+                                    <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
                                 </div>
                             </div>
                             <div class="form-group col-6">
-                                <label class="form-label">product image</label>
+                                <label class="form-label">Product Image</label>
                                 <input type="file" id="productImage" name="productImage" class="form-control">
+                                <small id="productImageError" class="text-danger d-none">Product Image is required.</small>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label class="form-label">Product Quantity</label>
+                                    <label class="form-label">Product Quantity<sup style="color: red">*</sup></label>
                                     <input type="number" class="form-control" id="productQuantity" name="productQuantity" placeholder="Enter your pricing amount" />
+                                    <small id="productQuantityError" class="text-danger d-none">Product Quantity is required.</small>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label class="form-label">Product Category</label>
+                                    <label class="form-label">Product Category<sup style="color: red">*</sup></label>
                                     <select class="form-control custom-select" id="category" name="category" onchange="LoadSubCategories()">
-                                        <option selected>Select Category</option>
+                                        <option value="" selected>Select Category</option>
                                         @foreach (var category in Model.Categories)
                                         {
                                             <option value=@category.CategoryID>@category.CategoryName</option>
                                         }
                                     </select>
+                                    <small id="categoryError" class="text-danger d-none">Please select a Category.</small>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label class="form-label">Product Sub-Category</label>
+                                    <label class="form-label">Product Sub-Category<sup style="color: red">*</sup></label>
                                     <select class="form-control custom-select" id="subCategory" name="subCategory">
-                                        <option selected>Select Sub Category</option>
-
+                                        <option value="" selected>Select Sub Category</option>
                                     </select>
+                                    <small id="subCategoryError" class="text-danger d-none">Please select a Sub-Category.</small>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label class="form-label">Price</label>
-                                    <input type="number" class="form-control" id="productPrice" name="productPrice" minValue="0" placeholder="Enter your pricing amount" />
+                                    <label class="form-label">Price<sup style="color: red">*</sup></label>
+                                    <input type="number" class="form-control" id="productPrice" name="productPrice" min="0" placeholder="Enter your pricing amount" />
+                                    <small id="productPriceError" class="text-danger d-none">Product Price is required.</small>
                                 </div>
                             </div>
                             <div class="col-md-4 col-lg-4">
                                 <div class="form-group">
                                     <ul class="form-check-list">
-                                        <li>
-                                            <label class="form-label">Price Condition</label>
-                                        </li>
-                                        @* <input type=hidden id="PriceRadioValue" name= /> *@
+                                        <li><label class="form-label">Price Condition<sup style="color: red">*</sup></label></li>
                                         @foreach (var priceCondition in Model.priceConditions)
                                         {
                                             <li>
@@ -118,14 +118,13 @@
                                             </li>
                                         }
                                     </ul>
+                                    <small id="priceConditionError" class="text-danger d-none">Please select a Price Condition.</small>
                                 </div>
                             </div>
                             <div class="col-md-4 col-lg-4">
                                 <div class="form-group">
                                     <ul class="form-check-list">
-                                        <li>
-                                            <label class="form-label">Ad Category</label>
-                                        </li>
+                                        <li><label class="form-label">Ad Category<sup style="color: red">*</sup></label></li>
                                         @foreach (var AdCat in Model.Ad_Categories)
                                         {
                                             <li>
@@ -133,16 +132,14 @@
                                                 <label for="fix-check" class="form-check-text">@AdCat.strAdConditionName</label>
                                             </li>
                                         }
-
                                     </ul>
+                                    <small id="adCategoryError" class="text-danger d-none">Please select at least one Ad Category.</small>
                                 </div>
                             </div>
                             <div class="col-md-4 col-lg-4">
                                 <div class="form-group">
                                     <ul class="form-check-list">
-                                        <li>
-                                            <label class="form-label">Product Condition</label>
-                                        </li>
+                                        <li><label class="form-label">Product Condition<sup style="color: red">*</sup></label></li>
                                         @foreach (var PrdCond in Model.productConditions)
                                         {
                                             <li>
@@ -151,18 +148,21 @@
                                             </li>
                                         }
                                     </ul>
+                                    <small id="productConditionError" class="text-danger d-none">Please select a Product Condition.</small>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-label">Ad Description</label>
                                     <textarea class="form-control" id="AdDescription" name="AdDescription" placeholder="Describe your message"></textarea>
+                                    <small id="AdDescriptionError" class="text-danger d-none">Ad Description is required.</small>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-label">Ad Tag</label>
                                     <textarea class="form-control" id="AdTag" name="AdTag" placeholder="Maximum of 15 keywords"></textarea>
+                                    <small id="AdTagError" class="text-danger d-none">Ad Tag is required.</small>
                                 </div>
                             </div>
                         </div>
@@ -174,30 +174,50 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="AuthorName" name="AuthorName" value="@Context.Session.GetString("userName")" placeholder="Your Name" />
+                                    <label class="form-label">Name<sup style="color: red">*</sup></label>
+                                    <input type="text" class="form-control" id="AuthorName" name="AuthorName" value="@Context.Session.GetString("UserFullName")" placeholder="Your Name" />
+                                    <small id="AuthorNameError" class="text-danger d-none">Name is required.</small>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-label">Email</label>
+                                    <label class="form-label">Email<sup style="color: red">*</sup></label>
                                     <input type="email" class="form-control" id="AuthorEmail" name="AuthorEmail" value="@Context.Session.GetString("Email")" placeholder="Your Email" />
+                                    <small id="AuthorEmailError" class="text-danger d-none">Email is required.</small>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-label">Number</label>
+                                    <label class="form-label">Number<sup style="color: red">*</sup></label>
                                     <input type="number" class="form-control" id="AuthorMobile" name="AuthorMobile" value="@Context.Session.GetString("Mobile")" placeholder="Your Number" />
+                                    <small id="AuthorMobileError" class="text-danger d-none">Mobile number is required.</small>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-label">Address</label>
+                                    <label class="form-label">Address<sup style="color: red">*</sup></label>
                                     <input type="text" class="form-control" id="AuthorAddress" name="AuthorAddress" value="@Context.Session.GetString("Address")" placeholder="Your Address" />
+                                    <small id="AuthorAddressError" class="text-danger d-none">Address is required.</small>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="adpost-card pb-2">
+                        <div class="adpost-agree mb">
+                            <div class="form-group">
+                                <input type="checkbox" id="formCheck" class="form-check">
+                            </div>
+                            <p>Send me Trade Email/SMS Alerts for people looking to buy mobile handsets in www By clicking "Post", you agree to our <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a> and acknowledge that you are the rightful owner of this item and using Trade to find a genuine buyer.</p>
+                        </div>
+                        <small id="formCheckError" class="text-danger d-none">Please accept the terms and conditions</small>
+                        <div class="form-group text-right">
+                            <button class="btn btn-inline" type="submit" onclick="publishAd(event)">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Publish your ad</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
                     <div class="adpost-card">
                         <div class="adpost-title">
                             <h3>Plan Information</h3>
@@ -220,12 +240,14 @@
                                     <h6>Standerd Plan - <span>Submit 10 Ad Listings</span></h6>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>
                                 </div>
+                            <form method="post" asp-action="ProcessPayment" asp-controller="User" asp-route-Amount="23">
                                 <div class="adpost-plan-meta">
                                     <h3>$23.00</h3>
-                                    <button class="btn btn-outline">
+                                    <button name="planTypebtn" type="submit" class="btn btn-outline">
                                         <span>Select</span>
                                     </button>
                                 </div>
+                            </form>
                             </li>
                             <li>
                                 <div class="adpost-plan-content">
@@ -241,21 +263,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="adpost-card pb-2">
-                        <div class="adpost-agree">
-                            <div class="form-group">
-                                <input type="checkbox" class="form-check">
-                            </div>
-                            <p>Send me Trade Email/SMS Alerts for people looking to buy mobile handsets in www By clicking "Post", you agree to our <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a> and acknowledge that you are the rightful owner of this item and using Trade to find a genuine buyer.</p>
-                        </div>
-                        <div class="form-group text-right">
-                            <button class="btn btn-inline" type="submit">
-                                <i class="fas fa-check-circle"></i>
-                                <span>published your ad</span>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    
             </div>
             <div class="col-lg-4">
                 <div class="account-card alert fade show">
@@ -308,6 +316,10 @@
         </div>
     </div>
 </section>
+<div id="spinner" class="d-none">
+    <img style="height: 100px" src="~/images/spinner.gif" />
+</div>
+<div id="toast" class="d-none"></div>
 @* <script src="~/js/vendor/popper.min.js" /> *@
 
 <script type="text/javascript">
@@ -315,7 +327,9 @@
     function LoadSubCategories() {
         var selectedCategory = $('#category').find(":selected").val();
         $('#subCategory').empty();
-        $('#subCategory').append(new Option("Seect Sub Category"));
+        $('#subCategory').append(new Option("Select Sub Category"));
+        const spinner = document.getElementById('spinner');
+        spinner.classList.remove('d-none');
         $.ajax({
             type: "POST",
             url: '@Url.Action("GetSubCategories", "User")',
@@ -333,9 +347,10 @@
                     }
 
                 }
+                spinner.classList.add('d-none');
             },
             error: function (error) {
-
+                spinner.classList.add('d-none');
             }
         });
 
@@ -343,5 +358,168 @@
     function priceRadioChange() {
         var checkedRadio = $(".PriceCondition").is(":checked").val();
         alert(checkedRadio);
+    }
+    function AdCount() {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: '/User/UserAdCount',
+                type: 'GET',
+                success: function(response) {
+                    if (response > 0) {
+                        resolve(response); // Continue if valid
+                    } else {
+                        ShowToast('failed', 'Please choose a plan to proceed further');
+                        reject('No plan selected');
+                    }
+                },
+                error: function(xhr) {
+                    alert('Unable to make request: ' + xhr.status + ' ' + xhr.statusText);
+                    reject('Error calling UserAdCount');
+                }
+            });
+        });
+    }
+    function publishAd(event) {
+        event.preventDefault(); // Prevent form submission
+        let isValid = true;
+        const toast = $('#toast');
+        // Helper function to validate and show/hide error
+        function validateField(id, errorId) {
+            const field = document.getElementById(id);
+            const error = document.getElementById(errorId);
+            if (!field.value.trim()) {
+                error.classList.remove('d-none');
+                isValid = false;
+            } else {
+                error.classList.add('d-none');
+            }
+        }
+
+        validateField('productName', 'productNameError');
+        validateField('productQuantity', 'productQuantityError');
+        validateField('category', 'categoryError');
+        validateField('subCategory', 'subCategoryError');
+        validateField('productPrice', 'productPriceError');
+        //validateField('AdDescription', 'AdDescriptionError');
+        //validateField('AdTag', 'AdTagError');
+        validateField('AuthorName', 'AuthorNameError');
+        validateField('AuthorEmail', 'AuthorEmailError');
+        validateField('AuthorMobile', 'AuthorMobileError');
+        validateField('AuthorAddress', 'AuthorAddressError');
+        validateField('formCheck', 'formCheckError')
+
+        // Validate product image
+        const productImage = document.getElementById('productImage');
+        const productImageError = document.getElementById('productImageError');
+        if (productImage.files.length !== 0 && productImage.files[0].size > 5 * 1024 * 1024) {
+            productImageError.innerText = "Image must be less than 5MB.";
+            productImageError.classList.remove('d-none');
+            isValid = false;
+        }   
+        else {
+            productImageError.classList.add('d-none');  
+        }
+        // if (!productImage.files || productImage.files.length === 0) {
+        //     productImageError.innerText = "Product image is required.";
+        //     productImageError.classList.remove('d-none');
+        //     isValid = false;
+        // } else if (productImage.files[0].size > 5 * 1024 * 1024) {
+        //     productImageError.innerText = "Image must be less than 5MB.";
+        //     productImageError.classList.remove('d-none');
+        //     isValid = false;
+        // } else {
+        //     productImageError.classList.add('d-none');
+        // }
+
+        // Price Condition radio validation
+        const priceConditionSelected = document.querySelector('input[name="price_Condition"]:checked');
+        const priceCondError = document.getElementById('priceConditionError');
+        if (!priceConditionSelected) {
+            priceCondError.classList.remove('d-none');
+            isValid = false;
+        } else {
+            priceCondError.classList.add('d-none');
+        }
+
+        // Product Condition radio validation
+        const productConditionSelected = document.querySelector('input[name="product_Condition"]:checked');
+        const productCondError = document.getElementById('productConditionError');
+        if (!productConditionSelected) {
+            productCondError.classList.remove('d-none');
+            isValid = false;
+        } else {
+            productCondError.classList.add('d-none');
+        }
+
+        // Ad Category checkbox validation
+        const adCategoryChecked = document.querySelectorAll('input[name="Ad_Category"]:checked').length;
+        const adCategoryError = document.getElementById('adCategoryError');
+        if (adCategoryChecked === 0) {
+            adCategoryError.classList.remove('d-none');
+            isValid = false;
+        } else {
+            adCategoryError.classList.add('d-none');
+        }
+
+        const termsCheckbox = document.getElementById("formCheck");
+        const termsError = document.getElementById("formCheckError");
+        if (!termsCheckbox.checked) {
+            termsError.classList.remove("d-none");
+            isValid = false;
+        } else {
+            termsError.classList.add("d-none");
+        }
+
+        // Final submission
+        if (!isValid) {
+            toast.removeClass('toast_success');
+            toast.addClass('toast_failed');
+            toast.text('Please fill all the required fields');
+            toast.removeClass('d-none');
+            setTimeout(() => {
+                toast.addClass('d-none');
+            }, 3000);
+            return;
+        }
+        //AdCount();
+
+        AdCount().then(function (count){
+            const spinner = document.getElementById('spinner');
+            let formData = new FormData($('#PostAdForm')[0]);
+            spinner.classList.remove('d-none');
+            $.ajax({
+                url: $('#PostAdForm').attr('action'),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    toast.removeClass('toast_failed');
+                    toast.addClass('toast_success');
+                    toast.text('Ad posted successfully!');
+                    // Optionally reset form or redirect
+                    $('#PostAdForm')[0].reset();
+                    toast.removeClass('d-none');
+                    setTimeout(() => {
+                        toast.addClass('d-none');
+                    }, 3000);
+                    spinner.classList.add('d-none');
+                },
+                error: function (xhr) {
+                    toast.removeClass('toast_success');
+                    toast.addClass('toast_failed');
+                    toast.text('An error occurred while posting your ad.');
+                    toast.removeClass('d-none');
+                    setTimeout(() => {
+                        toast.addClass('d-none');
+                    }, 3000);
+                    spinner.classList.add('d-none');
+                }
+            });
+        }).catch(function (error) {
+        console.log("Ad count check failed: " + error);
+        // Don't proceed to posting form
+        });
+    // Form is valid: submit via AJAX
     }
 </script>

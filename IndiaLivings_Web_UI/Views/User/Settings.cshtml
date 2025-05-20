@@ -1,4 +1,7 @@
 ﻿@model List<UserViewModel>
+@{
+    ViewBag.Title = "Settings";
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,73 +21,14 @@
 
     <link rel="stylesheet" href="~/css/custom/main.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/custom/setting.css" />
-    <style>
-
-        /* Toast container */
-        .toast_success {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            z-index: 9999;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .toast_failed {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #dc3545;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            z-index: 9999;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-    </style>
 </head>
 <body>
-    @if (TempData["UpdateMessage"] != null)
+    @* @if (TempData["UpdateMessage"] != null)
     {
         <div class="alert alert-success">
             @TempData["UpdateMessage"]
         </div>
-    }
-
-    <nav class="mobile-nav">
-        <div class="container">
-            <div class="mobile-group">
-                <a href="index.html" class="mobile-widget">
-                    <i class="fas fa-home"></i>
-                    <span>home</span>
-                </a>
-                <a href="user-form.html" class="mobile-widget">
-                    <i class="fas fa-user"></i>
-                    <span>join me</span>
-                </a>
-                <a href="ad-post.html" class="mobile-widget plus-btn">
-                    <i class="fas fa-plus"></i>
-                    <span>Ad Post</span>
-                </a>
-                <a href="notification.html" class="mobile-widget">
-                    <i class="fas fa-bell"></i>
-                    <span>notify</span>
-                    <sup>0</sup>
-                </a>
-                <a href="message.html" class="mobile-widget">
-                    <i class="fas fa-envelope"></i>
-                    <span>message</span>
-                    <sup>0</sup>
-                </a>
-            </div>
-        </div>
-    </nav>
+    } *@
     <section class="single-banner dashboard-banner">
         <div class="container">
             <div class="row">
@@ -134,7 +78,7 @@
                             <h3>Edit Profile</h3>
                             <button data-dismiss="alert">close</button>
                         </div>
-                        <form class="setting-form" asp-action="UpdateUser" asp-controller="User" method="post" enctype="multipart/form-data">
+                        <form id="SettingsForm" class="setting-form" asp-action="UpdateUser" asp-controller="User" method="post" enctype="multipart/form-data">
                             <div class="row">
                                
                                     <div class="row" style="display: flex; gap: 20px; margin-left:initial !important; width:100%">
@@ -180,14 +124,32 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label class="form-label">Company</label>
-                                            <input type="text" id="txt_company" name="txt_company" class="form-control" placeholder="Type Company" value="@Model[0].userCompany">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
                                             <label class="form-label">Address</label>
                                             <input type="text" id="txt_address" name="txt_address" class="form-control" placeholder="Type Address" value="@Model[0].userFullAddress">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Country</label>
+                                            <select id="countryDropdown" class="form-control" style="width: 100%" value="@Model[0].userCountry" placeholder="select a country"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">State</label>
+                                            <select id="stateDropdown" class="form-control" style="width: 100%" value="@Model[0].userState"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">City</label>
+                                            <select id="cityDropdown" class="form-control" style="width: 100%" value="@Model[0].userCity"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Post Code</label>
+                                            <input type="text" id="txt_postcode" name="txt_postcode" class="form-control" placeholder="Type Post Code" value="@Model[0].userPinCode">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -205,25 +167,26 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label">Birthday</label>
-                                            <input type="date" id="txt_dob" name="txt_dob" class="form-control" value="@Model[0].userDOB">
+                                        <input type="date" id="txt_dob" name="txt_dob" class="form-control" value="@(((DateTime)Model[0].userDOB).ToString("yyyy-MM-dd"))">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label">Profile Image</label>
-                                            <input type="file" id="txt_profile_img" name="profileImage" class="form-control">
+                                            <input type="file" id="txt_profile_img" name="profileImage" class="form-control" placeholder="Size should be <2MB">
+                                            <small id="profileImgErr" class="text-danger d-none"></small>
                                             <input type="text" id="file_name" value="@Model[0].userImagePath" hidden>
-                                            <div class="dash-avatar">
+          
+                                            @* <div class="dash-avatar">
                                                 <a href="#">
-                                                    <img src="@Url.Content(ViewBag.UserProfileImgPath + Model[0].userID + "/" + Model[0].userImagePath)"
-                                                         onerror="this.onerror=null;this.src='../images/user_profile/dummy_profileimg.png';" />
+                                                <img src="@Url.Action("GetUserImage", "Dashboard")" onerror="this.onerror=null;this.src='../images/user.png';" alt="avatar">
                                                 </a>
-                                            </div>
+                                            </div> *@
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12"><hr></div> <div class="row mb-4">
-                                        <div class="col-lg-6">
+                                        @* <div class="col-lg-6">
                                             <h4>Billing Address</h4>
                                              
                                             <div class="form-group">
@@ -271,95 +234,328 @@
                                                 <label class="form-label">Country</label>
                                             <input type="text" id="shipping_country" name="txt_s_country" class="form-control" placeholder="Select Country" value="">
                                             </div>
-                                        </div>
+                                        </div> *@
 
 
                                         <div class="col-lg-12">
-                                            <button class="btn btn-inline" onclick="UpdateUser(); return false;">
+                                            <button type="button" id="btnUpdateProfile" class="btn btn-inline">
                                                 <i class="fas fa-user-check"></i>
                                                 <span>update profile</span>
                                             </button>
                                         </div>
                                     </div>
 							</div>
-
                         </form>
-                        </div>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="modal fade" id="currency">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4>Choose a Currency</h4>
-                            <button class="fas fa-times" data-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <button class="modal-link active">United States Doller (USD) - $</button>
-                            <button class="modal-link">Euro (EUR) - €</button>
-                            <button class="modal-link">British Pound (GBP) - £</button>
-                            <button class="modal-link">Australian Dollar (AUD) - A$</button>
-                            <button class="modal-link">Canadian Dollar (CAD) - C$</button>
-                        </div>
-                    </div>
+    <div class="modal fade" id="currency">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Choose a Currency</h4>
+                    <button class="fas fa-times" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <button class="modal-link active">United States Doller (USD) - $</button>
+                    <button class="modal-link">Euro (EUR) - €</button>
+                    <button class="modal-link">British Pound (GBP) - £</button>
+                    <button class="modal-link">Australian Dollar (AUD) - A$</button>
+                    <button class="modal-link">Canadian Dollar (CAD) - C$</button>
                 </div>
             </div>
-            <div class="modal fade" id="language">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4>Choose a Language</h4>
-                            <button class="fas fa-times" data-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <button class="modal-link active">English</button>
-                            <button class="modal-link">bangali</button>
-                            <button class="modal-link">arabic</button>
-                            <button class="modal-link">germany</button>
-                            <button class="modal-link">spanish</button>
-                        </div>
-                    </div>
+        </div>
+    </div>
+    <div class="modal fade" id="language">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Choose a Language</h4>
+                    <button class="fas fa-times" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <button class="modal-link active">English</button>
+                    <button class="modal-link">bangali</button>
+                    <button class="modal-link">arabic</button>
+                    <button class="modal-link">germany</button>
+                    <button class="modal-link">spanish</button>
                 </div>
             </div>
-            <div id="loadingOverlay" class="d-none">
-                <img style="height: 100px" src="~/images/spinner.gif" />
-            </div>
+        </div>
+    </div>
+    <div id="loadingOverlay" class="d-none">
+        <img style="height: 100px" src="~/images/spinner.gif" />
+    </div>
+    <div id="toast" class="d-none"></div>
+</body>
+<script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="~/js/vendor/popper.min.js"></script>
+<script src="~/js/vendor/bootstrap.min.js"></script>
+<script src="~/js/custom/main.js"> </script>
+<script>
+    function toggleShippingFields() {
+        var shippingSameAsBilling = document.getElementById("shippingSameAsBilling");
+        var shippingCity = document.getElementById("shipping_city");
+        var shippingState = document.getElementById("shipping_state");
+        var shippingPostcode = document.getElementById("shipping_postcode");
+        var shippingCountry = document.getElementById("shipping_country");
 
-            <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
-            <script src="~/js/vendor/popper.min.js"></script>
-            <script src="~/js/vendor/bootstrap.min.js"></script>
+        var billingCity = document.getElementById("billing_city");
+        var billingState = document.getElementById("billing_state");
+        var billingPostcode = document.getElementById("billing_postcode");
+        var billingCountry = document.getElementById("billing_country");
 
-            <script src="~/js/custom/main.js"> </script>
-    <script>
-               function toggleShippingFields() {
-            var shippingSameAsBilling = document.getElementById("shippingSameAsBilling");
+        if (shippingSameAsBilling.checked) {
+            shippingCity.value = billingCity.value;
+            shippingState.value = billingState.value;
+            shippingPostcode.value = billingPostcode.value;
+            shippingCountry.value = billingCountry.value;
+        } else {
+            shippingCity.value = "";
+            shippingState.value = "";
+            shippingPostcode.value = "";
+            shippingCountry.value = "";
+        }
+    }
 
-            var shippingCity = document.getElementById("shipping_city");
-            var shippingState = document.getElementById("shipping_state");
-            var shippingPostcode = document.getElementById("shipping_postcode");
-            var shippingCountry = document.getElementById("shipping_country");
+    $(document).ready(function () {
+        $('#btnUpdateProfile').click(function (e) {
+            validate(e);
+        });
+    });
 
-            var billingCity = document.getElementById("billing_city");
-            var billingState = document.getElementById("billing_state");
-            var billingPostcode = document.getElementById("billing_postcode");
-            var billingCountry = document.getElementById("billing_country");
+    function validate(e) {
+        e.preventDefault(); // Prevent default form submission
 
-            if (shippingSameAsBilling.checked) {
-                shippingCity.value = billingCity.value;
-                shippingState.value = billingState.value;
-                shippingPostcode.value = billingPostcode.value;
-                shippingCountry.value = billingCountry.value;
-            } else {
-                shippingCity.value = "";
-                shippingState.value = "";
-                shippingPostcode.value = "";
-                shippingCountry.value = "";
-            }
+        var isValid = true;
+
+        var profileImg = $('#txt_profile_img');
+        var profileImgErr = $('#profileImgErr');
+        var password = $('#txt_password');
+        var phone = $('#txt_phone');
+
+        // Reset errors
+        profileImgErr.addClass('d-none').text('');
+        password.removeClass('is-invalid');
+        $('#passwordErr').remove();
+
+        // Image Validation
+        if (profileImg[0].files.length != 0 && profileImg[0].files[0].size > 2 * 1024 * 1024) {
+            profileImgErr.removeClass('d-none').text('Image size should be less than 2 MB');
+            isValid = false;
         }
 
-    </script>
-</body>
+        // Password Validation
+        if (password.val().trim() === '') {
+            password.addClass('is-invalid');
+            password.after('<small id="passwordErr" class="text-danger">Please enter password</small>');
+            isValid = false;
+        } else if (password.val().length < 6) {
+            password.addClass('is-invalid');
+            password.after('<small id="passwordErr" class="text-danger">Password should be at least 6 characters</small>');
+            isValid = false;
+        }
+
+        if (phone.val().trim() === '') {
+            phone.addClass('is-invalid');
+            phone.after('<small id="passwordErr" class="text-danger">Please enter your phone no</small>');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            ShowToast('failed', 'Please fill all the required details');
+        }
+
+        // Submit if valid
+        if (isValid) {
+            let formData = new FormData($('#SettingsForm')[0]);
+            formData.append("txt_Country", $('#countryDropdown option:selected').text());
+            formData.append("txt_state", $('#stateDropdown option:selected').text());
+            formData.append("txt_city", $('#cityDropdown option:selected').text());
+            spinner.classList.remove('d-none');
+            $.ajax({
+                url: $('#SettingsForm').attr('action'),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    spinner.classList.add('d-none');
+                    if (response.status.includes("Success")) {
+                        ShowToast('success', response.status);
+                        location.reload();
+                    }
+                    else {
+                        ShowToast('failed', response.status);
+                    }
+                    // Optionally reset form or redirect
+                    $('#SettingsForm')[0].reset();
+                },
+                error: function (xhr) {
+                    spinner.classList.add('d-none');
+                    ShowToast('failed', 'An error occurred while updating your details');
+                }
+            });
+        }
+    }
+
+    $(document).ready(function () {
+            $.ajax({
+                url: '/User/GetCountryName',
+                type: 'GET',
+                success: function (response) {
+                    if (typeof response === "string") {
+                        response = JSON.parse(response);
+                    }
+
+                    const countries = response
+                        .filter(c => c && c.strCountryName)
+                        .sort((a, b) => a.strCountryName.localeCompare(b.strCountryName));
+
+                    let $dropdown = $('#countryDropdown');
+                    $dropdown.empty();
+
+                    $dropdown.append('<option value="">Please select your country</option>');
+
+                    countries.forEach(function (country) {
+                        $dropdown.append(
+                            $('<option></option>')
+                                .val(country.intCountryID)
+                                .text(country.strCountryName)
+                        );
+                    });
+                    const selectedCountry = "@Model[0].userCountry".trim();
+                    if (selectedCountry) {
+                        let matchedOption = $dropdown.find('option').filter(function () {
+                            return $(this).text().trim() === selectedCountry;
+                        }).first();
+                        if (matchedOption.length) {
+                            $dropdown.val(matchedOption.val()).trigger('change');
+                        }
+                    } else {
+                        // Default to "Please select your country"
+                        $dropdown.val("").trigger('change');
+                    }
+
+                    $dropdown.select2({
+                        placeholder: "Select a country",
+                        allowClear: true
+                    });
+                },
+                error: function () {
+                    alert('Failed to load countries');
+                }
+            });
+
+        $('#countryDropdown').on('change', function () {
+            const selectedCountryId = $(this).val();
+            if (selectedCountryId) {
+                $.ajax({
+                    url: '/User/GetStates',
+                    type: 'GET',
+                    data: {countryId: selectedCountryId},
+                    success: function (states) {
+                        if (typeof states === "string") {
+                            states = JSON.parse(states);
+                        }
+
+                        const filteredStates = states
+                            .filter(s => s && s.strStateName && s.IsActive)
+                            .sort((a, b) => a.strStateName.localeCompare(b.strStateName));
+
+                        let $stateDropdown = $('#stateDropdown');
+                        $stateDropdown.empty().append('<option>Select your state</option>');
+
+                        filteredStates.forEach(function (state) {
+                            $stateDropdown.append(
+                                $('<option></option>')
+                                    .val(state.intStateID)
+                                    .text(state.strStateName)
+                            );
+                        });
+                        
+                        const selectedState = "@Model[0].userState".trim();
+                        if (selectedState) {
+                            let matchedOption = $stateDropdown.find('option').filter(function () {
+                                return $(this).text().trim() === selectedState;
+                            }).first();
+                            if (matchedOption.length) {
+                                $stateDropdown.val(matchedOption.val()).trigger('change');
+                            }
+                        } else {
+                            $stateDropdown.val("").trigger('change');
+                        }
+
+                        $stateDropdown.select2({
+                            placeholder: "Select a state",
+                            allowClear: true
+                        });
+                    },
+                    error: function () {
+                        alert('Failed to load states');
+                    }
+                });
+            } else {
+                $('#stateDropdown').empty().trigger('change');
+            }
+        });
+
+        $('#stateDropdown').on('change', function () {
+            const selectedStateId = $(this).val();
+            if (selectedStateId) {
+                $.ajax({
+                    url: '/User/GetCities',
+                    type: 'GET',
+                    data: {stateId: selectedStateId},
+                    success: function (cities) {
+                        if (typeof cities === "string") {
+                            cities = JSON.parse(cities);
+                        }
+
+                        const filteredCities = cities
+                            .filter(s => s && s.strCityName && s.IsActive)
+                            .sort((a, b) => a.strCityName.localeCompare(b.strCityName));
+
+                        let $cityDropdown = $('#cityDropdown');
+                        $cityDropdown.empty().append('<option>Select your City</option>');
+
+                        filteredCities.forEach(function (city) {
+                            $cityDropdown.append(
+                                $('<option></option>')
+                                    .val(city.intCityID)
+                                    .text(city.strCityName)
+                            );
+                        });
+
+                        const selectedCity = "@Model[0].userCity".trim();
+                        if (selectedCity) {
+                            let matchedOption = $cityDropdown.find('option').filter(function () {
+                                return $(this).text().trim() === selectedCity;
+                            }).first();
+                            if (matchedOption.length) {
+                                $cityDropdown.val(matchedOption.val()).trigger('change');
+                            }
+                        } else {
+                            // Default to "Please select your country"
+                            $cityDropdown.val("").trigger('change');
+                        }
+
+                        $stateDropdown.select2({
+                            placeholder: "Select a city",
+                            allowClear: true
+                        });
+                    },
+                    error: function () {
+                        alert('Failed to load cities');
+                    }
+                });
+            } else {
+                $('#cityDropdown').empty().trigger('change');
+            }
+        });
+    });
+</script>
 </html>

@@ -42,7 +42,7 @@ namespace IndiaLivings_Web_DAL.Models
         public string Error_Message { get; set; } = string.Empty;
         public string membershipName { get; set; } = string.Empty;
 
-        public string strUserImageName { get; set;} = string.Empty;
+        public string strUserImageName { get; set; } = string.Empty;
 
         public string strUserImageType { get; set; } = string.Empty;
 
@@ -51,10 +51,9 @@ namespace IndiaLivings_Web_DAL.Models
         public string userState { get; set; } = string.Empty;
         public string userCountry { get; set; } = string.Empty;
         public string userPinCode { get; set; } = string.Empty;
-        public bool isActive { get; set; }
-
         public string userCompany { get; set; } = string.Empty;
 
+        public List<UserAddressModel> userAddressInfo { get; set; } = [];
         #endregion
 
     }

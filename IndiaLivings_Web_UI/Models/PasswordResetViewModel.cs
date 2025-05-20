@@ -63,6 +63,37 @@ namespace IndiaLivings_Web_UI.Models
             }
             return passwordModel;
         }
+
+        public string PasswordReset(string newPassword, string token)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            List<PasswordResetViewModel> passwordModel = new List<PasswordResetViewModel>();
+            string response = "Password Update Failed. Please check with Admin.";
+            try
+            {
+                response = AH.PasswordReset(newPassword, token);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string UpdatePassword(int userId, string newPassword)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            List<PasswordResetViewModel> passwordModel = new List<PasswordResetViewModel>();
+            string response = "Password Update Failed. Please check with Admin.";
+            try
+            {
+                response = AH.UpdatePassword(userId, newPassword);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 
 
