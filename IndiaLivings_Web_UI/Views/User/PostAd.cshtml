@@ -2,7 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    ViewBag.Title = "Ad Post";
+    ViewBag.Title = "Post Ad";
     <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
     <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
     <link rel="stylesheet" href="~/css/custom/ad-post.css" />
@@ -202,6 +202,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="adpost-card pb-2">
+                        <div class="adpost-agree mb">
+                            <div class="form-group">
+                                <input type="checkbox" id="formCheck" class="form-check">
+                            </div>
+                            <p>Send me Trade Email/SMS Alerts for people looking to buy mobile handsets in www By clicking "Post", you agree to our <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a> and acknowledge that you are the rightful owner of this item and using Trade to find a genuine buyer.</p>
+                        </div>
+                        <small id="formCheckError" class="text-danger d-none">Please accept the terms and conditions</small>
+                        <div class="form-group text-right">
+                            <button class="btn btn-inline" type="submit" onclick="publishAd(event)">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Publish your ad</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
                     <div class="adpost-card">
                         <div class="adpost-title">
                             <h3>Plan Information</h3>
@@ -224,12 +240,14 @@
                                     <h6>Standerd Plan - <span>Submit 10 Ad Listings</span></h6>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>
                                 </div>
+                            <form method="post" asp-action="ProcessPayment" asp-controller="User" asp-route-Amount="23">
                                 <div class="adpost-plan-meta">
                                     <h3>$23.00</h3>
-                                    <button class="btn btn-outline">
+                                    <button name="planTypebtn" type="submit" class="btn btn-outline">
                                         <span>Select</span>
                                     </button>
                                 </div>
+                            </form>
                             </li>
                             <li>
                                 <div class="adpost-plan-content">
@@ -245,22 +263,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="adpost-card pb-2">
-                        <div class="adpost-agree mb">
-                            <div class="form-group">
-                                <input type="checkbox" id="formCheck" class="form-check">
-                            </div>
-                            <p>Send me Trade Email/SMS Alerts for people looking to buy mobile handsets in www By clicking "Post", you agree to our <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a> and acknowledge that you are the rightful owner of this item and using Trade to find a genuine buyer.</p>
-                        </div>
-                        <small id="formCheckError" class="text-danger d-none">Please accept the terms and conditions</small>
-                        <div class="form-group text-right">
-                            <button class="btn btn-inline" type="submit" onclick="publishAd(event)">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Publish your ad</span>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    
             </div>
             <div class="col-lg-4">
                 <div class="account-card alert fade show">
