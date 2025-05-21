@@ -32,7 +32,7 @@ namespace IndiaLivings_Web_UI.Models
             var response = "";
             try
             {
-                response = PH.UpdateAddress(intUserID, strUserContactFullAddress, strUserContactCity, strUserContactState, strUserContactCountry, strUserContactPinCode, intUserAddressType);
+                response = PH.UpdateAddress(intUserID, strUserContactFullAddress, strUserContactCity, strUserContactState, strUserContactCountry, strUserContactPinCode, intUserAddressType).Trim('\"');
             }
             catch (Exception ex)
             {

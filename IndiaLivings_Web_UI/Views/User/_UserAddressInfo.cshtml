@@ -211,8 +211,9 @@
             data: {houseNo: houseNo, pincode: selectedPin, country: selectedCountryId, state: selectedStateId, city: selectedCityId, type: type},
             success: function (response) {
                 spinner.classList.add('d-none');
-                if (response.status == ("Address Updated")) {
+                if (response.status.includes("Updated")) {
                     ShowToast('success', 'Address Updated Successfully');
+                    location.reload();
                 }
                 else {
                     ShowToast('failed', 'Update Failed');

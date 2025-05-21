@@ -1,10 +1,11 @@
-﻿@model IEnumerable<UserViewModel>
+﻿@model ProfileViewModel
 @{
     ViewBag.Title = "Profile";
     <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
     <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
     <link rel="stylesheet" href="~/css/custom/profile.css" />
-
+    var membership = Model.Membership[0];
+    var address = Model.Users[0];
 }
 
 <section class="single-banner dashboard-banner">
@@ -12,10 +13,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="single-content">
-                    <h2>Ad Post</h2>
+                    <h2>Profile</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Ad-Post</li>
+                        <li class="breadcrumb-item active" aria-current="page">Profile</li>
                     </ol>
                 </div>
             </div>
@@ -90,81 +91,56 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="account-card">
-                        @foreach (var user in Model) 
-                        {
-                            <div class="account-title">
-                                <h3>Membership</h3>
-
+                        <div class="account-title">
+                            <h3>Membership</h3>
                             <a asp-action="settings" asp-controller="User">Edit</a>
-
-                            </div>
-                            <ul class="account-card-list">
-                            
-                                    <li><h5>Status</h5><p>@(user.IsActive ? "Active" : "InActive")</p></li>
-                                    <li><h5>Joined</h5><p></p></li>
-                                    <li><h5>Span</h5><p></p></li>
-                                    <li><h5>Earn</h5><p></p></li>
-                           
-                            </ul>
-                        }
+                        </div>
+                        <ul class="account-card-list">
+                            <li><h5>Status</h5><p>@(membership.IsActive ? "Active" : "InActive")</p></li>
+                            <li><h5>Joined</h5><p>@membership.CreatedDate</p></li>
+                            <li><h5>Plan</h5><p>@membership.strMembershipName</p></li>
+                            <li><h5>Ads Limit</h5><p>@membership.intMembershipAdListing</p></li>
+                        </ul>
                     </div>
                     <div class="account-card">
-                        @foreach (var user in Model)
-                        {
-                            <div class="account-title">
-                                <h3>Billing Address</h3>
-
-                                <a onclick="loadAddressModal('@user.userAddressInfo[0].UserBillingFullAddress', '@user.userAddressInfo[0].UserBillingPinCode', '@user.userAddressInfo[0].UserBillingState', '@user.userAddressInfo[0].UserBillingCity', '@user.userAddressInfo[0].UserBillingCountry', 'Billing')">Edit</a>
-
-                            </div>
-                            <ul class="account-card-list">
-
-                                <li><h5>Address:</h5><p>@user.userAddressInfo[0].UserBillingFullAddress</p></li>
-                                <li><h5>Pin Code:</h5><p>@user.userAddressInfo[0].UserBillingPinCode</p></li>
-                                <li><h5>State:</h5><p>@user.userAddressInfo[0].UserBillingState</p></li>
-                                <li><h5>City:</h5><p>@user.userAddressInfo[0].UserBillingCity</p></li>
-                                <li><h5>Country:</h5><p>@user.userAddressInfo[0].UserBillingCountry</p></li>
-
-                            </ul>
-                        }
+                        <div class="account-title">
+                            <h3>Billing Address</h3>
+                        <a onclick="loadAddressModal('@address.userAddressInfo[0].UserBillingFullAddress', '@address.userAddressInfo[0].UserBillingPinCode', '@address.userAddressInfo[0].UserBillingState', '@address.userAddressInfo[0].UserBillingCity', '@address.userAddressInfo[0].UserBillingCountry', 'Billing')">Edit</a>
+                        </div>
+                        <ul class="account-card-list">
+                            <li><h5>Address:</h5><p>@address.userAddressInfo[0].UserBillingFullAddress</p></li>
+                            <li><h5>Pin Code:</h5><p>@address.userAddressInfo[0].UserBillingPinCode</p></li>
+                            <li><h5>State:</h5><p>@address.userAddressInfo[0].UserBillingState</p></li>
+                            <li><h5>City:</h5><p>@address.userAddressInfo[0].UserBillingCity</p></li>
+                            <li><h5>Country:</h5><p>@address.userAddressInfo[0].UserBillingCountry</p></li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="account-card">
                         <div class="account-title">
                             <h3>Contact Info</h3>
-
                             <a asp-action="settings" asp-controller="User">Edit</a>
                         </div>
                         <ul class="account-card-list">
-                            @foreach (var user in Model)
-                            {
-                                <li><h5>Website:</h5><p>@user.userWebsite</p></li>
-                                <li><h5>Email:</h5><p>@user.userEmail</p></li>
-                                <li><h5>Phone:</h5><p>@user.userMobile</p></li>
-                                <li><h5>Skype:</h5><p></p></li>
-                            }
+                            <li><h5>Website:</h5><p>@address.userWebsite</p></li>
+                            <li><h5>Email:</h5><p>@address.userEmail</p></li>
+                            <li><h5>Phone:</h5><p>@address.userMobile</p></li>
+                            <li><h5>Skype:</h5><p></p></li>
                         </ul>
                     </div>
                     <div class="account-card">
-                        @foreach (var user in Model) 
-                        {
-                            <div class="account-title">
-                                <h3>Shipping Address</h3>
-
-                            <a onclick="loadAddressModal('@user.userAddressInfo[0].UserShippingFullAddress', '@user.userAddressInfo[0].UserShippingPinCode', '@user.userAddressInfo[0].UserShippingState', '@user.userAddressInfo[0].UserShippingCity', '@user.userAddressInfo[0].UserShippingCountry', 'shipping')">Edit</a>
-
-                            </div>
-                            <ul class="account-card-list">
-
-                                    <li><h5>Address:</h5><p>@user.userAddressInfo[0].UserShippingFullAddress</p></li>
-                                    <li><h5>Post Code:</h5><p>@user.userAddressInfo[0].UserShippingPinCode</p></li>
-                                    <li><h5>State:</h5><p>@user.userAddressInfo[0].UserShippingState</p></li>
-                                    <li><h5>City:</h5><p>@user.userAddressInfo[0].UserShippingCity</p></li>
-                                    <li><h5>Country:</h5><p>@user.userAddressInfo[0].UserShippingCountry</p></li>
-                            
-                            </ul>
-                        }
+                        <div class="account-title">
+                            <h3>Shipping Address</h3>
+                            <a onclick="loadAddressModal('@address.userAddressInfo[0].UserShippingFullAddress', '@address.userAddressInfo[0].UserShippingPinCode', '@address.userAddressInfo[0].UserShippingState', '@address.userAddressInfo[0].UserShippingCity', '@address.userAddressInfo[0].UserShippingCountry', 'shipping')">Edit</a>
+                        </div>
+                        <ul class="account-card-list">
+                            <li><h5>Address:</h5><p>@address.userAddressInfo[0].UserShippingFullAddress</p></li>
+                            <li><h5>Post Code:</h5><p>@address.userAddressInfo[0].UserShippingPinCode</p></li>
+                            <li><h5>State:</h5><p>@address.userAddressInfo[0].UserShippingState</p></li>
+                            <li><h5>City:</h5><p>@address.userAddressInfo[0].UserShippingCity</p></li>
+                            <li><h5>Country:</h5><p>@address.userAddressInfo[0].UserShippingCountry</p></li>
+                        </ul>
                     </div>
                 </div>
             </div>
