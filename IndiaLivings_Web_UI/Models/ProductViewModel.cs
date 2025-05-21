@@ -245,5 +245,53 @@ namespace IndiaLivings_Web_UI.Models
 
             return products;
         }
+        public List<ProductViewModel> GetProducts(int productCategoryID)
+        {
+            List<ProductViewModel> products = new List<ProductViewModel>();
+            ProductHelper PH = new ProductHelper();
+            try
+            {
+                var productList = PH.GetProduct(productCategoryID);
+                if (productList != null)
+                {
+                    foreach (var productDetails in productList)
+                    {
+                        ProductViewModel product = new ProductViewModel();
+                        product.productId = productDetails.productId;
+                        product.productName = productDetails.productName;
+                        product.productDescription = productDetails.productDescription;
+                        product.productAdTags = productDetails.productAdTags;
+                        product.productPrice = productDetails.productPrice;
+                        product.productQuantity = productDetails.productQuantity;
+                        product.productCondition = productDetails.productCondition;
+                        product.productCategoryID = productDetails.productCategoryID;
+                        product.productCategoryName = productDetails.productCategoryName;
+                        product.productsubCategoryID = productDetails.productsubCategoryID;
+                        product.productSubCategoryName = productDetails.productSubCategoryName;
+                        product.productPriceCondition = productDetails.productPriceCondition;
+                        product.productAdCategory = productDetails.productAdCategory;
+                        product.productOwner = productDetails.productOwner;
+                        product.productOwnerName = productDetails.productOwnerName;
+                        product.productMembershipID = productDetails.productMembershipID;
+                        product.productMembershipName = productDetails.productMembershipName;
+                        product.productAdminReview = productDetails.productAdminReview;
+                        product.IsActive = productDetails.IsActive;
+                        product.createdDate = productDetails.createdDate;
+                        product.createdBy = productDetails.createdBy;
+                        product.updatedDate = productDetails.updatedDate;
+                        product.updatedBy = productDetails.updatedBy;
+                        products.Add(product);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+
+            return products;
+        }
+
     }
 }

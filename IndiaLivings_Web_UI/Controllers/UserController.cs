@@ -55,11 +55,11 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult AdsList(int categoryid = 0, int page = 1)
         {
             ProductViewModel productModel = new ProductViewModel();
-            List<ProductViewModel> products = productModel.GetAds(0);
-            if (categoryid != 0)
-            {
-                products = products.Where(product => product.productCategoryID == categoryid).ToList();
-            }
+            List<ProductViewModel> products = productModel.GetProducts(categoryid);
+            //if (categoryid != 0)
+            //{
+            //    products = products.Where(product => product.productCategoryID == categoryid).ToList();
+            //}
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
