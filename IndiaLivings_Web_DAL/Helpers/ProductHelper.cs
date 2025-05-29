@@ -175,5 +175,63 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return false;
         }
+        public List<ProductModel> GetProduct(int productCategoryID)
+        {
+            List<ProductModel> products = new List<ProductModel>();
+            try
+            {
+                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetAllProductsByCategory?intCategoryID={productCategoryID}");
+                products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return products;
+        }
+        public List<ProductModel> GetProductList(string strProductName, string strCity, string strState, decimal decMinPrice, decimal decMaxPrice, string strSearchType, string strSearchText)
+        {
+            List<ProductModel> products = new List<ProductModel>();
+            try
+            {
+                var queryParams = new List<string>();
+
+                if (!string.IsNullOrEmpty(strProductName))
+                    queryParams.Add($"strProductName={Uri.EscapeDataString(strProductName)}");
+
+                if (!string.IsNullOrEmpty(strCity))
+                    queryParams.Add($"strCity={Uri.EscapeDataString(strCity)}");
+
+                if (!string.IsNullOrEmpty(strState))
+                    queryParams.Add($"strState={Uri.EscapeDataString(strState)}");
+
+                if (decMinPrice > 0)
+                    queryParams.Add($"decMinPrice={decMinPrice}");
+
+                if (decMaxPrice > 0)
+                    queryParams.Add($"decMaxPrice={decMaxPrice}");
+
+                if (!string.IsNullOrEmpty(strSearchType))
+                    queryParams.Add($"strSearchType={Uri.EscapeDataString(strSearchType)}");
+
+                if (!string.IsNullOrEmpty(strSearchText))
+                    queryParams.Add($"strSearchText={Uri.EscapeDataString(strSearchText)}");
+
+                string queryString = string.Join("&", queryParams);
+                string mainURL = $"https://api.indialivings.com/api/Product/SearchProductByTopPanel?{queryString}";
+                var productsList = ServiceAPI.Get_async_Api(mainURL);
+                products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
+               
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return products;
+        }
+
+
+
     }
 }

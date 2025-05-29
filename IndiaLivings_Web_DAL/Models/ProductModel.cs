@@ -42,6 +42,8 @@ namespace IndiaLivings_Web_DAL.Models
         public string strProductImageType { get; set; } = string.Empty;
         public string productAdminReviewStatus { get; set; } = string.Empty;
         public int intproductCount { get; set; }
+        public decimal MinPrice { get; set; } = 0;
+        public decimal MaxPrice { get; set; } = 0;
 
     }
 }

@@ -52,18 +52,53 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns> List of all Ads will be reurned</returns>
         /// // Need to be reviewed with Anoop
-        public IActionResult AdsList(int categoryid = 0, int page = 1)
+        //public IActionResult AdsList(int categoryid = 0, int page = 1)
+        //{
+        //    ProductViewModel productModel = new ProductViewModel();
+        //    List<ProductViewModel> products = productModel.GetProducts(categoryid);
+
+        //    //if (categoryid != 0)
+        //    //{
+        //    //    products = products.Where(product => product.productCategoryID == categoryid).ToList();
+        //    //}
+        //    int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+        //    List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+        //    ViewBag.WishlistIds = wishlistIds;
+        //    ViewBag.CurrentPage = page;
+        //    return View(products);
+        //}
+        public IActionResult AdsList(int categoryid = 0, int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "")
         {
-            ProductViewModel productModel = new ProductViewModel();
-            List<ProductViewModel> products = productModel.GetAds(0);
-            if (categoryid != 0)
+            ProductViewModel productViewModel = new ProductViewModel();
+            List<ProductViewModel> products;
+
+            // If no search/filter parameters are used, fall back to category-based logic  
+            bool isSearch = !string.IsNullOrEmpty(strProductName) ||
+                            !string.IsNullOrEmpty(strCity) ||
+                            !string.IsNullOrEmpty(strState) ||
+                            decMinPrice > 0 || decMaxPrice > 0 ||
+                            !string.IsNullOrEmpty(strSearchType) ||
+                            !string.IsNullOrEmpty(strSearchText);
+
+            if (isSearch)
             {
-                products = products.Where(product => product.productCategoryID == categoryid).ToList();
+                products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
             }
+            else
+            {
+                products = productViewModel.GetProducts(categoryid);
+            }
+
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            List<int> wishlistIds = productViewModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
+            return View(products);
+        }
+        public IActionResult ProductsSearch(string strProductName, string strCity, string strState, decimal decMinPrice, decimal decMaxPrice, string strSearchType, string strSearchText)
+        {
+            ProductViewModel productViewModel = new ProductViewModel();
+            List<ProductViewModel> products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
             return View(products);
         }
         public JsonResult GetSubCategories(int Category)
