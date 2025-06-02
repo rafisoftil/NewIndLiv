@@ -1,5 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
+using Newtonsoft.Json;
 namespace IndiaLivings_Web_UI.Models
 {
     public class ProductViewModel
@@ -148,7 +149,7 @@ namespace IndiaLivings_Web_UI.Models
         }
 
 
-        public bool CreateNewAdd(ProductViewModel product,IFormFile productImage)
+        public bool CreateNewAdd(ProductViewModel product, IFormFile productImage)
         {
             bool isCreated = false;
             int productId = 0;
@@ -306,35 +307,41 @@ namespace IndiaLivings_Web_UI.Models
             ProductHelper PH = new ProductHelper();
             try
             {
-                var productList = PH.GetProductList(strProductName,strCity,strState,decMinPrice,decMaxPrice,strSearchType,strSearchText);
+                var productList = PH.GetProductList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
+                //var filteredProducts = productList[0].ToJson();
                 if (productList != null)
                 {
-                    foreach (var productDetails in productList)
+                    var filteredProducts = JsonConvert.DeserializeObject<dynamic>(productList);
+                    //filteredProducts = JsonConvert.DeserializeObject(filteredProducts);
+                    var productDetails = filteredProducts.productDetails;
+                    foreach (var PVM in productDetails)
                     {
                         ProductViewModel product = new ProductViewModel();
-                        product.productId = productDetails.productId;
-                        product.productName = productDetails.productName;
-                        product.productDescription = productDetails.productDescription;
-                        product.productAdTags = productDetails.productAdTags;
-                        product.productPrice = productDetails.productPrice;
-                        product.productQuantity = productDetails.productQuantity;
-                        product.productCondition = productDetails.productCondition;
-                        product.productCategoryID = productDetails.productCategoryID;
-                        product.productCategoryName = productDetails.productCategoryName;
-                        product.productsubCategoryID = productDetails.productsubCategoryID;
-                        product.productSubCategoryName = productDetails.productSubCategoryName;
-                        product.productPriceCondition = productDetails.productPriceCondition;
-                        product.productAdCategory = productDetails.productAdCategory;
-                        product.productOwner = productDetails.productOwner;
-                        product.productOwnerName = productDetails.productOwnerName;
-                        product.productMembershipID = productDetails.productMembershipID;
-                        product.productMembershipName = productDetails.productMembershipName;
-                        product.productAdminReview = productDetails.productAdminReview;
-                        product.IsActive = productDetails.IsActive;
-                        product.createdDate = productDetails.createdDate;
-                        product.createdBy = productDetails.createdBy;
-                        product.updatedDate = productDetails.updatedDate;
-                        product.updatedBy = productDetails.updatedBy;
+                        product.productId = PVM.productId;
+                        product.productName = PVM.productName;
+                        product.productDescription = PVM.productDescription;
+                        product.productAdTags = PVM.productAdTags;
+                        product.productPrice = PVM.productPrice;
+                        product.productQuantity = (int)PVM.productQuantity;
+                        product.productCondition = PVM.productCondition != null ? (int)PVM.productCondition : 0;
+                        product.productCategoryID = (int)PVM.productCategoryID;
+                        product.productCategoryName = PVM.productCategoryName;
+                        product.productsubCategoryID = (int)PVM.productsubCategoryID;
+                        product.productSubCategoryName = PVM.productSubCategoryName;
+                        product.productPriceCondition = PVM.productPriceCondition;
+                        product.productAdCategory = PVM.productAdCategory;
+                        product.productOwner = PVM.productOwner;
+                        product.productOwnerName = PVM.productOwnerName;
+                        product.productMembershipID = PVM.productMembershipID != null ? (int)PVM.productMembershipID : 0; //(int)PVM.productMembershipID;
+                        product.productMembershipName = PVM.productMembershipName;
+                        product.productAdminReview = PVM.productAdminReview;
+                        product.IsActive = PVM.IsActive == null ? Convert.ToBoolean(0) :Convert.ToBoolean(PVM.IsActive);
+                        product.createdBy = PVM.createdBy;
+                        if (PVM.createdDate != null)
+                            product.createdDate = (DateTime)PVM.createdDate;
+                        if (PVM.updatedDate != null)
+                            product.createdDate = (DateTime)PVM.updatedDate;
+                        product.updatedBy = PVM.updatedBy;
                         products.Add(product);
                     }
                 }

@@ -544,8 +544,86 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>               
                 <div class="row">
+                    @{
+                        List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
+                        var itemsPerPage = 12;
+                        int currentPage = ViewBag.CurrentPage;
+                        var pagedProducts = Model.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
+                        int productsOnPage = pagedProducts.Count;
+                    }
+                    @foreach (var product in pagedProducts)
+                    {
+                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                            <div class="product-card">
+                                <div class="product-media">
+                                    <div class="product-img">                                       
+                                        <img src="@(product.byteProductImageData != null ? "data:image/png;base64," + Convert.ToBase64String(product.byteProductImageData) : "/images/white-screen.jpg")" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@product.productImageName" width="288" height="205" />
+                                    </div>
+                                    <div class="cross-vertical-badge product-badge">
+                                        <i class="fas fa-clipboard-check"></i>
+                                        <span>recommend</span>
+                                    </div>
+                                    <div class="product-type">
+                                        <span class="flat-badge sale">@product.productAdCategory</span>
+                                    </div>
+                                    <ul class="product-action"> 
+                                        <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
+                                        <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
+                                        <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
+                                    </ul>
+                                </div>
+                                <div class="product-content">
+                                    <ol class="breadcrumb product-category">
+                                        <li><i class="fas fa-tags"></i></li>
+                                        <li class="breadcrumb-item"><a href="#">@product.productSubCategoryName</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">@product.productName</li>
+                                    </ol>
+                                    <h5 class="product-title">
+                                        <a href="#">@product.productDescription</a>
+                                    </h5>
+                                    <div class="product-meta">
+                                        <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
+                                        <span><i class="fas fa-clock"></i>@product.updatedDate</span>
+                                    </div>
+                                    <div class="product-info">
+                                        <h5 class="product-price">$@product.productPrice<span>/fixed</span></h5>
+                                        <div class="product-btn">
+                                            <a href="compare.html" title="Compare" class="fas fa-compress"></a>
+                                            <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")" onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="footer-pagection">
+                                <p class="page-info">Showing @productsOnPage of @Model.Count() Results</p>
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                            <i class="fas fa-long-arrow-alt-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link active" id="defaultPage" href="#">1</a></li>
+                                    @for (int i = 2; i <= (Model.Count() / itemsPerPage) + 1; i++)
+                                    {
+                                        <li class="page-item"><a class="page-link " href="#" id="currentPage" onclick="changePage(this, '@i')">@i</a></li>
+                                    }
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                            <i class="fas fa-long-arrow-alt-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              @*   <div class="row">
                     <div class="col-lg-12">
                         <div class="ad-feature-slider slider-arrow">
                             <div class="feature-card">
@@ -646,85 +724,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    @{
-                        List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
-                        var itemsPerPage = 12;
-                        int currentPage = ViewBag.CurrentPage;
-                        var pagedProducts = Model.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
-                        int productsOnPage = pagedProducts.Count;
-                    }
-                    @foreach (var product in pagedProducts)
-                    {
-                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
-                            <div class="product-card">
-                                <div class="product-media">
-                                    <div class="product-img">                                       
-                                        <img src="@(product.byteProductImageData != null ? "data:image/png;base64," + Convert.ToBase64String(product.byteProductImageData) : "/images/white-screen.jpg")" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@product.productImageName" width="288" height="205" />
-                                    </div>
-                                    <div class="cross-vertical-badge product-badge">
-                                        <i class="fas fa-clipboard-check"></i>
-                                        <span>recommend</span>
-                                    </div>
-                                    <div class="product-type">
-                                        <span class="flat-badge sale">@product.productAdCategory</span>
-                                    </div>
-                                    <ul class="product-action"> 
-                                        <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
-                                        <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
-                                        <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ol class="breadcrumb product-category">
-                                        <li><i class="fas fa-tags"></i></li>
-                                        <li class="breadcrumb-item"><a href="#">@product.productSubCategoryName</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">@product.productName</li>
-                                    </ol>
-                                    <h5 class="product-title">
-                                        <a href="#">@product.productDescription</a>
-                                    </h5>
-                                    <div class="product-meta">
-                                        <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
-                                        <span><i class="fas fa-clock"></i>@product.updatedDate</span>
-                                    </div>
-                                    <div class="product-info">
-                                        <h5 class="product-price">$@product.productPrice<span>/fixed</span></h5>
-                                        <div class="product-btn">
-                                            <a href="compare.html" title="Compare" class="fas fa-compress"></a>
-                                            <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")" onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="footer-pagection">
-                                <p class="page-info">Showing @productsOnPage of @Model.Count() Results</p>
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">
-                                            <i class="fas fa-long-arrow-alt-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link active" id="defaultPage" href="#">1</a></li>
-                                    @for (int i = 2; i <= (Model.Count() / itemsPerPage) + 1; i++)
-                                    {
-                                        <li class="page-item"><a class="page-link " href="#" id="currentPage" onclick="changePage(this, '@i')">@i</a></li>
-                                    }
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">
-                                            <i class="fas fa-long-arrow-alt-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </div> *@
             </div>
         </div>
 </section>

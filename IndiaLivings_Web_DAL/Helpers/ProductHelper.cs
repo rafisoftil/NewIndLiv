@@ -1,7 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_DAL.Repositories;
 using Microsoft.AspNetCore.Http;
-using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
@@ -143,7 +142,7 @@ namespace IndiaLivings_Web_DAL.Helpers
                 var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Product/addProduct", product);
                 response = response.Trim('\"');
                 insertedId = Convert.ToInt32(response);
-               
+
             }
             catch (Exception ex)
             {
@@ -153,7 +152,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             return insertedId;
         }
 
-        public bool InserProductImage(int productId,string imageName,string imageType,string createdBy,IFormFile productImage)
+        public bool InserProductImage(int productId, string imageName, string imageType, string createdBy, IFormFile productImage)
         {
             var form = new MultipartFormDataContent();
             if (productImage != null && productImage.Length > 0)
@@ -190,9 +189,9 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return products;
         }
-        public List<ProductModel> GetProductList(string strProductName, string strCity, string strState, decimal decMinPrice, decimal decMaxPrice, string strSearchType, string strSearchText)
+        public string GetProductList(string strProductName, string strCity, string strState, decimal decMinPrice, decimal decMaxPrice, string strSearchType, string strSearchText)
         {
-            List<ProductModel> products = new List<ProductModel>();
+            string productsList = string.Empty;
             try
             {
                 var queryParams = new List<string>();
@@ -220,15 +219,14 @@ namespace IndiaLivings_Web_DAL.Helpers
 
                 string queryString = string.Join("&", queryParams);
                 string mainURL = $"https://api.indialivings.com/api/Product/SearchProductByTopPanel?{queryString}";
-                var productsList = ServiceAPI.Get_async_Api(mainURL);
-                products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
-               
+                 productsList = ServiceAPI.Get_async_Api(mainURL);
+
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-            return products;
+            return productsList;
         }
 
 
