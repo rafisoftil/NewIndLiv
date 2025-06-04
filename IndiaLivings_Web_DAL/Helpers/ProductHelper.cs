@@ -1,7 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_DAL.Repositories;
 using Microsoft.AspNetCore.Http;
-using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
@@ -143,7 +142,7 @@ namespace IndiaLivings_Web_DAL.Helpers
                 var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Product/addProduct", product);
                 response = response.Trim('\"');
                 insertedId = Convert.ToInt32(response);
-               
+
             }
             catch (Exception ex)
             {
@@ -153,7 +152,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             return insertedId;
         }
 
-        public bool InserProductImage(int productId,string imageName,string imageType,string createdBy,IFormFile productImage)
+        public bool InserProductImage(int productId, string imageName, string imageType, string createdBy, IFormFile productImage)
         {
             var form = new MultipartFormDataContent();
             if (productImage != null && productImage.Length > 0)
@@ -175,5 +174,62 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return false;
         }
+        public List<ProductModel> GetProduct(int productCategoryID)
+        {
+            List<ProductModel> products = new List<ProductModel>();
+            try
+            {
+                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetAllProductsByCategory?intCategoryID={productCategoryID}");
+                products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return products;
+        }
+        public string GetProductList(string strProductName, string strCity, string strState, decimal decMinPrice, decimal decMaxPrice, string strSearchType, string strSearchText)
+        {
+            string productsList = string.Empty;
+            try
+            {
+                var queryParams = new List<string>();
+
+                if (!string.IsNullOrEmpty(strProductName))
+                    queryParams.Add($"strProductName={Uri.EscapeDataString(strProductName)}");
+
+                if (!string.IsNullOrEmpty(strCity))
+                    queryParams.Add($"strCity={Uri.EscapeDataString(strCity)}");
+
+                if (!string.IsNullOrEmpty(strState))
+                    queryParams.Add($"strState={Uri.EscapeDataString(strState)}");
+
+                if (decMinPrice > 0)
+                    queryParams.Add($"decMinPrice={decMinPrice}");
+
+                if (decMaxPrice > 0)
+                    queryParams.Add($"decMaxPrice={decMaxPrice}");
+
+                if (!string.IsNullOrEmpty(strSearchType))
+                    queryParams.Add($"strSearchType={Uri.EscapeDataString(strSearchType)}");
+
+                if (!string.IsNullOrEmpty(strSearchText))
+                    queryParams.Add($"strSearchText={Uri.EscapeDataString(strSearchText)}");
+
+                string queryString = string.Join("&", queryParams);
+                string mainURL = $"https://api.indialivings.com/api/Product/SearchProductByTopPanel?{queryString}";
+                 productsList = ServiceAPI.Get_async_Api(mainURL);
+
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return productsList;
+        }
+
+
+
     }
 }

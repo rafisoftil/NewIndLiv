@@ -16,11 +16,10 @@ $(window).on("scroll", function(){
 //========================================
 //     HEADER SEARCH ADVANCE OPTION
 //========================================
-$('.option-btn').on('click', function(){
+$('.option-btn').on('click', function () {
     $('.header-search').toggleClass('active');
     $('.header-option').slideToggle('slow');
 });
-
 
 //========================================
 //       HEADER RESPONSIVE SEARCH
