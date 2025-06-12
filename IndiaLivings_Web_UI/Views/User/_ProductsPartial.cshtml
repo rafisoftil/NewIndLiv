@@ -1,0 +1,284 @@
+﻿@model List<ProductViewModel>
+<style>
+    .product-card:hover {
+        transform: scale(1.1);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        z-index: 2;
+    }
+</style>
+@{
+    List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
+    int itemsPerPage = 12;
+    int currentPage = ViewBag.CurrentPage;
+    double modelCount = Model.Count();
+    var pagedProducts = Model.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
+    int productsOnPage = pagedProducts.Count;
+}
+
+@foreach (var product in pagedProducts)
+{
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+        <div class="product-card">
+            <div class="product-media">
+                <div class="product-img">
+                    <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                         onerror="this.onerror=null; this.src='/images/white-screen.jpg';"
+                         alt="@product.productImageName" width="288" height="205" />
+                </div>
+                <div class="cross-vertical-badge product-badge">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>recommend</span>
+                </div>
+                <div class="product-type">
+                    <span class="flat-badge @(product.productAdCategory.ToLower())">@product.productAdCategory</span>
+                </div>
+                <ul class="product-action">
+                    <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
+                    <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
+                    <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
+                </ul>
+            </div>
+            <div class="product-content">
+                <ol class="breadcrumb product-category">
+                    <li><i class="fas fa-tags"></i></li>
+                    <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
+                </ol>
+                <h5 class="product-title">
+                    <a href="#">@product.productName</a>
+                </h5>
+                <div class="product-meta">
+                    <span><i class="fas fa-map-marker-alt"></i>@product.userContactCity</span>
+                    <span><i class="fas fa-clock"></i>@product.updatedDate.ToString("dd-MM-yyyy")</span>
+                </div>
+                <div class="product-info">
+                    <h5 class="product-price">$@product.productPrice<span>/fixed</span></h5>
+                    <div class="product-btn">
+                        @* <a href="compare.html" title="Compare" class="fas fa-compress"></a> *@
+                        <a href='#' class='fas fa-compress'
+                           data-toggle='modal' data-target='#productDetailsModal'
+                           onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
+                        </a>
+                        <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
+                                onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="footer-pagection">
+            <p class="page-info">Showing @((itemsPerPage * ViewBag.CurrentPage < ViewBag.Count) ? itemsPerPage * ViewBag.CurrentPage : ViewBag.Count) of @ViewBag.Count Results</p>
+            <ul class="pagination" id="pagination">
+                <li class="page-item">
+                    <a class="page-link" onclick="previousPage()">
+                        <i class="fas fa-long-arrow-alt-left"></i>
+                    </a>
+                </li>
+                @* Page numbers will be inserted dynamically *@
+                <li class="page-item">
+                    <a class="page-link" onclick="nextPage()">
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                    </a>
+                </li>
+            </ul>
+            @* <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        <i class="fas fa-long-arrow-alt-left"></i>
+                    </a>
+                </li> 
+                @for (int i = 1; i <= Math.Ceiling(modelCount / itemsPerPage); i++)
+                {
+                    var activeClass = (i == currentPage) ? "active" : "";
+                    <li class="page-item"><a class="page-link @activeClass" id="currentPage" onclick="changePage(this, '@i')">@i</a></li>
+                }
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                    </a>
+                </li>
+            </ul> *@
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="productDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle" style="color:#06038d">Product Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body d-flex">
+                <!-- Left Column: Image and Description -->
+                <div class="w-50 pr-4">
+                    <div class="comm on-card text-center">
+                        <img id="image-modal" src="" style="height: 200px" alt="Image not available" class="img-fluid rounded">
+                    </div>
+                    <div class="common-card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Description</h5>
+                        </div>
+                        <p id="productDescription-modal" class="ad-details-desc"></p>
+                    </div>
+                </div>
+                <!-- Right Column: Specifications -->
+                <div class="w-50">
+                    <div class="common-card">
+                        <div class="card-header">
+                            <h5 class="card-title">Specification</h5>
+                        </div>
+                        <p id="productId-modal" data-product-id="" style="display:none"></p>
+                        <ul class="ad-details-specific">
+                            <li class="d-flex justify-content-between">
+                                <h6>Product Name:</h6>
+                                <p id="productName-modal"></p>
+                            </li>
+                            <li class="d-flex justify-content-between">
+                                <h6>Price:</h6>
+                                <p id="productPrice-modal"></p>
+                            </li>
+                            <li class="d-flex justify-content-between">
+                                <h6>Quantity:</h6>
+                                <p id="productQuantity-modal"></p>
+                            </li>
+                            <li class="d-flex justify-content-between">
+                                <h6>Published at:</h6>
+                                <p id="productPublished-modal"></p>
+                            </li>
+                            <li class="d-flex justify-content-between">
+                                <h6>Category:</h6>
+                                <p id="productCategory-modal"></p>
+                            </li>
+                            <li class="d-flex justify-content-between">
+                                <h6>Created By:</h6>
+                                <p id="productOwner-modal"></p>
+                            </li>
+                            @* <li class="d-flex justify-content-between">
+                                <h6>Ad Status:</h6>
+                                <p id="productStatus-modal" data-product-status=""></p>
+                            </li> *@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let totalPages = @Math.Ceiling((double)modelCount / itemsPerPage);
+    let currentPage = @currentPage;
+    const visiblePages = 5;
+
+    function renderPagination() {
+        const pagination = document.getElementById('pagination');
+        const pageLinks = pagination.querySelectorAll('.page-item');
+
+        // Remove old page number items (excluding arrows)
+        pageLinks.forEach((item, index) => {
+            if (index !== 0 && index !== pageLinks.length - 1) {
+                item.remove();
+            }
+        });
+
+        // Calculate startPage and endPage with fixed visiblePages
+        let half = Math.floor(visiblePages / 2);
+        let startPage = currentPage - half;
+        let endPage = currentPage + half;
+
+        if (startPage < 1) {
+            startPage = 1;
+            endPage = visiblePages;
+        }
+
+        if (endPage > totalPages) {
+            endPage = totalPages;
+            startPage = Math.max(1, totalPages - visiblePages + 1);
+        }
+
+        const insertBefore = pagination.children[pagination.children.length - 1];
+
+        for (let i = startPage; i <= endPage; i++) {
+            const li = document.createElement('li');
+            li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+            li.innerHTML = `<a class="page-link" onclick="goToPage(${i})">${i}</a>`;
+            pagination.insertBefore(li, insertBefore);
+        }
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        renderPagination();
+        changePage(null, page); // Your actual logic to load page content
+    }
+
+    function previousPage() {
+        if (currentPage > 1) {
+            goToPage(currentPage - 1);
+        }
+    }
+
+    function nextPage() {
+        if (currentPage < totalPages) {
+            goToPage(currentPage + 1);
+        }
+    }
+
+    // Initial render
+    renderPagination();
+
+    function populateModal(product) {
+        if (typeof product === "string") {
+            product = JSON.parse(product);
+        }
+
+        var myModal = new bootstrap.Modal(document.getElementById('productDetailsModal'));
+        myModal.show();
+
+        var image = $('#image-modal');
+        var status = product.IsActiveStatus;
+        var reviewStatus = product.productAdminReviewStatus;
+
+        $('#productId-modal').attr('data-product-id', product.productId);
+        $('#productName-modal').text(product.productName);
+        $('#productCategory-modal').text(product.productCategoryName);
+        $('#productQuantity-modal').text(product.productQuantity);
+        $('#productPrice-modal').text(`$${product.productPrice}`);
+        $('#productOwner-modal').text(product.createdBy);
+        $('#productDescription-modal').text(product.productDescription);
+        $('#productPublished-modal').text(product.createdDate);
+        $('#productStatus-modal').text(status).attr('data-product-status', status);
+
+        if (reviewStatus == "AD Approved") {
+            $('#statusApproved').prop('checked', true).prop('disabled', true);
+        }
+        else if (reviewStatus == "AD Rejected") {
+            $('#statusRejected').prop('checked', true).prop('disabled', true);
+        }
+        image.attr("src", "data:image/jpeg;base64," + product.byteProductImageData);
+    }
+
+    function changePage(curPage, page) {
+        $('.pagination .page-link').removeClass('active');
+
+        // Add "active" class to the clicked page
+        $(curPage).addClass('active');
+        $.ajax({
+            url: '/User/ProductsList?page=' + page,
+            type: 'POST',
+            data: JSON.stringify(@Html.Raw(Json.Serialize(Model))),
+            contentType: 'application/json',
+            success: function (data) {
+                $('#divPartial').html(data);
+            },
+            error: function () {
+                alert('Failed to load products.');
+            }
+        });
+    }
+</script>

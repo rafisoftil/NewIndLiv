@@ -32,16 +32,16 @@
             <form class="header-form">
                 <div class="header-search">
                     <button type="submit" title="Search Submit "><i class="fas fa-search"></i></button>
-                    <input type="text" placeholder="Search, Whatever you needs...">
-                    <button type="button" title="Search Option" class="option-btn"><i class="fas fa-sliders-h"></i></button>
+                    <input type="text" id="productName" placeholder="Search, Whatever you needs...">
+                    <button type="button" title="Search Option" class="option-btn" onclick="opennavdrop()"><i class="fas fa-sliders-h"></i></button>
                 </div>
                 <div class="header-option">
                     <div class="option-grid">
-                        <div class="option-group"><input type="text" placeholder="City"></div>
-                        <div class="option-group"><input type="text" placeholder="State"></div>
-                        <div class="option-group"><input type="text" placeholder="Min Price"></div>
-                        <div class="option-group"><input type="text" placeholder="Max Price"></div>
-                        <button type="submit"><i class="fas fa-search"></i><span>Search</span></button>
+                        <div class="option-group"><select id="stateDropdown" class="form-control" value="" placeholder="select a State"></select></div>
+                        <div class="option-group"><select id="cityDropdown" class="form-control" value="Select a State to choose City" placeholder="select a City"></select></></div>
+                        <div class="option-group"><input type="text" id="minPrice" placeholder="Min Price"></div>
+                        <div class="option-group"><input type="text" id="maxPrice" placeholder="Max Price"></div>
+                        <button type="button" onclick="ProductsSearch()"><i class="fas fa-search"></i><span>Search</span></button>
                     </div>
                 </div>
             </form>
@@ -77,3 +77,107 @@
         </div>
     </div>
 </header>
+<script>
+    // function ProductsSearch() {
+    //     var city = $('#cityDropdown').val();
+    //     var state = $('#stateDropdown').val();
+    //     var minPrice = $('#minPrice').val();
+    //     var maxPrice = $('#maxPrice').val();
+    //     var productName = $('#productName').val();
+
+    //     // Construct query string from inputs
+    //     var queryParams = `?strProductName=${encodeURIComponent(productName)}&strCity=${encodeURIComponent(city)}&strState=${encodeURIComponent(state)}&decMinPrice=${encodeURIComponent(minPrice)}&decMaxPrice=${encodeURIComponent(maxPrice)}`;
+
+    //     // Navigate to the AdsList page with query params
+    //     window.location.href = '/User/navSearch' + queryParams;
+    // }
+    function opennavdrop() {
+        $.ajax({
+                    url: '/User/GetStates',
+                    type: 'GET',
+                    data: {countryId: 91},
+                    success: function (states) {
+                        if (typeof states === "string") {
+                            states = JSON.parse(states);
+                        }
+
+                        const filteredStates = states
+                            .filter(s => s && s.strStateName && s.IsActive)
+                            .sort((a, b) => a.strStateName.localeCompare(b.strStateName));
+
+                        let $stateDropdown = $('#stateDropdown');
+                        $stateDropdown.empty().append('<option>Select your state</option>');
+
+                        filteredStates.forEach(function (state) {
+                            $stateDropdown.append(
+                                $('<option></option>')
+                                    .val(state.intStateID)
+                                    .text(state.strStateName)
+                            );
+                        });
+
+                        $stateDropdown.select1({
+                            placeholder: "Select a State",
+                            allowClear: true
+                        });
+                        $stateDropdown.val("").trigger('change');
+                        //}
+
+                        
+                    },
+                    error: function () {
+                        alert('Failed to load states');
+                    }
+                });
+        $('#stateDropdown').on('change', function () {
+            const selectedStateId = $(this).val();
+            if (selectedStateId) {
+                $.ajax({
+                    url: '/User/GetCities',
+                    type: 'GET',
+                    data: {stateId: selectedStateId},
+                    success: function (cities) {
+                        if (typeof cities === "string") {
+                            cities = JSON.parse(cities);
+                        }
+
+                        const filteredCities = cities
+                            .filter(s => s && s.strCityName && s.IsActive)
+                            .sort((a, b) => a.strCityName.localeCompare(b.strCityName));
+
+                        let $cityDropdown = $('#cityDropdown');
+                        $cityDropdown.empty().append('<option>Select your City</option>');
+
+                        filteredCities.forEach(function (city) {
+                            $cityDropdown.append(
+                                $('<option></option>')
+                                    .val(city.intCityID)
+                                    .text(city.strCityName)
+                            );
+                        });
+
+                        $cityDropdown.select1({
+                            placeholder: "Select a City",
+                            allowClear: true
+                        });
+                        $cityDropdown.val("").trigger('change');
+                    },
+                    error: function () {
+                        alert('Failed to load cities');
+                    }
+                });
+            } else {
+                $('#cityDropdown').empty().trigger('change');
+            }
+        });
+    }
+
+    // $('#cityDropdown').off('mousedown').on('mousedown', function (e) {
+    //         if ($('#stateDropdown').val() === "" || $('#stateDropdown').val() === null) {
+    //             alert('Please select a state first.');
+    //             e.preventDefault(); // stop dropdown from opening
+    //         }
+    //     });
+    // }
+
+</script>

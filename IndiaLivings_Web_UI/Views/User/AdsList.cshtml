@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProductViewModel>
+﻿@model AdListFiltersViewModel
 @{
     ViewBag.Title = "Ads List";
 }
@@ -33,48 +33,65 @@
                 <div class="row">
                     <div class="col-md-6 col-lg-12">
                         <div class="product-widget">
-                            <h6 class="product-widget-title">Filter by Price</h6>
-                            <form class="product-widget-form" asp-controller="User" asp-action="AdsList" method="get">
-                                <div class="product-widget-group">
-                                    <input type="number" name="decMinPrice" placeholder="min - 00">
-                                    <input type="number" name="decMaxPrice" placeholder="max - 1B">
+                            <div class="row align-items-center justify-content-between mb-2">
+                                <div class="col-6">
+                                    <h6 class="product-widget-title">Filter by Price</h6>
                                 </div>
-                                <button type="submit" class="product-widget-btn">
+                                <div class="col-6 text-end">
+                                    <label class="filter-label mb-1">Sort by:</label>
+                                    <select class="form-select form-select-sm w-auto d-inline-block" onchange="sortByPrice(this.value)">
+                                        <option value="0" selected>Sort</option>
+                                        <option value="4">Min-Max</option>
+                                        <option value="5">Max-Min</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <form class="product-widget-form" asp-controller="User" asp-action="productsList" method="get">
+                                <div class="product-widget-group">
+                                    <input type="text" id="decMinPrice" placeholder="min - 00">
+                                    <input type="text" id="decMaxPrice" placeholder="max - 1B">
+                                </div>
+                                <button type="button" class="product-widget-btn" onclick="updatePriceRange()">
                                     <i class="fas fa-search"></i>
                                     <span>search</span>
+                                </button>
+                                <br />
+                                <button type="button" class="product-widget-btn" onclick="updatePriceRange(null)">
+                                    <i class="fas fa-broom"></i>
+                                    <span>Clear Filter</span>
                                 </button>
                             </form>
                         </div>
                     </div>
-                   
                     <div class="col-md-6 col-lg-12">
                         <div class="product-widget">
                             <h6 class="product-widget-title">Filter by type</h6>
                             <form class="product-widget-form">
                                 <ul class="product-widget-list">
                                     <li class="product-widget-item">
-                                        <div class="product-widget-checkbox"><input type="checkbox" id="chcek1" name="strSearchType" value="sale"></div>
-                                        <label class="product-widget-label" for="chcek1" >
+                                        <div class="product-widget-checkbox"><input type="checkbox" class="filter-type" onchange="updateAdType('sale', this.checked)" id="filtersale"></div>
+                                        <label class="product-widget-label" for="chcek1">
                                             <span class="product-widget-type sale">sales</span>
-                                            <span class="product-widget-number">(65)</span>
+                                            <span class="product-widget-number">(@Model.Filters[0].totalCount)</span>
                                         </label>
                                     </li>
                                     <li class="product-widget-item">
-                                        <div class="product-widget-checkbox"><input type="checkbox" id="chcek2" name="type" value="rent"></div>
+                                        <div class="product-widget-checkbox"><input type="checkbox" class="filter-type" onchange="updateAdType('rent', this.checked)" id="filterrent"></div>
                                         <label class="product-widget-label" for="chcek2">
                                             <span class="product-widget-type rent">rental</span>
-                                            <span class="product-widget-number">(8)</span>
+                                            <span class="product-widget-number">(@Model.Filters[1].totalCount)</span>
                                         </label>
                                     </li>
                                     <li class="product-widget-item">
-                                        <div class="product-widget-checkbox"><input type="checkbox" id="chcek3" name="type" value="booking"></div>
+                                        <div class="product-widget-checkbox"><input type="checkbox" class="filter-type" onchange="updateAdType('booking', this.checked)" id="filterbooking"></div>
                                         <label class="product-widget-label" for="chcek3">
                                             <span class="product-widget-type booking">booking</span>
-                                            <span class="product-widget-number">(3)</span>
+                                            <span class="product-widget-number">(@Model.Filters[2].totalCount)</span>
                                         </label>
                                     </li>
                                 </ul>
-                                <button type="submit" class="product-widget-btn">
+                                <button type="button" class="product-widget-btn" onclick="updateAdType('clear', false)">
                                     <i class="fas fa-broom"></i>
                                     <span>Clear Filter</span>
                                 </button>
@@ -171,95 +188,29 @@
                     </div>
                     <div class="col-md-6 col-lg-12">
                         <div class="product-widget">
-                            <h6 class="product-widget-title">Filter by cities</h6>
+                            <h6 class="product-widget-title">Filter by Cities</h6>
                             <form class="product-widget-form">
                                 <div class="product-widget-search">
-                                    <input type="text" placeholder="Search">
+                                    <input type="text" id="citySearchInput" placeholder="Search">
                                 </div>
                                 <ul class="product-widget-list product-widget-scroll">
-                                    <li class="product-widget-item">
-                                        <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek9">
-                                        </div>
-                                        <label class="product-widget-label" for="chcek9">
-                                            <span class="product-widget-text">Los Angeles</span>
-                                            <span class="product-widget-number">(95)</span>
-                                        </label>
-                                    </li>
-                                    <li class="product-widget-item">
-                                        <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek10">
-                                        </div>
-                                        <label class="product-widget-label" for="chcek10">
-                                            <span class="product-widget-text">San Francisco</span>
-                                            <span class="product-widget-number">(82)</span>
-                                        </label>
-                                    </li>
-                                    <li class="product-widget-item">
-                                        <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek11">
-                                        </div>
-                                        <label class="product-widget-label" for="chcek11">
-                                            <span class="product-widget-text">California</span>
-                                            <span class="product-widget-number">(1t)</span>
-                                        </label>
-                                    </li>
-                                    <li class="product-widget-item">
-                                        <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek12">
-                                        </div>
-                                        <label class="product-widget-label" for="chcek12">
-                                            <span class="product-widget-text">Manhattan</span>
-                                            <span class="product-widget-number">(46)</span>
-                                        </label>
-                                    </li>
-                                    <li class="product-widget-item">
-                                        <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek13">
-                                        </div>
-                                        <label class="product-widget-label" for="chcek13">
-                                            <span class="product-widget-text">Baltimore</span>
-                                            <span class="product-widget-number">(24)</span>
-                                        </label>
-                                    </li>
-                                    <li class="product-widget-item">
-                                        <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek14">
-                                        </div>
-                                        <label class="product-widget-label" for="chcek14">
-                                            <span class="product-widget-text">Avocados</span>
-                                            <span class="product-widget-number">(34)</span>
-                                        </label>
-                                    </li>
-                                    <li class="product-widget-item">
-                                        <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek15">
-                                        </div>
-                                        <label class="product-widget-label" for="chcek15">
-                                            <span class="product-widget-text">new york</span>
-                                            <span class="product-widget-number">(82)</span>
-                                        </label>
-                                    </li>
-                                    <li class="product-widget-item">
-                                        <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek16">
-                                        </div>
-                                        <label class="product-widget-label" for="chcek16">
-                                            <span class="product-widget-text">Houston</span>
-                                            <span class="product-widget-number">(45)</span>
-                                        </label>
-                                    </li>
-                                    <li class="product-widget-item">
-                                        <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek17">
-                                        </div>
-                                        <label class="product-widget-label" for="chcek17">
-                                            <span class="product-widget-text">Chicago</span>
-                                            <span class="product-widget-number">(19)</span>
-                                        </label>
-                                    </li>
+                                    @foreach (var item in Model.Filters)
+                                    {
+                                        if (@item.CategoryType == "Cities")
+                                        {
+                                            <li class="product-widget-item">
+                                                <div class="product-widget-checkbox">
+                                                    <input type="checkbox" class="city-filter-checkbox" id="city_@item.CategoryValue" onchange="updateCity('@item.CategoryValue', this.checked)">
+                                                </div>
+                                                <label class="product-widget-label" for="check_@item.CategoryValue">
+                                                    <span class="product-widget-text">@item.CategoryValue</span>
+                                                    <span class="product-widget-number">(@item.totalCount)</span>
+                                                </label>
+                                            </li>
+                                        }
+                                    }
                                 </ul>
-                                <button type="submit" class="product-widget-btn">
+                                <button type="button" id="clearCityFilterBtn" class="product-widget-btn" onclick="updateCity('clear', false)">
                                     <i class="fas fa-broom"></i>
                                     <span>Clear Filter</span>
                                 </button>
@@ -364,155 +315,35 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-12">
-                       @*  <div class="product-widget">
+                        <div class="product-widget">
                             <h6 class="product-widget-title">filter by category</h6>
                             <form class="product-widget-form">
                                 <div class="product-widget-search">
-                                    <input type="text" placeholder="search">
+                                    <input type="text" placeholder="search" id="categorySearch" onkeyup="filterCategories()">
                                 </div>
                                 <ul class="product-widget-list product-widget-scroll">
-                                    <li class="product-widget-dropitem">
-                                        <button type="button" class="product-widget-link">
-                                            <i class="fas fa-tags"></i>
-                                            electronics (234)
-                                        </button>
-                                        <ul class="product-widget-dropdown">
-                                            <li><a href="#">mixer (56)</a></li>
-                                            <li><a href="#">freez (78)</a></li>
-                                            <li><a href="#">LED tv (78)</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="product-widget-dropitem">
-                                        <button type="button" class="product-widget-link">
-                                            <i class="fas fa-tags"></i>
-                                            automobiles (767)
-                                        </button>
-                                        <ul class="product-widget-dropdown">
-                                            <li><a href="#">private car (56)</a></li>
-                                            <li><a href="#">motorbike (78)</a></li>
-                                            <li><a href="#">truck (78)</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="product-widget-dropitem">
-                                        <button type="button" class="product-widget-link">
-                                            <i class="fas fa-tags"></i>
-                                            properties (456)
-                                        </button>
-                                        <ul class="product-widget-dropdown">
-                                            <li><a href="#">free land (56)</a></li>
-                                            <li><a href="#">apartment (78)</a></li>
-                                            <li><a href="#">shop (78)</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="product-widget-dropitem">
-                                        <button type="button" class="product-widget-link">
-                                            <i class="fas fa-tags"></i>
-                                            fashion (356)
-                                        </button>
-                                        <ul class="product-widget-dropdown">
-                                            <li><a href="#">jeans (56)</a></li>
-                                            <li><a href="#">t-shirt (78)</a></li>
-                                            <li><a href="#">jacket (78)</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="product-widget-dropitem">
-                                        <button type="button" class="product-widget-link">
-                                            <i class="fas fa-tags"></i>
-                                            gadgets (768)
-                                        </button>
-                                        <ul class="product-widget-dropdown">
-                                            <li><a href="#">computer (56)</a></li>
-                                            <li><a href="#">mobile (78)</a></li>
-                                            <li><a href="#">drone (78)</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="product-widget-dropitem">
-                                        <button type="button" class="product-widget-link">
-                                            <i class="fas fa-tags"></i>
-                                            furnitures (977)
-                                        </button>
-                                        <ul class="product-widget-dropdown">
-                                            <li><a href="#">chair (56)</a></li>
-                                            <li><a href="#">sofa (78)</a></li>
-                                            <li><a href="#">table (78)</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="product-widget-dropitem">
-                                        <button type="button" class="product-widget-link">
-                                            <i class="fas fa-tags"></i>
-                                            hospitality (124)
-                                        </button>
-                                        <ul class="product-widget-dropdown">
-                                            <li><a href="#">jeans (56)</a></li>
-                                            <li><a href="#">t-shirt (78)</a></li>
-                                            <li><a href="#">jacket (78)</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="product-widget-dropitem">
-                                        <button type="button" class="product-widget-link">
-                                            <i class="fas fa-tags"></i>
-                                            agriculture (565)
-                                        </button>
-                                        <ul class="product-widget-dropdown">
-                                            <li><a href="#">jeans (56)</a></li>
-                                            <li><a href="#">t-shirt (78)</a></li>
-                                            <li><a href="#">jacket (78)</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <button type="submit" class="product-widget-btn">
-                                    <i class="fas fa-broom"></i>
-                                    <span>Clear Filter</span>
-                                </button>
-                            </form>   
-
-                        </div> *@
-                        <div class="product-widget">
-                            <h6 class="product-widget-title">Filter by Category</h6>
-                            <form class="product-widget-form" asp-controller="User" asp-action="AdsList" method="get">
-                                <div class="product-widget-search">
-                                    <input type="text" id="categorySearch" placeholder="search">
-                                </div>
-
-                                <ul class="product-widget-list product-widget-scroll" id="categoryList">
-                                    @foreach (var categoryGroup in Model.GroupBy(p => new { p.productCategoryID, p.productCategoryName }))
+                                    @foreach (var item in Model.Categories)
                                     {
-                                        var subCategories = categoryGroup
-                                        .GroupBy(p => new { p.productsubCategoryID, p.productSubCategoryName })
-                                        .ToList();
-
-                                        <li class="product-widget-dropitem">
-                                            <button type="button" class="product-widget-link">
+                                        <li class="product-widget-dropitem category-item">
+                                            <button type="button" class="product-widget-link" onclick="updateCategory('@item.CategoryID')">
                                                 <i class="fas fa-tags"></i>
-                                                @categoryGroup.Key.productCategoryName (@categoryGroup.Count())
+                                                @item.CategoryName (@item.CategoryCount)
                                             </button>
-
-                                            @if (subCategories.Any())
-                                            {
-                                                <ul class="product-widget-dropdown">
-                                                    @foreach (var subCatGroup in subCategories)
-                                                    {
-                                                        <li>
-                                                            <a asp-action="AdsList" asp-route-categoryid="@subCatGroup.Key.productsubCategoryID">
-                                                                @subCatGroup.Key.productSubCategoryName (@subCatGroup.Count())
-                                                            </a>
-                                                        </li>
-                                                    }
-                                                </ul>
-                                            }
+                                            <ul class="product-widget-dropdown">
+                                                @foreach (var subCat in item.subCategories)
+                                                {
+                                                    <li><a class="product-subcategory" onclick="updateSubCategory('@subCat.subCategoryID')">@subCat.subCatergoryName (@subCat.intSubCategoryCount)</a></li>
+                                                }
+                                            </ul>
                                         </li>
                                     }
                                 </ul>
-
-                                <button type="submit" class="product-widget-btn">
+                                <button type="button" class="product-widget-btn" onclick="updateCategory('0')">
                                     <i class="fas fa-broom"></i>
                                     <span>Clear Filter</span>
                                 </button>
                             </form>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
@@ -529,9 +360,11 @@
                                 </select>
                             </div>
                             <div class="filter-short">
-                                <label class="filter-label">Short by :</label>
-                                <select class="custom-select filter-select">
+                                <label class="filter-label">Sort by :</label>
+                                <select class="custom-select filter-select" onchange="sortByPrice(this.value)">
                                     <option selected>default</option>
+                                    <option value="4">Price(min-max)</option>
+                                    <option value="5">Price(max-min)</option>
                                     <option value="3">trending</option>
                                     <option value="1">featured</option>
                                     <option value="2">recommend</option>
@@ -544,86 +377,8 @@
                             </div>
                         </div>
                     </div>
-                </div>               
-                <div class="row">
-                    @{
-                        List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
-                        var itemsPerPage = 12;
-                        int currentPage = ViewBag.CurrentPage;
-                        var pagedProducts = Model.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
-                        int productsOnPage = pagedProducts.Count;
-                    }
-                    @foreach (var product in pagedProducts)
-                    {
-                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
-                            <div class="product-card">
-                                <div class="product-media">
-                                    <div class="product-img">                                       
-                                        <img src="@(product.byteProductImageData != null ? "data:image/png;base64," + Convert.ToBase64String(product.byteProductImageData) : "/images/white-screen.jpg")" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@product.productImageName" width="288" height="205" />
-                                    </div>
-                                    <div class="cross-vertical-badge product-badge">
-                                        <i class="fas fa-clipboard-check"></i>
-                                        <span>recommend</span>
-                                    </div>
-                                    <div class="product-type">
-                                        <span class="flat-badge sale">@product.productAdCategory</span>
-                                    </div>
-                                    <ul class="product-action"> 
-                                        <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
-                                        <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
-                                        <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ol class="breadcrumb product-category">
-                                        <li><i class="fas fa-tags"></i></li>
-                                        <li class="breadcrumb-item"><a href="#">@product.productSubCategoryName</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">@product.productName</li>
-                                    </ol>
-                                    <h5 class="product-title">
-                                        <a href="#">@product.productDescription</a>
-                                    </h5>
-                                    <div class="product-meta">
-                                        <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
-                                        <span><i class="fas fa-clock"></i>@product.updatedDate</span>
-                                    </div>
-                                    <div class="product-info">
-                                        <h5 class="product-price">$@product.productPrice<span>/fixed</span></h5>
-                                        <div class="product-btn">
-                                            <a href="compare.html" title="Compare" class="fas fa-compress"></a>
-                                            <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")" onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="footer-pagection">
-                                <p class="page-info">Showing @productsOnPage of @Model.Count() Results</p>
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">
-                                            <i class="fas fa-long-arrow-alt-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link active" id="defaultPage" href="#">1</a></li>
-                                    @for (int i = 2; i <= (Model.Count() / itemsPerPage) + 1; i++)
-                                    {
-                                        <li class="page-item"><a class="page-link " href="#" id="currentPage" onclick="changePage(this, '@i')">@i</a></li>
-                                    }
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">
-                                            <i class="fas fa-long-arrow-alt-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-              @*   <div class="row">
+                @* <div class="row">
                     <div class="col-lg-12">
                         <div class="ad-feature-slider slider-arrow">
                             <div class="feature-card">
@@ -725,8 +480,44 @@
                         </div>
                     </div>
                 </div> *@
+                @* <div class="row"> *@
+                @{
+                    // List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
+                    // var itemsPerPage = 12;
+                    // int currentPage = ViewBag.CurrentPage;
+                    // var pagedProducts = Model.Products.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
+                    // int productsOnPage = pagedProducts.Count;
+                }
+                <div class="row" id="divPartial">
+                    @Html.Partial("_ProductsPartial", Model.Products)
+                </div>
+                @* <div class="row">
+                        <div class="col-lg-12">
+                            <div class="footer-pagection">
+                                <p class="page-info">Showing @productsOnPage of @Model.Products.Count() Results</p>
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                            <i class="fas fa-long-arrow-alt-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link active" id="defaultPage" onclick="changePage(this, '1')">1</a></li>
+                                    @for (int i = 2; i <= (Model.Products.Count() / itemsPerPage) + 1; i++)
+                                    {
+                                        <li class="page-item"><a class="page-link" id="currentPage" onclick="changePage(this, '@i')">@i</a></li>
+                                    }
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                            <i class="fas fa-long-arrow-alt-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> *@
             </div>
         </div>
+    </div>
 </section>
 <!--=====================================
             AD LIST PART END
@@ -901,53 +692,292 @@
 <!--=====================================
            LANGUAGE MODAL PART END
 =======================================-->
-<script type="text/javascript">
-    $(document).ready(function () {
-        // $('#defaultPage').removeClass('active');
-        // $('#currentPage').addClass('active');
-    });
 
-    function AddToWishlist(button, productID, createdBy) {
-        var isInWishlist = button.classList.contains("fas");
+<script type="text/javascript">
+    var products = @Html.Raw(Json.Serialize(Model.Products));
+    var selectedCities = [];
+    var selectedAdTypes = [];
+    let categoryId = 0;
+    let subCategoryId = 0;
+    var minPrice = null;
+    var maxPrice = null;
+    let sort = 0;
+
+    function applyAllFilters() {
+        let filtered = products;
+
+        // Filter by category
+        if (categoryId !== 0) {
+            filtered = filtered.filter(p => p.productCategoryID == categoryId);
+        }
+        else {
+            document.querySelectorAll('.product-widget-link').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.querySelectorAll('.product-subcategory').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.querySelectorAll('.product-widget-dropdown').forEach(drop => {
+                drop.style.display = 'none';
+            });
+        }
+
+        if (subCategoryId !== 0) {
+            filtered = filtered.filter(p => p.productsubCategoryID == subCategoryId);
+        }
+
+        // Filter by ad type
+        if (selectedAdTypes.length > 0) {
+            filtered = filtered.filter(p => selectedAdTypes.includes(p.productAdCategory.toLowerCase()));
+        }
+        else {
+             document.querySelectorAll('.filter-type').forEach(btn => {
+                 btn.checked = false;
+             });
+        }
+
+        // Filter by city
+        if (selectedCities.length > 0) {
+            filtered = filtered.filter(p => selectedCities.includes(p.userContactCity.toLowerCase()));
+        }
+
+        // Filter by price
+        if (minPrice !== null && maxPrice !== null) {
+            filtered = filtered.filter(p => p.productPrice >= minPrice && p.productPrice <= maxPrice);
+        }
+
+        if (sort === 4) {
+            filtered = filtered.sort((a, b) => a.productPrice - b.productPrice);
+        } else if (sort === 5) {
+            filtered = filtered.sort((a, b) => b.productPrice - a.productPrice);
+        }
+
+        // Send the filtered data to the server
+        $('#divPartial').html('<div style="text-align:center; margin-top:500px;"><img src="/images/Hourglass.gif" /></div>');
         $.ajax({
-            url: '/User/UpdateBookmarks',
+            url: '/User/ProductsList',
             type: 'POST',
-            data: { productID: productID, createdBy: createdBy, status: isInWishlist ? 0 : 1 },
-            success: function (response) {
-                if (response.statusCode != 200) {
-                    alert('Error in processing request.');
-                }
+            data: JSON.stringify(filtered),
+            contentType: 'application/json',
+            success: function (data) {
+                $('#divPartial').html(data);
             },
             error: function () {
-                alert('Error in processing request.');
+                alert('Failed to load products.');
             }
         });
     }
 
-    function changePage(curPage, page) {
-        window.location.href = '/User/AdsList?page=' + page;
+    // function updateCategory(type) {
+    //     categoryId = parseInt(type);
+    //     subCategoryId = 0;
+    //     // if (isChecked) {
+    //     //     selectedCategories.push(parseInt(type));
+    //     // } else {
+    //     //     selectedCategories = selectedCategories.filter(id => id !== parseInt(type));
+    //     // }
+    //     applyAllFilters();
+    // }
+
+    // function updateSubCategory(type) {
+    //     subCategoryId = parseInt(type);
+    //     applyAllFilters();
+    // }
+
+    // function updateCity(city, isChecked) {
+    //     if (city === 'clear') {
+    //         selectedCities = [];
+    //         document.querySelectorAll('.city-filter-checkbox').forEach(btn => {
+    //             btn.checked = false;
+    //         });
+    //     }
+    //     else if (isChecked) {
+    //         selectedCities.push(city.toLowerCase());
+    //     } else {
+    //         selectedCities = selectedCities.filter(c => c !== city.toLowerCase());
+    //     }
+    //     console.log(selectedCities);
+    //     applyAllFilters();
+    // }
+
+    // function updateAdType(type, isChecked) {
+    //     if (type === 'clear') {
+    //         selectedAdTypes = [];
+    //     }
+    //     else if (isChecked) {
+    //         selectedAdTypes.push(type.toLowerCase());
+    //     } else {
+    //         selectedAdTypes = selectedAdTypes.filter(t => t !== type.toLowerCase());
+    //     }
+    //     applyAllFilters();
+    // }
+
+    function updatePriceRange(type) {
+        minPrice = parseFloat($('#decMinPrice').val());
+        maxPrice = parseFloat($('#decMaxPrice').val()); 
+        if (type === null) {
+            minPrice = null;
+            maxPrice = null;
+            $('#minPrice').val('');
+            $('#maxPrice').val('');
+            //$('.form-select').val("0");
+        }
+        updateAdList();
     }
-    const form = document.getElementById('filterForm');
-    const output = document.getElementById('filterOutput');
-    const clearBtn = document.getElementById('clearBtn');
-
-    // Update filter display on checkbox change
-    form.addEventListener('change', () => {
-      const selected = Array.from(form.elements['type'])
-        .filter(input => input.checked)
-        .map(input => input.value);
-
-      output.textContent = selected.length
-        ? `Selected filters: ${selected.join(', ')}`
-        : 'No filters selected.';
-    });
-
-    // Clear all filters
-    clearBtn.addEventListener('click', () => {
-      Array.from(form.elements['type']).forEach(input => input.checked = false);
-      output.textContent = 'No filters selected.';
-    });
     
 
+    function updateAdList() {
+        var strCity = selectedCities.join(',');
+        console.log(strCity);
+        var adtype = selectedAdTypes.join(',');
+        var categoryid = categoryId;
+        var subcategoryid = subCategoryId;
+        var decMinPrice = parseFloat($('#decMinPrice').val());
+        var decMaxPrice = parseFloat($('#decMaxPrice').val());
+        $('#divPartial').html('<div style="text-align:center; margin-top:500px;"><img src="/images/Hourglass.gif" /></div>');
+        $.ajax({
+          url: '/User/ProductList',
+          type: 'GET',
+          data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid},
+          contentType: 'application/json',
+          success: function (data) {
+            $('#divPartial').html(data); // Load updated product list
+          }
+        });
+    }
+
+    function updateCategory(cat) 
+    {
+        categoryId = cat;
+        updateAdList();
+    }
+
+    function updateSubCategory(subcat) {
+        subCategoryId = subcat;
+        updateAdList();
+    }
+
+    function updateCity(city, isChecked) {
+        if (city === 'clear') {
+            selectedCities = [];
+            document.querySelectorAll('.city-filter-checkbox').forEach(btn => {
+                btn.checked = false;
+            });
+        }
+        else if (isChecked) {
+            selectedCities.push(city.toLowerCase());
+        } else {
+            selectedCities = selectedCities.filter(c => c !== city.toLowerCase());
+        }
+        updateAdList(); 
+    }
+    function updateAdType(type, isChecked) {
+        if (type === 'clear') {
+            selectedAdTypes = [];
+        }
+        else if (isChecked) {
+            selectedAdTypes.push(type.toLowerCase());
+        } else {
+            selectedAdTypes = selectedAdTypes.filter(t => t !== type.toLowerCase());
+        }
+        updateAdList();
+    }
+
+    function sortByPrice(type) {
+        sort = parseInt(type);
+        applyAllFilters();
+    }
+
+    $(document).ready(function () {
+        // Ad Type Checkbox
+        $('.filter-type').on('change', function () {
+            var type = $(this).val();
+            updateAdType(type, $(this).is(':checked'));
+        });
+
+        // Category Checkbox
+        $('.filter-category').on('change', function () {
+            var catId = $(this).val();
+            updateCategory(catId, $(this).is(':checked'));
+        });
+
+        // City Checkbox
+        $('.filter-city').on('change', function () {
+            var city = $(this).val();
+            updateCity(city, $(this).is(':checked'));
+        });
+
+        // Price Range
+        $('#priceFilterButton').on('click', function () {
+            updatePriceRange();
+        });
+    });
+
+    function filterCategories() {
+        const input = document.getElementById('categorySearch');
+        const filter = input.value.toLowerCase();
+        const categoryItems = document.querySelectorAll('.category-item');
+
+        categoryItems.forEach(function (item) {
+            const categoryText = item.querySelector('.product-widget-link').innerText.toLowerCase();
+            const subDropdown = item.querySelector('.product-widget-dropdown');
+            const subcategories = subDropdown.querySelectorAll('.product-subcategory');
+
+            let categoryMatch = categoryText.includes(filter);
+            let subcategoryMatch = false;
+
+            // Always reset subcategory visibility
+            subcategories.forEach(sub => sub.parentElement.style.display = '');
+
+            if (filter === '') {
+                item.style.display = '';
+                subDropdown.style.display = 'none';
+            } else {
+                if (categoryMatch) {
+                    item.style.display = '';
+                    subDropdown.style.display = 'none'; // Don't expand dropdown
+                    // Show all subcategories because category matched
+                    subcategories.forEach(sub => sub.parentElement.style.display = '');
+                } else {
+                    // Check for subcategory matches
+                    let anySubMatch = false;
+                    subcategories.forEach(function (sub) {
+                        const subText = sub.innerText.toLowerCase();
+                        const li = sub.parentElement;
+                        if (subText.includes(filter)) {
+                            li.style.display = '';
+                            anySubMatch = true;
+                        } else {
+                            li.style.display = 'none';
+                        }
+                    });
+
+                    if (anySubMatch) {
+                        item.style.display = '';
+                        subDropdown.style.display = 'block'; // Expand because subcategory matched
+                    } else {
+                        item.style.display = 'none';
+                        subDropdown.style.display = 'none';
+                    }
+                }
+            }
+        });
+    }
+
+    function AdsListSearch() {
+        var city = $('#city').val();
+        var state = $('#state').val();
+        var minPrice = $('#minPrice').val();
+        var maxPrice = $('#maxPrice').val();
+        var productName = $('#productName').val();
+
+        // Construct query string from inputs
+        var queryParams = `?strProductName=${encodeURIComponent(productName)}&strCity=${encodeURIComponent(city)}&strState=${encodeURIComponent(state)}&decMinPrice=${encodeURIComponent(minPrice)}&decMaxPrice=${encodeURIComponent(maxPrice)}`;
+
+        // Navigate to the AdsList page with query params
+        window.location.href = '/User/navSearch' + queryParams;
+    }
 
 </script>
