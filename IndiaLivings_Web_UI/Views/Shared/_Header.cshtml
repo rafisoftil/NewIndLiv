@@ -78,19 +78,19 @@
     </div>
 </header>
 <script>
-    // function ProductsSearch() {
-    //     var city = $('#cityDropdown').val();
-    //     var state = $('#stateDropdown').val();
-    //     var minPrice = $('#minPrice').val();
-    //     var maxPrice = $('#maxPrice').val();
-    //     var productName = $('#productName').val();
+    function ProductsSearch() {
+        var city = $('#cityDropdown').val();
+        var state = $('#stateDropdown').val();
+        var minPrice = $('#minPrice').val();
+        var maxPrice = $('#maxPrice').val();
+        var productName = $('#productName').val();
 
-    //     // Construct query string from inputs
-    //     var queryParams = `?strProductName=${encodeURIComponent(productName)}&strCity=${encodeURIComponent(city)}&strState=${encodeURIComponent(state)}&decMinPrice=${encodeURIComponent(minPrice)}&decMaxPrice=${encodeURIComponent(maxPrice)}`;
+        // Construct query string from inputs
+        var queryParams = `?strProductName=${encodeURIComponent(productName)}&strCity=${encodeURIComponent(city)}&strState=${encodeURIComponent(state)}&decMinPrice=${encodeURIComponent(minPrice)}&decMaxPrice=${encodeURIComponent(maxPrice)}`;
 
-    //     // Navigate to the AdsList page with query params
-    //     window.location.href = '/User/navSearch' + queryParams;
-    // }
+        // Navigate to the AdsList page with query params
+        window.location.href = '/User/navSearch' + queryParams;
+    }
     function opennavdrop() {
         $.ajax({
                     url: '/User/GetStates',
