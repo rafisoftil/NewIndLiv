@@ -123,7 +123,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ProductModel> products = new List<ProductModel>();
             try
             {
-                var productsList = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Product/GetAllProductsByOwner?intProductOwner={userid}");
+                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetAllProductsByOwner?intProductOwner={userid}");
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
                 return products;
             }
@@ -234,7 +234,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             var filterDetails = new List<SearchFilterDetailsModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api("https://localhost:7158/api/Product/GetSearchFilterDetails");
+                var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Product/GetSearchFilterDetails");
                 filterDetails = JsonConvert.DeserializeObject<List<SearchFilterDetailsModel>>(response);
             }
             catch (Exception ex)
