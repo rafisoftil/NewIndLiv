@@ -1,0 +1,42 @@
+﻿@model IEnumerable<IndiaLivings_Web_UI.Models.MembershipViewModel>
+@using NonFactors.Mvc.Grid
+@{
+    ViewBag.Title = "Membership";
+    <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
+    <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
+}
+
+<div class="container">
+    <script src="~/js/mvc-grid/mvc-grid.js"></script>
+    <h4 class="m-2">Memberships</h4>
+    <div class="container-fluid">
+        @(
+            Html.Grid(Model).Build(col =>
+            {
+                @* col.Add().RenderedAs((model, row) => row + 1).Titled("#").Width("1%").Css("text-center") *@;
+                @* col.Add(Model => Model.RoleID).Titled("RoleID"); *@
+                col.Add(Model => Model.intMembershipID).Titled("ID").Css("text-center");
+                col.Add(Model => Model.strMembershipName).Titled("Name").Css("text-center");
+                col.Add(Model => Model.strMembershipDescription).Titled("Description").Css("text-center");
+                col.Add(Model => Model.intMembershipAdListing).Titled("Ads Limit").Css("text-center");
+                col.Add(Model => Model.decMembershipPrice).Titled("Price").Css("text-center");
+                col.Add(Model => Model.UpdatedDate).Titled("Last Updated").Css("text-center");
+                col.Add(Model => Model.UpdatedBy).Titled("Updated by").Css("text-center");
+                col.Add(Model => Model.IsActive).Titled("Status").RenderedAs(model => model.IsActive == true ? "Active" : "In-Active").Css("text-center");
+            })
+            @* .Sortable().Filterable() *@
+            .Empty("No data Found")
+            .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
+                pager.ShowPageSizes = false;
+                pager.PagesToDisplay = 3;
+                pager.CurrentPage = 1;
+                pager.RowsPerPage = 10;
+            })
+            )
+    </div>
+</div>
+<script>
+    document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+</script>

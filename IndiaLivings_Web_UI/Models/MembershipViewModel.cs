@@ -47,5 +47,35 @@ namespace IndiaLivings_Web_UI.Models
             }
             return memDetails;
         }
+        public List<MembershipViewModel> GetAllListofMembership(int memId)
+        {
+            List<MembershipViewModel> memDetails = new List<MembershipViewModel>();
+            AuthenticationHelper AH = new AuthenticationHelper();
+            try
+            {
+                List<MembershipModel> details = AH.GetAllListofMembership(memId);
+                foreach (var mem in details)
+                {
+                    MembershipViewModel memViewModel = new MembershipViewModel();
+                    memViewModel.intMembershipID = mem.intMembershipID;
+                    memViewModel.intMembershipUserID = mem.intMembershipUserID;
+                    memViewModel.strMembershipName = mem.strMembershipName;
+                    memViewModel.strMembershipDescription = mem.strMembershipDescription;
+                    memViewModel.intMembershipAdListing = mem.intMembershipAdListing;
+                    memViewModel.decMembershipPrice = mem.decMembershipPrice;
+                    memViewModel.IsActive = mem.IsActive;
+                    memViewModel.CreatedDate = mem.CreatedDate;
+                    memViewModel.CreatedBy = mem.CreatedBy;
+                    memViewModel.UpdatedDate = mem.UpdatedDate;
+                    memViewModel.UpdatedBy = mem.UpdatedBy;
+                    memDetails.Add(memViewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return memDetails;
+        }
     }
 }

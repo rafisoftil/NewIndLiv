@@ -297,5 +297,19 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return adData;
         }
+        public List<MembershipModel> GetAllListofMembership(int memId)
+        {
+            List<MembershipModel> memDetails = new List<MembershipModel>();
+            try
+            {
+                var details = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Membership/GetAllListofMembership?intMembershipID={memId}");
+                memDetails = JsonConvert.DeserializeObject<List<MembershipModel>>(details);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return memDetails;
+        }
     }
 }
