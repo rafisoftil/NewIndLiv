@@ -16,6 +16,7 @@ namespace IndiaLivings_Web_UI.Models
         public string CategoryName { get; set; }
 
         public string CategoryImage { get; set; }
+        public string SubCategoryName { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -27,7 +28,7 @@ namespace IndiaLivings_Web_UI.Models
 
         public string UpdatedBy { get; set; }
 
-        //public List<SubCategoryModel>? subCategories { get; set; }
+        public List<SubCategoryViewModel>? subCategories { get; set; }
 
         #endregion
 
@@ -52,7 +53,7 @@ namespace IndiaLivings_Web_UI.Models
             try
             {
                 var lst = category.GetCategoriesCount();
-               
+
                 foreach (CategoryModel cat in lst)
                 {
                     CategoryViewModel categoryModel = new CategoryViewModel();
@@ -60,10 +61,22 @@ namespace IndiaLivings_Web_UI.Models
                     categoryModel.CategoryName = cat.strCategoryName;
                     categoryModel.CategoryImage = cat.strCategoryImage;
                     categoryModel.CategoryCount = cat.intCategoryCount;
+                    List<SubCategoryViewModel> subCategories = new List<SubCategoryViewModel>();
+                    foreach (var subcat in cat.strSubCategoryDetails)
+                    {
+                        SubCategoryViewModel subCategory = new SubCategoryViewModel();
+                        subCategory.subCategoryID = subcat.subCategoryID;
+                        subCategory.subCatergoryName = subcat.subCatergoryName;
+                        subCategory.intCategoryID = subcat.subCategoryID;
+                        subCategory.intSubCategoryCount = subcat.intSubCategoryCount;
+                        subCategories.Add(subCategory);
+                    }
+                    categoryModel.subCategories = subCategories;
                     categories.Add(categoryModel);
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
 

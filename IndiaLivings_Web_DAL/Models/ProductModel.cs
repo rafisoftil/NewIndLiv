@@ -25,6 +25,7 @@ namespace IndiaLivings_Web_DAL.Models
         public string productImagePath { get; set; } = string.Empty;
         public bool productSold { get; set; }
         public int productOwner { get; set; } = 0;
+        public string userContactCity { get; set; } = string.Empty;
         public string productOwnerName { get; set; } = string.Empty;
         public int productMembershipID { get; set; } = 0;
         public string productMembershipName { get; set; } = string.Empty;
@@ -44,6 +45,6 @@ namespace IndiaLivings_Web_DAL.Models
         public int intproductCount { get; set; }
         public decimal MinPrice { get; set; } = 0;
         public decimal MaxPrice { get; set; } = 0;
-
+        public List<AdListFiltersModel> adListFiltersModels { get; set; }
     }
 }

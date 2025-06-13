@@ -229,7 +229,20 @@ namespace IndiaLivings_Web_DAL.Helpers
             return productsList;
         }
 
-
+        public List<SearchFilterDetailsModel> GetProductFilterDetails()
+        {
+            var filterDetails = new List<SearchFilterDetailsModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Product/GetSearchFilterDetails");
+                filterDetails = JsonConvert.DeserializeObject<List<SearchFilterDetailsModel>>(response);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return filterDetails;
+        }
 
     }
 }

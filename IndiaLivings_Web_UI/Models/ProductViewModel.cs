@@ -23,6 +23,7 @@ namespace IndiaLivings_Web_UI.Models
         public string productImagePath { get; set; } = string.Empty;
         public bool productSold { get; set; }
         public int productOwner { get; set; } = 0;
+        public string userContactCity { get; set; } = string.Empty;
         public string productOwnerName { get; set; } = string.Empty;
         public int productMembershipID { get; set; } = 0;
         public string productMembershipName { get; set; } = string.Empty;
@@ -36,7 +37,7 @@ namespace IndiaLivings_Web_UI.Models
         public string updatedBy { get; set; } = string.Empty;
         public int Error_Id { get; set; } = 0;
         public string Error_Message { get; set; } = string.Empty;
-        public byte[] byteProductImageData { get; set; }
+        public byte[] byteProductImageData { get; set; } = [];
         public string City { get; set; } = string.Empty;
         public string State { get; set; } = string.Empty;
         public string ProductType { get; set; } = string.Empty;
@@ -233,9 +234,13 @@ namespace IndiaLivings_Web_UI.Models
                         product.productCategoryID = productDetails.productCategoryID;
                         product.productCategoryName = productDetails.productCategoryName;
                         product.productDescription = productDetails.productDescription;
+                        product.productSubCategoryName = productDetails.productSubCategoryName;
+                        product.productsubCategoryID = productDetails.productsubCategoryID;
+                        product.productQuantity = productDetails.productQuantity;
                         product.productPrice = productDetails.productPrice;
                         product.productAdminReviewStatus = productDetails.productAdminReviewStatus;
                         product.productOwner = productDetails.productOwner;
+                        product.userContactCity = productDetails.userContactCity;
                         product.IsActiveStatus = productDetails.IsActiveStatus;
                         product.productAdminReview = productDetails.productAdminReview;
                         product.productPriceCondition = productDetails.productPriceCondition;
@@ -280,10 +285,12 @@ namespace IndiaLivings_Web_UI.Models
                         product.productPriceCondition = productDetails.productPriceCondition;
                         product.productAdCategory = productDetails.productAdCategory;
                         product.productOwner = productDetails.productOwner;
+                        product.userContactCity = productDetails.userContactCity;
                         product.productOwnerName = productDetails.productOwnerName;
                         product.productMembershipID = productDetails.productMembershipID;
                         product.productMembershipName = productDetails.productMembershipName;
                         product.productAdminReview = productDetails.productAdminReview;
+                        product.byteProductImageData = productDetails.byteProductImageData;
                         product.IsActive = productDetails.IsActive;
                         product.createdDate = productDetails.createdDate;
                         product.createdBy = productDetails.createdBy;
@@ -332,9 +339,11 @@ namespace IndiaLivings_Web_UI.Models
                         product.productAdCategory = PVM.productAdCategory;
                         product.productOwner = PVM.productOwner;
                         product.productOwnerName = PVM.productOwnerName;
+                        product.userContactCity = PVM.userContactCity;
                         product.productMembershipID = PVM.productMembershipID != null ? (int)PVM.productMembershipID : 0; //(int)PVM.productMembershipID;
                         product.productMembershipName = PVM.productMembershipName;
                         product.productAdminReview = PVM.productAdminReview;
+                        //product.byteProductImageData = PVM.ProductImageData;
                         product.IsActive = PVM.IsActive == null ? Convert.ToBoolean(0) :Convert.ToBoolean(PVM.IsActive);
                         product.createdBy = PVM.createdBy;
                         if (PVM.createdDate != null)
