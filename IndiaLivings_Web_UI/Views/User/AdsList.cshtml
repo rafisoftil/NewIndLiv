@@ -40,9 +40,9 @@
                                 <div class="col-6 text-end">
                                     <label class="filter-label mb-1">Sort by:</label>
                                     <select class="form-select form-select-sm w-auto d-inline-block" onchange="sortByPrice(this.value)">
-                                        <option value="0" selected>Sort</option>
-                                        <option value="4">Min-Max</option>
-                                        <option value="5">Max-Min</option>
+                                        <option value="" selected>Sort</option>
+                                        <option value="asc">Min-Max</option>
+                                        <option value="desc">Max-Min</option>
                                     </select>
                                 </div>
                             </div>
@@ -191,19 +191,19 @@
                             <h6 class="product-widget-title">Filter by Cities</h6>
                             <form class="product-widget-form">
                                 <div class="product-widget-search">
-                                    <input type="text" id="citySearchInput" placeholder="Search">
+                                    <input type="text" id="citySearchInput" onkeyup="filterCities()" placeholder="Search">
                                 </div>
                                 <ul class="product-widget-list product-widget-scroll">
                                     @foreach (var item in Model.Filters)
                                     {
                                         if (@item.CategoryType == "Cities")
                                         {
-                                            <li class="product-widget-item">
+                                            <li class="product-widget-item city-item">
                                                 <div class="product-widget-checkbox">
                                                     <input type="checkbox" class="city-filter-checkbox" id="city_@item.CategoryValue" onchange="updateCity('@item.CategoryValue', this.checked)">
                                                 </div>
                                                 <label class="product-widget-label" for="check_@item.CategoryValue">
-                                                    <span class="product-widget-text">@item.CategoryValue</span>
+                                                    <span class="product-widget-text city-text">@item.CategoryValue</span>
                                                     <span class="product-widget-number">(@item.totalCount)</span>
                                                 </label>
                                             </li>
@@ -332,7 +332,7 @@
                                             <ul class="product-widget-dropdown">
                                                 @foreach (var subCat in item.subCategories)
                                                 {
-                                                    <li><a class="product-subcategory" onclick="updateSubCategory('@subCat.subCategoryID')">@subCat.subCatergoryName (@subCat.intSubCategoryCount)</a></li>
+                                                    <li><a class="product-subcategory" onclick="updateSubCategory('@subCat.subCategoryID', '@item.CategoryID')">@subCat.subCatergoryName (@subCat.intSubCategoryCount)</a></li>
                                                 }
                                             </ul>
                                         </li>
@@ -694,134 +694,24 @@
 =======================================-->
 
 <script type="text/javascript">
-    var products = @Html.Raw(Json.Serialize(Model.Products));
+
     var selectedCities = [];
     var selectedAdTypes = [];
     let categoryId = 0;
     let subCategoryId = 0;
     var minPrice = null;
     var maxPrice = null;
-    let sort = 0;
-
-    function applyAllFilters() {
-        let filtered = products;
-
-        // Filter by category
-        if (categoryId !== 0) {
-            filtered = filtered.filter(p => p.productCategoryID == categoryId);
-        }
-        else {
-            document.querySelectorAll('.product-widget-link').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            document.querySelectorAll('.product-subcategory').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            document.querySelectorAll('.product-widget-dropdown').forEach(drop => {
-                drop.style.display = 'none';
-            });
-        }
-
-        if (subCategoryId !== 0) {
-            filtered = filtered.filter(p => p.productsubCategoryID == subCategoryId);
-        }
-
-        // Filter by ad type
-        if (selectedAdTypes.length > 0) {
-            filtered = filtered.filter(p => selectedAdTypes.includes(p.productAdCategory.toLowerCase()));
-        }
-        else {
-             document.querySelectorAll('.filter-type').forEach(btn => {
-                 btn.checked = false;
-             });
-        }
-
-        // Filter by city
-        if (selectedCities.length > 0) {
-            filtered = filtered.filter(p => selectedCities.includes(p.userContactCity.toLowerCase()));
-        }
-
-        // Filter by price
-        if (minPrice !== null && maxPrice !== null) {
-            filtered = filtered.filter(p => p.productPrice >= minPrice && p.productPrice <= maxPrice);
-        }
-
-        if (sort === 4) {
-            filtered = filtered.sort((a, b) => a.productPrice - b.productPrice);
-        } else if (sort === 5) {
-            filtered = filtered.sort((a, b) => b.productPrice - a.productPrice);
-        }
-
-        // Send the filtered data to the server
-        $('#divPartial').html('<div style="text-align:center; margin-top:500px;"><img src="/images/Hourglass.gif" /></div>');
-        $.ajax({
-            url: '/User/ProductsList',
-            type: 'POST',
-            data: JSON.stringify(filtered),
-            contentType: 'application/json',
-            success: function (data) {
-                $('#divPartial').html(data);
-            },
-            error: function () {
-                alert('Failed to load products.');
-            }
-        });
-    }
-
-    // function updateCategory(type) {
-    //     categoryId = parseInt(type);
-    //     subCategoryId = 0;
-    //     // if (isChecked) {
-    //     //     selectedCategories.push(parseInt(type));
-    //     // } else {
-    //     //     selectedCategories = selectedCategories.filter(id => id !== parseInt(type));
-    //     // }
-    //     applyAllFilters();
-    // }
-
-    // function updateSubCategory(type) {
-    //     subCategoryId = parseInt(type);
-    //     applyAllFilters();
-    // }
-
-    // function updateCity(city, isChecked) {
-    //     if (city === 'clear') {
-    //         selectedCities = [];
-    //         document.querySelectorAll('.city-filter-checkbox').forEach(btn => {
-    //             btn.checked = false;
-    //         });
-    //     }
-    //     else if (isChecked) {
-    //         selectedCities.push(city.toLowerCase());
-    //     } else {
-    //         selectedCities = selectedCities.filter(c => c !== city.toLowerCase());
-    //     }
-    //     console.log(selectedCities);
-    //     applyAllFilters();
-    // }
-
-    // function updateAdType(type, isChecked) {
-    //     if (type === 'clear') {
-    //         selectedAdTypes = [];
-    //     }
-    //     else if (isChecked) {
-    //         selectedAdTypes.push(type.toLowerCase());
-    //     } else {
-    //         selectedAdTypes = selectedAdTypes.filter(t => t !== type.toLowerCase());
-    //     }
-    //     applyAllFilters();
-    // }
+    var sort = "";
 
     function updatePriceRange(type) {
         minPrice = parseFloat($('#decMinPrice').val());
         maxPrice = parseFloat($('#decMaxPrice').val()); 
+       
         if (type === null) {
             minPrice = null;
             maxPrice = null;
-            $('#minPrice').val('');
-            $('#maxPrice').val('');
+            $('#decMinPrice').val('');
+            $('#decMaxPrice').val('');
             //$('.form-select').val("0");
         }
         updateAdList();
@@ -830,7 +720,6 @@
 
     function updateAdList() {
         var strCity = selectedCities.join(',');
-        console.log(strCity);
         var adtype = selectedAdTypes.join(',');
         var categoryid = categoryId;
         var subcategoryid = subCategoryId;
@@ -840,7 +729,7 @@
         $.ajax({
           url: '/User/ProductList',
           type: 'GET',
-          data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid},
+          data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid, sort: sort},
           contentType: 'application/json',
           success: function (data) {
             $('#divPartial').html(data); // Load updated product list
@@ -854,8 +743,9 @@
         updateAdList();
     }
 
-    function updateSubCategory(subcat) {
+    function updateSubCategory(subcat, cat) {
         subCategoryId = subcat;
+        categoryId = cat;
         updateAdList();
     }
 
@@ -875,6 +765,9 @@
     }
     function updateAdType(type, isChecked) {
         if (type === 'clear') {
+            document.querySelectorAll('.filter-type').forEach(btn => {
+                 btn.checked = false;
+             });
             selectedAdTypes = [];
         }
         else if (isChecked) {
@@ -886,8 +779,8 @@
     }
 
     function sortByPrice(type) {
-        sort = parseInt(type);
-        applyAllFilters();
+        sort = type;
+        updateAdList();
     }
 
     $(document).ready(function () {
@@ -914,6 +807,21 @@
             updatePriceRange();
         });
     });
+
+    function filterCities() {
+        const input = document.getElementById("citySearchInput");
+        const filter = input.value.toLowerCase();
+        const items = document.querySelectorAll(".city-item");
+    
+        items.forEach(item => {
+            const cityName = item.querySelector(".city-text").textContent.toLowerCase();
+            if (cityName.includes(filter)) {
+                item.style.display = "";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
 
     function filterCategories() {
         const input = document.getElementById('categorySearch');

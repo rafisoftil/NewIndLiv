@@ -108,7 +108,7 @@ namespace IndiaLivings_Web_UI.Controllers
             };
             return View("AdsList", adListFilters);
         }
-        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "")
+        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "")
         {
             ProductViewModel productViewModel = new ProductViewModel();
             List<ProductViewModel> products;
@@ -141,11 +141,13 @@ namespace IndiaLivings_Web_UI.Controllers
             if (categoryid != 0)
             {
                 products = products.Where(product => product.productCategoryID == categoryid).ToList();
+
+                if (subcategoryid != 0)
+                {
+                    products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
+                }
             }
-            if (subcategoryid != 0)
-            {
-                products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
-            }
+            
             if (strCity != "")
             {
                 List<string> citiesList = strCity.Split(',').ToList();
@@ -157,6 +159,19 @@ namespace IndiaLivings_Web_UI.Controllers
                 List<string> adtypeList = adtype.Split(',').ToList();
                 products = products.Where(product => adtypeList.Contains(product.productAdCategory.ToLower())).ToList();
             }
+
+            if (sort != "")
+            {
+                if (sort == "desc")
+                {
+                    products = products.OrderByDescending(p => p.productPrice).ToList();
+                }
+                else
+                {
+                    products = products.OrderBy(p => p.productPrice).ToList();
+                }
+            }
+
             //CategoryViewModel category = new CategoryViewModel();
             //List<CategoryViewModel> categoryList = category.GetCategoryCount();
             //SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
