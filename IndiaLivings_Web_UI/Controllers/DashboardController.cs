@@ -440,6 +440,16 @@ namespace IndiaLivings_Web_UI.Controllers
             Roles = roleViewModel.GetAllRoles();
             return View(Roles.ToList());
         }
+        /// <summary>
+        /// Membership
+        /// </summary>
+        /// <returns>All types of Memberships available</returns>
+        public IActionResult Membership()
+        {
+            MembershipViewModel membershipViewModel = new MembershipViewModel();
+            List<MembershipViewModel> Memberships = membershipViewModel.GetAllListofMembership(0);
+            return View(Memberships);
+        }
         public IActionResult Logout()
         {
             HttpContext.Session.SetObject("UserDetails", "");
