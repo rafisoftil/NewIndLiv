@@ -1,44 +1,255 @@
 ﻿@model IEnumerable<IndiaLivings_Web_UI.Models.UserViewModel>
-@using NonFactors.Mvc.Grid
+    @using NonFactors.Mvc.Grid
 @{
     ViewBag.Title = "Manage Users";
 }
-<div class="container"> 
-
+<div class="container">
     <h4 class="m-2">Manage Users</h4>
 
     <div class="container-fluid">
         @(
-            Html.Grid(Model).Build(col =>{
-                col.Add(Model => Model.userID).Hidden();
-                col.Add().RenderedAs((model, row) => row + 1).Titled("#").Css("text-center");
-                const bool V = true;
-                col.Add(Model => Model.username).Titled("User Name").UsingFilterOptions();
-                col.Add(Model => Model.userFirstName).Titled("First Name");
-                col.Add(Model => Model.userLastName).Titled("Last Name");
-                col.Add(Model => Model.userEmail).Titled("Email");
-                col.Add(Model => Model.userFullAddress).Titled("Address");
-                col.Add(Model => Model.IsActive).Titled("Status").UsingFilterOptions()
-        .RenderedAs(model => model.IsActive == true ? "Active" : "In-Active");
-                col.Add().RenderedAs(Model => Html.Raw("<a name='ed' id='ed' href='javascript:void(0)' onclick=Edit('" + Model.userID + "')><i class='fas fa-edit' alt='Edit' /></a>"));
-            })
-            @* .Sortable().Filterable() *@
-            .Empty("No data Found") 
-               .Pageable(pager =>
+            @* Html.Grid(Model).Build(col =>
+                    {
+                        col.Add().RenderedAs((model, row) => row + 1).Titled("#").Css("text-center");
+                        col.Add(Model => Model.username).Titled("User Name");
+                        col.Add(Model => Model.userFirstName).Titled("First Name");
+                        col.Add(Model => Model.userLastName).Titled("Last Name");
+                        col.Add(Model => Model.userEmail).Titled("Email");
+                        col.Add(Model => Model.userFullAddress).Titled("Address");
+                        col.Add(Model => Model.IsActive).Titled("Status").RenderedAs(model => model.IsActive == true ? "Active" : "In-Active");
+
+                col.Add().Encoded(false).RenderedAs((model) =>
+                $"<button href='#' id='edit-btn' onclick='edit()' data-id='{model.userID}'>" +
+                "<i class='fa fa-edit'></i></button>"
+                ).Titled("Actions").Css("text-center");
+                    }) *@
+            Html.Grid(Model).Build(col =>
             {
-                pager.PageSizes = new Dictionary<int, string> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
+                col.Add().RenderedAs((model, row) => row + 1).Titled("#").Css("text-center");
+                col.Add(Model => Model.username)
+                .Titled("User Name")
+                .RenderedAs(model => $"<span class='editable' data-field='username'>{model.username}</span>")
+                .Encoded(false);
+
+                col.Add(Model => Model.userFirstName)
+                .Titled("First Name")
+                .RenderedAs(model => $"<span class='editable' data-field='userFirstName'>{model.userFirstName}</span>")
+                .Encoded(false);
+
+                col.Add(Model => Model.userLastName)
+                .Titled("Last Name")
+                .RenderedAs(model => $"<span class='editable' data-field='userLastName'>{model.userLastName}</span>")
+                .Encoded(false);
+
+                col.Add(Model => Model.userEmail)
+                .Titled("Email")
+                .RenderedAs(model => $"<span class='editable' data-field='userEmail'>{model.userEmail}</span>")
+                .Encoded(false);
+
+                col.Add(Model => Model.userFullAddress)
+                .Titled("Address")
+                .RenderedAs(model => $"<span class='editable' data-field='userFullAddress'>{model.userFullAddress}</span>")
+                .Encoded(false);
+
+                col.Add(Model => Model.IsActive)
+                .Titled("Status")
+                .RenderedAs(model =>
+                $"<span class='editable' data-field='Status'>{(model.IsActive ? "Active" : "In-Active")}</span>")
+                .Encoded(false);
+
+                col.Add().Encoded(false).RenderedAs((model) =>
+                $"<button class='edit-btn' onclick='toggleEditMode(this)'>" +
+                "<i class='fa fa-edit'></i></button>" +
+                $"  <button class='save-btn d-none' onclick='saveChanges(this)'>" +
+                "<i class='fa fa-save'></i></button>" +
+                $"  <button class='mem-btn' onclick='viewMembership({model.userID})'>" +
+                "<i class='fa fa-eye'></i></button>"
+                ).Titled("Actions").Css("text-center");
+
+            })
+
+            @* .Sortable().Filterable() *@
+            .Empty("No data Found")
+            .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
                 pager.ShowPageSizes = false;
-            pager.PagesToDisplay = 3;
-            pager.CurrentPage = 1;
-            pager.RowsPerPage = 10;
-        })
-        )
+                pager.PagesToDisplay = 3;
+                pager.CurrentPage = 1;
+                pager.RowsPerPage = 10;
+            })
+            )
     </div>
 </div>
-<script src="~/js/mvc-grid/mvc-grid.js"></script>
-<script>
+<div class="modal fade" id="membershipDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:#06038d">Membership Details</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-2">
+                    <div class="col-md-4 font-weight-bold">Membership Name:</div>
+                    <div class="col-md-8" id="membershipName"></div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4 font-weight-bold">Description:</div>
+                    <div class="col-md-8" id="membershipDescription"></div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4 font-weight-bold">Ad Listing Count:</div>
+                    <div class="col-md-8" id="membershipAdListing"></div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4 font-weight-bold">Price:</div>
+                    <div class="col-md-8" id="membershipPrice"></div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4 font-weight-bold">Status:</div>
+                    <div class="col-md-8" id="membershipStatus"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="spinner" class="d-none">
+    <img style="height: 100px" src="~/images/spinner.gif" />
+</div>
+<div id="toast" class="d-none"></div>
+<script type="text/javascript">
     document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
-    function Edit(userId){
-        //alert(userId);
+</script>
+
+<script>
+
+    function toggleEditMode(button) {
+        var row = $(button).closest("tr");
+        var element = row.find("[data-field='username']");
+
+        if (element.is("input")) {
+            row.find(".edit-input").each(function () {
+                var field = $(this).attr("data-field");
+                var value = $(this).val().trim();
+
+                if (field === "Status") {
+                    value = $(this).val() === "true" ? "Active" : "In-Active";
+                }
+
+                $(this).replaceWith(`<span class="editable" data-field="${field}">${value}</span>`);
+            });
+        }
+        else {
+            row.find(".editable").each(function () {
+                var field = $(this).attr("data-field");
+                var value = $(this).text().trim();
+                row.find(".save-btn").removeClass("d-none");
+                if (field === "Status") {
+
+                    var selectHtml = `
+                        <select class="form-control edit-input" data-field="${field}">
+                            <option value="true" ${value === "Active" ? "selected" : ""}>Active</option>
+                            <option value="false" ${value === "In-Active" ? "selected" : ""}>In-Active</option>
+                        </select>`;
+                    $(this).replaceWith(selectHtml);
+                } else {
+
+                    var inputHtml = `<input type="text" class="form-control edit-input" data-field="${field}" value="${value}" />`;
+                    $(this).replaceWith(inputHtml);
+                }
+            });
+        }
+    }
+
+    function saveChanges(button) {
+        const spinner = document.getElementById('spinner');
+        spinner.classList.remove('d-none');
+        var row = $(button).closest("tr");
+        var updatedData = {};
+
+        row.find(".edit-input").each(function () {
+            var field = $(this).attr("data-field");
+            var value = $(this).val();
+
+            if (field === "IsActive") {
+                value = "true";
+            }
+
+            updatedData[field] = value;
+        });
+        row.find(".save-btn").removeClass("d-none");
+        $.ajax({
+            url: "/Dashboard/UpdateUser",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(updatedData),
+            success: function (response) {
+                if (response.message.includes("Success")) {
+                   
+                    row.find(".edit-input").each(function () {
+                        var field = $(this).attr("data-field");
+                        var value = $(this).val();
+
+                        if (field === "IsActive") {
+                            value = (value === "true") ? "Active" : "In-Active";
+                        }
+
+                        var spanHtml = `<span class="editable" data-field="${field}">${value}</span>`;
+                        $(this).replaceWith(spanHtml);
+                    });
+
+                    row.find(".edit-btn").removeClass("d-none");
+                    row.find(".save-btn").addClass("d-none");
+                    spinner.classList.add('d-none');
+                    ShowToast('success', response.message);
+                } else {
+                    spinner.classList.add('d-none');
+                    alert("Failed to update. Please try again.");
+                    ShowToast('Failure', response.message);
+                }
+            },
+            error: function () {
+                alert("Error updating data.");
+            }
+        });
+    }
+    
+    function viewMembership(userid) {
+        const spinner = document.getElementById('spinner');
+        spinner.classList.remove('d-none');
+        $.ajax({
+            url: '/Dashboard/MembershipDetails',
+            type: 'GET',
+            data: { userid: userid },
+            success: function (response) {
+                if (response.memberships !== undefined) {
+                    $('#membershipName').text(response.memberships.strMembershipName || '');
+                    $('#membershipDescription').text(response.memberships.strMembershipDescription || '');
+                    $('#membershipAdListing').text(response.memberships.intMembershipAdListing || '');
+                    $('#membershipPrice').text(response.memberships.decMembershipPrice ? `$${response.memberships.decMembershipPrice}` : '');
+                    $('#membershipStatus').text(response.memberships.isActive ? 'Active': 'InActive' || '');
+
+                    $('#membershipDetailsModal').modal('show');
+                    spinner.classList.add('d-none');
+                } else {
+                    spinner.classList.add('d-none');
+                    alert("No membership details found.");
+                }
+            },
+            error: function () {
+                alert("Error fetching membership details.");
+            }
+        });
     }
 </script>
