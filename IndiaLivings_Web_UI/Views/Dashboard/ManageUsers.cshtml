@@ -181,9 +181,9 @@
         row.find(".edit-input").each(function () {
             var field = $(this).attr("data-field");
             var value = $(this).val();
-
-            if (field === "IsActive") {
-                value = "true";
+             
+            if (field === "Status") {
+                value = (value === "true") ? 'Active' : 'In-Active';
             }
 
             updatedData[field] = value;
@@ -201,7 +201,7 @@
                         var field = $(this).attr("data-field");
                         var value = $(this).val();
 
-                        if (field === "IsActive") {
+                        if (field === "Status") {
                             value = (value === "true") ? "Active" : "In-Active";
                         }
 
