@@ -222,46 +222,47 @@
                         <div class="adpost-title">
                             <h3>Plan Information</h3>
                         </div>
+                     <form method="post" asp-action="ProcessPayment" asp-controller="User">
                         <ul class="adpost-plan-list">
                             <li>
                                 <div class="adpost-plan-content">
-                                    <h6>Free Plan - <span>Submit 5 Ad Listings</span></h6>
+                                    <div class="d-inline-flex">
+                                        <input type="radio" name="planSelection" id="freePlan" value="0" selected />
+                                        <h6 style="padding-top:10px;padding-left:10px">Free Plan - <span>Submit 5 Ad Listings</span></h6>
+                                        </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>
                                 </div>
-                                <div class="adpost-plan-meta">
-                                    <h3>$00.00</h3>
-                                    <button class="btn btn-outline">
-                                        <span>Select</span>
-                                    </button>
-                                </div>
+                                <div class="adpost-plan-meta"><h3>$00.00</h3></div>
                             </li>
                             <li>
                                 <div class="adpost-plan-content">
-                                    <h6>Standerd Plan - <span>Submit 10 Ad Listings</span></h6>
+                                    <div class="d-inline-flex">
+                                        <input type="radio" name="planSelection" id="standardPlan" value="23" />
+                                        <h6 style="padding-top:10px;padding-left:10px">Standerd Plan - <span>Submit 10 Ad Listings</span></h6>
+                                    </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>
                                 </div>
-                            <form method="post" asp-action="ProcessPayment" asp-controller="User" asp-route-Amount="23">
-                                <div class="adpost-plan-meta">
-                                    <h3>$23.00</h3>
-                                    <button name="planTypebtn" type="submit" class="btn btn-outline">
-                                        <span>Select</span>
-                                    </button>
-                                </div>
-                            </form>
+                            
+                                <div class="adpost-plan-meta"><h3>$23.00</h3></div>
+                            
                             </li>
                             <li>
                                 <div class="adpost-plan-content">
-                                    <h6>Premium Plan - <span>Unlimited Ad Listings</span></h6>
+                                    <div class="d-inline-flex">
+                                        <input type="radio" name="planSelection" id="premiumPlan" value="43" />
+                                        <h6 style="padding-top:10px;padding-left:10px">Premium Plan - <span>Unlimited Ad Listings</span></h6>
+                                        </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>
                                 </div>
-                                <div class="adpost-plan-meta">
-                                    <h3>$43.00</h3>
-                                    <button class="btn btn-outline">
-                                        <span>Select</span>
-                                    </button>
-                                </div>
+                                <div class="adpost-plan-meta"><h3>$43.00</h3></div>
                             </li>
                         </ul>
+                        <div class="align-content-center pb-3" style="text-align:center;">
+                        <button name="planTypebtn" type="submit" class="btn btn-outline">
+                            <span>Pay Now</span>
+                            </button>
+                        </div>
+                    </form>
                     </div>
                     
             </div>

@@ -564,8 +564,10 @@ namespace IndiaLivings_Web_UI.Controllers
         }
 
         [HttpPost]
-        public IActionResult ProcessPayment(int Amount)
+        public IActionResult ProcessPayment(IFormCollection formData)
         {
+            int Amount = 0;
+            Amount =Convert.ToInt32(formData["planSelection"]);
             var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
             PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
             string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
