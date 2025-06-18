@@ -8,6 +8,11 @@ namespace IndiaLivings_Web_DAL.Models
 {
     public class UserAddressModel
     {
+        public string UserContactFullAddress { get; set; }
+        public string UserContactCity { get; set; }
+        public string UserContactState { get; set; }
+        public string UserContactCountry { get; set; }
+        public string UserContactPinCode { get; set; }
         public string UserBillingFullAddress { get; set; }
         public string UserBillingCity { get; set; }
         public string UserBillingState { get; set; }
@@ -19,5 +24,9 @@ namespace IndiaLivings_Web_DAL.Models
         public string UserShippingState { get; set; }
         public string UserShippingCountry { get; set; }
         public string UserShippingPinCode { get; set;}
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public string UpdatedBy { get; set; }
     }
 }

@@ -224,6 +224,11 @@ namespace IndiaLivings_Web_UI.Models
                         user.userCompany = userDetails.userCompany;
                         user.userRoleID = userDetails.userRoleID;
                         user.userRoleName = userDetails.userRoleName;
+                        address.strUserContactFullAddress = userDetails.userAddressInfo[0].UserContactFullAddress;
+                        address.strUserContactCity = userDetails.userAddressInfo[0].UserContactCity;
+                        address.strUserContactState = userDetails.userAddressInfo[0].UserContactState;
+                        address.strUserContactCountry = userDetails.userAddressInfo[0].UserContactCountry;
+                        address.strUserContactPinCode = userDetails.userAddressInfo[0].UserContactPinCode;
                         address.UserBillingFullAddress = userDetails.userAddressInfo[0].UserBillingFullAddress;
                         address.UserBillingCity = userDetails.userAddressInfo[0].UserBillingCity;
                         address.UserBillingState = userDetails.userAddressInfo[0].UserBillingState;
@@ -348,6 +353,38 @@ namespace IndiaLivings_Web_UI.Models
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return result;
+        }
+        public string UpdateUser(UserViewModel userUpdate)
+        {
+            string response = "An error occured while calling";
+            AuthenticationHelper AH = new AuthenticationHelper();
+            //List<UserModel> userModel = new List<UserModel>();
+            UserModel user = AH.GetUserByUsername(userUpdate.username)[0];
+            //UserModel userModel = new UserModel();
+            try
+            {
+                user.username = userUpdate.username;
+                user.password = "admin@123";
+                user.userFirstName = userUpdate.userFirstName;
+                //user.userMiddleName = userUpdate.userMiddleName;
+                user.userLastName = userUpdate.userLastName;
+                //user.userDescription = userUpdate.userDescription;
+                user.userEmail = userUpdate.userEmail;
+                user.userMobile = userUpdate.userMobile?? "0";
+                user.userFullAddress = userUpdate.userFullAddress;
+                user.updatedBy = "Admin";
+                user.updatedDate = DateTime.Now;
+                user.userAddressInfo[0].CreatedBy = userUpdate.username;
+                user.userAddressInfo[0].UpdatedBy = "Admin";
+                user.userAddressInfo[0].CreatedDate = user.userAddressInfo[0].CreatedDate;
+                user.userAddressInfo[0].UpdatedDate = DateTime.Now;
+                response = AH.updateUser(user);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
         #endregion
     }

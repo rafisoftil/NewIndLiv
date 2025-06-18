@@ -37,8 +37,8 @@
                 </div>
                 <div class="header-option">
                     <div class="option-grid">
-                        <div class="option-group"><select id="stateDropdown" class="form-control" value="" placeholder="select a State"></select></div>
-                        <div class="option-group"><select id="cityDropdown" class="form-control" value="" placeholder="select a City"></select></></div>
+                        <div class="option-group"><select id="stateDropdown" class="form-control" value="" placeholder="Select a State"></select></div>
+                        <div class="option-group"><select id="cityDropdown" class="form-control" value="" placeholder="Select a City"><option value="" disabled selected>Select a State for Cities</option></select></></div>
                         <div class="option-group"><input type="text" id="minPrice" placeholder="Min Price"></div>
                         <div class="option-group"><input type="text" id="maxPrice" placeholder="Max Price"></div>
                         <button type="button" onclick="ProductsSearch()"><i class="fas fa-search"></i><span>Search</span></button>
@@ -79,8 +79,11 @@
 </header>
 <script>
     function ProductsSearch() {
-        var city = $('#cityDropdown').val();
-        var state = $('#stateDropdown').val();
+        var selectedCity = $('#cityDropdown option:selected').text();
+        var selectedState = $('#stateDropdown option:selected').text();
+
+        var city = (selectedCity === "Select a City") ? "" : selectedCity;
+        var state = (selectedState === "Select a State") ? "" : selectedState;
         var minPrice = $('#minPrice').val();
         var maxPrice = $('#maxPrice').val();
         var productName = $('#productName').val();
@@ -90,7 +93,7 @@
 
         // Navigate to the AdsList page with query params
         window.location.href = '/User/navSearch' + queryParams;
-    }
+      }
     function opennavdrop() {
         $.ajax({
                     url: '/User/GetStates',
@@ -106,7 +109,7 @@
                             .sort((a, b) => a.strStateName.localeCompare(b.strStateName));
 
                         let $stateDropdown = $('#stateDropdown');
-                        $stateDropdown.empty().append('<option>Select your state</option>');
+                        $stateDropdown.empty().append('<option>Select a state</option>');
 
                         filteredStates.forEach(function (state) {
                             $stateDropdown.append(
@@ -146,7 +149,7 @@
                             .sort((a, b) => a.strCityName.localeCompare(b.strCityName));
 
                         let $cityDropdown = $('#cityDropdown');
-                        $cityDropdown.empty().append('<option>Select your City</option>');
+                        $cityDropdown.empty().append('<option>Select a City</option>');
 
                         filteredCities.forEach(function (city) {
                             $cityDropdown.append(

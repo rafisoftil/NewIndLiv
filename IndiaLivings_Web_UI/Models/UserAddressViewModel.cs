@@ -6,14 +6,13 @@ namespace IndiaLivings_Web_UI.Models
 {
     public class UserAddressViewModel
     {
-        
-        //public int intUserID { get; set; }
-        //public string strUserContactFullAddress { get; set; }
-        //public string strUserContactCity { get; set; }
-        //public string strUserContactState { get; set; }
-        //public string strUserContactCountry { get; set; }
-        //public string strUserContactPinCode { get; set; }
-        //public int intUserAddressType { get; set; }
+        public int intUserID { get; set; }
+        public string strUserContactFullAddress { get; set; }
+        public string strUserContactCity { get; set; }
+        public string strUserContactState { get; set; }
+        public string strUserContactCountry { get; set; }
+        public string strUserContactPinCode { get; set; }
+        public int intUserAddressType { get; set; }
         public string UserBillingFullAddress { get; set; }
         public string UserBillingCity { get; set; }
         public string UserBillingState { get; set; }
@@ -25,6 +24,10 @@ namespace IndiaLivings_Web_UI.Models
         public string UserShippingState { get; set; }
         public string UserShippingCountry { get; set; }
         public string UserShippingPinCode { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public string UpdatedBy { get; set; }
 
         public string UpdateAddress(int intUserID, string strUserContactFullAddress, string strUserContactCity, string strUserContactState, string strUserContactCountry, string strUserContactPinCode, int intUserAddressType)
         {

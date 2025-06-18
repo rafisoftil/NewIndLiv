@@ -297,6 +297,9 @@ namespace IndiaLivings_Web_UI.Controllers
             UserViewModel user = new UserViewModel();
             List<UserViewModel> userList = new List<UserViewModel>();
             userList = user.UsersList();
+            MembershipViewModel membModel = new MembershipViewModel();
+            int userId = HttpContext.Session.GetInt32("UserId")?? 0;
+            List<MembershipViewModel> memDetails = membModel.GetMembershipDetails(userId);
             return View(userList.ToList());
         }
 
@@ -449,6 +452,49 @@ namespace IndiaLivings_Web_UI.Controllers
             MembershipViewModel membershipViewModel = new MembershipViewModel();
             List<MembershipViewModel> Memberships = membershipViewModel.GetAllListofMembership(0);
             return View(Memberships);
+        }
+        /// <summary>
+        /// Categories
+        /// </summary>
+        /// <returns>List of Categories and Subcategories</returns>
+        public IActionResult Categories()
+        {
+            CategoryViewModel categoryModel = new CategoryViewModel();
+            List<CategoryViewModel> categoriesList = categoryModel.GetCategoryCount();
+            return View(categoriesList);
+        }
+        /// <summary>
+        /// Updates Manage Users Page
+        /// </summary>
+        /// <returns> User update status </returns>
+        public IActionResult UpdateUser([FromBody] UserViewModel user)
+        {
+            try
+            {
+                UserViewModel userViewModel = new UserViewModel();
+                var response = userViewModel.UpdateUser(user);
+                return Json(new { message = response });
+            }
+            catch (Exception)
+            {
+
+                return Json(new { message = "User update unsuccessful" });
+            }
+        }
+        /// <summary>
+        /// Membership
+        /// </summary>
+        /// <returns>Membership details of User</returns>
+        public IActionResult MembershipDetails(int userid)
+        {
+            MembershipViewModel membershipViewModel = new MembershipViewModel();
+            List<MembershipViewModel> Membership = membershipViewModel.GetMembershipDetails(userid);
+            if (Membership.Count() > 0)
+            {
+                MembershipViewModel Memberships = membershipViewModel.GetMembershipDetails(userid)[0];
+                return Json(new { Memberships });
+            }
+            return Json(new { membershipViewModel = "" });
         }
         public IActionResult Logout()
         {
