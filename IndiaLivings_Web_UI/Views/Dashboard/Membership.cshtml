@@ -7,7 +7,6 @@
 }
 
 <div class="container">
-    <script src="~/js/mvc-grid/mvc-grid.js"></script>
     <h4 class="m-2">Memberships</h4>
     <div class="container-fluid">
         @(
@@ -24,19 +23,20 @@
                 col.Add(Model => Model.UpdatedBy).Titled("Updated by").Css("text-center");
                 col.Add(Model => Model.IsActive).Titled("Status").RenderedAs(model => model.IsActive == true ? "Active" : "In-Active").Css("text-center");
             })
-            @* .Sortable().Filterable() *@
+            .Sortable().Filterable()
             .Empty("No data Found")
             .Pageable(pager =>
             {
                 pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
                 pager.ShowPageSizes = false;
                 pager.PagesToDisplay = 3;
-                pager.CurrentPage = 1;
+                @* pager.CurrentPage = 1; *@
                 pager.RowsPerPage = 10;
             })
             )
     </div>
 </div>
+<script src="~/js/mvc-grid/mvc-grid.js"></script>
 <script>
     document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
 </script>

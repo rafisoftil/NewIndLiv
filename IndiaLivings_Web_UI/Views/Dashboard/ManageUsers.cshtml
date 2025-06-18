@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<IndiaLivings_Web_UI.Models.UserViewModel>
-    @using NonFactors.Mvc.Grid
+@using NonFactors.Mvc.Grid
 @{
     ViewBag.Title = "Manage Users";
 }
@@ -68,14 +68,14 @@
 
             })
 
-            @* .Sortable().Filterable() *@
+            .Sortable().Filterable()
             .Empty("No data Found")
             .Pageable(pager =>
             {
                 pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
                 pager.ShowPageSizes = false;
                 pager.PagesToDisplay = 3;
-                pager.CurrentPage = 1;
+                @* pager.CurrentPage = 1; *@
                 pager.RowsPerPage = 10;
             })
             )
@@ -128,12 +128,9 @@
     <img style="height: 100px" src="~/images/spinner.gif" />
 </div>
 <div id="toast" class="d-none"></div>
-<script type="text/javascript">
-    document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
-</script>
-
+<script src="~/js/mvc-grid/mvc-grid.js"></script>
 <script>
-
+    document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
     function toggleEditMode(button) {
         var row = $(button).closest("tr");
         var element = row.find("[data-field='username']");
