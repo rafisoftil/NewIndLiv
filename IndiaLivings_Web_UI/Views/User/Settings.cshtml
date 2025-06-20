@@ -137,13 +137,13 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label">State</label>
-                                            <select id="stateDropdown" class="form-control" style="width: 100%" value="@Model[0].userState"></select>
+                                            <select id="statesDropdown" class="form-control" style="width: 100%" value="@Model[0].userState"></select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label">City</label>
-                                            <select id="cityDropdown" class="form-control" style="width: 100%" value="@Model[0].userCity"></select>
+                                            <select id="citiesDropdown" class="form-control" style="width: 100%" value="@Model[0].userCity"></select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -466,7 +466,7 @@
                             .filter(s => s && s.strStateName && s.IsActive)
                             .sort((a, b) => a.strStateName.localeCompare(b.strStateName));
 
-                        let $stateDropdown = $('#stateDropdown');
+                        let $stateDropdown = $('#statesDropdown');
                         $stateDropdown.empty().append('<option>Select your state</option>');
 
                         filteredStates.forEach(function (state) {
@@ -499,11 +499,11 @@
                     }
                 });
             } else {
-                $('#stateDropdown').empty().trigger('change');
+                $('#statesDropdown').empty().trigger('change');
             }
         });
 
-        $('#stateDropdown').on('change', function () {
+        $('#statesDropdown').on('change', function () {
             const selectedStateId = $(this).val();
             if (selectedStateId) {
                 $.ajax({
@@ -519,7 +519,7 @@
                             .filter(s => s && s.strCityName && s.IsActive)
                             .sort((a, b) => a.strCityName.localeCompare(b.strCityName));
 
-                        let $cityDropdown = $('#cityDropdown');
+                        let $cityDropdown = $('#citiesDropdown');
                         $cityDropdown.empty().append('<option>Select your City</option>');
 
                         filteredCities.forEach(function (city) {
@@ -553,7 +553,7 @@
                     }
                 });
             } else {
-                $('#cityDropdown').empty().trigger('change');
+                $('#citiesDropdown').empty().trigger('change');
             }
         });
     });
