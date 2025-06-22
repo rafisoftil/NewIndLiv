@@ -89,7 +89,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string UpdateAddress(int intUserID, string strUserContactFullAddress,string strUserContactCity,string strUserContactState,string strUserContactCountry,string strUserContactPinCode , int intUserAddressType)
+        public string UpdateAddress(int intUserID, string strUserContactFullAddress, string strUserContactCity, string strUserContactState, string strUserContactCountry, string strUserContactPinCode, int intUserAddressType)
         {
             string response = String.Empty;
             try
@@ -310,6 +310,32 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return memDetails;
+        }
+        public string UpdateMembership(int intMembershipID, string strMembershipName, int intMembershipAdsLimit, double decMembershipPrice, string strMembershipDescription, string strUpdatedBy)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Membership/UpdateMembership?intMembershipID={intMembershipID}&strMembershipName={strMembershipName}&intMembershipAdsLimit={intMembershipAdsLimit}&decMembershipPrice={decMembershipPrice}&strMembershipDescription={strMembershipDescription}&strUpdatedBy={strUpdatedBy}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string DeleteMembership(int intMembershipID, string updatedBy)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Membership/DeleteMembership?intMembershipID={intMembershipID}&strUpdatedBy={updatedBy}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
     }
 }

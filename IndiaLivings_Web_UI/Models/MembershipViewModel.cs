@@ -1,5 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IndiaLivings_Web_UI.Models
 {
@@ -76,6 +77,34 @@ namespace IndiaLivings_Web_UI.Models
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return memDetails;
+        }
+        public string UpdateMembership(int intMembershipID, string strMembershipName, int intMembershipAdsLimit, double decMembershipPrice, string strMembershipDescription, string strUpdatedBy)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            string response = "Membership Update Unsuccessful";
+            try
+            {
+                response = AH.UpdateMembership(intMembershipID, strMembershipName, intMembershipAdsLimit, decMembershipPrice, strMembershipDescription, strUpdatedBy);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string DeleteMembership(int intMembershipID, string strUpdatedBy)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            string response = "Membership Deletion Unsuccessful";
+            try
+            {
+                response = AH.DeleteMembership(intMembershipID, strUpdatedBy);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
     }
 }
