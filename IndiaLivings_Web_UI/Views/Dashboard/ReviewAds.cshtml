@@ -39,9 +39,10 @@ COMPARE PART START
                 col.Add(Model => Model.productName).Titled("Product");
                 col.Add(Model => Model.productCategoryName).Titled("Category");
                 col.Add(Model => $"${Model.productPrice}").Titled("Price");
-                col.Add(Model => Model.productPriceCondition).Titled("Type");
-                col.Add(Model => Model.productOwnerName).Titled("Owner");
+                @* col.Add(Model => Model.productPriceCondition).Titled("Type"); *@
+                col.Add(Model => Model.createdBy).Titled("Owner");
                 col.Add(Model => Model.createdDate).Titled("Created Date");
+                col.Add(Model => (Model.updatedDate == DateTime.MinValue) ? Model.createdDate : Model.updatedDate).Titled("Updated Date");
                 col.Add(Model => Model.IsActiveStatus).Titled("Status");
                 col.Add()
                 .Titled("Action")

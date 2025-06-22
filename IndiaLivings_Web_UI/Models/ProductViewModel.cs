@@ -130,12 +130,14 @@ namespace IndiaLivings_Web_UI.Models
                         product.productPrice = productDetails.productPrice;
                         product.productAdminReviewStatus = productDetails.productAdminReviewStatus;
                         product.productOwner = productDetails.productOwner;
+                        product.productOwnerName = productDetails.productOwnerName;
                         product.IsActiveStatus = productDetails.IsActiveStatus;
                         product.productAdminReview = productDetails.productAdminReview;
                         product.productPriceCondition = productDetails.productPriceCondition;
                         product.productCategoryID = productDetails.productCategoryID;
                         product.createdDate = productDetails.createdDate;
                         product.createdBy = productDetails.createdBy;
+                        product.updatedDate = productDetails.updatedDate;
                         products.Add(product);
                     }
                 }
