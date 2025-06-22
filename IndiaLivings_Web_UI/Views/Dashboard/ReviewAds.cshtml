@@ -174,7 +174,7 @@ COMPARE PART START
         }
 
         image.attr("src", "/images/spinner.gif");
-        image.width("20px");
+        image.height("20px");
         var productId = product.productId;
         $.ajax({
             url: '/Dashboard/GetImageDetails',
@@ -183,13 +183,14 @@ COMPARE PART START
             success: function (response) {
                 if (response.image) {
                     image.attr("src", "data:image/jpeg;base64," + response.image); // Set image to base64
-                    image.width("300px");
+                    image.height("200px");
                 } else {
-                    image.attr("src", "/images/no-image.jpg"); // Fallback if no image found
+                    image.attr("src", "/images/no-image.png"); // Fallback if no image found
+                    image.height("200px");
                 }
             },
             error: function () {
-                image.attr("src", "/images/error.jpg"); // Fallback if API call fails
+                image.attr("src", "/images/no-image.png"); // Fallback if API call fails
             }
         });
     }
