@@ -177,14 +177,20 @@ SINGLE BANNER PART END
 
         if (reviewStatus == "AD Approved") {
             $('#statusApproved').prop('checked', true).prop('disabled', true);
+            $('#statusRejected').prop('checked', false).prop('disabled', false);
+            $('#statusInReview').prop('checked', false).prop('disabled', false);
         }
         else if (reviewStatus == "AD Rejected") {
             $('#statusRejected').prop('checked', true).prop('disabled', true);
+            $('#statusApproved').prop('checked', false).prop('disabled', false);
+            $('#statusInReview').prop('checked', false).prop('disabled', false);
         }
         else {
-            $('#statusInReview').prop('checked', true);
+            $('#statusInReview').prop('checked', true).prop('disabled', true);
+            $('#statusApproved').prop('checked', false).prop('disabled', false);
+            $('#statusRejected').prop('checked', false).prop('disabled', false);
         }
-        $('#statusInReview').prop('disabled', true);
+
         image.attr("src", "/images/spinner.gif");
         image.height("20px");
         var productId = product.productId;
@@ -220,18 +226,18 @@ SINGLE BANNER PART END
             type: 'POST',
             data: { productid: productId, status: status },
             success: function (response) {
+                if (response.message.includes("approved")) {
+                    ShowToast('success', response.message);
+                }
+                else {
+                    ShowToast('failed', response.message);
+                }
                 spinner.classList.add('d-none');
-                toast.addClass('toast_success');
                 location.reload();
-                toast.text(response.message);
-                toast.removeClass('d-none');
-                setTimeout(() => {
-                    toast.addClass('d-none');
-                }, 3000);
             },
             error: function () {
-                toast.addClass('toast_failed');
-                toast.text('Something went wrong! Please try again.');
+                ShowToast('failed', 'Something went wrong! Please try again.');
+                spinner.classList.add('d-none');
             }
         });
     }

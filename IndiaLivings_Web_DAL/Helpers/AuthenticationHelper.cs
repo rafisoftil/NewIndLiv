@@ -89,7 +89,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string UpdateAddress(int intUserID, string strUserContactFullAddress, string strUserContactCity, string strUserContactState, string strUserContactCountry, string strUserContactPinCode, int intUserAddressType)
+        public string UpdateAddress(int intUserID, string strUserContactFullAddress,string strUserContactCity,string strUserContactState,string strUserContactCountry,string strUserContactPinCode , int intUserAddressType)
         {
             string response = String.Empty;
             try
