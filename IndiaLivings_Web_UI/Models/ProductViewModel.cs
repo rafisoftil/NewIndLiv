@@ -24,6 +24,7 @@ namespace IndiaLivings_Web_UI.Models
         public bool productSold { get; set; }
         public int productOwner { get; set; } = 0;
         public string userContactCity { get; set; } = string.Empty;
+        public string userContactState { get; set; } = string.Empty;
         public string productOwnerName { get; set; } = string.Empty;
         public int productMembershipID { get; set; } = 0;
         public string productMembershipName { get; set; } = string.Empty;
@@ -38,14 +39,10 @@ namespace IndiaLivings_Web_UI.Models
         public int Error_Id { get; set; } = 0;
         public string Error_Message { get; set; } = string.Empty;
         public byte[] byteProductImageData { get; set; } = [];
-        public string City { get; set; } = string.Empty;
-        public string State { get; set; } = string.Empty;
         public string ProductType { get; set; } = string.Empty;
         public string ProductSearchText { get; set; } = string.Empty;
         public decimal MinPrice { get; set; } = 0;
         public decimal MaxPrice { get; set; } = 0;
-
-
 
         public List<ProductViewModel> GetAllWishlist(int userid)
         {
@@ -186,6 +183,8 @@ namespace IndiaLivings_Web_UI.Models
                 PVM.createdBy = product.createdBy;
                 PVM.updatedDate = product.updatedDate;
                 PVM.updatedBy = product.updatedBy;
+                PVM.userContactCity = product.userContactCity;
+                PVM.userContactState = product.userContactState;
                 productId = PH.InsertProduct(PVM);
                 if (productId > 0)
                 {

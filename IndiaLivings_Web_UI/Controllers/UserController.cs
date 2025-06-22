@@ -1,4 +1,3 @@
-
 using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
@@ -421,6 +420,8 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.createdBy = HttpContext.Session.GetString("userName").ToString();
             PVM.updatedDate = DateTime.Now;
             PVM.updatedBy = HttpContext.Session.GetString("userName").ToString();
+            PVM.userContactCity = HttpContext.Session.GetString("City").ToString();
+            PVM.userContactState = HttpContext.Session.GetString("State").ToString();
             isInsert = PVM.CreateNewAdd(PVM, productImage);
 
 

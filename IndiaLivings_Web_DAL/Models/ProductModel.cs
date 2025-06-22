@@ -26,6 +26,7 @@ namespace IndiaLivings_Web_DAL.Models
         public bool productSold { get; set; }
         public int productOwner { get; set; } = 0;
         public string userContactCity { get; set; } = string.Empty;
+        public string userContactState { get; set; } = string.Empty;
         public string productOwnerName { get; set; } = string.Empty;
         public int productMembershipID { get; set; } = 0;
         public string productMembershipName { get; set; } = string.Empty;

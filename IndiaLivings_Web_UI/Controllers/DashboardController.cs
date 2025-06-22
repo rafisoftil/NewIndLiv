@@ -113,6 +113,8 @@ namespace IndiaLivings_Web_UI.Controllers
                 HttpContext.Session.SetString("Mobile", user.userMobile);
                 HttpContext.Session.SetString("Email", user.userEmail);
                 HttpContext.Session.SetString("Address", user.userFullAddress);
+                HttpContext.Session.SetString("City", user.userCity);
+                HttpContext.Session.SetString("State", user.userState);
                 JsonData = new
                 {
                     StatusCode = 200,
