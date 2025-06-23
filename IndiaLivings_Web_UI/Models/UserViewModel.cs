@@ -83,6 +83,8 @@ namespace IndiaLivings_Web_UI.Models
                     user.userDOB = userDetails.userDOB;
                     user.IsActive = userDetails.IsActive;
                     user.byteUserImageData = userDetails.byteUserImageData;
+                    user.userCity = userDetails.userCity;
+                    user.userState = userDetails.userState;
                 }
             }
             catch (Exception ex)

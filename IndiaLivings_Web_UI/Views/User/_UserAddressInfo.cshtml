@@ -19,15 +19,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="editCountry" class="form-label">Country</label>
-                        <select id="countryDropdown" class="form-control" style="width: 100%" value="" placeholder="select a country"></select>
+                        <select id="countriesDropdown" class="form-control" style="width: 100%" value="" placeholder="select a country"></select>
                     </div>
                     <div class="mb-3">
                         <label for="editState" class="form-label">State</label>
-                        <select id="stateDropdown" class="form-control" style="width: 100%" value="@ViewBag.State"></select>
+                        <select id="statesDropdown" class="form-control" style="width: 100%" value="@ViewBag.State"></select>
                     </div>
                     <div class="mb-3">
                         <label for="editCity" class="form-label">City</label>
-                        <select id="cityDropdown" class="form-control" style="width: 100%" value="@ViewBag.City"></select>
+                        <select id="citiesDropdown" class="form-control" style="width: 100%" value="@ViewBag.City"></select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -52,7 +52,7 @@
                         .filter(c => c && c.strCountryName)
                         .sort((a, b) => a.strCountryName.localeCompare(b.strCountryName));
 
-                    let $dropdown = $('#countryDropdown');
+                    let $dropdown = $('#countriesDropdown');
                     $dropdown.empty();
 
                     $dropdown.append('<option value="">Please select your country</option>');
@@ -87,7 +87,7 @@
                 }
             });
 
-        $('#countryDropdown').on('change', function () {
+        $('#countriesDropdown').on('change', function () {
             const selectedCountryId = $(this).val();
             if (selectedCountryId) {
                 $.ajax({
@@ -103,7 +103,7 @@
                             .filter(s => s && s.strStateName && s.IsActive)
                             .sort((a, b) => a.strStateName.localeCompare(b.strStateName));
 
-                        let $stateDropdown = $('#stateDropdown');
+                        let $stateDropdown = $('#statesDropdown');
                         $stateDropdown.empty().append('<option>Select your state</option>');
 
                         filteredStates.forEach(function (state) {
@@ -136,11 +136,11 @@
                     }
                 });
             } else {
-                $('#stateDropdown').empty().trigger('change');
+                $('#statesDropdown').empty().trigger('change');
             }
         });
 
-        $('#stateDropdown').on('change', function () {
+        $('#statesDropdown').on('change', function () {
             const selectedStateId = $(this).val();
             if (selectedStateId) {
                 $.ajax({
@@ -156,7 +156,7 @@
                             .filter(s => s && s.strCityName && s.IsActive)
                             .sort((a, b) => a.strCityName.localeCompare(b.strCityName));
 
-                        let $cityDropdown = $('#cityDropdown');
+                        let $cityDropdown = $('#citiesDropdown');
                         $cityDropdown.empty().append('<option>Select your City</option>');
 
                         filteredCities.forEach(function (city) {
@@ -190,7 +190,7 @@
                     }
                 });
             } else {
-                $('#cityDropdown').empty().trigger('change');
+                $('#citiesDropdown').empty().trigger('change');
             }
         });
     });

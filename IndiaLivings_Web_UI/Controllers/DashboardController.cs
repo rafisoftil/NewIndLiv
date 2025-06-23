@@ -113,6 +113,8 @@ namespace IndiaLivings_Web_UI.Controllers
                 HttpContext.Session.SetString("Mobile", user.userMobile);
                 HttpContext.Session.SetString("Email", user.userEmail);
                 HttpContext.Session.SetString("Address", user.userFullAddress);
+                HttpContext.Session.SetString("City", user.userCity);
+                HttpContext.Session.SetString("State", user.userState);
                 JsonData = new
                 {
                     StatusCode = 200,
@@ -495,6 +497,63 @@ namespace IndiaLivings_Web_UI.Controllers
                 return Json(new { Memberships });
             }
             return Json(new { membershipViewModel = "" });
+        }
+        public IActionResult CategoryMainPage(int userid)
+        {
+            //int userid = int.Parse(HttpContext.Session.GetString("UserID"));
+            CategoryViewModel category = new CategoryViewModel();
+            SubCategoryViewModel subCategory = new SubCategoryViewModel();
+            // To Get All the list of Categories
+            List<CategoryViewModel> Categories = category.GetCategoryCount();
+            //To Get All the list of Sub Categories
+            List<SubCategoryViewModel> SubCategories = subCategory.GetSubCategories(0);
+            dynamic Products = new ExpandoObject();
+            Products.Categories = Categories;
+            Products.SubCategories = SubCategories;
+            return View(Products);
+        }
+        /// <summary>
+        /// Update Membership Details
+        /// </summary>
+        /// <param name="intMembershipID"></param>
+        /// <param name="strMembershipName"></param>
+        /// <param name="intMembershipAdsLimit"></param>
+        /// <param name="decMembershipPrice"></param>
+        /// <param name="strMembershipDescription"></param>
+        /// <param name="strUpdatedBy"></param>
+        /// <returns> Status of the Update Membership </returns>
+        public IActionResult UpdateMembership(int intMembershipID, string strMembershipName, int intMembershipAdsLimit, double decMembershipPrice, string strMembershipDescription, string strUpdatedBy)
+        {
+            try
+            {
+                MembershipViewModel userViewModel = new MembershipViewModel();
+                var response = userViewModel.UpdateMembership(intMembershipID, strMembershipName, intMembershipAdsLimit, decMembershipPrice, strMembershipDescription, strUpdatedBy);
+                return Json(new { message = response });
+            }
+            catch (Exception)
+            {
+
+                return Json(new { message = "Membership update unsuccessful" });
+            }
+        }
+        /// <summary>
+        /// Delete Membership
+        /// </summary>
+        /// <param name="intMembershipID"></param>
+        /// <returns>Status from Delete Memebership API</returns>
+        public IActionResult DeleteMembership(int intMembershipID)
+        {
+            try
+            {
+                string updatedBy = HttpContext.Session.GetString("userName");
+                MembershipViewModel membershipViewModel = new MembershipViewModel();
+                var response = membershipViewModel.DeleteMembership(intMembershipID, updatedBy);
+                return Json(new { message = response });
+            }
+            catch (Exception)
+            {
+                return Json(new { message = "Membership deletion unsuccessful" });
+            }
         }
         public IActionResult Logout()
         {
