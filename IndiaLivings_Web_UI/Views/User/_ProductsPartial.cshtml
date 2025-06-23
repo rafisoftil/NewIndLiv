@@ -254,13 +254,11 @@
         $('#productPublished-modal').text(product.createdDate);
         $('#productStatus-modal').text(status).attr('data-product-status', status);
 
-        if (reviewStatus == "AD Approved") {
-            $('#statusApproved').prop('checked', true).prop('disabled', true);
+        if (product.byteProductImageData) {
+            image.attr("src", "data:image/jpeg;base64," + product.byteProductImageData);
+        } else {
+            image.attr("src", "/images/no-image.png"); // ✅ Replace with your actual default image path
         }
-        else if (reviewStatus == "AD Rejected") {
-            $('#statusRejected').prop('checked', true).prop('disabled', true);
-        }
-        image.attr("src", "data:image/jpeg;base64," + product.byteProductImageData);
     }
 
     function changePage(curPage, page) {

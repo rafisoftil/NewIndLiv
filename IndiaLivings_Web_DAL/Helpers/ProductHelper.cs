@@ -94,7 +94,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string reviewStatus = string.Empty;
             try
             {
-                reviewStatus = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/UpdateAdAdminReview?intProductID={productid}&boolProductAdminReview={status}&strUpdatedBy={username}");
+                reviewStatus = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/UpdateAdAdminReview?intProductID={productid}&boolProductAdminReview={status}&strUpdatedBy={username}").Trim('\"');
             }
             catch (Exception ex)
             {

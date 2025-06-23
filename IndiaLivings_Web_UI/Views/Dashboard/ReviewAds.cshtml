@@ -39,9 +39,10 @@ COMPARE PART START
                 col.Add(Model => Model.productName).Titled("Product");
                 col.Add(Model => Model.productCategoryName).Titled("Category");
                 col.Add(Model => $"${Model.productPrice}").Titled("Price");
-                col.Add(Model => Model.productPriceCondition).Titled("Type");
-                col.Add(Model => Model.productOwnerName).Titled("Owner");
+                @* col.Add(Model => Model.productPriceCondition).Titled("Type"); *@
+                col.Add(Model => Model.createdBy).Titled("Owner");
                 col.Add(Model => Model.createdDate).Titled("Created Date");
+                col.Add(Model => (Model.updatedDate == DateTime.MinValue) ? Model.createdDate : Model.updatedDate).Titled("Updated Date");
                 col.Add(Model => Model.IsActiveStatus).Titled("Status");
                 col.Add()
                 .Titled("Action")
@@ -174,7 +175,7 @@ COMPARE PART START
         }
 
         image.attr("src", "/images/spinner.gif");
-        image.width("20px");
+        image.height("20px");
         var productId = product.productId;
         $.ajax({
             url: '/Dashboard/GetImageDetails',
@@ -183,13 +184,14 @@ COMPARE PART START
             success: function (response) {
                 if (response.image) {
                     image.attr("src", "data:image/jpeg;base64," + response.image); // Set image to base64
-                    image.width("300px");
+                    image.height("200px");
                 } else {
-                    image.attr("src", "/images/no-image.jpg"); // Fallback if no image found
+                    image.attr("src", "/images/no-image.png"); // Fallback if no image found
+                    image.height("200px");
                 }
             },
             error: function () {
-                image.attr("src", "/images/error.jpg"); // Fallback if API call fails
+                image.attr("src", "/images/no-image.png"); // Fallback if API call fails
             }
         });
     }
@@ -211,22 +213,18 @@ COMPARE PART START
             type: 'POST',
             data: { productid: productId, status: updatedStatus },
             success: function (response) {
-                location.reload();
-                spinner.classList.add('d-none');
-                if (response.message == "Ad Approved") {
-                    toast.addClass('toast_success');
-                } else {
-                    toast.addClass('toast_failed');
+                if (response.message.includes("approved")) {
+                    ShowToast('success', response.message);
                 }
-                toast.text(response.message);
-                toast.removeClass('d-none');
-                setTimeout(() => {
-                    toast.addClass('d-none');
-                }, 3000);
+                else {
+                    ShowToast('failed', response.message);
+                }
+                spinner.classList.add('d-none');
+                location.reload();
             },
             error: function () {
-                toast.addClass('toast_failed');
-                toast.text('Something went wrong! Please try again.');
+                ShowToast('failed', 'Something went wrong! Please try again.');
+                spinner.classList.add('d-none');
             }
         });
     }

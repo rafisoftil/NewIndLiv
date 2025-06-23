@@ -311,5 +311,31 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return memDetails;
         }
+        public string UpdateMembership(int intMembershipID, string strMembershipName, int intMembershipAdsLimit, double decMembershipPrice, string strMembershipDescription, string strUpdatedBy)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Membership/UpdateMembership?intMembershipID={intMembershipID}&strMembershipName={strMembershipName}&intMembershipAdsLimit={intMembershipAdsLimit}&decMembershipPrice={decMembershipPrice}&strMembershipDescription={strMembershipDescription}&strUpdatedBy={strUpdatedBy}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string DeleteMembership(int intMembershipID, string updatedBy)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Membership/DeleteMembership?intMembershipID={intMembershipID}&strUpdatedBy={updatedBy}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }

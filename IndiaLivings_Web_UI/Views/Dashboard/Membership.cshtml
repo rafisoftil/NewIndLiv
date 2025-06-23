@@ -14,14 +14,47 @@
             {
                 @* col.Add().RenderedAs((model, row) => row + 1).Titled("#").Width("1%").Css("text-center") *@;
                 @* col.Add(Model => Model.RoleID).Titled("RoleID"); *@
-                col.Add(Model => Model.intMembershipID).Titled("ID").Css("text-center");
-                col.Add(Model => Model.strMembershipName).Titled("Name").Css("text-center");
-                col.Add(Model => Model.strMembershipDescription).Titled("Description").Css("text-center");
-                col.Add(Model => Model.intMembershipAdListing).Titled("Ads Limit").Css("text-center");
-                col.Add(Model => Model.decMembershipPrice).Titled("Price").Css("text-center");
-                col.Add(Model => Model.UpdatedDate).Titled("Last Updated").Css("text-center");
-                col.Add(Model => Model.UpdatedBy).Titled("Updated by").Css("text-center");
-                col.Add(Model => Model.IsActive).Titled("Status").RenderedAs(model => model.IsActive == true ? "Active" : "In-Active").Css("text-center");
+                @* col.Add().RenderedAs((model, row) => row + 1).Titled("#").Css("text-center"); *@
+                col.Add(Model => Model.intMembershipID)
+                .Titled("ID").Css("text-center")
+                .RenderedAs(model => $"<span class='editable' data-field='intMembershipID'>{model.intMembershipID}</span>").Css("text-center")
+                .Encoded(false);
+                col.Add(Model => Model.strMembershipName)
+                .Titled("Name").Css("text-center")
+                .RenderedAs(model => $"<span class='editable' data-field='strMembershipName'>{model.strMembershipName}</span>").Css("text-center")
+                .Encoded(false);
+                col.Add(Model => Model.strMembershipDescription)
+                .Titled("Description").Css("text-center")
+                .RenderedAs(model => $"<span class='editable' data-field='strMembershipDescription'>{model.strMembershipDescription}</span>").Css("text-center")
+                .Encoded(false);
+                col.Add(Model => Model.intMembershipAdListing)
+                .Titled("Ads Limit").Css("text-center")
+                .RenderedAs(model => $"<span class='editable' data-field='intMembershipAdListing'>{model.intMembershipAdListing}</span>").Css("text-center")
+                .Encoded(false);
+                col.Add(Model => Model.decMembershipPrice)
+                .Titled("Price").Css("text-center")
+                .RenderedAs(model => $"<span class='editable' data-field='decMembershipPrice'>{model.decMembershipPrice}</span>").Css("text-center")
+                .Encoded(false);
+                col.Add(Model => Model.UpdatedDate)
+                .Titled("Last Updated").Css("text-center")
+                .RenderedAs(model => $"<span class='editable' data-field='UpdatedDate'>{model.UpdatedDate}</span>").Css("text-center")
+                .Encoded(false);
+                col.Add(Model => Model.UpdatedBy)
+                .Titled("Updated by").Css("text-center")
+                .RenderedAs(model => $"<span class='editable' data-field='UpdatedBy'>{model.UpdatedBy}</span>").Css("text-center")
+                .Encoded(false);
+                col.Add(Model => Model.IsActive)
+                .Titled("Status")
+                .RenderedAs(model => $"<span class='editable' data-field='Status'>{(model.IsActive ? "Active" : "In-Active")}</span>").Css("text-center")
+                .Encoded(false);
+                col.Add().Encoded(false).RenderedAs((model) =>
+                $"<button class='edit-btn' onclick='toggleEditMode(this)'>" +
+                "<i class='fa fa-edit'></i></button>" +
+                $"  <button class='save-btn d-none' onclick='saveChanges(this)'>" +
+                "<i class='fa fa-save'></i></button>" +
+                $"  <button class='mem-btn' onclick='DeleteMembership({model.intMembershipID})'>" +
+                "<i class='fa fa-trash'></i></button>"
+                ).Titled("Actions").Css("text-center");
             })
             .Sortable().Filterable()
             .Empty("No data Found")
@@ -36,7 +69,129 @@
             )
     </div>
 </div>
+<div id="spinner" class="d-none">
+    <img style="height: 100px" src="~/images/spinner.gif" />
+</div>
+<div id="toast" class="d-none"></div>
 <script src="~/js/mvc-grid/mvc-grid.js"></script>
 <script>
     document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+
+    function toggleEditMode(button) {
+        var row = $(button).closest("tr");
+        var element = row.find("[data-field='intMembershipID']");
+
+        if (element.is("input")) {
+            row.find(".edit-input").each(function () {
+                var field = $(this).attr("data-field");
+                var value = $(this).val().trim();
+
+                if (field === "Status") {
+                    value = $(this).val() === "true" ? "Active" : "In-Active";
+                }
+
+                $(this).replaceWith(`<span class="editable" data-field="${field}">${value}</span>`);
+            });
+        }
+        else {
+            row.find(".editable").each(function () {
+                var field = $(this).attr("data-field");
+                var value = $(this).text().trim();
+                row.find(".save-btn").removeClass("d-none");
+                if (field === "Status") {
+
+                    var selectHtml = `
+                        <select class="form-control edit-input" data-field="${field}">
+                            <option value="true" ${value === "Active" ? "selected" : ""}>Active</option>
+                            <option value="false" ${value === "In-Active" ? "selected" : ""}>In-Active</option>
+                        </select>`;
+                    $(this).replaceWith(selectHtml);
+                } else {
+
+                    var inputHtml = `<input type="text" class="form-control edit-input" data-field="${field}" value="${value}" />`;
+                    $(this).replaceWith(inputHtml);
+                }
+            });
+        }
+    }
+
+    function saveChanges(button) {
+        const spinner = document.getElementById('spinner');
+        spinner.classList.remove('d-none');
+        var row = $(button).closest("tr");
+        var updatedData = {}; 
+
+        row.find(".edit-input").each(function () {
+            var field = $(this).attr("data-field");
+            var value = $(this).val();
+
+            if (field === "Status") {
+                value = (value === "true") ? 'Active' : 'In-Active';
+            }
+
+            updatedData[field] = value;
+        });
+
+        row.find(".save-btn").removeClass("d-none");
+        $.ajax({
+            url: "/Dashboard/UpdateMembership",
+            type: "POST",
+            //contentType: "application/json",
+            data: {intMembershipID: updatedData["intMembershipID"], strMembershipName: updatedData["strMembershipName"], intMembershipAdsLimit: updatedData["intMembershipAdListing"], decMembershipPrice: updatedData["decMembershipPrice"], strMembershipDescription: updatedData["strMembershipDescription"], strUpdatedBy: updatedData["UpdatedBy"]},
+            success: function (response) {
+                if (response.message.includes("Success")) {
+
+                    row.find(".edit-input").each(function () {
+                        var field = $(this).attr("data-field");
+                        var value = $(this).val();
+
+                        if (field === "Status") {
+                            value = (value === "true") ? "Active" : "In-Active";
+                        }
+
+                        var spanHtml = `<span class="editable" data-field="${field}">${value}</span>`;
+                        $(this).replaceWith(spanHtml);
+                    });
+                       
+                    row.find(".edit-btn").removeClass("d-none");
+                    row.find(".save-btn").addClass("d-none");
+                    spinner.classList.add('d-none');
+                    ShowToast('success', response.message);
+                } else {
+                    spinner.classList.add('d-none');
+                    alert("Failed to update. Please try again.");
+                    ShowToast('Failure', response.message);
+                }
+            },
+            error: function () {
+                alert("Error updating data.");
+            }
+        });
+    }
+
+    function DeleteMembership(intMembershipID) {
+        if (confirm("Are you sure you want to delete this membership?")) {
+            const spinner = document.getElementById('spinner');
+            spinner.classList.remove('d-none');
+      
+            $.ajax({
+                url: "/Dashboard/DeleteMembership",
+                type: "POST",
+                data: { intMembershipID: intMembershipID },
+                success: function (response) {
+                    if (response.message.includes("Success")) {
+                        ShowToast('success', response.message);
+                        location.reload();
+                    } else {
+                        ShowToast('Failure', response.message);
+                    }
+                    spinner.classList.add('d-none');
+                },
+                error: function () {
+                    alert("Error deleting membership.");
+                    spinner.classList.add('d-none');
+                }
+            });
+        }
+    }
 </script>

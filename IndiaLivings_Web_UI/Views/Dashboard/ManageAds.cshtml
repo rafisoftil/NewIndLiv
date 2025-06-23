@@ -32,12 +32,13 @@ SINGLE BANNER PART END
             Html.Grid(Model).Build(col =>
                 {
                 col.Add().RenderedAs((model, row) => row + 1).Titled("#");
-                    col.Add(Model => Model.productName).Titled("Product");
+                col.Add(Model => Model.productName).Titled("Product");
                 col.Add(Model => Model.productCategoryName).Titled("Category");
                 col.Add(Model => $"${Model.productPrice}").Titled("Price");
-                col.Add(Model => Model.productPriceCondition).Titled("Type");
-                col.Add(Model => Model.productOwnerName).Titled("Owner");
+                @* col.Add(Model => Model.productPriceCondition).Titled("Type"); *@
+                col.Add(Model => Model.createdBy).Titled("Owner");
                 col.Add(Model => Model.createdDate).Titled("Created Date");
+                col.Add(Model => (Model.updatedDate == DateTime.MinValue) ? Model.createdDate : Model.updatedDate).Titled("Updated Date");
                 col.Add(Model => Model.IsActiveStatus).Titled("Status");
                 col.Add()
                 .Titled("Action")
@@ -177,16 +178,22 @@ SINGLE BANNER PART END
 
         if (reviewStatus == "AD Approved") {
             $('#statusApproved').prop('checked', true).prop('disabled', true);
+            $('#statusRejected').prop('checked', false).prop('disabled', false);
+            $('#statusInReview').prop('checked', false).prop('disabled', false);
         }
         else if (reviewStatus == "AD Rejected") {
             $('#statusRejected').prop('checked', true).prop('disabled', true);
+            $('#statusApproved').prop('checked', false).prop('disabled', false);
+            $('#statusInReview').prop('checked', false).prop('disabled', false);
         }
         else {
-            $('#statusInReview').prop('checked', true);
+            $('#statusInReview').prop('checked', true).prop('disabled', true);
+            $('#statusApproved').prop('checked', false).prop('disabled', false);
+            $('#statusRejected').prop('checked', false).prop('disabled', false);
         }
-        $('#statusInReview').prop('disabled', true);
+
         image.attr("src", "/images/spinner.gif");
-        image.width("20px");
+        image.height("20px");
         var productId = product.productId;
         $.ajax({
             url: '/Dashboard/GetImageDetails',
@@ -194,14 +201,16 @@ SINGLE BANNER PART END
             data: { productid: productId },
             success: function (response) {
                 if (response.image) {
+                    console.log(response.image);
                     image.attr("src", "data:image/jpeg;base64," + response.image); // Set image to base64
-                    image.width("300px");
+                    image.height("200px");
                 } else {
-                    image.attr("src", "/images/no-image.jpg"); // Fallback if no image found
+                    image.attr("src", "/images/no-image.png"); // Fallback if no image found
+                    image.height("200px");
                 }
             },
             error: function () {
-                image.attr("src", "/images/error.jpg"); // Fallback if API call fails
+                image.attr("src", "/images/no-image.png"); // Fallback if API call fails
             }
         });
     }
@@ -218,18 +227,18 @@ SINGLE BANNER PART END
             type: 'POST',
             data: { productid: productId, status: status },
             success: function (response) {
+                if (response.message.includes("approved")) {
+                    ShowToast('success', response.message);
+                }
+                else {
+                    ShowToast('failed', response.message);
+                }
                 spinner.classList.add('d-none');
-                toast.addClass('toast_success');
                 location.reload();
-                toast.text(response.message);
-                toast.removeClass('d-none');
-                setTimeout(() => {
-                    toast.addClass('d-none');
-                }, 3000);
             },
             error: function () {
-                toast.addClass('toast_failed');
-                toast.text('Something went wrong! Please try again.');
+                ShowToast('failed', 'Something went wrong! Please try again.');
+                spinner.classList.add('d-none');
             }
         });
     }
