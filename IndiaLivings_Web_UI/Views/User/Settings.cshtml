@@ -52,15 +52,15 @@
                     <div class="col-lg-12">
                         <div class="dash-menu-list">
                             <ul>
-                                <li><a href="@Url.Action("Dashboard", "User")">dashboard</a></li>
-                                <li><a href="@Url.Action("Profile", "User")">Profile</a></li>
-                                <li><a href="@Url.Action("AdPost", "User")">ad post</a></li>
-                                <li><a href="@Url.Action("MyAds", "User")">my ads</a></li>
-                                <li><a class="active" href="@Url.Action("Settings", "User")">settings</a></li>
-                                <li><a href="@Url.Action("Bookmark", "User")">bookmarks</a></li>
-                                <li><a href="@Url.Action("Message", "User")">message</a></li>
-                                <li><a href="@Url.Action("Notification", "User")">notification</a></li>
-                                <li><a href="@Url.Action("Login", "Dashboard")">logout</a></li>
+                                <li><a asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
+                                <li><a asp-controller="User" asp-action="Profile">Profile</a></li>
+                                <li><a asp-controller="User" asp-action="PostAd">Ad Post</a></li>
+                                <li><a asp-controller="User" asp-action="MyAds">my ads</a></li>
+                                <li><a asp-controller="User" class="active" asp-action="Settings">settings</a></li>
+                                <li><a asp-controller="User" asp-action="Bookmark">bookmarks</a></li>
+                                <li><a asp-controller="User" asp-action="Message">message</a></li>
+                                <li><a asp-controller="User" asp-action="Notification">notification</a></li>
+                                <li><a asp-controller="Dashboard" asp-action="Logout">logout</a></li>
                             </ul>
                         </div>
                     </div>
