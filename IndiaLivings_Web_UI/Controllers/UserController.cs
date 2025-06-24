@@ -450,7 +450,7 @@ namespace IndiaLivings_Web_UI.Controllers
             UserViewModel UVM = new UserViewModel();
             UVM.userID = HttpContext.Session.GetInt32("UserId") ?? 0;
             UVM.username = HttpContext.Session.GetString("userName");
-            UVM.password = FormData["txt_password"];
+            UVM.password = "";
             UVM.userFirstName = string.IsNullOrEmpty(FormData["txt_firstname"]) ? "" : FormData["txt_firstname"];
             UVM.userMiddleName = string.IsNullOrEmpty(FormData["txt_middlename"]) ? "" : FormData["txt_middlename"];
             UVM.userLastName = string.IsNullOrEmpty(FormData["txt_lastname"]) ? "" : FormData["txt_lastname"];
