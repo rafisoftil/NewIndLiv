@@ -28,7 +28,9 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.BookingAds = products.Where(p => p.productAdCategory.Equals("Booking")).ToList().Count();
             ViewBag.SalesAds = products.Where(p => p.productAdCategory.Equals("Sale")).ToList().Count();
             ViewBag.RentalAds = products.Where(p => p.productAdCategory.Equals("Rent")).ToList().Count();
-            return View();
+            MembershipViewModel membershipModel = new MembershipViewModel();
+            MembershipViewModel membership = membershipModel.GetMembershipDetails(70)[0];
+            return View(membership);
         }
         public IActionResult PostAd()
         {
