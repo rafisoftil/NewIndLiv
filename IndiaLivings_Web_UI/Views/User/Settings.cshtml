@@ -52,15 +52,15 @@
                     <div class="col-lg-12">
                         <div class="dash-menu-list">
                             <ul>
-                                <li><a href="@Url.Action("Dashboard", "User")">dashboard</a></li>
-                                <li><a href="@Url.Action("Profile", "User")">Profile</a></li>
-                                <li><a href="@Url.Action("AdPost", "User")">ad post</a></li>
-                                <li><a href="@Url.Action("MyAds", "User")">my ads</a></li>
-                                <li><a class="active" href="@Url.Action("Settings", "User")">settings</a></li>
-                                <li><a href="@Url.Action("Bookmark", "User")">bookmarks</a></li>
-                                <li><a href="@Url.Action("Message", "User")">message</a></li>
-                                <li><a href="@Url.Action("Notification", "User")">notification</a></li>
-                                <li><a href="@Url.Action("Login", "Dashboard")">logout</a></li>
+                                <li><a asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
+                                <li><a asp-controller="User" asp-action="Profile">Profile</a></li>
+                                <li><a asp-controller="User" asp-action="PostAd">Ad Post</a></li>
+                                <li><a asp-controller="User" asp-action="MyAds">my ads</a></li>
+                                <li><a asp-controller="User" class="active" asp-action="Settings">settings</a></li>
+                                <li><a asp-controller="User" asp-action="Bookmark">bookmarks</a></li>
+                                <li><a asp-controller="User" asp-action="Message">message</a></li>
+                                <li><a asp-controller="User" asp-action="Notification">notification</a></li>
+                                <li><a asp-controller="Dashboard" asp-action="Logout">logout</a></li>
                             </ul>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                     <div class="account-card alert fade show">
                         <div class="account-title">
                             <h3>Edit Profile</h3>
-                            <button data-dismiss="alert">close</button>
+                            <button data-toggle="modal" data-target="#updatePasswordModal" style="cursor: pointer; width: 150px">Update Password</button>
                         </div>
                         <form id="SettingsForm" class="setting-form" asp-action="UpdateUser" asp-controller="User" method="post" enctype="multipart/form-data">
                             <div class="row">
@@ -286,11 +286,62 @@
             </div>
         </div>
     </div>
-    <div id="loadingOverlay" class="d-none">
+
+    <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updatePasswordModalLabel">Update Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <!-- Email Input Section -->
+                        <div id="passwordResetSection">
+                            <div class="form-group" style="display: none;">
+                                <label for="updatePwdUsername">Enter your Username:</label>
+                                <input type="text" id="updatePwdUsername" name="updatePwdUsername" value="@ViewBag.UserName"
+                                       class="form-control" placeholder="Enter Phone Number or Email" />
+                                <small id="updatePwdUsernameError" style="display:none;" class="text-danger">
+                                    Username does not exist
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="CurrentPassword">Enter Current Password:</label>
+                                <input type="password" name="CurrentUpdatePassword" id="CurrentUpdatePassword" class="form-control" placeholder="Current Password" />
+                                <div id="toggle_currpswd" class="form-icon mt-4" onclick="fn_toggle_pswd('CurrentUpdatePassword','toggle_currpswd');"><i class="eye fas fa-eye-slash"></i></div>
+                                <small id="currentUpdatePwdError" style="display: none; color: red"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="NewPassword">New Password:</label>
+                                <input type="password" name="NewUpdatePassword" id="NewUpdatePassword" class="form-control" placeholder="New Password" />
+                                <div id="toggle_newpswd" class="form-icon mt-4" onclick="fn_toggle_pswd('NewUpdatePassword','toggle_newpswd');"><i class="eye fas fa-eye-slash"></i></div>
+                                <small id="newUpdatePwdError" style="display: none; color: red"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="ConfirmPassword">Confirm Password:</label>
+                                <input type="password" name="ConfirmUpdatePassword" id="ConfirmUpdatePassword" class="form-control" placeholder="Confirm New Password" />
+                                <div id="toggle_confpswd" class="form-icon mt-4" onclick="fn_toggle_pswd('ConfirmUpdatePassword','toggle_confpswd');"><i class="eye fas fa-eye-slash"></i></div>
+                                <small id="confirmUpdatePwdError" style="display: none; color: red"></small>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success" id="resetPasswordButton" onclick="updatePassword()">Reset Password</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="spinner" class="d-none">
         <img style="height: 100px" src="~/images/spinner.gif" />
     </div>
     <div id="toast" class="d-none"></div>
 </body>
+
 <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
 <script src="~/js/vendor/popper.min.js"></script>
 <script src="~/js/vendor/bootstrap.min.js"></script>
@@ -557,5 +608,114 @@
             }
         });
     });
+
+    // function verifyUsername() {
+    //     var spinner = document.getElementById('spinner');
+    //     var username = $('#updatePwdUsername').val();
+    //     spinner.classList.remove('d-none');
+    //     $.ajax({
+    //             url: '@Url.Action("verifyUserName", "Dashboard")',
+    //             type: 'POST',
+    //             data: { userName: username }, // Convert email to JSON
+    //             success: function (response) {
+
+    //                 spinner.classList.add('d-none');
+
+    //                 if (response.isExist) {
+
+
+    //                 } else {
+    //                         $('#updatePwdUsernameError').show();
+    //                 }
+    //             },
+    //             error: function () {
+    //                 spinner.classList.add('d-none');
+    //             }
+    //     });
+    // }
+
+    function fn_toggle_pswd(id) {
+        if ($("#"+id).attr('type') === 'password')
+            $("#"+id).attr('type', 'text');
+        else if ($("#" + id).attr('type') === 'text')
+        $("#" + id).attr('type', 'password');
+        $("#" + id).focus();
+
+    }
+
+    function updatePassword() {
+        var spinner = document.getElementById('spinner');
+        var currentPassword = $('#CurrentUpdatePassword').val();
+        var currentUpdatePwdError = $('#currentUpdatePwdError')
+        var username = $('#updatePwdUsername').val();
+        var newPassword = $("#NewUpdatePassword").val();
+        var confirmPassword = $('#ConfirmUpdatePassword').val();
+        var newPasswordError = $('#newUpdatePwdError');
+        var confirmPasswordError = $('#confirmUpdatePwdError');
+        var username = $('#updatePwdUsername').val();
+        var usernameError = $('#updatePwdUsernameError')
+        var userId = 0;
+
+        if ($('#updatePwdUsername').val() == "") {
+            usernameError.text("Username does not exist")
+            usernameError.show();
+        }
+
+        if ($('#CurrentUpdatePassword').val() == "") {
+            $('#currentUpdatePwdError').text("Please enter your current password");
+            $('#currentUpdatePwdError').show();
+        }
+        else if ($('#CurrentUpdatePassword').val() != "") {
+            spinner.classList.remove('d-none');
+            $.ajax({
+                url: '@Url.Action("ValidateUpdatePassword", "Dashboard")',
+                type: 'GET',
+                data: {userName: username, password: currentPassword},
+                success: function (response) {
+                    if (response.statusCode != 200) {
+                        currentUpdatePwdError.text("Current Password is incorrect");
+                        $('#currentUpdatePwdError').show();
+                    }
+                    else {
+                        userId = response.userId;
+                        if (newPassword === "") {
+                            $('#newUpdatePwdError').text("Please enter your new password");
+                            newPasswordError.show();
+                        }
+                        else if (newPassword.length < 6) {
+                            $('#newUpdatePwdError').text("Password length should be at least 6 characters");
+                            newPasswordError.show();
+                        }
+                        else if (confirmPassword === "") {
+                            confirmPasswordError.text("Please confirm your password");
+                            confirmPasswordError.show();
+                        }
+                        else if (confirmPassword !== newPassword) {
+                            confirmPasswordError.text("Passwords did not match");
+                            confirmPasswordError.show();
+                        } else {
+                            spinner.classList.remove('d-none');
+                            $.ajax({
+                                url: '@Url.Action("UpdatePassword", "Dashboard")',
+                                type: 'POST',
+                                data: {userId: userId, newPassword: newPassword},
+                                success: function (response) {
+                                    if (response.message.includes("Success")) {
+                                        alert("Password is updated successfully");
+                                        //$('#updatePasswordModal').modal('hide');
+                                        window.location.href = '@Url.Action("Settings", "User")';
+                                    }
+                                    else {
+                                        alert("Unable to update password at this time");
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    spinner.classList.add('d-none');
+                }
+            });
+        }
+    }
 </script>
 </html>

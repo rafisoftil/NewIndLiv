@@ -75,7 +75,7 @@
                             @* <small class="form-alert">Password must be 6 characters</small> *@
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="signin-check">
@@ -83,14 +83,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <a class="form-forgot" data-toggle="modal" data-target="#updatePasswordModal" style="cursor: pointer">
-                                    Update Password?
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <div class="form-group text-end">
                                 <a class="form-forgot" data-toggle="modal" data-target="#forgotPasswordModal" style="cursor: pointer">
                                     Forgot Password?
@@ -179,56 +172,6 @@
             <img style="height: 100px" src="~/images/spinner.gif" />
         </div>
     </section>
-    
-    <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updatePasswordModalLabel">Update Password</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <!-- Email Input Section -->
-                        <div id="passwordResetSection">
-                            <div class="form-group">
-                                <label for="updatePwdUsername">Enter your Username:</label>
-                                <input type="text" id="updatePwdUsername" name="updatePwdUsername" onchange="verifyUsername()"
-                                       class="form-control" placeholder="Enter Phone Number or Email" />
-                                <small id="updatePwdUsernameError" style="display:none;" class="text-danger">
-                                    Username does not exist
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="CurrentPassword">Enter Current Password:</label>
-                                <input type="password" name="CurrentUpdatePassword" id="CurrentUpdatePassword" class="form-control" placeholder="Current Password" />
-                                <div id="toggle_currpswd" class="form-icon mt-4" onclick="fn_toggle_pswd('CurrentUpdatePassword','toggle_currpswd');"><i class="eye fas fa-eye-slash"></i></div>
-                                <small id="currentUpdatePwdError" style="display: none; color: red"></small>
-                            </div>
-                            <div class="form-group">
-                                <label for="NewPassword">New Password:</label>
-                                <input type="password" name="NewUpdatePassword" id="NewUpdatePassword" class="form-control" placeholder="New Password" />
-                                <div id="toggle_newpswd" class="form-icon mt-4" onclick="fn_toggle_pswd('NewUpdatePassword','toggle_newpswd');"><i class="eye fas fa-eye-slash"></i></div>
-                                <small id="newUpdatePwdError" style="display: none; color: red"></small>
-                            </div>
-                            <div class="form-group">
-                                <label for="ConfirmPassword">Confirm Password:</label>
-                                <input type="password" name="ConfirmUpdatePassword" id="ConfirmUpdatePassword" class="form-control" placeholder="Confirm New Password" />
-                                <div id="toggle_confpswd" class="form-icon mt-4" onclick="fn_toggle_pswd('ConfirmUpdatePassword','toggle_confpswd');"><i class="eye fas fa-eye-slash"></i></div>
-                                <small id="confirmUpdatePwdError" style="display: none; color: red"></small>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success" id="resetPasswordButton" onclick="updatePassword()">Reset Password</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -464,79 +407,6 @@
 
             });
         }
-        }
-    }
-
-    function updatePassword() {
-        var currentPassword = $('#CurrentUpdatePassword').val();
-        var currentUpdatePwdError = $('#currentUpdatePwdError')
-        var username = $('#updatePwdUsername').val();
-        var newPassword = $("#NewUpdatePassword").val();
-        var confirmPassword = $('#ConfirmUpdatePassword').val();
-        var newPasswordError = $('#newUpdatePwdError');
-        var confirmPasswordError = $('#confirmUpdatePwdError');
-        var username = $('#updatePwdUsername').val();
-        var usernameError = $('#updatePwdUsernameError')
-        var userId = 0;
-        
-        if ($('#updatePwdUsername').val() == "") {
-            usernameError.text("Username does not exist")
-            usernameError.show();
-        }
-
-        if ($('#CurrentUpdatePassword').val() == "") {
-            $('#currentUpdatePwdError').text("Please enter your current password");
-            $('#currentUpdatePwdError').show();
-        }
-        else if ($('#CurrentUpdatePassword').val() != "") {
-            spinner.classList.remove('d-none');
-            $.ajax({
-                url: '@Url.Action("ValidateUpdatePassword", "Dashboard")',
-                type: 'GET',
-                data: {userName: username, password: currentPassword},
-                success: function (response) {
-                    if (response.statusCode != 200) {
-                        currentUpdatePwdError.text("Current Password is incorrect");
-                        $('#currentUpdatePwdError').show(); 
-                    }
-                    else {
-                        userId = response.userId;
-                        if (newPassword === "") {
-                            $('#newUpdatePwdError').text("Please enter your new password");
-                            newPasswordError.show();
-                        }
-                        else if (newPassword.length < 6) {
-                            $('#newUpdatePwdError').text("Password length should be at least 6 characters");
-                            newPasswordError.show();
-                        }
-                        else if (confirmPassword === "") {
-                            confirmPasswordError.text("Please confirm your password");
-                            confirmPasswordError.show();
-                        }
-                        else if (confirmPassword !== newPassword) {
-                            confirmPasswordError.text("Passwords did not match");
-                            confirmPasswordError.show();
-                        } else {
-                            spinner.classList.remove('d-none');
-                            $.ajax({
-                                url: '@Url.Action("UpdatePassword", "Dashboard")',
-                                type: 'POST',
-                                data: {userId: userId, newPassword: newPassword},
-                                success: function (response) {
-                                    if (response.message.includes("Success")) {
-                                        alert("Password is updated successfully");
-                                        window.location.href = '@Url.Action("Login", "Dashboard")';
-                                    }
-                                    else {
-                                        alert("Unable to update password at this time");
-                                    }
-                                }
-                            });
-                        }
-                    }
-                    spinner.classList.add('d-none');
-                }
-            });
         }
     }
 
