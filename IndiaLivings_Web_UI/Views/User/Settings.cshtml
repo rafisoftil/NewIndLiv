@@ -354,9 +354,9 @@
         // Submit if valid
         if (isValid) {
             let formData = new FormData($('#SettingsForm')[0]);
-            formData.append("txt_Country", $('#countryDropdown option:selected').text());
-            formData.append("txt_state", $('#statesDropdown option:selected').text());
-            formData.append("txt_city", $('#citiesDropdown option:selected').text());
+            formData.append("txt_Country", $('#countryDropdown option:selected').text() === "Please select your country" ? "" : $('#countryDropdown option:selected').text());
+            formData.append("txt_state", $('#statesDropdown option:selected').text() === "Select your state" ? "" : $('#statesDropdown option:selected').text());
+            formData.append("txt_city", $('#citiesDropdown option:selected').text() === "Select your City" ? "" : $('#citiesDropdown option:selected').text());
             spinner.classList.remove('d-none');
             $.ajax({
                 url: $('#SettingsForm').attr('action'),

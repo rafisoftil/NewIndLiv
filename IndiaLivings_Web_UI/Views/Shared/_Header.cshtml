@@ -82,7 +82,7 @@
         var selectedCity = $('#cityDropdown option:selected').text();
         var selectedState = $('#stateDropdown option:selected').text();
 
-        var city = (selectedCity === "Select a City") ? "" : selectedCity;
+        var city = (selectedCity === "Select a City" || selectedCity === "Select a State for Cities") ? "" : selectedCity;
         var state = (selectedState === "Select a State") ? "" : selectedState;
         var minPrice = $('#minPrice').val();
         var maxPrice = $('#maxPrice').val();
