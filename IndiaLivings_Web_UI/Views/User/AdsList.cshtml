@@ -694,6 +694,23 @@
 =======================================-->
 
 <script type="text/javascript">
+    function AddToWishlist(button, productID, createdBy) {
+        var isInWishlist = button.classList.contains("fas");
+        $.ajax({
+            url: '/User/UpdateBookmarks',
+            type: 'POST',
+            data: { productID: productID, createdBy: createdBy, status: isInWishlist ? 0 : 1 },
+            success: function (response) {
+                if (response.statusCode != 200) {
+                    alert('Error in processing request.');
+                }
+            },
+            error: function () {
+                alert('Error in processing request.');
+            }
+        });
+    }
+
 
     var selectedCities = [];
     var selectedAdTypes = [];
