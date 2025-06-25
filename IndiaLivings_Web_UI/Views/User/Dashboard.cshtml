@@ -1,4 +1,5 @@
-﻿@{
+﻿@model MembershipViewModel
+@{
     ViewBag.Title = "Dashboard";
 }
 <!DOCTYPE html>
@@ -227,10 +228,10 @@
                             <button data-dismiss="alert">close</button>
                         </div>
                         <ul class="account-card-list">
-                            <li><h5>Status</h5><p>Premium</p></li>
-                            <li><h5>Joined</h5><p>February 02, 2021</p></li>
-                            <li><h5>Spent</h5><p>4,587</p></li>
-                            <li><h5>Earn</h5><p>97,325</p></li>
+                            <li><h5>Status</h5><p>@(Model.IsActive ? "Active" : "InActive")</p></li>
+                            <li><h5>Joined</h5><p>@Model.CreatedDate</p></li>
+                            <li><h5>Plan</h5><p>@Model.strMembershipName</p></li>
+                            <li><h5>Ads Limit</h5><p>@Model.intMembershipAdListing</p></li>
                         </ul>
                     </div>
                     <div class="account-card alert fade show">

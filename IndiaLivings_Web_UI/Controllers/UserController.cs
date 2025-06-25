@@ -28,7 +28,9 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.BookingAds = products.Where(p => p.productAdCategory.Equals("Booking")).ToList().Count();
             ViewBag.SalesAds = products.Where(p => p.productAdCategory.Equals("Sale")).ToList().Count();
             ViewBag.RentalAds = products.Where(p => p.productAdCategory.Equals("Rent")).ToList().Count();
-            return View();
+            MembershipViewModel membershipModel = new MembershipViewModel();
+            MembershipViewModel membership = membershipModel.GetMembershipDetails(70)[0];
+            return View(membership);
         }
         public IActionResult PostAd()
         {
@@ -450,7 +452,7 @@ namespace IndiaLivings_Web_UI.Controllers
             UserViewModel UVM = new UserViewModel();
             UVM.userID = HttpContext.Session.GetInt32("UserId") ?? 0;
             UVM.username = HttpContext.Session.GetString("userName");
-            UVM.password = FormData["txt_password"];
+            UVM.password = "";
             UVM.userFirstName = string.IsNullOrEmpty(FormData["txt_firstname"]) ? "" : FormData["txt_firstname"];
             UVM.userMiddleName = string.IsNullOrEmpty(FormData["txt_middlename"]) ? "" : FormData["txt_middlename"];
             UVM.userLastName = string.IsNullOrEmpty(FormData["txt_lastname"]) ? "" : FormData["txt_lastname"];
