@@ -101,12 +101,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4" style="flex: 1;">
-                                        <div class="form-group">
-                                            <label class="form-label">password</label>
-                                            <input type="text" id="txt_password" name="txt_password" class="form-control" placeholder="Type password" value="@Model[0].password">
-                                        </div>
-                                    </div>
 
 
                                     <div class="col-lg-12">
@@ -186,57 +180,6 @@
                                     </div>
 
                                     <div class="col-lg-12"><hr></div> <div class="row mb-4">
-                                        @* <div class="col-lg-6">
-                                            <h4>Billing Address</h4>
-                                             
-                                            <div class="form-group">
-                                                <label class="form-label">City</label>
-                                            <input type="text" id="billing_city" name="txt_b_city" class="form-control" placeholder="Type City" value="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">State</label>
-                                            <input type="text" id="billing_state" name="txt_b_state" class="form-control" placeholder="Select State" value="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Postal Code</label>
-                                            <input type="text" id="billing_postcode" name="txt_b_postcode" class="form-control" placeholder="Type Post Code" value="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Country</label>
-                                            <input type="text" id="billing_country" name="txt_b_country" class="form-control" placeholder="Select Country" value="">
-                                            </div>
-
-                                            <div class="form-group"> 
-                                                <div class="form-check">
-
-                                                <input class="form-check-input" type="radio" name="shippingAddressOption" id="shippingSameAsBilling" value="true" onchange="toggleShippingFields()" >
-                                                    <label class="form-check-label" for="shippingSameAsBilling">
-                                                       Is billing address same as shipping address
-                                                    </label>
-                                                </div>
-                                            </div>
-                                      </div>
-                                        <div class="col-lg-6">
-                                            <h4>Shipping Address</h4>
-                                            <div class="form-group">
-                                                <label class="form-label">City</label>
-                                            <input type="text" id="shipping_city" name="txt_s_city" class="form-control" placeholder="Type City" value="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">State</label>
-                                            <input type="text" id="shipping_state" name="txt_s_state" class="form-control" placeholder="Select State" value="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Post Code</label>
-                                            <input type="text" id="shipping_postcode" name="txt_s_postcode" class="form-control" placeholder="Type Post Code" value="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Country</label>
-                                            <input type="text" id="shipping_country" name="txt_s_country" class="form-control" placeholder="Select Country" value="">
-                                            </div>
-                                        </div> *@
-
-
                                         <div class="col-lg-12">
                                             <button type="button" id="btnUpdateProfile" class="btn btn-inline">
                                                 <i class="fas fa-user-check"></i>
@@ -379,34 +322,22 @@
     });
 
     function validate(e) {
+        var spinner = document.getElementById('spinner');
         e.preventDefault(); // Prevent default form submission
 
         var isValid = true;
 
         var profileImg = $('#txt_profile_img');
         var profileImgErr = $('#profileImgErr');
-        var password = $('#txt_password');
         var phone = $('#txt_phone');
 
         // Reset errors
         profileImgErr.addClass('d-none').text('');
-        password.removeClass('is-invalid');
         $('#passwordErr').remove();
 
         // Image Validation
         if (profileImg[0].files.length != 0 && profileImg[0].files[0].size > 2 * 1024 * 1024) {
             profileImgErr.removeClass('d-none').text('Image size should be less than 2 MB');
-            isValid = false;
-        }
-
-        // Password Validation
-        if (password.val().trim() === '') {
-            password.addClass('is-invalid');
-            password.after('<small id="passwordErr" class="text-danger">Please enter password</small>');
-            isValid = false;
-        } else if (password.val().length < 6) {
-            password.addClass('is-invalid');
-            password.after('<small id="passwordErr" class="text-danger">Password should be at least 6 characters</small>');
             isValid = false;
         }
 
@@ -423,9 +354,9 @@
         // Submit if valid
         if (isValid) {
             let formData = new FormData($('#SettingsForm')[0]);
-            formData.append("txt_Country", $('#countryDropdown option:selected').text());
-            formData.append("txt_state", $('#stateDropdown option:selected').text());
-            formData.append("txt_city", $('#cityDropdown option:selected').text());
+            formData.append("txt_Country", $('#countryDropdown option:selected').text() === "Please select your country" ? "" : $('#countryDropdown option:selected').text());
+            formData.append("txt_state", $('#statesDropdown option:selected').text() === "Select your state" ? "" : $('#statesDropdown option:selected').text());
+            formData.append("txt_city", $('#citiesDropdown option:selected').text() === "Select your City" ? "" : $('#citiesDropdown option:selected').text());
             spinner.classList.remove('d-none');
             $.ajax({
                 url: $('#SettingsForm').attr('action'),

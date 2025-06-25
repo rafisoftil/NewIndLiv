@@ -196,11 +196,20 @@
     });
 
     function changeAddress(type) {
-        const selectedCountryId = $('#countryDropdown option:selected').text();
-        const selectedStateId = $('#stateDropdown option:selected').text();
-        const selectedCityId = $('#cityDropdown option:selected').text();
-        const selectedPin = $('#pinCode').val();
-        const houseNo = $('#houseNo').val();
+        var selectedCountryId = $('#countriesDropdown option:selected').text();
+        var selectedStateId = $('#statesDropdown option:selected').text();
+        var selectedCityId = $('#citiesDropdown option:selected').text();
+        var selectedPin = $('#pinCode').val();
+        var houseNo = $('#houseNo').val();
+        if (selectedCountryId == "Please select your country"){
+            selectedCountryId = "";
+        }
+        if (selectedStateId == "Select your state"){
+            selectedStateId = "";
+        }
+        if (selectedCityId == "Select your City"){
+            selectedCityId = "";
+        }
         const spinner = document.getElementById('spinner');
         $('#editBillingModal').hide();
         $('.modal-backdrop').remove();

@@ -561,11 +561,8 @@ namespace IndiaLivings_Web_UI.Controllers
         }
         public IActionResult Logout()
         {
-            HttpContext.Session.SetObject("UserDetails", "");
-            HttpContext.Session.Remove("userName");
-            HttpContext.Session.Remove("userId");
-            HttpContext.Session.Remove("Role");
-            //HttpContext.Session.Remove("userName");
+            HttpContext.Session.Clear();
+            //Response.Cookies.Delete(".AspNetCore.Session");
             return RedirectToAction("Login");
         }
     }
