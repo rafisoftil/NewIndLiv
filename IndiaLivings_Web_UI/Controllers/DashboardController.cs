@@ -19,12 +19,15 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> productsList = product.GetAds(0);
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
             int wishlistCount = product.GetwishlistCount(productOwnerID);
+            SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+            List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
 
             HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
 
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
             data.Products = productsList;
+            data.Cities = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x=>x.totalCount).ToList();
             return View(data);
         }
 
