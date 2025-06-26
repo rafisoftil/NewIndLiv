@@ -52,10 +52,14 @@ namespace IndiaLivings_Web_UI.Controllers
             try
             {
                 isRegistered = user.RegisterUser(user);
-                JsonData = new
+                if (isRegistered)
                 {
-                    StatusCode = 200
-                };
+                    JsonData = new
+                    {
+                        StatusCode = 200
+                    };
+                }
+
             }
             catch (Exception ex)
             {
@@ -175,11 +179,11 @@ namespace IndiaLivings_Web_UI.Controllers
 
             //string resetLink = $"{Request.Scheme}://{Request.Host}/Dashboard/ForgotPassword/{userid}";
             PasswordResetViewModel passwordReset = new PasswordResetViewModel();
-            UserViewModel user = new UserViewModel(); 
+            UserViewModel user = new UserViewModel();
             string message = string.Empty;
             try
             {
-                
+
                 List<UserViewModel> userInfo = user.GetUsersInfo(email);
                 int userid = userInfo[0].userID;
                 string username = userInfo[0].username;
@@ -187,7 +191,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 DateTime expirationtime = DateTime.Now.AddMinutes(30);
                 string formattedExpirationTime = expirationtime.ToString("yyyy-MM-dd HH:mm:ss");
                 string response = passwordReset.AddPasswordReset(userid, username, token, formattedExpirationTime, username);
-               
+
                 if (response.Contains("Record inserted"))
                 {
                     string resetLink = Url.Action("ForgotPassword", "Dashboard", new { token = token }, Request.Scheme);
@@ -300,7 +304,7 @@ namespace IndiaLivings_Web_UI.Controllers
             List<UserViewModel> userList = new List<UserViewModel>();
             userList = user.UsersList();
             MembershipViewModel membModel = new MembershipViewModel();
-            int userId = HttpContext.Session.GetInt32("UserId")?? 0;
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<MembershipViewModel> memDetails = membModel.GetMembershipDetails(userId);
             return View(userList.ToList());
         }

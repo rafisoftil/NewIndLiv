@@ -148,7 +148,7 @@
                                     <label class="custom-control-label" for="signup-check">I agree to the all <a href="#">terms & conditions</a> of IndiaLivings.</label> 
                                 </div>
                                 <small id="checkboxError" class="text-danger" style="display:none;">
-                                    Please tick the checkbox
+                                    Please select the checkbox
                                 </small>
                             </div>
                         </div>
@@ -516,12 +516,16 @@
                 },
                 success: function (response) {
                     if (response.statusCode == 200) {
-                        showToast('Registration completed Successfully. Please login for further actions', 'success');
+                        //showToast('Registration completed Successfully', 'success');
+                        $("#userName").val($("#userSignUp").val())
+                        $("#password").val($("#passwordSignUp").val())
+                        Validate_User();
+                        //$("#spinner").addClass('d-none');
                     }
                     else {
                         showToast('Something went wrong. Please contact your Administrator', 'error');
-                    }
-                    $("#spinner").addClass('d-none');
+                        $("#spinner").addClass('d-none');
+                    }                    
                 },
                 error: function (error) {
                     $("#spinner").addClass('d-none');
