@@ -24,7 +24,7 @@
                 {
                     <a href="@Url.Action("AdsList", "User", new { categoryid = category.CategoryID })" class="suggest-card">
 
-                        <img class="slide-show" src=@category.CategoryImage alt="@category.CategoryName">
+                        <img class="slide-show" src=@category.CategoryImage alt="@category.CategoryName" onerror="this.onerror=null; this.src='/images/default-category.jpg';" />
                         <h6>@category.CategoryName</h6>
                         <p>@("(" + category.CategoryCount + ") ads")</p>
                     </a>
