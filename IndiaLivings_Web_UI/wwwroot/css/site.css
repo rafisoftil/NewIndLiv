@@ -994,3 +994,13 @@ body {
     border-radius: 50%;
     object-fit: cover;
 }
+
+.fa-star {
+    font-size: 24px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+    .fa-star.selected {
+        color: gold;
+    }

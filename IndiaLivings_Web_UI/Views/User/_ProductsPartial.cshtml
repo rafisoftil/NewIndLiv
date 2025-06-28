@@ -1,9 +1,13 @@
 ﻿@model List<ProductViewModel>
 <style>
     .product-card:hover {
-        transform: scale(1.1);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        z-index: 2;
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    z-index: 2;
+    }
+
+    .rating-size:hover {
+    transform: scale(1.5);
     }
 </style>
 @{
@@ -22,8 +26,8 @@
             <div class="product-media">
                 <div class="product-img">
                     <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                         onerror="this.onerror=null; this.src='/images/white-screen.jpg';"
-                         alt="@product.productImageName" width="288" height="205" />
+                    onerror="this.onerror=null; this.src='/images/white-screen.jpg';"
+                    alt="@product.productImageName" width="288" height="205" />
                 </div>
                 <div class="cross-vertical-badge product-badge">
                     <i class="fas fa-clipboard-check"></i>
@@ -56,11 +60,11 @@
                     <div class="product-btn">
                         @* <a href="compare.html" title="Compare" class="fas fa-compress"></a> *@
                         <a href='#' class='fas fa-compress'
-                           data-toggle='modal' data-target='#productDetailsModal'
-                           onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
+                        data-toggle='modal' data-target='#productDetailsModal'
+                        onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
                         </a>
                         <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
-                                onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
+                        onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
                     </div>
                 </div>
             </div>
@@ -162,6 +166,22 @@
                             </li> *@
                         </ul>
                     </div>
+                    @{
+                        var isUserLoggedIn = !string.IsNullOrEmpty(Context.Session.GetString("userName"));
+                    }
+                    <div class="@(isUserLoggedIn ? "" : "d-none")">
+                        <div class="card-header">
+                            <h5 class="card-title">Submit your Rating</h5>
+                        </div>
+                        <div id="starRating" class="star-rating" data-selected="0">
+                            <span class="fa fa-star rating-size" data-value="5" onclick="selectRating(this)"></span>
+                            <span class="fa fa-star rating-size" data-value="4" onclick="selectRating(this)"></span>
+                            <span class="fa fa-star rating-size" data-value="3" onclick="selectRating(this)"></span>
+                            <span class="fa fa-star rating-size" data-value="2" onclick="selectRating(this)"></span>
+                            <span class="fa fa-star rating-size" data-value="1" onclick="selectRating(this)"></span>
+                        </div>
+                        <input type="hidden" id="selectedRating" name="Rating" value="0" />
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -233,6 +253,15 @@
     renderPagination();
 
     function populateModal(product) {
+        const starRating = document.getElementById('starRating');
+        starRating.setAttribute('data-selected', '0');
+
+        const stars = starRating.querySelectorAll('.fa-star');
+        stars.forEach(star => {
+            star.classList.remove('selected');
+        });
+
+        document.getElementById('selectedRating').value  = "0";
         if (typeof product === "string") {
             product = JSON.parse(product);
         }
@@ -245,6 +274,7 @@
         var reviewStatus = product.productAdminReviewStatus;
 
         $('#productId-modal').attr('data-product-id', product.productId);
+        $('#productId-modal').val(product.productId);
         $('#productName-modal').text(product.productName);
         $('#productCategory-modal').text(product.productCategoryName);
         $('#productQuantity-modal').text(product.productQuantity);
@@ -277,6 +307,41 @@
             error: function () {
                 alert('Failed to load products.');
             }
+        });
+    }
+
+    function selectRating(elem) {
+        const value = parseInt($(elem).data("value"));
+        $("#selectedRating").val(value);
+        var rating = $("#selectedRating").val();
+        $(elem).siblings().addClass("selected");
+        $(elem).addClass("selected");
+        $(elem).prevAll().removeClass("selected");
+        submitRating(rating);
+        // $('#productDetailsModal').Modal('hide');
+        // $(elem).siblings().removeClass("selected");
+        // $(elem).removeClass("selected");
+    }
+
+    function submitRating(rating) {
+        const productId = $('#productId-modal').val();
+        $.ajax({
+            url: '/User/AddRating',
+            type: 'POST',
+            data: { productId: productId, rating: rating },
+            success: function (response) {
+                if (response.status.includes("added")){
+                    ShowToast("success", "Rating added successfully");
+                } else {
+                    ShowToast("failed", "An Error occured");
+                }
+                // $("#selectedRating").val(0);
+                // $(".star-rating .fa-star").removeClass("selected");
+            },
+            error: function () {
+                alert("Error submitting rating.");
+            }
+
         });
     }
 </script>

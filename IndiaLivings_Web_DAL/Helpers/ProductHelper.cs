@@ -244,5 +244,18 @@ namespace IndiaLivings_Web_DAL.Helpers
             return filterDetails;
         }
 
+        public string AddRating(int productId, int userId, int rating, string createdBy)
+        {
+            var response = "added";
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/AddProductRating?productId={productId}&userId={userId}&rating={rating}&createdBy={createdBy}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }
