@@ -1,13 +1,13 @@
 ﻿@model List<ProductViewModel>
 <style>
     .product-card:hover {
-        transform: scale(1.1);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        z-index: 2;
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    z-index: 2;
     }
 
     .rating-size:hover {
-        transform: scale(1.5);
+    transform: scale(1.5);
     }
 </style>
 @{
@@ -26,8 +26,8 @@
             <div class="product-media">
                 <div class="product-img">
                     <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                         onerror="this.onerror=null; this.src='/images/white-screen.jpg';"
-                         alt="@product.productImageName" width="288" height="205" />
+                    onerror="this.onerror=null; this.src='/images/white-screen.jpg';"
+                    alt="@product.productImageName" width="288" height="205" />
                 </div>
                 <div class="cross-vertical-badge product-badge">
                     <i class="fas fa-clipboard-check"></i>
@@ -60,11 +60,11 @@
                     <div class="product-btn">
                         @* <a href="compare.html" title="Compare" class="fas fa-compress"></a> *@
                         <a href='#' class='fas fa-compress'
-                           data-toggle='modal' data-target='#productDetailsModal'
-                           onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
+                        data-toggle='modal' data-target='#productDetailsModal'
+                        onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
                         </a>
                         <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
-                                onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
+                        onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
                     </div>
                 </div>
             </div>
@@ -166,7 +166,10 @@
                             </li> *@
                         </ul>
                     </div>
-                    <div>
+                    @{
+                        var isUserLoggedIn = !string.IsNullOrEmpty(Context.Session.GetString("userName"));
+                    }
+                    <div class="@(isUserLoggedIn ? "" : "d-none")">
                         <div class="card-header">
                             <h5 class="card-title">Submit your Rating</h5>
                         </div>
