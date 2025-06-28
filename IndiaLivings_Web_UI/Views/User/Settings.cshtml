@@ -245,7 +245,7 @@
                         <div id="passwordResetSection">
                             <div class="form-group" style="display: none;">
                                 <label for="updatePwdUsername">Enter your Username:</label>
-                                <input type="text" id="updatePwdUsername" name="updatePwdUsername" value="@ViewBag.UserName"
+                                <input type="text" id="updatePwdUsername" name="updatePwdUsername" value="@Context.Session.GetString("userName")"
                                        class="form-control" placeholder="Enter Phone Number or Email" />
                                 <small id="updatePwdUsernameError" style="display:none;" class="text-danger">
                                     Username does not exist
@@ -583,7 +583,6 @@
         var confirmPassword = $('#ConfirmUpdatePassword').val();
         var newPasswordError = $('#newUpdatePwdError');
         var confirmPasswordError = $('#confirmUpdatePwdError');
-        var username = $('#updatePwdUsername').val();
         var usernameError = $('#updatePwdUsernameError')
         var userId = 0;
 
