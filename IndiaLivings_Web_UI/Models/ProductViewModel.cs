@@ -1,5 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 namespace IndiaLivings_Web_UI.Models
 {
@@ -362,6 +363,21 @@ namespace IndiaLivings_Web_UI.Models
             }
 
             return products;
+        }
+
+        public string AddRating(int productId, int userId, int rating, string createdBy)
+        {
+            ProductHelper PH = new ProductHelper();
+            string response = "Opeartion Failed";
+            try
+            {
+                response = PH.AddRating(productId, userId, rating, createdBy);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
     }
 }
