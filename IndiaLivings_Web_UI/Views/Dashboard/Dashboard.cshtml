@@ -24,7 +24,7 @@
                 {
                     <a href="@Url.Action("AdsList", "User", new { categoryid = category.CategoryID })" class="suggest-card">
 
-                        <img class="slide-show" src=@category.CategoryImage alt="@category.CategoryName">
+                        <img class="slide-show" src=@category.CategoryImage alt="@category.CategoryName" onerror="this.onerror=null; this.src='/images/default-category.jpg';" />
                         <h6>@category.CategoryName</h6>
                         <p>@("(" + category.CategoryCount + ") ads")</p>
                     </a>
@@ -777,150 +777,33 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <div class="category-card">
-                    <div class="category-head">
-                        <img src="images/category/electronics.jpg" alt="category">
-                        <a href="#" class="category-content">
-                            <h4>electronics</h4>
-                            <p>(3678)</p>
-                        </a>
+            @foreach (var category in Model.Categories)
+            {
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="category-card">
+                        <div class="category-head">
+                            <img src="@category.CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" />
+                            <a href="#" class="category-content">
+                                <h4>@category.CategoryName</h4>
+                                <p>(@category.CategoryCount)</p>
+                            </a>
+                        </div>
+                        @foreach (var subCategory in category.subCategories)
+                        {
+                            <ul class="category-list">
+                                <li><a href="#"><h6>@subCategory.subCatergoryName</h6><p>(@subCategory.intSubCategoryCount)</p></a></li>
+                            </ul>
+                        }
+                        @* <ul class="category-list">
+                            <li><a href="#"><h6>television</h6><p>(34)</p></a></li>
+                            <li><a href="#"><h6>Generetor</h6><p>(24)</p></a></li>
+                            <li><a href="#"><h6>Washing machine</h6><p>(12)</p></a></li>
+                            <li><a href="#"><h6>air condition</h6><p>(19)</p></a></li>
+                            <li><a href="#"><h6>iron</h6><p>(56)</p></a></li>
+                        </ul> *@
                     </div>
-                    <ul class="category-list">
-                        <li><a href="#"><h6>television</h6><p>(34)</p></a></li>
-                        <li><a href="#"><h6>Generetor</h6><p>(24)</p></a></li>
-                        <li><a href="#"><h6>Washing machine</h6><p>(12)</p></a></li>
-                        <li><a href="#"><h6>air condition</h6><p>(19)</p></a></li>
-                        <li><a href="#"><h6>iron</h6><p>(56)</p></a></li>
-                    </ul>
                 </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <div class="category-card">
-                    <div class="category-head">
-                        <img src="images/category/gadgets.jpg" alt="category">
-                        <a href="#" class="category-content">
-                            <h4>gadgets</h4>
-                            <p>(3678)</p>
-                        </a>
-                    </div>
-                    <ul class="category-list">
-                        <li><a href="#"><h6>computer</h6><p>(34)</p></a></li>
-                        <li><a href="#"><h6>mobile</h6><p>(24)</p></a></li>
-                        <li><a href="#"><h6>camera</h6><p>(12)</p></a></li>
-                        <li><a href="#"><h6>dron</h6><p>(19)</p></a></li>
-                        <li><a href="#"><h6>airphone</h6><p>(56)</p></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <div class="category-card">
-                    <div class="category-head">
-                        <img src="images/category/furnitures.jpg" alt="category">
-                        <a href="#" class="category-content">
-                            <h4>furnitures</h4>
-                            <p>(3678)</p>
-                        </a>
-                    </div>
-                    <ul class="category-list">
-                        <li><a href="#"><h6>dyning table</h6><p>(34)</p></a></li>
-                        <li><a href="#"><h6>chair</h6><p>(24)</p></a></li>
-                        <li><a href="#"><h6>sofa</h6><p>(12)</p></a></li>
-                        <li><a href="#"><h6>tea table</h6><p>(19)</p></a></li>
-                        <li><a href="#"><h6>dressing table</h6><p>(56)</p></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <div class="category-card">
-                    <div class="category-head">
-                        <img src="images/category/animals.jpg" alt="category">
-                        <a href="#" class="category-content">
-                            <h4>animals</h4>
-                            <p>(3678)</p>
-                        </a>
-                    </div>
-                    <ul class="category-list">
-                        <li><a href="#"><h6>dyning table</h6><p>(34)</p></a></li>
-                        <li><a href="#"><h6>chair</h6><p>(24)</p></a></li>
-                        <li><a href="#"><h6>sofa</h6><p>(12)</p></a></li>
-                        <li><a href="#"><h6>tea table</h6><p>(19)</p></a></li>
-                        <li><a href="#"><h6>dressing table</h6><p>(56)</p></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <div class="category-card">
-                    <div class="category-head">
-                        <img src="images/category/fashions.jpg" alt="category">
-                        <a href="#" class="category-content">
-                            <h4>fashions</h4>
-                            <p>(3678)</p>
-                        </a>
-                    </div>
-                    <ul class="category-list">
-                        <li><a href="#"><h6>jeans</h6><p>(34)</p></a></li>
-                        <li><a href="#"><h6>underware</h6><p>(24)</p></a></li>
-                        <li><a href="#"><h6>shirt</h6><p>(12)</p></a></li>
-                        <li><a href="#"><h6>jacket</h6><p>(19)</p></a></li>
-                        <li><a href="#"><h6>shorts</h6><p>(56)</p></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <div class="category-card">
-                    <div class="category-head">
-                        <img src="images/category/motorbikes.jpg" alt="category">
-                        <a href="#" class="category-content">
-                            <h4>motorbikes</h4>
-                            <p>(3678)</p>
-                        </a>
-                    </div>
-                    <ul class="category-list">
-                        <li><a href="#"><h6>dyning table</h6><p>(34)</p></a></li>
-                        <li><a href="#"><h6>chair</h6><p>(24)</p></a></li>
-                        <li><a href="#"><h6>sofa</h6><p>(12)</p></a></li>
-                        <li><a href="#"><h6>tea table</h6><p>(19)</p></a></li>
-                        <li><a href="#"><h6>dressing table</h6><p>(56)</p></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <div class="category-card">
-                    <div class="category-head">
-                        <img src="images/category/properties.jpg" alt="category">
-                        <a href="#" class="category-content">
-                            <h4>properties</h4>
-                            <p>(3678)</p>
-                        </a>
-                    </div>
-                    <ul class="category-list">
-                        <li><a href="#"><h6>dyning table</h6><p>(34)</p></a></li>
-                        <li><a href="#"><h6>chair</h6><p>(24)</p></a></li>
-                        <li><a href="#"><h6>sofa</h6><p>(12)</p></a></li>
-                        <li><a href="#"><h6>tea table</h6><p>(19)</p></a></li>
-                        <li><a href="#"><h6>dressing table</h6><p>(56)</p></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <div class="category-card">
-                    <div class="category-head">
-                        <img src="images/category/automobiles.jpg" alt="category">
-                        <a href="#" class="category-content">
-                            <h4>automobiles</h4>
-                            <p>(3678)</p>
-                        </a>
-                    </div>
-                    <ul class="category-list">
-                        <li><a href="#"><h6>dyning table</h6><p>(34)</p></a></li>
-                        <li><a href="#"><h6>chair</h6><p>(24)</p></a></li>
-                        <li><a href="#"><h6>sofa</h6><p>(12)</p></a></li>
-                        <li><a href="#"><h6>tea table</h6><p>(19)</p></a></li>
-                        <li><a href="#"><h6>dressing table</h6><p>(56)</p></a></li>
-                    </ul>
-                </div>
-            </div>
+            }
         </div>
         <div class="row">
             <div class="col-lg-12">
