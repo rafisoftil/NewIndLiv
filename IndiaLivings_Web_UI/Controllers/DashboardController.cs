@@ -23,7 +23,12 @@ namespace IndiaLivings_Web_UI.Controllers
             List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
 
             HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
-
+            if (productOwnerID != 0)
+            {
+                List<ProductViewModel> products = product.GetAds(productOwnerID);
+                int productsCount = products.Count();
+                HttpContext.Session.SetInt32("listingAds", productsCount);
+            }
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
             data.Products = productsList;
