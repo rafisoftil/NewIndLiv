@@ -258,13 +258,15 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Users WishList Page
         /// </summary>
         /// <returns> List of all wishlists will be reurned</returns>
-        public IActionResult Bookmark()
+        public IActionResult Bookmark(int page = 1)
         {
             ProductViewModel productModel = new ProductViewModel();
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);
             int wishlistCount = productModel.GetwishlistCount(productOwner);
             HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
+            ViewBag.CurrentPage = page;
+            ViewBag.Count = wishlist.Count();
             return View(wishlist);
         }
 
