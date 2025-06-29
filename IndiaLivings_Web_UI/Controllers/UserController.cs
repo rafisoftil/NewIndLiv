@@ -4,6 +4,7 @@ using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.SqlServer.Server;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -296,11 +297,13 @@ namespace IndiaLivings_Web_UI.Controllers
         /// My Ads Page
         /// </summary>
         /// <returns> Ads created by User </returns>
-        public IActionResult MyAds()
+        public IActionResult MyAds(int page = 1)
         {
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(productOwner);
+            ViewBag.CurrentPage = page;
+            ViewBag.Count = products.Count();
             return View(products);
         }
 
