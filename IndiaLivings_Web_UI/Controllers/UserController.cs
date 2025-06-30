@@ -619,6 +619,21 @@ namespace IndiaLivings_Web_UI.Controllers
             string message = productViewModel.AddRating(productId, userId, rating, createdBy);
             return Json(new { status = message });
         }
+        /// <summary>
+        /// Product Details
+        /// </summary>
+        /// <returns>Products and its user details</returns>
+        public IActionResult ProductDetails(int productId, string username)
+        {
+            UserViewModel userViewModel = new UserViewModel();
+            ProductViewModel productViewModel = new ProductViewModel();
+            ProductViewModel product = productViewModel.GetProductById(productId)[0];
+            UserViewModel user = userViewModel.GetUsersInfo(username)[0];
+            dynamic data = new ExpandoObject();
+            data.Product = product;
+            data.User = user;
+            return View(data);
+        }
     }
 }
 

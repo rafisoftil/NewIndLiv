@@ -379,5 +379,48 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
+        public List<ProductViewModel> GetProductById(int productId)
+        {
+            List<ProductViewModel> products = new List<ProductViewModel>();
+            ProductHelper PH = new ProductHelper();
+            try
+            {
+                var productList = PH.GetProductById(productId);
+                if (productList != null)
+                {
+                    foreach (var productDetails in productList)
+                    {
+                        ProductViewModel product = new ProductViewModel();
+                        product.productId = productDetails.productId;
+                        product.productName = productDetails.productName;
+                        product.productAdCategory = productDetails.productAdCategory;
+                        product.productCategoryID = productDetails.productCategoryID;
+                        product.productCategoryName = productDetails.productCategoryName;
+                        product.productDescription = productDetails.productDescription;
+                        product.productSubCategoryName = productDetails.productSubCategoryName;
+                        product.productsubCategoryID = productDetails.productsubCategoryID;
+                        product.productQuantity = productDetails.productQuantity;
+                        product.productPrice = productDetails.productPrice;
+                        product.productAdminReviewStatus = productDetails.productAdminReviewStatus;
+                        product.productOwner = productDetails.productOwner;
+                        product.userContactCity = productDetails.userContactCity;
+                        product.IsActiveStatus = productDetails.IsActiveStatus;
+                        product.productAdminReview = productDetails.productAdminReview;
+                        product.productPriceCondition = productDetails.productPriceCondition;
+                        product.byteProductImageData = productDetails.byteProductImageData;
+                        product.createdDate = productDetails.createdDate;
+                        product.createdBy = productDetails.createdBy;
+                        products.Add(product);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+
+            return products;
+        }
     }
 }

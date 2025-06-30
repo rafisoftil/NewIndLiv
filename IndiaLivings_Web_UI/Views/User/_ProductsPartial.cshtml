@@ -58,7 +58,7 @@
                 <div class="product-info">
                     <h5 class="product-price">$@product.productPrice<span>/fixed</span></h5>
                     <div class="product-btn">
-                        @* <a href="compare.html" title="Compare" class="fas fa-compress"></a> *@
+                        <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Compare" class="fas fa-eye"></a>
                         <a href='#' class='fas fa-compress'
                         data-toggle='modal' data-target='#productDetailsModal'
                         onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
