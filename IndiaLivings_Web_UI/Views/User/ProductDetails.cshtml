@@ -2,9 +2,10 @@
     var product = Model.Product;
     var user = Model.User;
 }
-<style>
-    <link rel="stylesheet" href="css/custom/ad-details.css" >
-</style>
+<head>
+    <link rel="stylesheet" href="~/css/custom/ad-details.css" >
+    <link rel="stylesheet" href="~/css/custom/ad-details-left.css">
+</head>
 <body>
     <!--=====================================
               SINGLE BANNER PART START
@@ -56,7 +57,7 @@
                         <div class="ad-details-author">
                             <a href="#" class="author-img active">
                                 <img src="data:image/png;base64,@Convert.ToBase64String(user.byteUserImageData)"
-                                     onerror="this.onerror=null; this.src='/images/user.png';" alt="avatar">
+                                     onerror="this.onerror=null; this.src='~/images/user.png';" alt="avatar">
                             </a>
                             <div class="author-meta">
                                 <h4><a href="#">@user.userFirstName @user.userMiddleName @user.userLastName</a></h4>
@@ -146,7 +147,7 @@
                         <div class="ad-details-feature slider-arrow">
                             <div class="feature-card">
                                 <a href="#" class="feature-img">
-                                    <img src="images/product/10.jpg" alt="feature">
+                                    <img src="~/images/product/10.jpg" alt="feature">
                                 </a>
                                 <div class="cross-inline-badge feature-badge">
                                     <span>featured</span>
@@ -170,7 +171,7 @@
                             </div>
                             <div class="feature-card">
                                 <a href="#" class="feature-img">
-                                    <img src="images/product/01.jpg" alt="feature">
+                                    <img src="~/images/product/01.jpg" alt="feature">
                                 </a>
                                 <div class="cross-inline-badge feature-badge">
                                     <span>featured</span>
@@ -194,7 +195,7 @@
                             </div>
                             <div class="feature-card">
                                 <a href="#" class="feature-img">
-                                    <img src="images/product/08.jpg" alt="feature">
+                                    <img src="~/images/product/08.jpg" alt="feature">
                                 </a>
                                 <div class="cross-inline-badge feature-badge">
                                     <span>featured</span>
@@ -246,10 +247,10 @@
                         </div>
                         <div class="ad-details-slider-group">
                             <div class="ad-details-slider slider-arrow">
-                                <div><img src="images/product/01.jpg" alt="details"></div>
-                                <div><img src="images/product/01.jpg" alt="details"></div>
-                                <div><img src="images/product/01.jpg" alt="details"></div>
-                                <div><img src="images/product/01.jpg" alt="details"></div>
+                                <div><img src="~/images/product/01.jpg" alt="details"></div>
+                                <div><img src="~/images/product/01.jpg" alt="details"></div>
+                                <div><img src="~/images/product/01.jpg" alt="details"></div>
+                                <div><img src="~/images/product/01.jpg" alt="details"></div>
                             </div>
                             <div class="cross-vertical-badge ad-details-badge">
                                 <i class="fas fa-clipboard-check"></i>
@@ -257,10 +258,10 @@
                             </div>
                         </div>
                         <div class="ad-thumb-slider">
-                            <div><img src="images/product/01.jpg" alt="details"></div>
-                            <div><img src="images/product/01.jpg" alt="details"></div>
-                            <div><img src="images/product/01.jpg" alt="details"></div>
-                            <div><img src="images/product/01.jpg" alt="details"></div>
+                            <div><img src="~/images/product/01.jpg" alt="details"></div>
+                            <div><img src="~/images/product/01.jpg" alt="details"></div>
+                            <div><img src="~/images/product/01.jpg" alt="details"></div>
+                            <div><img src="~/images/product/01.jpg" alt="details"></div>
                         </div>
                         <div class="ad-details-action">
                             <button type="button" class="wish"><i class="fas fa-heart"></i>bookmark</button>
@@ -333,7 +334,7 @@
                                         <div class="review-head">
                                             <div class="review-profile">
                                                 <a href="#" class="review-avatar">
-                                                    <img src="images/avatar/03.jpg" alt="review">
+                                                    <img src="~/images/avatar/03.jpg" alt="review">
                                                 </a>
                                                 <div class="review-meta">
                                                     <h6>
@@ -359,7 +360,7 @@
                                         <div class="review-head">
                                             <div class="review-profile">
                                                 <a href="#" class="review-avatar">
-                                                    <img src="images/avatar/02.jpg" alt="review">
+                                                    <img src="~/images/avatar/02.jpg" alt="review">
                                                 </a>
                                                 <div class="review-meta">
                                                     <h6>
@@ -383,7 +384,7 @@
                                         <div class="review-head">
                                             <div class="review-profile">
                                                 <a href="#" class="review-avatar">
-                                                    <img src="images/avatar/04.jpg" alt="review">
+                                                    <img src="~/images/avatar/04.jpg" alt="review">
                                                 </a>
                                                 <div class="review-meta">
                                                     <h6><a href="#">Miron Mahmud</a></h6>
@@ -456,7 +457,7 @@
                         <div class="product-card">
                             <div class="product-media">
                                 <div class="product-img">
-                                    <img src="images/product/01.jpg" alt="product">
+                                    <img src="~/images/product/01.jpg" alt="product">
                                 </div>
                                 <div class="product-type">
                                     <span class="flat-badge sale">sale</span>
@@ -492,7 +493,7 @@
                         <div class="product-card">
                             <div class="product-media">
                                 <div class="product-img">
-                                    <img src="images/product/03.jpg" alt="product">
+                                    <img src="~/images/product/03.jpg" alt="product">
                                 </div>
                                 <div class="product-type">
                                     <span class="flat-badge sale">sale</span>
@@ -528,7 +529,7 @@
                         <div class="product-card">
                             <div class="product-media">
                                 <div class="product-img">
-                                    <img src="images/product/10.jpg" alt="product">
+                                    <img src="~/images/product/10.jpg" alt="product">
                                 </div>
                                 <div class="product-type">
                                     <span class="flat-badge sale">sale</span>
@@ -564,7 +565,7 @@
                         <div class="product-card">
                             <div class="product-media">
                                 <div class="product-img">
-                                    <img src="images/product/09.jpg" alt="product">
+                                    <img src="~/images/product/09.jpg" alt="product">
                                 </div>
                                 <div class="product-type">
                                     <span class="flat-badge sale">sale</span>
@@ -600,7 +601,7 @@
                         <div class="product-card">
                             <div class="product-media">
                                 <div class="product-img">
-                                    <img src="images/product/02.jpg" alt="product">
+                                    <img src="~/images/product/02.jpg" alt="product">
                                 </div>
                                 <div class="product-type">
                                     <span class="flat-badge sale">sale</span>
