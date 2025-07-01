@@ -73,6 +73,13 @@
     <!--=====================================
                 MY ADS PART START
     =======================================-->
+    @{
+        int itemsPerPage = 12;
+        int currentPage = ViewBag.CurrentPage;
+        double modelCount = Model.Count();
+        var pagedProducts = Model.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
+        int productsOnPage = pagedProducts.Count;
+    }
     @if (Model.Count() > 0)
     {
         <section class="myads-part">
@@ -101,7 +108,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    @foreach (var product in Model)
+                    @foreach (var product in pagedProducts)
                     {
                         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
                             <div class="product-card">
@@ -150,20 +157,16 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="footer-pagection">
-                            <p class="page-info">Showing 12 of 60 Results</p>
-                            <ul class="pagination">
+                            <p class="page-info">Showing @((itemsPerPage * ViewBag.CurrentPage < ViewBag.Count) ? itemsPerPage * ViewBag.CurrentPage : ViewBag.Count) of @ViewBag.Count Results</p>
+                            <ul class="pagination" id="pagination">
                                 <li class="page-item">
-                                    <a class="page-link" href="#">
+                                    <a class="page-link" onclick="previousPage()">
                                         <i class="fas fa-long-arrow-alt-left"></i>
                                     </a>
                                 </li>
-                                <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">...</li>
-                                <li class="page-item"><a class="page-link" href="#">67</a></li>
+                                @* Page numbers will be inserted dynamically *@
                                 <li class="page-item">
-                                    <a class="page-link" href="#">
+                                    <a class="page-link" onclick="nextPage()">
                                         <i class="fas fa-long-arrow-alt-right"></i>
                                     </a>
                                 </li>
@@ -230,3 +233,75 @@
         </div>
     }
 </body>
+
+<script type="text/javascript">
+    let totalPages = @Math.Ceiling((double)(Model.Count()) / 12);
+    let currentPage = @ViewBag.CurrentPage;
+    const visiblePages = 5;
+
+    
+    renderPagination();
+
+    function renderPagination() {
+        const pagination = document.getElementById('pagination');
+        const pageLinks = pagination.querySelectorAll('.page-item');
+
+        // Remove old page number items (excluding arrows)
+        pageLinks.forEach((item, index) => {
+            if (index !== 0 && index !== pageLinks.length - 1) {
+                item.remove();
+            }
+        });
+
+        // Calculate startPage and endPage with fixed visiblePages
+        let half = Math.floor(visiblePages / 2);
+        let startPage = currentPage - half;
+        let endPage = currentPage + half;
+
+        if (startPage < 1) {
+            startPage = 1;
+            endPage = visiblePages;
+        }
+
+        if (endPage > totalPages) {
+            endPage = totalPages;
+            startPage = Math.max(1, totalPages - visiblePages + 1);
+        }
+
+        const insertBefore = pagination.children[pagination.children.length - 1];
+
+        for (let i = startPage; i <= endPage; i++) {
+            const li = document.createElement('li');
+            li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+            li.innerHTML = `<a class="page-link" onclick="goToPage(${i})">${i}</a>`;
+            pagination.insertBefore(li, insertBefore);
+        }
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        renderPagination();
+        changePage(page); // Your actual logic to load page content
+    }
+
+    function previousPage() {
+        if (currentPage > 1) {
+            goToPage(currentPage - 1);
+        }
+    }
+
+    function nextPage() {
+        if (currentPage < totalPages) {
+            goToPage(currentPage + 1);
+        }
+    }
+
+    function changePage(page) {
+        $('.pagination .page-link').removeClass('active');
+
+        // Add "active" class to the clicked page
+        //$(curPage).addClass('active');
+        var queryParams = `?page=${encodeURIComponent(page)}`;
+        window.location.href = '/User/MyAds?page=' + page;
+    }
+</script>

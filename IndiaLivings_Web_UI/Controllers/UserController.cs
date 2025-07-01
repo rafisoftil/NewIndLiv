@@ -4,6 +4,7 @@ using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.SqlServer.Server;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -267,13 +268,15 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Users WishList Page
         /// </summary>
         /// <returns> List of all wishlists will be reurned</returns>
-        public IActionResult Bookmark()
+        public IActionResult Bookmark(int page = 1)
         {
             ProductViewModel productModel = new ProductViewModel();
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<ProductViewModel> wishlist = productModel.GetAllWishlist(productOwner);
             int wishlistCount = productModel.GetwishlistCount(productOwner);
             HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
+            ViewBag.CurrentPage = page;
+            ViewBag.Count = wishlist.Count();
             return View(wishlist);
         }
 
@@ -303,11 +306,13 @@ namespace IndiaLivings_Web_UI.Controllers
         /// My Ads Page
         /// </summary>
         /// <returns> Ads created by User </returns>
-        public IActionResult MyAds()
+        public IActionResult MyAds(int page = 1)
         {
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(productOwner);
+            ViewBag.CurrentPage = page;
+            ViewBag.Count = products.Count();
             return View(products);
         }
 
@@ -622,6 +627,21 @@ namespace IndiaLivings_Web_UI.Controllers
             ProductViewModel productViewModel = new ProductViewModel();
             string message = productViewModel.AddRating(productId, userId, rating, createdBy);
             return Json(new { status = message });
+        }
+        /// <summary>
+        /// Product Details
+        /// </summary>
+        /// <returns>Products and its user details</returns>
+        public IActionResult ProductDetails(int productId, string username)
+        {
+            UserViewModel userViewModel = new UserViewModel();
+            ProductViewModel productViewModel = new ProductViewModel();
+            ProductViewModel product = productViewModel.GetProductById(productId)[0];
+            UserViewModel user = userViewModel.GetUsersInfo(username)[0];
+            dynamic data = new ExpandoObject();
+            data.Product = product;
+            data.User = user;
+            return View(data);
         }
     }
 }
