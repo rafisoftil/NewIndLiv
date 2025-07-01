@@ -398,11 +398,11 @@
                             </ul>
                             <form class="review-form">
                                 <div class="star-rating">
-                                    <input type="radio" name="rating" id="star-1"><label for="star-1"></label>
-                                    <input type="radio" name="rating" id="star-2"><label for="star-2"></label>
-                                    <input type="radio" name="rating" id="star-3"><label for="star-3"></label>
-                                    <input type="radio" name="rating" id="star-4"><label for="star-4"></label>
-                                    <input type="radio" name="rating" id="star-5"><label for="star-5"></label>
+                                    <input type="radio" name="rating" id="star-1" value="5" onclick="submitRating('@product.productId', this)"><label for="star-1"></label>
+                                    <input type="radio" name="rating" id="star-2" value="4" onclick="submitRating('@product.productId', this)"><label for="star-2"></label>
+                                    <input type="radio" name="rating" id="star-3" value="3" onclick="submitRating('@product.productId', this)"><label for="star-3"></label>
+                                    <input type="radio" name="rating" id="star-4" value="2" onclick="submitRating('@product.productId', this)"><label for="star-4"></label>
+                                    <input type="radio" name="rating" id="star-5" value="1" onclick="submitRating('@product.productId', this)"><label for="star-5"></label>
                                 </div>
                                 <div class="review-form-grid">
                                     <div class="form-group">
@@ -791,4 +791,20 @@
                LANGUAGE MODAL PART END
     =======================================-->
 </body>
-</html>
+<script>
+    function submitRating(productId, elem) {
+        const rating = parseInt($(elem).val());
+
+        $.ajax({
+            url: '/User/AddRating',
+            type: 'POST',
+            data: { productId: productId, rating: rating },
+            success: function (response) {
+                alert('Thanks for your rating!');
+            },
+            error: function () {
+                alert('Error submitting rating.');
+            }
+        });
+    }
+</script>
