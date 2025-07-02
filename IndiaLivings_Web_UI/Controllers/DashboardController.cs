@@ -19,6 +19,8 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> productsList = product.GetAds(0);
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
             int wishlistCount = product.GetwishlistCount(productOwnerID);
+            SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+            List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
 
             HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
             if (productOwnerID != 0)
@@ -28,8 +30,9 @@ namespace IndiaLivings_Web_UI.Controllers
                 HttpContext.Session.SetInt32("listingAds", productsCount);
             }
             dynamic data = new ExpandoObject();
-            data.Categories = categoryList;
+            data.Categories = categoryList.OrderByDescending(x=>x.CategoryCount).ToList();
             data.Products = productsList;
+            data.Cities = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x=>x.totalCount).ToList();
             return View(data);
         }
 
@@ -569,6 +572,10 @@ namespace IndiaLivings_Web_UI.Controllers
             HttpContext.Session.Clear();
             //Response.Cookies.Delete(".AspNetCore.Session");
             return RedirectToAction("Login");
+        }
+        public IActionResult termsAndConditions()
+        {
+            return View();
         }
     }
 }

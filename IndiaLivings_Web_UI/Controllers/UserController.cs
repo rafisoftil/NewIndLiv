@@ -35,20 +35,29 @@ namespace IndiaLivings_Web_UI.Controllers
         }
         public IActionResult PostAd()
         {
-            CategoryViewModel category = new CategoryViewModel();
-            List<CategoryViewModel> categoryList = category.GetCategoryCount();
-            AdConditionViewModel adCondition = new AdConditionViewModel();
-            List<AdConditionViewModel> adConitions = new List<AdConditionViewModel>();
-            adConitions = adCondition.GetAllAdConditionsTypeName("");
-            var priceConditions = adConitions.Where(x => x.strAdConditionType.Equals("Price Condition")).ToList();
-            var Ad_Categories = adConitions.Where(x => x.strAdConditionType.Equals("Ad Category")).ToList();
-            var productConditions = adConitions.Where(x => x.strAdConditionType.Equals("Product Condition")).ToList();
-            dynamic data = new ExpandoObject();
-            data.Categories = categoryList;
-            data.priceConditions = priceConditions;
-            data.Ad_Categories = Ad_Categories;
-            data.productConditions = productConditions;
-            return View(data);
+            var loggedInUSer = HttpContext.Session.GetInt32("UserId");
+            if (loggedInUSer.HasValue)
+            {
+                CategoryViewModel category = new CategoryViewModel();
+                List<CategoryViewModel> categoryList = category.GetCategoryCount();
+                AdConditionViewModel adCondition = new AdConditionViewModel();
+                List<AdConditionViewModel> adConitions = new List<AdConditionViewModel>();
+                adConitions = adCondition.GetAllAdConditionsTypeName("");
+                var priceConditions = adConitions.Where(x => x.strAdConditionType.Equals("Price Condition")).ToList();
+                var Ad_Categories = adConitions.Where(x => x.strAdConditionType.Equals("Ad Category")).ToList();
+                var productConditions = adConitions.Where(x => x.strAdConditionType.Equals("Product Condition")).ToList();
+                dynamic data = new ExpandoObject();
+                data.Categories = categoryList;
+                data.priceConditions = priceConditions;
+                data.Ad_Categories = Ad_Categories;
+                data.productConditions = productConditions;
+                return View(data);
+            }
+            else
+            {
+                return RedirectToAction("Login","Home");
+            }
+            
         }
         /// <summary>
         /// Ads List
