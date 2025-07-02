@@ -45,7 +45,7 @@
 
                     <!-- NUMBER CARD -->
                     <button type="button" class="common-card number" data-toggle="modal" data-target="#number">
-                        <h3>(+880)<span>Click to show</span></h3>
+                        <h3>(+91)<span>Click to show</span></h3>
                         <i class="fas fa-phone"></i>
                     </button>
 
@@ -57,7 +57,7 @@
                         <div class="ad-details-author">
                             <a href="#" class="author-img active">
                                 <img src="data:image/png;base64,@Convert.ToBase64String(user.byteUserImageData)"
-                                     onerror="this.onerror=null; this.src='~/images/user.png';" alt="avatar">
+                                     onerror="this.onerror=null; this.src='/images/user.png';"/>
                             </a>
                             <div class="author-meta">
                                 <h4><a href="#">@user.userFirstName @user.userMiddleName @user.userLastName</a></h4>
@@ -225,12 +225,18 @@
                     <!-- AD DETAILS CARD -->
                     <div class="common-card">
                         <ol class="breadcrumb ad-details-breadcrumb">
-                            <li><span class="flat-badge sale">for sale</span></li>
-                            <li class="breadcrumb-item"><a href="#">Property</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">house</li>
+                            <li><span class="flat-badge sale">for @product.productAdCategory</span></li>
+                            <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
                         </ol>
-                        <h5 class="ad-details-address">1420 west jalkuri, shiddirganj, Narayanganj</h5>
-                        <h3 class="ad-details-title">Lorem ipsum dolor sit amet consectetur adipisicing elit Maxime ab nesciunt dignissimos.</h3>
+                        <h5 class="ad-details-address">
+                            @(user.userAddressInfo != null && user.userAddressInfo.Count > 0
+                                ? user.userAddressInfo[0].strUserContactFullAddress + ", "
+                                + user.userAddressInfo[0].strUserContactCity + ", "
+                                + user.userAddressInfo[0].strUserContactState
+                                : "")
+                        </h5>
+                        <h3 class="ad-details-title">@product.productName</h3>
                         <div class="ad-details-meta">
                             <a class="view">
                                 <i class="fas fa-eye"></i>
@@ -247,10 +253,15 @@
                         </div>
                         <div class="ad-details-slider-group">
                             <div class="ad-details-slider slider-arrow">
-                                <div><img src="~/images/product/01.jpg" alt="details"></div>
-                                <div><img src="~/images/product/01.jpg" alt="details"></div>
-                                <div><img src="~/images/product/01.jpg" alt="details"></div>
-                                <div><img src="~/images/product/01.jpg" alt="details"></div>
+                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                                     onerror="this.onerror=null; this.src='/images/white-screen.jpg';">
+                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                                     onerror="this.onerror=null; this.src='/images/white-screen.jpg';">
+                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                                     onerror="this.onerror=null; this.src='/images/white-screen.jpg';"> 
+                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                                     onerror="this.onerror=null; this.src='/images/white-screen.jpg';">
+    
                             </div>
                             <div class="cross-vertical-badge ad-details-badge">
                                 <i class="fas fa-clipboard-check"></i>
@@ -258,13 +269,17 @@
                             </div>
                         </div>
                         <div class="ad-thumb-slider">
-                            <div><img src="~/images/product/01.jpg" alt="details"></div>
-                            <div><img src="~/images/product/01.jpg" alt="details"></div>
-                            <div><img src="~/images/product/01.jpg" alt="details"></div>
-                            <div><img src="~/images/product/01.jpg" alt="details"></div>
+                            <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                                 onerror="this.onerror=null; this.src='~/images/white-screen.jpg';">
+                            <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                                 onerror="this.onerror=null; this.src='~/images/white-screen.jpg';">
+                            <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                                 onerror="this.onerror=null; this.src='~/images/white-screen.jpg';">
+                            <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                                 onerror="this.onerror=null; this.src='~/images/white-screen.jpg';">
                         </div>
                         <div class="ad-details-action">
-                            <button type="button" class="wish"><i class="fas fa-heart"></i>bookmark</button>
+                            <button type="button" class="wish" onclick="AddToWishlist('@product.productId', '@product.createdBy')"><i class="fas fa-heart"></i>bookmark</button>
                             <button type="button"><i class="fas fa-exclamation-triangle"></i>report</button>
                             <button type="button" data-toggle="modal" data-target="#ad-share">
                                 <i class="fas fa-share-alt"></i>
@@ -736,7 +751,7 @@
                     <button class="fas fa-times" data-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <h3 class="modal-number">(+880) 183 - 8288 - 389</h3>
+                    <h3 class="modal-number">(+91) @user.userMobile</h3>
                 </div>
             </div>
         </div>
@@ -804,6 +819,23 @@
             },
             error: function () {
                 alert('Error submitting rating.');
+            }
+        });
+    }
+
+    function AddToWishlist(productID, createdBy) {
+        alert(productID);
+        $.ajax({
+            url: '/User/UpdateBookmarks',
+            type: 'POST',
+            data: { productID: productID, createdBy: createdBy, status: 1 },
+            success: function (response) {
+                if (response.statusCode != 200) {
+                    alert('Error in processing request.');
+                }
+            },
+            error: function () {
+                alert('Error in processing request.');
             }
         });
     }
