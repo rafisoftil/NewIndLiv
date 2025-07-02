@@ -573,5 +573,9 @@ namespace IndiaLivings_Web_UI.Controllers
             //Response.Cookies.Delete(".AspNetCore.Session");
             return RedirectToAction("Login");
         }
+        public IActionResult termsAndConditions()
+        {
+            return View();
+        }
     }
 }
