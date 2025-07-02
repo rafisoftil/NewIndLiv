@@ -30,7 +30,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 HttpContext.Session.SetInt32("listingAds", productsCount);
             }
             dynamic data = new ExpandoObject();
-            data.Categories = categoryList;
+            data.Categories = categoryList.OrderByDescending(x=>x.CategoryCount).ToList();
             data.Products = productsList;
             data.Cities = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x=>x.totalCount).ToList();
             return View(data);

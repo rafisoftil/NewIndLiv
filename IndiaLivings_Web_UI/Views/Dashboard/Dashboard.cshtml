@@ -1,4 +1,5 @@
-﻿@{
+﻿@* @using System.Linq; *@
+@{
     ViewBag.Title = "Home";
 }
 <section class="banner-part">
@@ -568,150 +569,159 @@
 
         <div class="tab-pane active" id="ratings">
             <div class="row">
-                @foreach (var product in Model.Products)
+                @for(var i = 0; i < Model.Products.Count; i++)
                 {
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <div class="product-card">
-                            <div class="product-media">
-                                <div class="product-img">
-                                    <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@product.productImageName" width="288" height="205" />
+                    if (i < 8)
+                    {
+                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            <div class="product-card">
+                                <div class="product-media">
+                                    <div class="product-img">
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@Model.Products[i].productImageName" width="288" height="205" />
+                                    </div>
+                                    <div class="cross-vertical-badge product-badge">
+                                        <i class="fas fa-fire"></i>
+                                        <span>top niche</span>
+                                    </div>
+                                    <div class="product-type">
+                                        <span class="flat-badge booking">@Model.Products[i].productAdCategory</span>
+                                    </div>
+                                    @* <ul class="product-action">
+                                        <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
+                                        <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
+                                        <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
+                                    </ul> *@
                                 </div>
-                                <div class="cross-vertical-badge product-badge">
-                                    <i class="fas fa-fire"></i>
-                                    <span>top niche</span>
-                                </div>
-                                <div class="product-type">
-                                    <span class="flat-badge booking">@product.productAdCategory</span>
-                                </div>
-                                <ul class="product-action">
-                                    <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
-                                    <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
-                                    <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
-                                </ul>
-                            </div>
-                            <div class="product-content">
-                                <ol class="breadcrumb product-category">
-                                    <li><i class="fas fa-tags"></i></li>
-                                    <li class="breadcrumb-item"><a href="#">@product.productSubCategoryName</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">@product.productName</li>
-                                </ol>
-                                <h5 class="product-title">
-                                    <a href="#">@product.productDescription</a>
-                                </h5>
-                                <div class="product-meta">
-                                    <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
-                                    <span><i class="fas fa-clock"></i>@product.updatedDate</span>
-                                </div>
-                                <div class="product-info">
-                                    <h5 class="product-price">@product.productPrice<span>/per week</span></h5>
-                                    <div class="product-btn">
-                                        <a href="compare.html" title="Compare" class="fas fa-compress"></a>
-                                        <button type="button" title="Wishlist" class="far fa-heart"></button>
+                                <div class="product-content">
+                                    <ol class="breadcrumb product-category">
+                                        <li><i class="fas fa-tags"></i></li>
+                                        <li class="breadcrumb-item"><a href="#">@Model.Products[i].productSubCategoryName</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">@Model.Products[i].productName</li>
+                                    </ol>
+                                    <h5 class="product-title">
+                                        <a href="#">@Model.Products[i].productDescription</a>
+                                    </h5>
+                                    <div class="product-meta">
+                                        <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
+                                        <span><i class="fas fa-clock"></i>@Model.Products[i].updatedDate</span>
+                                    </div>
+                                    <div class="product-info">
+                                        <h5 class="product-price">@Model.Products[i].productPrice<span>/per week</span></h5>
+                                        <div class="product-btn">
+                                            <a href="compare.html" title="Compare" class="fas fa-compress"></a>
+                                            <button type="button" title="Wishlist" class="far fa-heart"></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
         </div> <!-- Rating ads -->
 
         <div class="tab-pane " id="advertiser">
             <div class="row">
-                @foreach (var product in Model.Products)
+                @for (var i = 0; i < Model.Products.Count; i++)
                 {
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <div class="product-card">
-                            <div class="product-media">
-                                <div class="product-img">
-                                    <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@product.productImageName" width="288" height="205" />
+                    if (i < 8)
+                    {
+                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            <div class="product-card">
+                                <div class="product-media">
+                                    <div class="product-img">
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@Model.Products[i].productImageName" width="288" height="205" />
+                                    </div>
+                                    <div class="cross-vertical-badge product-badge">
+                                        <i class="fas fa-fire"></i>
+                                        <span>top niche</span>
+                                    </div>
+                                    <div class="product-type">
+                                        <span class="flat-badge booking">@Model.Products[i].productAdCategory</span>
+                                    </div>
+                                    @* <ul class="product-action">
+                            <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
+                            <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
+                            <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
+                            </ul> *@
                                 </div>
-                                <div class="cross-vertical-badge product-badge">
-                                    <i class="fas fa-fire"></i>
-                                    <span>top niche</span>
-                                </div>
-                                <div class="product-type">
-                                    <span class="flat-badge booking">@product.productAdCategory</span>
-                                </div>
-                                <ul class="product-action">
-                                    <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
-                                    <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
-                                    <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
-                                </ul>
-                            </div>
-                            <div class="product-content">
-                                <ol class="breadcrumb product-category">
-                                    <li><i class="fas fa-tags"></i></li>
-                                    <li class="breadcrumb-item"><a href="#">@product.productSubCategoryName</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">@product.productName</li>
-                                </ol>
-                                <h5 class="product-title">
-                                    <a href="#">@product.productDescription</a>
-                                </h5>
-                                <div class="product-meta">
-                                    <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
-                                    <span><i class="fas fa-clock"></i>@product.updatedDate</span>
-                                </div>
-                                <div class="product-info">
-                                    <h5 class="product-price">@product.productPrice<span>/per week</span></h5>
-                                    <div class="product-btn">
-                                        <a href="compare.html" title="Compare" class="fas fa-compress"></a>
-                                        <button type="button" title="Wishlist" class="far fa-heart"></button>
+                                <div class="product-content">
+                                    <ol class="breadcrumb product-category">
+                                        <li><i class="fas fa-tags"></i></li>
+                                        <li class="breadcrumb-item"><a href="#">@Model.Products[i].productSubCategoryName</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">@Model.Products[i].productName</li>
+                                    </ol>
+                                    <h5 class="product-title">
+                                        <a href="#">@Model.Products[i].productDescription</a>
+                                    </h5>
+                                    <div class="product-meta">
+                                        <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
+                                        <span><i class="fas fa-clock"></i>@Model.Products[i].updatedDate</span>
+                                    </div>
+                                    <div class="product-info">
+                                        <h5 class="product-price">@Model.Products[i].productPrice<span>/per week</span></h5>
+                                        <div class="product-btn">
+                                            <a href="compare.html" title="Compare" class="fas fa-compress"></a>
+                                            <button type="button" title="Wishlist" class="far fa-heart"></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
         </div> <!-- Advertiser ads -->
 
         <div class="tab-pane" id="engaged">
             <div class="row">
-                @foreach (var product in Model.Products)
+                @for (var i = 0; i < Model.Products.Count; i++)
                 {
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <div class="product-card">
-                            <div class="product-media">
-                                <div class="product-img">
-                                    <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@product.productImageName" width="288" height="205" />
+                    if (i < 8)
+                    {
+                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            <div class="product-card">
+                                <div class="product-media">
+                                    <div class="product-img">
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@Model.Products[i].productImageName" width="288" height="205" />
+                                    </div>
+                                    <div class="cross-vertical-badge product-badge">
+                                        <i class="fas fa-fire"></i>
+                                        <span>top niche</span>
+                                    </div>
+                                    <div class="product-type">
+                                        <span class="flat-badge booking">@Model.Products[i].productAdCategory</span>
+                                    </div>
+                                    @* <ul class="product-action">
+                            <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
+                            <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
+                            <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
+                            </ul> *@
                                 </div>
-                                <div class="cross-vertical-badge product-badge">
-                                    <i class="fas fa-fire"></i>
-                                    <span>top niche</span>
-                                </div>
-                                <div class="product-type">
-                                    <span class="flat-badge booking">@product.productAdCategory</span>
-                                </div>
-                                <ul class="product-action">
-                                    <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
-                                    <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
-                                    <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
-                                </ul>
-                            </div>
-                            <div class="product-content">
-                                <ol class="breadcrumb product-category">
-                                    <li><i class="fas fa-tags"></i></li>
-                                    <li class="breadcrumb-item"><a href="#">@product.productSubCategoryName</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">@product.productName</li>
-                                </ol>
-                                <h5 class="product-title">
-                                    <a href="#">@product.productDescription</a>
-                                </h5>
-                                <div class="product-meta">
-                                    <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
-                                    <span><i class="fas fa-clock"></i>@product.updatedDate</span>
-                                </div>
-                                <div class="product-info">
-                                    <h5 class="product-price">@product.productPrice<span>/per week</span></h5>
-                                    <div class="product-btn">
-                                        <a href="compare.html" title="Compare" class="fas fa-compress"></a>
-                                        <button type="button" title="Wishlist" class="far fa-heart"></button>
+                                <div class="product-content">
+                                    <ol class="breadcrumb product-category">
+                                        <li><i class="fas fa-tags"></i></li>
+                                        <li class="breadcrumb-item"><a href="#">@Model.Products[i].productSubCategoryName</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">@Model.Products[i].productName</li>
+                                    </ol>
+                                    <h5 class="product-title">
+                                        <a href="#">@Model.Products[i].productDescription</a>
+                                    </h5>
+                                    <div class="product-meta">
+                                        <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
+                                        <span><i class="fas fa-clock"></i>@Model.Products[i].updatedDate</span>
+                                    </div>
+                                    <div class="product-info">
+                                        <h5 class="product-price">@Model.Products[i].productPrice<span>/per week</span></h5>
+                                        <div class="product-btn">
+                                            <a href="compare.html" title="Compare" class="fas fa-compress"></a>
+                                            <button type="button" title="Wishlist" class="far fa-heart"></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
         </div> <!-- Engaged ads -->
@@ -740,17 +750,19 @@
             </div>
         </div>
         <div class="row">
-            @foreach (var city in Model.Cities)
+            @for(var i = 0; i < Model.Cities.Count; i++)
             {
-                <div class="col-sm-6 col-md-6 col-lg-3">
+                if (i<8) {
+                    <div class="col-sm-6 col-md-6 col-lg-3">
 
                     <a href="ad-list-column3.html" class="city-card" style="background: url(images/cities/01.jpg) no-repeat center; background-size: cover">
                         <div class="city-content">
-                            <h4>@city.CategoryValue</h4>
-                            <p>(@city.totalCount) ads</p>
+                            <h4>@Model.Cities[i].CategoryValue</h4>
+                            <p>(@Model.Cities[i].totalCount) ads</p>
                         </div>
                     </a>
                 </div>
+                }
             }
         </div>
         <div class="row">
@@ -777,32 +789,35 @@
             </div>
         </div>
         <div class="row">
-            @foreach (var category in Model.Categories)
+            @for(var i = 0; i < Model.Categories.Count; i++)
             {
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                    <div class="category-card">
-                        <div class="category-head">
-                            <img src="@category.CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" />
-                            <a href="#" class="category-content">
-                                <h4>@category.CategoryName</h4>
-                                <p>(@category.CategoryCount)</p>
-                            </a>
+                @if (i <= 8)
+                {
+                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                        <div class="category-card">
+                            <div class="category-head">
+                                <img src="@Model.Categories[i].CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" />
+                                <a href="#" class="category-content">
+                                    <h4>@Model.Categories[i].CategoryName</h4>
+                                    <p>(@Model.Categories[i].CategoryCount)</p>
+                                </a>
+                            </div>
+                            @foreach (var subCategory in Model.Categories[i].subCategories)
+                            {
+                                <ul class="category-list">
+                                    <li><a href="#"><h6>@subCategory.subCatergoryName</h6><p>(@subCategory.intSubCategoryCount)</p></a></li>
+                                </ul>
+                            }
+                            @* <ul class="category-list">
+                    <li><a href="#"><h6>television</h6><p>(34)</p></a></li>
+                    <li><a href="#"><h6>Generetor</h6><p>(24)</p></a></li>
+                    <li><a href="#"><h6>Washing machine</h6><p>(12)</p></a></li>
+                    <li><a href="#"><h6>air condition</h6><p>(19)</p></a></li>
+                    <li><a href="#"><h6>iron</h6><p>(56)</p></a></li>
+                    </ul> *@
                         </div>
-                        @foreach (var subCategory in category.subCategories)
-                        {
-                            <ul class="category-list">
-                                <li><a href="#"><h6>@subCategory.subCatergoryName</h6><p>(@subCategory.intSubCategoryCount)</p></a></li>
-                            </ul>
-                        }
-                        @* <ul class="category-list">
-                            <li><a href="#"><h6>television</h6><p>(34)</p></a></li>
-                            <li><a href="#"><h6>Generetor</h6><p>(24)</p></a></li>
-                            <li><a href="#"><h6>Washing machine</h6><p>(12)</p></a></li>
-                            <li><a href="#"><h6>air condition</h6><p>(19)</p></a></li>
-                            <li><a href="#"><h6>iron</h6><p>(56)</p></a></li>
-                        </ul> *@
                     </div>
-                </div>
+                }
             }
         </div>
         <div class="row">
