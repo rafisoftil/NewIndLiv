@@ -406,6 +406,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.productCategoryID = productDetails.productCategoryID;
                         product.productCategoryName = productDetails.productCategoryName;
                         product.productDescription = productDetails.productDescription;
+                        product.productAdTags = productDetails.productAdTags;
                         product.productSubCategoryName = productDetails.productSubCategoryName;
                         product.productsubCategoryID = productDetails.productsubCategoryID;
                         product.productQuantity = productDetails.productQuantity;
