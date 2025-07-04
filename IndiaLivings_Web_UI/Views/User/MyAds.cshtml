@@ -3,21 +3,6 @@
     ViewBag.Title = "My Ads";
 }
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <!--=====================================
-                META-TAG PART START
-    =======================================-->
-    <!-- VENDOR -->
-    <link rel="stylesheet" href="~/css/vendor/bootstrap.min.css">
-
-    <!-- CUSTOM -->
-    <link rel="stylesheet" href="~/css/custom/main.css">
-    <link rel="stylesheet" href="~/css/custom/dashboard.css">
-    <!--=====================================
-                CSS LINK PART END
-    =======================================-->
-</head>
 <body>
     <!--=====================================
                   SINGLE BANNER PART START
@@ -121,7 +106,7 @@
                                         <span>top niche</span>
                                     </div>
                                     <div class="product-type">
-                                        <span class="flat-badge booking">@product.productAdCategory</span>
+                                        <span class="flat-badge @(product.productAdCategory.ToLower())">@product.productAdCategory</span>
                                     </div>
                                     <ul class="product-action">
                                         <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
@@ -132,18 +117,18 @@
                                 <div class="product-content">
                                     <ol class="breadcrumb product-category">
                                         <li><i class="fas fa-tags"></i></li>
-                                        <li class="breadcrumb-item"><a href="#">@product.productSubCategoryName</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">@product.productName</li>
+                                        <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
                                     </ol>
                                     <h5 class="product-title">
-                                        <a href="#">@product.productDescription</a>
+                                        <a href="#">@product.productName</a>
                                     </h5>
                                     <div class="product-meta">
-                                        <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
-                                        <span><i class="fas fa-clock"></i>@product.updatedDate</span>
+                                        <span><i class="fas fa-map-marker-alt"></i>@product.userContactCity</span>
+                                        <span><i class="fas fa-clock"></i>@product.updatedDate.ToString("dd-MM-yyyy")</span>
                                     </div>
                                     <div class="product-info">
-                                        <h5 class="product-price">@product.productPrice<span>/per week</span></h5>
+                                        <h5 class="product-price">₹@product.productPrice.ToString("F2")<span>/@product.productPriceCondition</span></h5>
                                         <div class="product-btn">
                                             <a asp-controller="User" asp-action="UpdateProduct" asp-route-productId="@product.productId" class="fas fa-edit"></a>
                                             <a href="compare.html" title="Compare" class="fas fa-compress"></a>

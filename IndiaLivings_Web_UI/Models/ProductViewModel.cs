@@ -256,6 +256,8 @@ namespace IndiaLivings_Web_UI.Models
                         product.byteProductImageData = productDetails.byteProductImageData;
                         product.createdDate = productDetails.createdDate;
                         product.createdBy = productDetails.createdBy;
+                        product.updatedDate = productDetails.updatedDate;
+                        product.updatedBy = productDetails.updatedBy;
                         products.Add(product);
                     }
                 }
