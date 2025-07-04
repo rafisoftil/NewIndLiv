@@ -20,6 +20,7 @@ namespace IndiaLivings_Web_UI.Models
         public string productSubCategoryName { get; set; } = string.Empty;
         public string productPriceCondition { get; set; } = string.Empty;
         public string productAdCategory { get; set; } = string.Empty;
+        public int productImageId { get; set; } = 0;
         public string productImageName { get; set; } = string.Empty;
         public string productImagePath { get; set; } = string.Empty;
         public bool productSold { get; set; }
@@ -158,6 +159,7 @@ namespace IndiaLivings_Web_UI.Models
             try
             {
                 ProductModel PVM = new ProductModel();
+                PVM.productId = product.productId;
                 PVM.productName = product.productName;
                 PVM.productDescription = product.productDescription;
                 PVM.productAdTags = product.productAdTags;
@@ -170,6 +172,7 @@ namespace IndiaLivings_Web_UI.Models
                 PVM.productSubCategoryName = product.productSubCategoryName;
                 PVM.productPriceCondition = product.productPriceCondition;
                 PVM.productAdCategory = product.productAdCategory;
+                PVM.productImageId = product.productImageId;
                 PVM.productImageName = product.productImageName;
                 PVM.strProductImageName = product.productImageName;
                 PVM.strProductImageType = Path.GetExtension(product.productImageName)?.TrimStart('.').ToLower();
@@ -187,9 +190,13 @@ namespace IndiaLivings_Web_UI.Models
                 PVM.userContactCity = product.userContactCity;
                 PVM.userContactState = product.userContactState;
                 productId = PH.InsertProduct(PVM);
-                if (productId > 0)
+                if (PVM.productId > 0)
                 {
-                    isCreated = PH.InserProductImage(productId, PVM.productImageName, PVM.strProductImageType, PVM.createdBy, productImage);
+                    isCreated = PH.InserProductImage(PVM.productId, PVM.productImageId, PVM.productImageName, PVM.strProductImageType, PVM.createdBy, productImage);
+                }
+                else
+                {
+                    isCreated = PH.InserProductImage(productId, PVM.productImageId, PVM.productImageName, PVM.strProductImageType, PVM.createdBy, productImage);
                 }
             }
             catch (Exception ex)
@@ -407,6 +414,8 @@ namespace IndiaLivings_Web_UI.Models
                         product.IsActiveStatus = productDetails.IsActiveStatus;
                         product.productAdminReview = productDetails.productAdminReview;
                         product.productPriceCondition = productDetails.productPriceCondition;
+                        product.productImageId = productDetails.productImageId;
+                        product.productImageName = productDetails.productImageName;
                         product.byteProductImageData = productDetails.byteProductImageData;
                         product.createdDate = productDetails.createdDate;
                         product.createdBy = productDetails.createdBy;

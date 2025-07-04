@@ -145,6 +145,7 @@
                                     <div class="product-info">
                                         <h5 class="product-price">@product.productPrice<span>/per week</span></h5>
                                         <div class="product-btn">
+                                            <a asp-controller="User" asp-action="UpdateProduct" asp-route-productId="@product.productId" class="fas fa-edit"></a>
                                             <a href="compare.html" title="Compare" class="fas fa-compress"></a>
                                             <button type="button" title="Wishlist" class="far fa-heart"></button>
                                         </div>

@@ -1,4 +1,4 @@
-﻿﻿@*
+﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -57,23 +57,40 @@
                         <div class="adpost-title">
                             <h3>Ad Information</h3>
                         </div>
+                        @if (Model.product != null)
+                        {
+                            <div style="display: none">
+                                <input type="text" class="form-control" id="productId" name="productId" value=@Model.product.productId>
+                            </div>
+                        }
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-label">Product Title<sup style="color: red">*</sup></label>
-                                    <input type="text" class="form-control" id="productTitle" name="productName" placeholder="Type your product title here" required>
+                                    <input type="text" class="form-control" id="productTitle" name="productName" value="@(Model.product != null ? Model.product.productName : "")" placeholder="Type your product title here" required>
                                     <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
                                 </div>
                             </div>
                             <div class="form-group col-6">
                                 <label class="form-label">Product Image</label>
                                 <input type="file" id="productImage" name="productImage" class="form-control">
+                                @if (Model.product != null)
+                                {
+                                    <input type="hidden" name="existingImageId" value="@Model.product.productImageId" />
+                                    <a href="javascript:void(0);" onclick="showImageModal()">Click here to View the existing image</a>
+
+                                    <div id="imageModalOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
+                                        <span onclick="hideImageModal()" style="position:absolute; top:20px; right:30px; font-size:30px; color:white; cursor:pointer;">&times;</span>
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.product.byteProductImageData)" alt="Product Image" style="max-width:90%; max-height:80vh; border:5px solid white; border-radius:10px;" />
+                                    </div>
+                                }
+
                                 <small id="productImageError" class="text-danger d-none">Product Image is required.</small>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="form-label">Product Quantity<sup style="color: red">*</sup></label>
-                                    <input type="number" class="form-control" id="productQuantity" name="productQuantity" placeholder="Enter your pricing amount" />
+                                    <input type="number" class="form-control" id="productQuantity" name="productQuantity" value="@(Model.product != null ? Model.product.productQuantity : "")" placeholder="Enter your pricing amount" />
                                     <small id="productQuantityError" class="text-danger d-none">Product Quantity is required.</small>
                                 </div>
                             </div>
@@ -84,7 +101,14 @@
                                         <option value="" selected>Select Category</option>
                                         @foreach (var category in Model.Categories)
                                         {
-                                            <option value=@category.CategoryID>@category.CategoryName</option>
+                                            if ((Model.product != null) && category.CategoryID == (Model.product != null ? Model.product.productCategoryID : ""))
+                                            {
+                                                <option value=@category.CategoryID selected>@category.CategoryName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value=@category.CategoryID>@category.CategoryName</option>
+                                            }
                                         }
                                     </select>
                                     <small id="categoryError" class="text-danger d-none">Please select a Category.</small>
@@ -94,7 +118,14 @@
                                 <div class="form-group">
                                     <label class="form-label">Product Sub-Category<sup style="color: red">*</sup></label>
                                     <select class="form-control custom-select" id="subCategory" name="subCategory">
-                                        <option value="" selected>Select Sub Category</option>
+                                        @* @if (Model.product != null)
+                                        {
+                                            <option value=@(Model.product != null ? Model.product.productsubCategoryID : "") selected>@(Model.product != null ? Model.product.productSubCategoryName : "Please select a Sub-Category.")</option>
+                                        }
+                                        else
+                                        { *@
+                                            <option value="" selected>Select Sub Category</option>
+                                        @* } *@
                                     </select>
                                     <small id="subCategoryError" class="text-danger d-none">Please select a Sub-Category.</small>
                                 </div>
@@ -102,7 +133,7 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label class="form-label">Price<sup style="color: red">*</sup></label>
-                                    <input type="number" class="form-control" id="productPrice" name="productPrice" min="0" placeholder="Enter your pricing amount" />
+                                    <input type="number" class="form-control" id="productPrice" name="productPrice" min="0" value=@(Model.product != null ? Model.product.productPrice : "") placeholder="Enter your pricing amount" />
                                     <small id="productPriceError" class="text-danger d-none">Product Price is required.</small>
                                 </div>
                             </div>
@@ -112,10 +143,20 @@
                                         <li><label class="form-label">Price Condition<sup style="color: red">*</sup></label></li>
                                         @foreach (var priceCondition in Model.priceConditions)
                                         {
-                                            <li>
-                                                <input type="radio" id="@priceCondition.strAdConditionName" name="price_Condition" class="PriceCondition" value="@priceCondition.strAdConditionName" />
-                                                <label for="fix-check" class="form-check-text">@priceCondition.strAdConditionName</label>
-                                            </li>
+                                            if (Model.product != null && Model.product.productPriceCondition == priceCondition.strAdConditionName)
+                                            {
+                                                <li>
+                                                    <input type="radio" id="@priceCondition.strAdConditionName" name="price_Condition" class="PriceCondition" value="@priceCondition.strAdConditionName" checked />
+                                                    <label for="fix-check" class="form-check-text">@priceCondition.strAdConditionName</label>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <input type="radio" id="@priceCondition.strAdConditionName" name="price_Condition" class="PriceCondition" value="@priceCondition.strAdConditionName" />
+                                                    <label for="fix-check" class="form-check-text">@priceCondition.strAdConditionName</label>
+                                                </li>
+                                            }
                                         }
                                     </ul>
                                     <small id="priceConditionError" class="text-danger d-none">Please select a Price Condition.</small>
@@ -127,10 +168,20 @@
                                         <li><label class="form-label">Ad Category<sup style="color: red">*</sup></label></li>
                                         @foreach (var AdCat in Model.Ad_Categories)
                                         {
-                                            <li>
-                                                <input type="checkbox" class="form-check" id="@AdCat.strAdConditionName" name="Ad_Category" value="@AdCat.strAdConditionName" />
-                                                <label for="fix-check" class="form-check-text">@AdCat.strAdConditionName</label>
-                                            </li>
+                                            if (Model.product != null && Model.product.productAdCategory == AdCat.strAdConditionName)
+                                            {
+                                                <li>
+                                                    <input type="checkbox" class="form-check" id="@AdCat.strAdConditionName" name="Ad_Category" value="@AdCat.strAdConditionName" checked />
+                                                    <label for="fix-check" class="form-check-text">@AdCat.strAdConditionName</label>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <input type="checkbox" class="form-check" id="@AdCat.strAdConditionName" name="Ad_Category" value="@AdCat.strAdConditionName" />
+                                                    <label for="fix-check" class="form-check-text">@AdCat.strAdConditionName</label>
+                                                </li>
+                                            }
                                         }
                                     </ul>
                                     <small id="adCategoryError" class="text-danger d-none">Please select at least one Ad Category.</small>
@@ -142,10 +193,20 @@
                                         <li><label class="form-label">Product Condition<sup style="color: red">*</sup></label></li>
                                         @foreach (var PrdCond in Model.productConditions)
                                         {
-                                            <li>
-                                                <input type="radio" class="form-check" id="@PrdCond.strAdConditionName" name="product_Condition" value="@PrdCond.strAdConditionName" />
-                                                <label for="fix-check" class="form-check-text">@PrdCond.strAdConditionName</label>
-                                            </li>
+                                            if (Model.product != null && (Model.product.productCondition == 1 ? "New" : "Used") == PrdCond.strAdConditionName)
+                                            {
+                                                <li>
+                                                    <input type="radio" class="form-check" id="@PrdCond.strAdConditionName" name="product_Condition" value="@PrdCond.strAdConditionName" checked />
+                                                    <label for="fix-check" class="form-check-text">@PrdCond.strAdConditionName</label>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <input type="radio" class="form-check" id="@PrdCond.strAdConditionName" name="product_Condition" value="@PrdCond.strAdConditionName" />
+                                                    <label for="fix-check" class="form-check-text">@PrdCond.strAdConditionName</label>
+                                                </li>
+                                            }
                                         }
                                     </ul>
                                     <small id="productConditionError" class="text-danger d-none">Please select a Product Condition.</small>
@@ -154,14 +215,14 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-label">Ad Description</label>
-                                    <textarea class="form-control" id="AdDescription" name="AdDescription" placeholder="Describe your message"></textarea>
+                                    <textarea class="form-control" id="AdDescription" name="AdDescription" value=@(Model.product != null ? Model.product.productDescription : "") placeholder="Describe your message"></textarea>
                                     <small id="AdDescriptionError" class="text-danger d-none">Ad Description is required.</small>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-label">Ad Tag</label>
-                                    <textarea class="form-control" id="AdTag" name="AdTag" placeholder="Maximum of 15 keywords"></textarea>
+                                    <textarea class="form-control" id="AdTag" name="AdTag" value=@(Model.product != null ? Model.product.productAdTags : "") placeholder="Maximum of 15 keywords"></textarea>
                                     <small id="AdTagError" class="text-danger d-none">Ad Tag is required.</small>
                                 </div>
                             </div>
@@ -218,18 +279,18 @@
                         </div>
                     </div>
                 </form>
-                    <div class="adpost-card">
-                        <div class="adpost-title">
-                            <h3>Plan Information</h3>
-                        </div>
-                     <form method="post" asp-action="ProcessPayment" asp-controller="User">
+                <div class="adpost-card">
+                    <div class="adpost-title">
+                        <h3>Plan Information</h3>
+                    </div>
+                    <form method="post" asp-action="ProcessPayment" asp-controller="User">
                         <ul class="adpost-plan-list">
                             <li>
                                 <div class="adpost-plan-content">
                                     <div class="d-inline-flex">
                                         <input type="radio" name="planSelection" id="freePlan" value="0" selected />
                                         <h6 style="padding-top:10px;padding-left:10px">Free Plan - <span>Submit 5 Ad Listings</span></h6>
-                                        </div>
+                                    </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>
                                 </div>
                                 <div class="adpost-plan-meta"><h3>$00.00</h3></div>
@@ -242,29 +303,29 @@
                                     </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>
                                 </div>
-                            
+
                                 <div class="adpost-plan-meta"><h3>$23.00</h3></div>
-                            
+
                             </li>
                             <li>
                                 <div class="adpost-plan-content">
                                     <div class="d-inline-flex">
                                         <input type="radio" name="planSelection" id="premiumPlan" value="43" />
                                         <h6 style="padding-top:10px;padding-left:10px">Premium Plan - <span>Unlimited Ad Listings</span></h6>
-                                        </div>
+                                    </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>
                                 </div>
                                 <div class="adpost-plan-meta"><h3>$43.00</h3></div>
                             </li>
                         </ul>
                         <div class="align-content-center pb-3" style="text-align:center;">
-                        <button name="planTypebtn" type="submit" class="btn btn-outline">
-                            <span>Pay Now</span>
+                            <button name="planTypebtn" type="submit" class="btn btn-outline">
+                                <span>Pay Now</span>
                             </button>
                         </div>
                     </form>
-                    </div>
-                    
+                </div>
+
             </div>
             <div class="col-lg-4">
                 <div class="account-card alert fade show">
@@ -322,8 +383,14 @@
 </div>
 <div id="toast" class="d-none"></div>
 @* <script src="~/js/vendor/popper.min.js" /> *@
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        if (@(Model.product != null ? "true" : "false")) {
+            LoadSubCategories();
+        }
+    });
 
     function LoadSubCategories() {
         var selectedCategory = $('#category').find(":selected").val();
@@ -343,7 +410,9 @@
                     if (response.subCategories.length > 0) {
                         $.each(response.subCategories, function (index, subCat) {
                             $('#subCategory').append(new Option(subCat.subCatergoryName, subCat.subCategoryID));
-
+                            if (@(Model.product != null ? "true" : "false") && subCat.subCatergoryName == "@Model.product.productSubCategoryName") {
+                                $('#subCategory').val(subCat.subCategoryID);
+                            }
                         })
                     }
 
@@ -416,9 +485,9 @@
             productImageError.innerText = "Image must be less than 5MB.";
             productImageError.classList.remove('d-none');
             isValid = false;
-        }   
+        }
         else {
-            productImageError.classList.add('d-none');  
+            productImageError.classList.add('d-none');
         }
         // if (!productImage.files || productImage.files.length === 0) {
         //     productImageError.innerText = "Product image is required.";
@@ -523,4 +592,13 @@
         });
     // Form is valid: submit via AJAX
     }
+
+    function showImageModal() {
+        document.getElementById('imageModalOverlay').style.display = 'flex';
+    }
+
+    function hideImageModal() {
+        document.getElementById('imageModalOverlay').style.display = 'none';
+    }
+
 </script>

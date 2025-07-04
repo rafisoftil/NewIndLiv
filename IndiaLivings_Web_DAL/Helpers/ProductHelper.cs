@@ -152,7 +152,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             return insertedId;
         }
 
-        public bool InserProductImage(int productId, string imageName, string imageType, string createdBy, IFormFile productImage)
+        public bool InserProductImage(int productId, int productImageId, string imageName, string imageType, string createdBy, IFormFile productImage)
         {
             var form = new MultipartFormDataContent();
             if (productImage != null && productImage.Length > 0)
@@ -164,7 +164,7 @@ namespace IndiaLivings_Web_DAL.Helpers
 
                 form.Add(byteArrayContent, "ProductImg", productImage.FileName);
             }
-            var Url = $"https://api.indialivings.com/api/Product/AddProductimages?intProductID={productId}&strProductImageName={imageName}&strProductImageType={imageType}&createdBy={createdBy}";
+            var Url = $"https://api.indialivings.com/api/Product/AddProductimages?intProductID={productId}&intProductImageID={productImageId}&strProductImageName={imageName}&strProductImageType={imageType}&createdBy={createdBy}";
             var task = ServiceAPI.PostMultipartApi(Url, form);
             task.Wait(); // If you're not using async all the way
             var response = task.Result?.Trim('\"');
