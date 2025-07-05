@@ -402,6 +402,7 @@ namespace IndiaLivings_Web_UI.Models
                         ProductViewModel product = new ProductViewModel();
                         product.productId = productDetails.productId;
                         product.productName = productDetails.productName;
+                        product.productCondition = productDetails.productCondition;
                         product.productAdCategory = productDetails.productAdCategory;
                         product.productCategoryID = productDetails.productCategoryID;
                         product.productCategoryName = productDetails.productCategoryName;
