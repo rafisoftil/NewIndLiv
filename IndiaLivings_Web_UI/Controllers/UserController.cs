@@ -29,7 +29,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.SalesAds = products.Where(p => p.productAdCategory.Equals("Sale")).ToList().Count();
             ViewBag.RentalAds = products.Where(p => p.productAdCategory.Equals("Rent")).ToList().Count();
             MembershipViewModel membershipModel = new MembershipViewModel();
-            MembershipViewModel membership = membershipModel.GetMembershipDetails(70)[0];
+            MembershipViewModel membership = membershipModel.GetMembershipDetails(productOwner)[0];
             return View(membership);
         }
         public IActionResult PostAd()
