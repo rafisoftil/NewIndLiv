@@ -11,9 +11,8 @@ using System.Dynamic;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
-
         /// <summary>
         /// Users Dashboard Page
         /// </summary>
