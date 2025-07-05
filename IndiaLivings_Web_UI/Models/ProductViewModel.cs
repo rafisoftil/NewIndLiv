@@ -62,11 +62,15 @@ namespace IndiaLivings_Web_UI.Models
                         product.productId = wishDetails.productId;
                         product.productName = wishDetails.productName;
                         product.productImageName = wishDetails.productImageName;
+                        product.productCategoryName = wishDetails.productCategoryName;
+                        product.productSubCategoryName = wishDetails.productSubCategoryName;
                         product.productPrice = wishDetails.productPrice;
                         product.productAdCategory = wishDetails.productAdCategory;
                         product.productDescription = wishDetails.productDescription;
                         product.byteProductImageData = wishDetails.byteProductImageData;
                         product.createdBy = wishDetails.createdBy;
+                        product.updatedDate = wishDetails.updatedDate;
+                        product.userContactCity = wishDetails.userContactCity;
                         products.Add(product);
                     }
                 }
