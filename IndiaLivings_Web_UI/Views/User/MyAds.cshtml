@@ -64,6 +64,7 @@
         double modelCount = Model.Count();
         var pagedProducts = Model.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
         int productsOnPage = pagedProducts.Count;
+        List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
     }
     @if (Model.Count() > 0)
     {
@@ -132,7 +133,9 @@
                                         <div class="product-btn">
                                             <a asp-controller="User" asp-action="UpdateProduct" asp-route-productId="@product.productId" class="fas fa-edit"></a>
                                             <a href="compare.html" title="Compare" class="fas fa-compress"></a>
-                                            <button type="button" title="Wishlist" class="far fa-heart"></button>
+                                            @* <button type="button" title="Wishlist" class="far fa-heart"></button> *@
+                                            <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
+                                                    onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -289,5 +292,22 @@
         //$(curPage).addClass('active');
         var queryParams = `?page=${encodeURIComponent(page)}`;
         window.location.href = '/User/MyAds?page=' + page;
+    }
+
+    function AddToWishlist(button, productID, createdBy) {
+        var isInWishlist = button.classList.contains("fas");
+        $.ajax({
+            url: '/User/UpdateBookmarks',
+            type: 'POST',
+            data: { productID: productID, createdBy: createdBy, status: isInWishlist ? 0 : 1 },
+            success: function (response) {
+                if (response.statusCode != 200) {
+                    alert('Error in processing request.');
+                }
+            },
+            error: function () {
+                alert('Error in processing request.');
+            }
+        });
     }
 </script>

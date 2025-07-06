@@ -311,6 +311,8 @@ namespace IndiaLivings_Web_UI.Controllers
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(productOwner);
+            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
             return View(products);
