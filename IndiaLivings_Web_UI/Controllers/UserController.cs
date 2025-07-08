@@ -11,9 +11,8 @@ using System.Dynamic;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
-
         /// <summary>
         /// Users Dashboard Page
         /// </summary>
@@ -30,7 +29,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.SalesAds = products.Where(p => p.productAdCategory.Equals("Sale")).ToList().Count();
             ViewBag.RentalAds = products.Where(p => p.productAdCategory.Equals("Rent")).ToList().Count();
             MembershipViewModel membershipModel = new MembershipViewModel();
-            MembershipViewModel membership = membershipModel.GetMembershipDetails(70)[0];
+            MembershipViewModel membership = membershipModel.GetMembershipDetails(productOwner)[0];
             return View(membership);
         }
         public IActionResult PostAd()
@@ -51,6 +50,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 data.priceConditions = priceConditions;
                 data.Ad_Categories = Ad_Categories;
                 data.productConditions = productConditions;
+                data.product = null;
                 return View(data);
             }
             else
@@ -311,6 +311,8 @@ namespace IndiaLivings_Web_UI.Controllers
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(productOwner);
+            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
             return View(products);
@@ -408,6 +410,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 ImageBytes = GetByteInfo(productImage);
             }
             ProductViewModel PVM = new ProductViewModel();
+            PVM.productId = Convert.ToInt32(FormData["productId"]);
             PVM.productName = FormData["productName"].ToString();
             PVM.productDescription = FormData["AdDescription"].ToString();
             PVM.productAdTags = FormData["adTag"].ToString();
@@ -415,6 +418,7 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.productQuantity = Convert.ToInt32(FormData["productQuantity"]);
             PVM.productCondition = FormData["product_Condition"].ToString().ToUpper() == "NEW" ? 1 : 0;
             PVM.productCategoryID = Convert.ToInt32(FormData["category"].ToString());
+            PVM.productImageId = Convert.ToInt32(FormData["existingImageId"]);
             PVM.byteProductImageData = ImageBytes;
             //PVM.productCategoryName = FormData[""];
             PVM.productsubCategoryID = Convert.ToInt32(FormData["subCategory"].ToString());
@@ -642,6 +646,31 @@ namespace IndiaLivings_Web_UI.Controllers
             data.Product = product;
             data.User = user;
             return View(data);
+        }
+        /// <summary>
+        /// Update Product
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public IActionResult UpdateProduct(int productId)
+        {
+            CategoryViewModel category = new CategoryViewModel();
+            List<CategoryViewModel> categoryList = category.GetCategoryCount();
+            AdConditionViewModel adCondition = new AdConditionViewModel();
+            List<AdConditionViewModel> adConitions = new List<AdConditionViewModel>();
+            adConitions = adCondition.GetAllAdConditionsTypeName("");
+            var priceConditions = adConitions.Where(x => x.strAdConditionType.Equals("Price Condition")).ToList();
+            var Ad_Categories = adConitions.Where(x => x.strAdConditionType.Equals("Ad Category")).ToList();
+            var productConditions = adConitions.Where(x => x.strAdConditionType.Equals("Product Condition")).ToList();
+            ProductViewModel productViewModel = new ProductViewModel();
+            ProductViewModel product = productViewModel.GetProductById(productId)[0];
+            dynamic data = new ExpandoObject();
+            data.Categories = categoryList;
+            data.priceConditions = priceConditions;
+            data.Ad_Categories = Ad_Categories;
+            data.productConditions = productConditions;
+            data.product = product;
+            return View("PostAd", data);
         }
     }
 }

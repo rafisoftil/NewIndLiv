@@ -56,7 +56,7 @@
                     <span><i class="fas fa-clock"></i>@product.updatedDate.ToString("dd-MM-yyyy")</span>
                 </div>
                 <div class="product-info">
-                    <h5 class="product-price">$@product.productPrice<span>/fixed</span></h5>
+                    <h5 class="product-price">₹@product.productPrice.ToString("F2")<span>/@product.productPriceCondition</span></h5>
                     <div class="product-btn">
                         <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Compare" class="fas fa-eye"></a>
                         <a href='#' class='fas fa-compress'
