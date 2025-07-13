@@ -47,6 +47,7 @@ namespace IndiaLivings_Web_UI.Models
         public string   strUserImageType { get; set; } = string.Empty;
         public string userCompany {get;set;}=string.Empty;
         public List<UserAddressViewModel> userAddressInfo { get; set; } = [];
+        public string messageText { get; set; } = string.Empty;
 
         #endregion
 
@@ -387,6 +388,50 @@ namespace IndiaLivings_Web_UI.Models
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return response;
+        }
+        public string SendMessage(int senderUserId, int receiverUserId, string messageText)
+        {
+            string response = "An error occured while calling";
+            AuthenticationHelper AH = new AuthenticationHelper();
+            try
+            {
+                response = AH.SendMessage(senderUserId, receiverUserId, messageText);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public List<UserViewModel> GetUserChatHistory(int userId)
+        {
+            List<UserViewModel> chatHistory = new List<UserViewModel>();
+            AuthenticationHelper AH = new AuthenticationHelper();
+            try
+            {
+                var chatList = AH.GetUserChatHistory(userId);
+                if (chatList != null)
+                {
+                    foreach (var chat in chatList)
+                    {
+                        UserViewModel user = new UserViewModel();
+                        user.userID = chat.userID;
+                        user.username = chat.username;
+                        user.userFirstName = chat.userFirstName;
+                        user.userLastName = chat.userLastName;
+                        user.userEmail = chat.userEmail;
+                        user.userMobile = chat.userMobile;
+                        user.byteUserImageData = chat.byteUserImageData;
+                        user.messageText = chat.MessageText;
+                        chatHistory.Add(user);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return chatHistory;
         }
         #endregion
     }

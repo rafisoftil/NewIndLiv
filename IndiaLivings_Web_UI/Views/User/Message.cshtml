@@ -1,0 +1,188 @@
+﻿@model List<UserViewModel>
+@{
+    ViewBag.Title = "Message";
+    int currentUserId = Context.Session.GetInt32("UserId") ?? 0;
+    var defaultUser = Model.FirstOrDefault();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- VENDOR -->
+    <link rel="stylesheet" href="~/css/vendor/nice-select.min.css">
+    <link rel="stylesheet" href="~/css/vendor/emojionearea.min.css">
+    <link rel="stylesheet" href="~/css/vendor/bootstrap.min.css">
+
+    <!-- CUSTOM -->
+    <link rel="stylesheet" href="~/css/custom/main.css">
+    <link rel="stylesheet" href="~/css/custom/message.css">
+    <!--=====================================
+                CSS LINK PART END
+    =======================================-->
+</head>
+<body>
+    <!--=====================================
+                MESSAGE PART START
+    =======================================-->
+    <section class="message-part">
+        <div class="container">
+            <div class="row">
+                <!-- Left: User List -->
+                <div class="col-lg-4">
+                    <div class="message-filter">
+                        <input type="text" id="searchUser" class="form-control mb-2" placeholder="Search user...">
+                        <div id="chatList">
+                            @Html.Partial("_ChatList", Model)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Chat Box -->
+                <div class="col-lg-8" id="chat-box">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=====================================
+                MESSAGE PART END
+    =======================================-->
+    <!--=====================================
+                JS LINK PART START
+    =======================================-->
+    <!-- VENDOR -->
+    <script src="js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="js/vendor/popper.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/nice-select.min.js"></script>
+    <script src="js/vendor/emojionearea.min.js"></script>
+    <script src="js/vendor/nicescroll.min.js"></script>
+
+    <!-- CUSTOM -->
+    <script src="js/custom/nice-select.js"></script>
+    <script src="js/custom/nicescroll.js"></script>
+    <script src="js/custom/emojionearea.js"></script>
+    <script src="js/custom/main.js"></script>
+    <!--=====================================
+                JS LINK PART END
+    =======================================-->
+    @section Scripts {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
+        <script>
+            function loadMessages(userId, username) {
+                $.ajax({
+                    url: '/User/GetMessagesByUser',
+                    type: 'GET',
+                    data: { userId: userId, username: username },
+                    success: function (partialViewHtml) {
+                        $('#chat-box').html(partialViewHtml);
+                        setTimeout(scrollToBottom, 100); // scroll to bottom after render
+                    },
+                    error: function () {
+                        alert("Failed to load messages.");
+                    }
+                });
+            }
+
+            // Optional: Call on page load if you have a default user
+            $(document).ready(function () {
+                var defaultUserId = '@defaultUser?.userID';
+                var currentUsername = '@defaultUser?.username';
+                if (defaultUserId) {
+                    loadMessages(defaultUserId, currentUsername);
+                }
+            });
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/chatHub")
+                .build();
+
+            connection.start().then(() => {
+                console.log("SignalR connected");
+
+                // Send message
+                $(document).on("click", "#sendBtn", function () {
+                    const message = $("#chat-emoji").val().trim();
+                    const receiver = $("#receiverId").val();
+                    const sender = '@currentUserId';
+
+                    if (!receiver || !message) {
+                        alert("Please select a user and type a message.");
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '/User/SendMessage',
+                        type: 'GET',
+                        data: {
+                            senderUserId: sender,
+                            receiverUserId: receiver,
+                            messageText: message
+                        },
+                        success: function (response) {
+                            if (response) {
+                                connection.invoke("SendMessage", sender, receiver, message);
+                                $("#chat-emoji").val("");
+                            }
+                        }
+                    });
+                });
+
+                // Receive message live
+                connection.on("ReceiveMessage", function (sender, receiver, message) {
+                    const myId = '@currentUserId';
+                    const activeUser = $("#receiverId").val();
+
+                    const isMine = sender === myId;
+                    const shouldDisplay = (activeUser === sender || activeUser === receiver);
+
+                    if (shouldDisplay) {
+                        const msgHtml = `
+                            <li class="inbox-chat-item ${isMine ? "my-chat" : ""}">
+                                <div class="inbox-chat-img">
+                                    <img src="~/images/user.png" alt="avatar">
+                                </div>
+                                <div class="inbox-chat-content">
+                                    <div class="inbox-chat-text">
+                                        <p>${message}</p>
+                                    </div>
+                                    <small class="inbox-chat-time">just now</small>
+                                </div>
+                            </li>`;
+                        $("#chatMessageList").append(msgHtml);
+                        scrollToBottom();
+                    }
+
+                    $.ajax({
+                        url: '/User/ChatList',
+                        type: 'GET',
+                        success: function (data) {
+                            $('#chatList').html(data);
+                        },
+                        error: function () {
+                            alert('Failed to load list.');
+                        }
+                    });
+                });
+
+                // Load chat when user clicked
+                $(document).on("click", ".message-link", function (e) {
+                    e.preventDefault();
+                    const userId = $(this).data("user-id");
+                    $("#receiverId").val(userId);
+
+                    $.get("/User/GetMessagesByUser?userId=" + userId, function (data) {
+                        $("#chat-box").html(data);
+                        $(".message-item").removeClass("active");
+                        $('.message-link[data-user-id="' + userId + '"]').closest("li").addClass("active");
+                    });
+                });
+
+                const scrollToBottom = () => {
+                    const list = document.getElementById("chatMessageList");
+                    if (list) {
+                        list.scrollTop = list.scrollHeight;
+                    }
+                };
+            });
+        </script>
+    }
+</body>
+</html>
