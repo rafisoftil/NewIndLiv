@@ -1,4 +1,8 @@
 
+using IndiaLivings_Web_UI.Hubs;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.SignalR;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,8 +12,13 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
-    
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,8 +40,10 @@ app.Use(async (context, next) =>
 });
 
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+app.MapHub<Message>("/chatHub");
 
 app.MapControllerRoute(
     name: "default",

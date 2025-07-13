@@ -54,6 +54,7 @@ namespace IndiaLivings_Web_DAL.Models
         public string userCompany { get; set; } = string.Empty;
 
         public List<UserAddressModel> userAddressInfo { get; set; } = [];
+        public string MessageText { get; set; } = string.Empty;
         #endregion
 
     }

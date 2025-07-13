@@ -672,6 +672,46 @@ namespace IndiaLivings_Web_UI.Controllers
             data.product = product;
             return View("PostAd", data);
         }
+        /// <summary>
+        /// Message Page
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Message()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            UserViewModel userViewModel = new UserViewModel();
+            List<UserViewModel> chatHistory = userViewModel.GetUserChatHistory(userId);
+
+            ViewBag.DefaultChatUserId = chatHistory.FirstOrDefault()?.userID;
+
+            // Load default chat messages
+            MessageViewModel msgModel = new MessageViewModel();
+            List<MessageViewModel> defaultMessages = msgModel.GetMessageByUser(ViewBag.DefaultChatUserId ?? 0);
+
+            ViewData["DefaultMessages"] = defaultMessages;
+
+            return View(chatHistory);
+        }
+        public string SendMessage(int senderUserId, int receiverUserId, string messageText)
+        {
+            string response = "An error occured while calling";
+            UserViewModel model = new UserViewModel();
+            response = model.SendMessage(senderUserId, receiverUserId, messageText);
+            return response;
+        }
+        public IActionResult GetMessagesByUser(int userId)
+        {
+            MessageViewModel messageViewModel = new MessageViewModel();
+            List<MessageViewModel> messages = messageViewModel.GetMessageByUser(userId);
+            return PartialView("_MessagesByUser", messages);
+        }
+        public IActionResult ChatList()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            UserViewModel userViewModel = new UserViewModel();
+            List<UserViewModel> chatHistory = userViewModel.GetUserChatHistory(userId);
+            return PartialView("_ChatList", chatHistory);
+        }
     }
 }
 
