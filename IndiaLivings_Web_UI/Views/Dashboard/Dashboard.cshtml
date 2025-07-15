@@ -7,7 +7,7 @@
         <div class="banner-content">
             <h1>You can #Buy, #Rent, #Booking anything from here.</h1>
             <p>Buy and sell everything from used cars to mobile phones and computers, or search for property, jobs and more in the world.</p>
-            <a href="@Url.Action("AdsList", "User") class="btn btn-outline">
+            <a href="@Url.Action("AdsList", "User")" class="btn btn-outline">
                 <i class="fas fa-eye"></i>
                 <span>Show all ads</span>
             </a>
@@ -832,7 +832,6 @@
         </div>
     </div>
 </section>
-
 <section class="intro-part">
     <div class="container">
         <div class="row">
@@ -850,7 +849,7 @@
     </div>
 </section>
 
-<section class="price-part">
+< <section class="price-part">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -861,6 +860,7 @@
             </div>
         </div>
         <div class="row">
+            <form method="post" asp-action="ProcessPayment" asp-controller="User">
             <div class="col-md-6 col-lg-4">
                 <div class="price-card">
                     <div class="price-head">
@@ -898,6 +898,8 @@
                     </div>
                 </div>
             </div>
+            </form>
+            <form method="post" asp-action="ProcessPayment" asp-controller="User">
             <div class="col-md-6 col-lg-4">
                 <div class="price-card price-active">
                     <div class="price-head">
@@ -935,6 +937,8 @@
                     </div>
                 </div>
             </div>
+             </form>
+            <form method="post" asp-action="ProcessPayment" asp-controller="User">
             <div class="col-md-6 col-lg-4">
                 <div class="price-card">
                     <div class="price-head">
@@ -972,18 +976,7 @@
                     </div>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 </section>
-
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        setTimeout(() => {
-            spinner.classList.add('d-none');
-        }, 500);
-    });
-
-</script>

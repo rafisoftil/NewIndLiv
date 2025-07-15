@@ -1,12 +1,6 @@
-using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.SqlServer.Server;
-using System.Collections.Generic;
 using System.Dynamic;
 
 namespace IndiaLivings_Web_UI.Controllers
@@ -55,9 +49,9 @@ namespace IndiaLivings_Web_UI.Controllers
             }
             else
             {
-                return RedirectToAction("Login","Home");
+                return RedirectToAction("Login", "Home");
             }
-            
+
         }
         /// <summary>
         /// Ads List
@@ -101,7 +95,7 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 products = productViewModel.GetProducts(categoryid);
             }
-            
+
             CategoryViewModel category = new CategoryViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
@@ -148,7 +142,7 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 products = productViewModel.GetAds(0);
             }
-            
+
             if (categoryid != 0)
             {
                 products = products.Where(product => product.productCategoryID == categoryid).ToList();
@@ -158,13 +152,13 @@ namespace IndiaLivings_Web_UI.Controllers
                     products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
                 }
             }
-            
+
             if (strCity != "")
             {
                 List<string> citiesList = strCity.Split(',').ToList();
                 products = products.Where(product => citiesList.Contains(product.userContactCity.ToLower())).ToList();
             }
-            
+
             if (adtype != "")
             {
                 List<string> adtypeList = adtype.Split(',').ToList();
@@ -221,7 +215,7 @@ namespace IndiaLivings_Web_UI.Controllers
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
-            ViewBag.Count = products.Count(); 
+            ViewBag.Count = products.Count();
             AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
             {
                 Products = products,
@@ -348,7 +342,7 @@ namespace IndiaLivings_Web_UI.Controllers
             int intUserID = HttpContext.Session.GetInt32("UserId") ?? 0;
             UserAddressViewModel address = new UserAddressViewModel();
             result = address.UpdateAddress(intUserID, houseNo, city, state, country, pincode, type);
-            return Json(new { status = result});
+            return Json(new { status = result });
         }
 
         /// <summary>
@@ -422,7 +416,7 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.productPriceCondition = FormData["price_Condition"];
             PVM.productAdCategory = FormData["Ad_Category"];
             PVM.productImageName = productImage != null ? productImage.FileName : "";
-            
+
             PVM.productAdminReviewStatus = "";
             PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
                                       // PVM. = productImage.FileName != "" ? productImage.FileName.Split(".")[1] : "";
@@ -480,7 +474,7 @@ namespace IndiaLivings_Web_UI.Controllers
             UVM.userPinCode = string.IsNullOrEmpty(FormData["txt_postCode"]) ? "" : FormData["txt_postCode"];
             UVM.userRoleID = HttpContext.Session.GetInt32("RoleId") ?? 0;
             UVM.userRoleName = HttpContext.Session.GetString("Role");
-            UVM.userWebsite = string.IsNullOrEmpty(FormData["txt_website"]) ? "" : FormData["txt_website"];          
+            UVM.userWebsite = string.IsNullOrEmpty(FormData["txt_website"]) ? "" : FormData["txt_website"];
             UVM.userDOB = DateTime.TryParse(FormData["txt_dob"].ToString(), out DateTime parsedDOB) ? parsedDOB : DateTime.MinValue;
             UVM.strUserImageName = "";
             byte[] ImageBytes = [];
@@ -513,7 +507,7 @@ namespace IndiaLivings_Web_UI.Controllers
                     HttpContext.Session.SetObject("UserImage", user[0].byteUserImageData);
                 }
             }
-            return Json(new {status = result });
+            return Json(new { status = result });
         }
         public JsonResult UpdateUserImage(IFormFile imageFile)
         {
@@ -533,7 +527,7 @@ namespace IndiaLivings_Web_UI.Controllers
             else
             {
                 return Json(new { Status = "Upload Failed" });
-            }          
+            }
         }
         //public UserAddressViewModel GetUserAddress(IFormCollection FormData, bool isBilling)
         //{
@@ -584,13 +578,30 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult ProcessPayment(IFormCollection formData)
         {
             int Amount = 0;
-            Amount =Convert.ToInt32(formData["planSelection"]);
-            var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-            PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
-            string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
-            string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
-            paymentRequestViewModel =paymentRequestViewModel.ProcessRequest(Amount,ApiKey,SecretKey);
-            return View("Payment", paymentRequestViewModel);
+            var loggedInUser = HttpContext.Session.GetInt32("UserId");
+            if (loggedInUser == 0)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                Amount = Convert.ToInt32(formData["planSelection"]);
+                if (Amount != 0)
+                {
+                    var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+                    PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
+                    string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
+                    string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
+                    paymentRequestViewModel = paymentRequestViewModel.ProcessRequest(Amount, ApiKey, SecretKey);
+                    return View("Payment", paymentRequestViewModel);
+                }
+                else
+                {
+                    return View("PostAd");
+                }
+
+            }
+
         }
         private readonly IHttpContextAccessor httpContextAccessor;
 
@@ -603,7 +614,7 @@ namespace IndiaLivings_Web_UI.Controllers
             string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
             string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
             PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
-            paymentCaptured = paymentRequestViewModel.CompleteRequest(formData["rzp_paymentid"], formData["rzp_orderid"],ApiKey,SecretKey);
+            paymentCaptured = paymentRequestViewModel.CompleteRequest(formData["rzp_paymentid"], formData["rzp_orderid"], ApiKey, SecretKey);
             //if (paymentCaptured == "captured")
             //    return View("success");
             //else
