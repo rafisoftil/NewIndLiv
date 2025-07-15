@@ -1,0 +1,16 @@
+﻿<ul class="message-list">
+    @foreach (var user in Model)
+    {
+        <li class="message-item">
+            <a href="/User/GetMessageByUser/@user.userID/@user.username" class="message-link" data-user-id="@user.userID">
+                <div class="message-img">
+                    <img src="@(user.byteUserImageData != null ? $"data:image/png;base64,{Convert.ToBase64String(user.byteUserImageData)}" : Url.Content("~/images/user.png"))" alt="avatar">
+                </div>
+                <div class="message-text">
+                    <h6>@(string.IsNullOrEmpty(user.userFirstName) ? user.username : user.userFirstName)</h6>
+                    <p>@user.messageText</p>
+                </div>
+            </a>
+        </li>
+    }
+</ul>

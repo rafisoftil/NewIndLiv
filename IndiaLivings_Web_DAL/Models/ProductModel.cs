@@ -21,6 +21,7 @@ namespace IndiaLivings_Web_DAL.Models
         public string productSubCategoryName { get; set; } = string.Empty;
         public string productPriceCondition { get; set; } = string.Empty;
         public string productAdCategory { get; set; } = string.Empty;
+        public int productImageId { get; set; } = 0;
         public string productImageName { get; set; } = string.Empty;
         public string productImagePath { get; set; } = string.Empty;
         public bool productSold { get; set; }

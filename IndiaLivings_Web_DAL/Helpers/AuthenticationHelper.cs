@@ -337,5 +337,47 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
+        public string SendMessage(int senderUserId, int receiverUserId, string messageText)
+        {
+            string response = string.Empty;
+            try
+            {
+                // Assuming you have a method to send messages, implement it here.
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/SendMessageToUser?senderUserId={senderUserId}&receiverUserId={receiverUserId}&messageText={messageText}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public List<UserModel> GetUserChatHistory(int userId)
+        {
+            List<UserModel> chatHistory = new List<UserModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Users/GetUserChatHistory?userId={userId}");
+                chatHistory = JsonConvert.DeserializeObject<List<UserModel>>(response);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return chatHistory;
+        }
+        public List<MessageModel> GetMessagesByUserId(int userId)
+        {
+            List<MessageModel> messages = new List<MessageModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserMessages?userId={userId}");
+                messages = JsonConvert.DeserializeObject<List<MessageModel>>(response);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return messages;
+        }
     }
 }

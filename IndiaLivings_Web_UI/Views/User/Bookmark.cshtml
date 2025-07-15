@@ -4,20 +4,6 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <!--=====================================
-                META-TAG PART START
-    =======================================-->
-    <!-- VENDOR -->
-    <link rel="stylesheet" href="~/css/vendor/bootstrap.min.css">
-
-    <!-- CUSTOM -->
-    <link rel="stylesheet" href="~/css/custom/main.css">
-    <link rel="stylesheet" href="~/css/custom/dashboard.css">
-    <!--=====================================
-                CSS LINK PART END
-    =======================================-->
-</head>
 <body>
     <!--=====================================
                   SINGLE BANNER PART START
@@ -122,7 +108,7 @@
                                         <span>top niche</span>
                                     </div>
                                     <div class="product-type">
-                                        <span class="flat-badge booking">sale</span>
+                                        <span class="flat-badge @(wishlist.productAdCategory.ToLower())">@wishlist.productAdCategory</span>
                                     </div>
                                     <ul class="product-action">
                                         <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
@@ -133,18 +119,18 @@
                                 <div class="product-content">
                                     <ol class="breadcrumb product-category">
                                         <li><i class="fas fa-tags"></i></li>
-                                        <li class="breadcrumb-item"><a href="#">@wishlist.productName</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">@wishlist.productAdCategory</li>
+                                        <li class="breadcrumb-item"><a href="#">@wishlist.productCategoryName</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">@wishlist.productSubCategoryName</li>
                                     </ol>
                                     <h5 class="product-title">
-                                        <a href="#">@wishlist.productDescription</a>
+                                        <a href="#">@wishlist.productName</a>
                                     </h5>
                                     <div class="product-meta">
-                                        <span><i class="fas fa-map-marker-alt"></i>Uttara, Dhaka</span>
-                                        <span><i class="fas fa-clock"></i>30 min ago</span>
+                                        <span><i class="fas fa-map-marker-alt"></i>@wishlist.userContactCity</span>
+                                        <span><i class="fas fa-clock"></i>@wishlist.updatedDate.ToString("dd-MM-yyyy")</span>
                                     </div>
                                     <div class="product-info">
-                                        <h5 class="product-price">@wishlist.productPrice<span>/per week</span></h5>
+                                        <h5 class="product-price">₹@wishlist.productPrice.ToString("F2")<span>/week</span></h5>
                                         <div class="product-btn">
                                             <a href="compare.html" title="Compare" class="fas fa-compress"></a>
                                             @* <button type="button" title="Wishlist" class="fas fa-heart"></button> *@
