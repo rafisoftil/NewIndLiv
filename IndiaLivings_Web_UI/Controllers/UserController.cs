@@ -702,6 +702,7 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult GetMessagesByUser(int userId)
         {
             MessageViewModel messageViewModel = new MessageViewModel();
+            ViewBag.UserID = userId;
             List<MessageViewModel> messages = messageViewModel.GetMessageByUser(userId);
             return PartialView("_MessagesByUser", messages);
         }
@@ -711,6 +712,50 @@ namespace IndiaLivings_Web_UI.Controllers
             UserViewModel userViewModel = new UserViewModel();
             List<UserViewModel> chatHistory = userViewModel.GetUserChatHistory(userId);
             return PartialView("_ChatList", chatHistory);
+        }
+        public IActionResult SearchUsers(string term)
+        {
+            UserViewModel user = new UserViewModel();
+            List<UserViewModel> userList = new List<UserViewModel>();
+            userList = user.UsersList();
+            //return View(userList.ToList());
+            var results = userList
+                .Where(u => !string.IsNullOrEmpty(term) && (
+                    (u.username?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (u.userFirstName?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (u.userMiddleName?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (u.userLastName?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (u.userMobile?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (u.userEmail?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false)
+                ))
+                //.Select(u => new {
+                //    u.userID,
+                //    name = string.IsNullOrEmpty(u.userFirstName) ? u.username : u.userFirstName,
+                //    u.byteUserImageData,
+                //    u.messageText
+                //})
+                .ToList();
+
+            return Json(results);
+        }
+        //public PartialViewResult GetUserCard(int userId)
+        //{
+        //    var user = new UserViewModel().GetUserById(userId); // Your method
+        //    return PartialView("_UserCard", user);
+        //}
+        public IActionResult GetUserChatListItem(string username)
+        {
+            UserViewModel user = new UserViewModel().GetUsersInfo(username)[0]; // Use your method to fetch user
+            if (user != null)
+            {
+                return PartialView("_UserCard", user); // Your partial view that renders one <li>
+            }
+            return NotFound();
+        }
+        public string DeleteUserMessage(int messageId, int userId)
+        {
+            string deleteStatus = new MessageViewModel().DeleteUserMessage(messageId, userId);
+            return deleteStatus;
         }
     }
 }

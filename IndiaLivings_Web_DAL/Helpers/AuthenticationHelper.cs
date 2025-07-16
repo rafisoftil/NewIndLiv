@@ -379,5 +379,18 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return messages;
         }
+        public string DeleteUserMessage(int messageId, int userId)
+        {
+            string response = "An error occured";
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/DeleteUserMessage?messageId={messageId}&userId={userId}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }
