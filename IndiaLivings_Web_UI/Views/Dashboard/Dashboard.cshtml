@@ -1,6 +1,7 @@
 ﻿@* @using System.Linq; *@
 @{
     ViewBag.Title = "Home";
+    var recommendedAds = (List<ProductViewModel>)Model.RecommendedAds;
 }
 <section class="banner-part">
     <div class="container">
@@ -36,7 +37,7 @@
 
 </section>
 @* Api is needed *@
-@* <section class="section feature-part">
+<section class="section feature-part">
     <div class="container">
         <div class="row">
             <div class="col-md-5 col-lg-5">
@@ -51,113 +52,44 @@
             </div>
             <div class="col-md-7 col-lg-7">
                 <div class="feature-card-slider slider-arrow">
-                    <div class="feature-card">
-                        <a href="#" class="feature-img">
-                            <img src="images/product/10.jpg" alt="feature">
-                        </a>
-                        <div class="cross-inline-badge feature-badge">
-                            <span>featured</span>
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <button type="button" class="feature-wish">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                        <div class="feature-content">
-                            <ol class="breadcrumb feature-category">
-                                <li><span class="flat-badge rent">rent</span></li>
-                                <li class="breadcrumb-item"><a href="#">automobile</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">private car</li>
-                            </ol>
-                            <h3 class="feature-title"><a href="ad-details-left.html">Unde eveniet ducimus nostrum maiores soluta temporibus ipsum dolor sit amet.</a></h3>
-                            <div class="feature-meta">
-                                <span class="feature-price">$1200<small>/Monthly</small></span>
-                                <span class="feature-time"><i class="fas fa-clock"></i>56 minute ago</span>
+                    @foreach (var product in recommendedAds)
+                    {
+                        <div class="feature-card">
+                            <a href="#" class="feature-img">
+                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="feature">
+                            </a>
+                            <div class="cross-inline-badge feature-badge">
+                                <span>featured</span>
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <button type="button" class="feature-wish">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <div class="feature-content">
+                                <ol class="breadcrumb feature-category">
+                                    <li><span class="flat-badge @(product.productAdCategory.ToLower())">@product.productAdCategory</span></li>
+                                    <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
+                                </ol>
+                                <h3 class="feature-title"><a href="ad-details-left.html">@product.productDescription</a></h3>
+                                <div class="feature-meta">
+                                    <span class="feature-price">₹@product.productPrice.ToString("F2")<small>/@product.productPriceCondition</small></span>
+                                    <span class="feature-time"><i class="fas fa-clock"></i>@product.updatedDate.ToString("MMM dd, h:mm tt")</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="feature-card">
-                        <a href="#" class="feature-img">
-                            <img src="images/product/01.jpg" alt="feature">
-                        </a>
-                        <div class="cross-inline-badge feature-badge">
-                            <span>featured</span>
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <button type="button" class="feature-wish">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                        <div class="feature-content">
-                            <ol class="breadcrumb feature-category">
-                                <li><span class="flat-badge booking">booking</span></li>
-                                <li class="breadcrumb-item"><a href="#">Property</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">House</li>
-                            </ol>
-                            <h3 class="feature-title"><a href="ad-details-left.html">Unde eveniet ducimus nostrum maiores soluta temporibus ipsum dolor sit amet.</a></h3>
-                            <div class="feature-meta">
-                                <span class="feature-price">$800<small>/perday</small></span>
-                                <span class="feature-time"><i class="fas fa-clock"></i>56 minute ago</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-card">
-                        <a href="#" class="feature-img">
-                            <img src="images/product/08.jpg" alt="feature">
-                        </a>
-                        <div class="cross-inline-badge feature-badge">
-                            <span>featured</span>
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <button type="button" class="feature-wish">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                        <div class="feature-content">
-                            <ol class="breadcrumb feature-category">
-                                <li><span class="flat-badge sale">sale</span></li>
-                                <li class="breadcrumb-item"><a href="#">gadget</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">iphone</li>
-                            </ol>
-                            <h3 class="feature-title"><a href="ad-details-left.html">Unde eveniet ducimus nostrum maiores soluta temporibus ipsum dolor sit amet.</a></h3>
-                            <div class="feature-meta">
-                                <span class="feature-price">$1150<small>/Negotiable</small></span>
-                                <span class="feature-time"><i class="fas fa-clock"></i>56 minute ago</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-card">
-                        <a href="#" class="feature-img">
-                            <img src="images/product/06.jpg" alt="feature">
-                        </a>
-                        <div class="cross-inline-badge feature-badge">
-                            <span>featured</span>
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <button type="button" class="feature-wish">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                        <div class="feature-content">
-                            <ol class="breadcrumb feature-category">
-                                <li><span class="flat-badge sale">sale</span></li>
-                                <li class="breadcrumb-item"><a href="#">automobile</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">cycle</li>
-                            </ol>
-                            <h3 class="feature-title"><a href="ad-details-left.html">Unde eveniet ducimus nostrum maiores soluta temporibus ipsum dolor sit amet.</a></h3>
-                            <div class="feature-meta">
-                                <span class="feature-price">$455<small>/fixed</small></span>
-                                <span class="feature-time"><i class="fas fa-clock"></i>56 minute ago</span>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
                 <div class="feature-thumb-slider">
-                    <div class="feature-thumb"><img src="images/product/10.jpg" alt="feature"></div>
-                    <div class="feature-thumb"><img src="images/product/01.jpg" alt="feature"></div>
-                    <div class="feature-thumb"><img src="images/product/08.jpg" alt="feature"></div>
-                    <div class="feature-thumb"><img src="images/product/06.jpg" alt="feature"></div>
+                    @foreach (var product in recommendedAds)
+                    {
+                        <div class="feature-thumb"><img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="feature"></div>
+                    }
                 </div>
             </div>
         </div>
     </div>
-</section> *@
+</section>
 
 <section class="section recomend-part">
     <div class="container">

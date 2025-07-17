@@ -258,6 +258,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.productAdminReview = productDetails.productAdminReview;
                         product.productPriceCondition = productDetails.productPriceCondition;
                         product.byteProductImageData = productDetails.byteProductImageData;
+                        product.productMembershipID = productDetails.productMembershipID;
                         product.createdDate = productDetails.createdDate;
                         product.createdBy = productDetails.createdBy;
                         product.updatedDate = productDetails.updatedDate;
