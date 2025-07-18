@@ -1,0 +1,13 @@
+﻿@model UserViewModel
+
+<li class="message-item">
+    <a href="/User/GetMessageByUser/@Model.userID" class="message-link" data-user-id="@Model.userID" data-username="@Model.username">
+        <div class="message-img">
+            <img src="@(Model.byteUserImageData != null ? $"data:image/png;base64,{Convert.ToBase64String(Model.byteUserImageData)}" : Url.Content("/images/user.png"))" alt="avatar">
+        </div>
+        <div class="message-text">
+            <h6>@(string.IsNullOrEmpty(Model.userFirstName) ? Model.username : Model.userFirstName)</h6>
+            <p>@Model.messageText</p>
+        </div>
+    </a>
+</li>

@@ -2,7 +2,7 @@
     @foreach (var user in Model)
     {
         <li class="message-item">
-            <a href="/User/GetMessageByUser/@user.userID/@user.username" class="message-link" data-user-id="@user.userID">
+            <a href="/User/GetMessageByUser/@user.userID" class="message-link" data-user-id="@user.userID" data-username="@user.username">
                 <div class="message-img">
                     <img src="@(user.byteUserImageData != null ? $"data:image/png;base64,{Convert.ToBase64String(user.byteUserImageData)}" : Url.Content("~/images/user.png"))" alt="avatar">
                 </div>

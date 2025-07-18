@@ -18,7 +18,7 @@
                 </div>
             </div>
             <ul class="inbox-header-list">
-                <li><a href="#" title="Delete" class="fas fa-trash-alt"></a></li>
+                <li><a href="/User/DeleteUserMessage" title="Delete" class="fas fa-trash-alt"></a></li>
                 <li><a href="#" title="Report" class="fas fa-flag"></a></li>
                 <li><a href="#" title="Block" class="fas fa-shield-alt"></a></li>
             </ul>
@@ -29,11 +29,15 @@
                 bool isMine = msg.SenderId == currentUserId.ToString();
                 <li class="inbox-chat-item @(isMine ? "my-chat" : "")">
                     <div class="inbox-chat-img">
-                        <img src="~/images/user.png" alt="avatar">
+                        <img src="~/images/user.png">
                     </div>
                     <div class="inbox-chat-content">
                         <div class="inbox-chat-text">
                             <p>@msg.text</p>
+                            <div class="inbox-chat-action">
+                                <a onclick="DeleteMessage('@msg.Id', '@(isMine? msg.SenderId: msg.ReceiverId)', '@msg.ReceiverId')" title="Remove" class="fas fa-trash-alt"></a>
+                                <a href="#" title="Forward" class="fas fa-forward"></a>
+                            </div>
                         </div>
                         <small class="inbox-chat-time">@msg.Timestamp.ToString("MMM dd, h:mm tt")</small>
                     </div>
@@ -41,7 +45,7 @@
             }
         </ul>
 
-        <input type="hidden" id="receiverId" value="@receiver" />
+        <input type="hidden" id="receiverId" value="@ViewBag.UserID" />
 
         <div class="inbox-chat-form">
             <textarea placeholder="Type a Message" id="chat-emoji"></textarea>
@@ -57,4 +61,17 @@
                 }
             };
     setTimeout(scrollToBottom, 100);
+
+    function DeleteMessage(messageId, userId, refreshId){
+        $.ajax({
+            url: '/User/DeleteUserMessage',
+            type: 'POST',
+            data: {messageId: messageId, userId: userId},
+            success: function(response) {
+                if (response.includes("deleted")) {
+                    loadMessages(refreshId)
+                }
+            }
+        });
+    }
 </script>

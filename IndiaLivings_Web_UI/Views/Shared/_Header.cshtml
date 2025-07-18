@@ -1,4 +1,4 @@
-﻿@*
+﻿﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -24,7 +24,7 @@
                         <span>Join Me</span>
                     </a>
                 }
-                
+
                 <button type="button" class="header-widget search-btn">
                     <i class="fas fa-search"></i>
                 </button>
@@ -45,35 +45,35 @@
                     </div>
                 </div>
             </form>
-             @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
-                {
-                        <div class="header-right">
-                            <ul class="header-list">
-                                <li class="header-item">
-                                    <a href="~/User/Bookmark" class="header-widget">
-                                        <i class="fas fa-heart"></i>
-                                   <sup>@Context.Session.GetInt32("wishlistCount")</sup>
-                                    </a>
-                                </li>
-                                <li class="header-item">
-                                    <button type="button" class="header-widget">
-                                        <i class="fas fa-envelope"></i>
-                                        <sup>0</sup>
-                                    </button>
-                                </li>
-                                <li class="header-item">
-                                    <button type="button" class="header-widget">
-                                        <i class="fas fa-bell"></i>
-                                        <sup>0</sup>
-                                    </button>
-                                </li>
-                            </ul>
-                    <a asp-controller="User" asp-action="PostAd" class="btn btn-inline post-btn">
-                                <i class="fas fa-plus-circle"></i>
-                                <span>post your ad</span>
+            @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
+            {
+                <div class="header-right">
+                    <ul class="header-list">
+                        <li class="header-item">
+                            <a href="~/User/Bookmark" class="header-widget">
+                                <i class="fas fa-heart"></i>
+                                <sup>@Context.Session.GetInt32("wishlistCount")</sup>
                             </a>
-                        </div>
-                    }
+                        </li>
+                        <li class="header-item">
+                            <button type="button" class="header-widget">
+                                <i class="fas fa-envelope"></i>
+                                <sup>0</sup>
+                            </button>
+                        </li>
+                        <li class="header-item">
+                            <button type="button" class="header-widget">
+                                <i class="fas fa-bell"></i>
+                                <sup>0</sup>
+                            </button>
+                        </li>
+                    </ul>
+                    <a asp-controller="User" asp-action="PostAd" class="btn btn-inline post-btn">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>post your ad</span>
+                    </a>
+                </div>
+            }
         </div>
     </div>
 </header>
@@ -95,9 +95,10 @@
         window.location.href = '/User/navSearch' + queryParams;
       }
     function opennavdrop() {
+        console.log("Hi");
         $.ajax({
-                    url: '/User/GetStates',
-                    type: 'GET',
+                    url: '/Dashboard/GetStates',
+                    type: 'GET', 
                     data: {countryId: 91},
                     success: function (states) {
                         if (typeof states === "string") {
@@ -126,7 +127,7 @@
                         $stateDropdown.val("").trigger('change');
                         //}
 
-                        
+
                     },
                     error: function () {
                         alert('Failed to load states');
@@ -136,7 +137,7 @@
             const selectedStateId = $(this).val();
             if (selectedStateId) {
                 $.ajax({
-                    url: '/User/GetCities',
+                    url: '/Dashboard/GetCities',
                     type: 'GET',
                     data: {stateId: selectedStateId},
                     success: function (cities) {

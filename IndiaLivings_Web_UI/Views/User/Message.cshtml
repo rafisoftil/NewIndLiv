@@ -30,6 +30,7 @@
                 <div class="col-lg-4">
                     <div class="message-filter">
                         <input type="text" id="searchUser" class="form-control mb-2" placeholder="Search user...">
+                        <ul class="search-suggestions list-group position-absolute" id="suggestionList" style="z-index: 1000;"></ul>
                         <div id="chatList">
                             @Html.Partial("_ChatList", Model)
                         </div>
@@ -67,14 +68,74 @@
     @section Scripts {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
         <script>
-            function loadMessages(userId, username) {
+            $(document).ready(function () {
+                $("#searchUser").on("keyup", function () {
+                    const query = $(this).val().trim();
+                    if (query.length >= 2) {
+                        $.get('/User/SearchUsers', { term: query }, function (data) {
+                            let suggestions = "";
+                            data.forEach(u => {
+                                suggestions += `
+                                    <li class="list-group-item suggestion-item" data-username="${u.username}">
+                                        <img src="${u.byteUserImageData ? `data:image/png;base64,${u.byteUserImageData}` : '/images/user.png'}" width="30" height="30" class="rounded-circle me-2" />
+                                        ${u.username} - ${u.messageText ?? ''}
+                                    </li>`;
+                            });
+                            $("#suggestionList").html(suggestions).show();
+                        });
+                    } else {
+                        $("#suggestionList").hide().empty();
+                    }
+                });
+
+                // $(document).on("click", ".suggestion-item", function () {
+                //     const username = $(this).data("username");
+
+                //     //Prevent duplicate users
+                //     if ($(`.message-link[data-username='${username}']`).length === 0) {
+                //         $.get("/User/GetUserChatListItem", { username: username }, function (html) {
+                //             $(".message-list").append(html);
+                //         });
+                //     }
+
+                //     $("#suggestionList").hide().empty();
+                //     $("#searchUser").val('');
+                // });
+            $(document).on("click", ".suggestion-item", function () {
+                const username = $(this).data("username");
+                //const userId = $(this).data("user-id");
+                $("#suggestionList").hide().empty();
+                // Check if the user is already in the sidebar
+                if ($('.message-link[data-username="' + username + '"]').length !== 0) {
+                    $('.message-link[data-username="' + username + '"]').trigger("click");
+                } else {   
+                    $.get("/User/GetUserChatListItem", { username: username }, function (html) {
+                        $(".message-list").prepend(html);
+
+                        // Optionally: load chat messages for that user
+                        // $.get("/User/GetMessageByUser/" + userId, function (data) {
+                        //     $("#chat-box").html(data);
+                        //     $("#receiverId").val(userId);
+                        // });
+
+                        // Highlight newly added user
+                        $(".message-item").removeClass("active");
+                        $('.message-link[data-username="' + username + '"]').closest("li").addClass("active");
+                        $('.message-link[data-username="' + username + '"]').trigger("click");
+                    });
+                }
+            });
+            });
+                    // When a search result is clicked
+            
+            function loadMessages(userId) {
                 $.ajax({
                     url: '/User/GetMessagesByUser',
                     type: 'GET',
-                    data: { userId: userId, username: username },
+                    data: { userId: userId},
                     success: function (partialViewHtml) {
                         $('#chat-box').html(partialViewHtml);
-                        setTimeout(scrollToBottom, 100); // scroll to bottom after render
+                        //setTimeout(scrollToBottom, 100); // scroll to bottom after render
                     },
                     error: function () {
                         alert("Failed to load messages.");
@@ -87,7 +148,7 @@
                 var defaultUserId = '@defaultUser?.userID';
                 var currentUsername = '@defaultUser?.username';
                 if (defaultUserId) {
-                    loadMessages(defaultUserId, currentUsername);
+                    loadMessages(defaultUserId);
                 }
             });
             const connection = new signalR.HubConnectionBuilder()
@@ -147,7 +208,7 @@
                                 </div>
                             </li>`;
                         $("#chatMessageList").append(msgHtml);
-                        scrollToBottom();
+                        //scrollToBottom();
                     }
 
                     $.ajax({
