@@ -579,5 +579,27 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// State names
+        /// </summary>
+        /// <returns> List of all states under given country id</returns>
+        public string GetStates(int countryId)
+        {
+            UserViewModel user = new UserViewModel();
+            string states = user.GetStateName(countryId);
+            return states;
+        }
+
+        /// <summary>
+        /// City names
+        /// </summary>
+        /// <returns> List of all cities under given state id</returns>
+        public string GetCities(int stateId)
+        {
+            UserViewModel user = new UserViewModel();
+            string cities = user.GetCityName(stateId);
+            return cities;
+        }
     }
 }

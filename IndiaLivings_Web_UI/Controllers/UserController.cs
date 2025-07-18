@@ -378,28 +378,6 @@ namespace IndiaLivings_Web_UI.Controllers
             string countries = user.GetCountryName();
             return countries;
         }
-
-        /// <summary>
-        /// State names
-        /// </summary>
-        /// <returns> List of all states under given country id</returns>
-        public string GetStates(int countryId)
-        {
-            UserViewModel user = new UserViewModel();
-            string states = user.GetStateName(countryId);
-            return states;
-        }
-
-        /// <summary>
-        /// City names
-        /// </summary>
-        /// <returns> List of all cities under given state id</returns>
-        public string GetCities(int stateId)
-        {
-            UserViewModel user = new UserViewModel();
-            string cities = user.GetCityName(stateId);
-            return cities;
-        }
         [HttpPost]
         public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
         {
