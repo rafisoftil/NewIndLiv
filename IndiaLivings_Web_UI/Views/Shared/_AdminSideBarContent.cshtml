@@ -40,9 +40,18 @@
                         <i class="fas fa-greater-than"></i>
                     </a>
                     <ul class="dropdown-list">
-                        <li><a class="dropdown-link" asp-area="" asp-controller="DashBoard" asp-action="Categories" asp-route-id="">Category</a></li>
-                        @* <li><a class="dropdown-link" asp-area="" asp-controller="SubCategory" asp-action="SubCategoryMainPage">Sub Category</a></li> *@
-                        @* <li><a class="dropdown-link" asp-area="" asp-controller="Product" asp-action="ProductsMainPage">Manage Products</a></li> *@
+                        <li><a class="dropdown-link" asp-area="" asp-controller="DashBoard" asp-action="Categories" asp-route-id="">Categories</a></li>
+                    </ul>
+                </li>
+                <li class="navbar-item navbar-dropdown">
+                    <a class="navbar-link" href="#">
+                        <span>Blogs</span>
+                        <i class="fas fa-greater-than"></i>
+                    </a>
+                    <ul class="dropdown-list">
+                        <li><a class="dropdown-link" asp-area="" asp-controller="DashBoard" asp-action="CreateBlog" asp-route-id="">Create Blog</a></li>
+                        <li><a class="dropdown-link" asp-area="" asp-controller="DashBoard" asp-action="ManageBlogs" asp-route-id="">Manage Blogs</a></li>
+                        <li><a class="dropdown-link" asp-area="" asp-controller="DashBoard" asp-action="ReviewBlogs" asp-route-id="">Review Blogs</a></li>
                     </ul>
                 </li>
                 <li class="navbar-item navbar-dropdown">

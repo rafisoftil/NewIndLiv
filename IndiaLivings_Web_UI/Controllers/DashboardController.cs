@@ -577,5 +577,43 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// Review Blogs Page
+        /// </summary>
+        /// <returns> List of all Blogs to be reviewed </returns>
+        public IActionResult ReviewBlogs()
+        {
+            try
+            {
+                ProductViewModel productModel = new ProductViewModel();
+                List<ProductViewModel> products = productModel.AdsList(1);
+                return View(products);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Manage Blogs Page
+        /// </summary>
+        /// <returns> List of all Blogs (Status of active ads can be changed) </returns>
+        public IActionResult ManageBlogs()
+        {
+            try
+            {
+                ProductViewModel productModel = new ProductViewModel();
+                List<ProductViewModel> products = productModel.AdsList(0);
+                return View(products);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

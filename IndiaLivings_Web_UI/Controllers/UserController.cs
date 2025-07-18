@@ -723,6 +723,11 @@ namespace IndiaLivings_Web_UI.Controllers
             List<UserViewModel> chatHistory = userViewModel.GetUserChatHistory(userId);
             return PartialView("_ChatList", chatHistory);
         }
+
+        public IActionResult BlogPost()
+        {
+            return View();
+        }
     }
 }
 

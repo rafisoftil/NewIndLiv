@@ -3,43 +3,6 @@
 @{
     ViewBag.Title = "Categories";
 }
-<style type="text/css">
-    body {
-        font-family: Arial;
-        font-size: 10pt;
-    }
-
-    .Grid {
-        border: 1px solid #ccc;
-        border-collapse: collapse;
-        background-color: #fff;
-    }
-
-        .Grid th {
-            background-color: #B8DBFD;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .Grid th, .Grid td {
-            padding: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .Grid img {
-            cursor: pointer;
-        }
-
-    .ChildGrid {
-        width: 100%;
-    }
-
-        .ChildGrid th {
-            background-color: #6C6C6C;
-            color: #fff;
-            font-weight: bold;
-        }
-</style>
 
 <!--=====================================
     SINGLE BANNER PART START
@@ -71,31 +34,25 @@ COMPARE PART START
     <div class="container-fluid">
         
         @(
-        Html.Grid(Model).Build(col =>
-        {
-                col.Add().Titled("Action")
-                .Encoded(false)
-                .RenderedAs(Model => $@"");
-                col.Add().RenderedAs((model, row) => row + 1).Titled("#");
-                col.Add(Model => Model.CategoryName).Titled("Category Name").RenderedAs(Model => $@"<image src='' />");
-                col.Add(Model => Model.CategoryImage).Titled("Image");
-        }))
-        @* htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
-                     columns: webGrid.Columns(
-                     webGrid.Column(null, null, format: @<text><i class="fas fa-greater-than"></i><div style = "display:none" ></div></text>),
-                     webGrid.Column("ContactName", "Contact Name"),
-                     webGrid.Column("City", "City"),
-                     webGrid.Column(format: (item) =>
-                     {
-                         WebGrid childGrid = new WebGrid(source: item.Orders, canSort: false, canPage: false);
-                         return childGrid.GetHtml(
-                         htmlAttributes: new { @class = "ChildGrid" },
-                         columns: childGrid.Columns(
-                         childGrid.Column("OrderId", "OrderId"),
-                         childGrid.Column("OrderDate", "OrderDate")
-                         ));
-                     })
-                     )) *@
+            Html.Grid(Model).Build(col =>
+                {
+                col.Add().Encoded(false)
+            .RenderedAs(Model => $@"<i class='fas fa-plus' style='cursor:pointer' onclick='showSubCategories({Model.SubCategoryName})' />");
+            //col.Add().RenderedAs((model, row) => row + 1).Titled("#");
+                col.Add(Model => Model.CategoryName).Titled("Category Name");
+                col.Add().Titled("Category Image").Encoded(false).RenderedAs(c =>// Render image tag with the ImageUrl property
+                $@"<img src='{Url.Content(c.CategoryImage)}' alt='Product Image' style='width:100px;height:auto;' onerror='this.src=&quot;/images/default-category.jpg&quot;' />"
+                );
+            }).Empty("No data Found")
+            .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
+                pager.ShowPageSizes = false;
+                pager.PagesToDisplay = 3;
+                @* pager.CurrentPage = 1; *@
+                pager.RowsPerPage = 10;
+            })
+        )       
      </div>
 </div>
 
@@ -104,30 +61,12 @@ COMPARE PART START
 <script type="text/javascript">
 
     document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
-        $(function () {
-            //Loop through all Child Grids.
-            $("#WebGrid .ChildGrid").each(function () {
-                //Copy the Child Grid to DIV.
-                var childGrid = $(this).clone();
-                $(this).closest("TR").find("TD").eq(0).find("DIV").append(childGrid);
 
-                //Remove the Last Column from the Row.
-                $(this).parent().remove();
-            });
-
-        //Remove Last Column from Header Row.
-        $("#WebGrid TH:last-child").eq(0).remove();
-                    });
-        //Assign Click event to Plus Image.
-        $("body").on("click", "img[src*='plus.png']", function () {
-            $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
-        $(this).attr("src", "/images/minus.png");
-                    });
-        //Assign Click event to Minus Image.
-        $("body").on("click", "img[src*='minus.png']", function () {
-            $(this).attr("src", "/images/plus.png");
-        $(this).closest("tr").next().remove();
-                    });
+    // Function to handle the click event and show subcategories
+    function showSubCategories(subCategoryName) { 
+        var subCategories = $(this).data("id");
+        alert(subCategoryName); // Example to show the first subcategory name
+    }
 </script>
 <!--=====================================
             JS LINK PART END
