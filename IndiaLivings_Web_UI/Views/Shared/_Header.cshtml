@@ -92,7 +92,7 @@
         var queryParams = `?strProductName=${encodeURIComponent(productName)}&strCity=${encodeURIComponent(city)}&strState=${encodeURIComponent(state)}&decMinPrice=${encodeURIComponent(minPrice)}&decMaxPrice=${encodeURIComponent(maxPrice)}`;
 
         // Navigate to the AdsList page with query params
-        window.location.href = '/User/navSearch' + queryParams;
+        window.location.href = '/Dashboard/navSearch' + queryParams;
       }
     function opennavdrop() {
         console.log("Hi");
@@ -175,13 +175,4 @@
             }
         });
     }
-
-    // $('#cityDropdown').off('mousedown').on('mousedown', function (e) {
-    //         if ($('#stateDropdown').val() === "" || $('#stateDropdown').val() === null) {
-    //             alert('Please select a state first.');
-    //             e.preventDefault(); // stop dropdown from opening
-    //         }
-    //     });
-    // }
-
 </script>

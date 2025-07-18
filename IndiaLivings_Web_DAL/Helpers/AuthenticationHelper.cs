@@ -356,7 +356,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<UserModel> chatHistory = new List<UserModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Users/GetUserChatHistory?userId={userId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserChatHistory?userId={userId}");
                 chatHistory = JsonConvert.DeserializeObject<List<UserModel>>(response);
             }
             catch (Exception ex)
