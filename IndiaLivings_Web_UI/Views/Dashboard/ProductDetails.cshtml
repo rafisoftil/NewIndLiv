@@ -3,7 +3,7 @@
     var user = Model.User;
 }
 <head>
-    <link rel="stylesheet" href="~/css/custom/ad-details.css" >
+    <link rel="stylesheet" href="~/css/custom/ad-details.css">
     <link rel="stylesheet" href="~/css/custom/ad-details-left.css">
 </head>
 <body>
@@ -57,7 +57,7 @@
                         <div class="ad-details-author">
                             <a href="#" class="author-img active">
                                 <img src="data:image/png;base64,@Convert.ToBase64String(user.byteUserImageData)"
-                                     onerror="this.onerror=null; this.src='/images/user.png';"/>
+                                     onerror="this.onerror=null; this.src='/images/user.png';" />
                             </a>
                             <div class="author-meta">
                                 <h4><a href="#">@user.userFirstName @user.userMiddleName @user.userLastName</a></h4>
@@ -231,10 +231,10 @@
                         </ol>
                         <h5 class="ad-details-address">
                             @(user.userAddressInfo != null && user.userAddressInfo.Count > 0
-                                ? user.userAddressInfo[0].strUserContactFullAddress + ", "
-                                + user.userAddressInfo[0].strUserContactCity + ", "
-                                + user.userAddressInfo[0].strUserContactState
-                                : "")
+                                                        ? user.userAddressInfo[0].strUserContactFullAddress + ", "
+                                                        + user.userAddressInfo[0].strUserContactCity + ", "
+                                                        + user.userAddressInfo[0].strUserContactState
+                                                        : "")
                         </h5>
                         <h3 class="ad-details-title">@product.productName</h3>
                         <div class="ad-details-meta">
@@ -258,10 +258,10 @@
                                 <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
                                      onerror="this.onerror=null; this.src='/images/white-screen.jpg';">
                                 <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                     onerror="this.onerror=null; this.src='/images/white-screen.jpg';"> 
+                                     onerror="this.onerror=null; this.src='/images/white-screen.jpg';">
                                 <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
                                      onerror="this.onerror=null; this.src='/images/white-screen.jpg';">
-    
+
                             </div>
                             <div class="cross-vertical-badge ad-details-badge">
                                 <i class="fas fa-clipboard-check"></i>
@@ -667,7 +667,6 @@
     <!--=====================================
                 RELATED PART START
     =======================================-->
-
     <!--=====================================
              AD SHARE MODAL PART START
     =======================================-->

@@ -53,66 +53,6 @@ namespace IndiaLivings_Web_UI.Controllers
             }
 
         }
-        /// <summary>
-        /// Ads List
-        /// </summary>
-        /// <returns> List of all Ads will be reurned</returns>
-        /// // Need to be reviewed with Anoop
-        //public IActionResult AdsList(int categoryid = 0, int page = 1)
-        //{
-        //    ProductViewModel productModel = new ProductViewModel();
-        //    List<ProductViewModel> products = productModel.GetProducts(categoryid);
-
-        //    //if (categoryid != 0)
-        //    //{
-        //    //    products = products.Where(product => product.productCategoryID == categoryid).ToList();
-        //    //}
-        //    int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-        //    List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
-        //    ViewBag.WishlistIds = wishlistIds;
-        //    ViewBag.CurrentPage = page;
-        //    return View(products);
-        //}
-
-        public IActionResult navSearch(int categoryid = 0, int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "")
-        {
-            ProductViewModel productViewModel = new ProductViewModel();
-            List<ProductViewModel> products;
-
-            // If no search/filter parameters are used, fall back to category-based logic  
-            bool isSearch = !string.IsNullOrEmpty(strProductName) ||
-                            !string.IsNullOrEmpty(strCity) ||
-                            !string.IsNullOrEmpty(strState) ||
-                            decMinPrice > 0 || decMaxPrice > 0 ||
-                            !string.IsNullOrEmpty(strSearchType) ||
-                            !string.IsNullOrEmpty(strSearchText);
-
-            if (isSearch)
-            {
-                products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
-            }
-            else
-            {
-                products = productViewModel.GetProducts(categoryid);
-            }
-
-            CategoryViewModel category = new CategoryViewModel();
-            List<CategoryViewModel> categoryList = category.GetCategoryCount();
-            SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
-            List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
-            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<int> wishlistIds = productViewModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
-            ViewBag.WishlistIds = wishlistIds;
-            ViewBag.CurrentPage = page;
-            ViewBag.Count = products.Count();
-            AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
-            {
-                Products = products,
-                Filters = filDetails,
-                Categories = categoryList
-            };
-            return View("AdsList", adListFilters);
-        }
         public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "")
         {
             ProductViewModel productViewModel = new ProductViewModel();
@@ -193,36 +133,6 @@ namespace IndiaLivings_Web_UI.Controllers
             //    Categories = categoryList
             //};
             return PartialView("_ProductsPartial", products);
-        }
-        /// <summary>
-        /// Ads List
-        /// </summary>
-        /// <returns> List of all Ads will be returned</returns>
-        /// // Need to be reviewed with Anoop
-        public IActionResult AdsList(int categoryid = 0, int page = 1)
-        {
-            ProductViewModel productModel = new ProductViewModel();
-            List<ProductViewModel> products = productModel.GetAds(0);
-            CategoryViewModel category = new CategoryViewModel();
-            List<CategoryViewModel> categoryList = category.GetCategoryCount();
-            if (categoryid != 0)
-            {
-                products = products.Where(product => product.productCategoryID == categoryid).ToList();
-            }
-            SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
-            List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
-            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
-            ViewBag.WishlistIds = wishlistIds;
-            ViewBag.CurrentPage = page;
-            ViewBag.Count = products.Count();
-            AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
-            {
-                Products = products,
-                Filters = filDetails,
-                Categories = categoryList
-            };
-            return View(adListFilters);
         }
 
         public IActionResult ProductsList([FromBody] List<ProductViewModel> products, int page = 1)
@@ -620,21 +530,6 @@ namespace IndiaLivings_Web_UI.Controllers
             ProductViewModel productViewModel = new ProductViewModel();
             string message = productViewModel.AddRating(productId, userId, rating, createdBy);
             return Json(new { status = message });
-        }
-        /// <summary>
-        /// Product Details
-        /// </summary>
-        /// <returns>Products and its user details</returns>
-        public IActionResult ProductDetails(int productId, string username)
-        {
-            UserViewModel userViewModel = new UserViewModel();
-            ProductViewModel productViewModel = new ProductViewModel();
-            ProductViewModel product = productViewModel.GetProductById(productId)[0];
-            UserViewModel user = userViewModel.GetUsersInfo(username)[0];
-            dynamic data = new ExpandoObject();
-            data.Product = product;
-            data.User = user;
-            return View(data);
         }
         /// <summary>
         /// Update Product

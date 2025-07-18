@@ -378,143 +378,9 @@
                         </div>
                     </div>
                 </div>
-                @* <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ad-feature-slider slider-arrow">
-                            <div class="feature-card">
-                                <a href="#" class="feature-img">
-                                    <img src="~/images/product/10.jpg" alt="feature">
-                                </a>
-                                <div class="cross-inline-badge feature-badge">
-                                    <span>featured</span>
-                                    <i class="fas fa-book-open"></i>
-                                </div>
-                                <button type="button" class="feature-wish">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <div class="feature-content">
-                                    <ol class="breadcrumb feature-category">
-                                        <li><span class="flat-badge rent">rent</span></li>
-                                        <li class="breadcrumb-item"><a href="#">automobile</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">private car</li>
-                                    </ol>
-                                    <h3 class="feature-title"><a href="ad-details-left.html">Unde eveniet ducimus nostrum maiores soluta temporibus ipsum dolor sit amet.</a></h3>
-                                    <div class="feature-meta">
-                                        <span class="feature-price">$1200<small>/Monthly</small></span>
-                                        <span class="feature-time"><i class="fas fa-clock"></i>56 minute ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="feature-card">
-                                <a href="#" class="feature-img">
-                                    <img src="~/images/product/01.jpg" alt="feature">
-                                </a>
-                                <div class="cross-inline-badge feature-badge">
-                                    <span>featured</span>
-                                    <i class="fas fa-book-open"></i>
-                                </div>
-                                <button type="button" class="feature-wish">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <div class="feature-content">
-                                    <ol class="breadcrumb feature-category">
-                                        <li><span class="flat-badge booking">booking</span></li>
-                                        <li class="breadcrumb-item"><a href="#">Property</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">House</li>
-                                    </ol>
-                                    <h3 class="feature-title"><a href="ad-details-left.html">Unde eveniet ducimus nostrum maiores soluta temporibus ipsum dolor sit amet.</a></h3>
-                                    <div class="feature-meta">
-                                        <span class="feature-price">$800<small>/perday</small></span>
-                                        <span class="feature-time"><i class="fas fa-clock"></i>56 minute ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="feature-card">
-                                <a href="#" class="feature-img">
-                                    <img src="~/images/product/08.jpg" alt="feature">
-                                </a>
-                                <div class="cross-inline-badge feature-badge">
-                                    <span>featured</span>
-                                    <i class="fas fa-book-open"></i>
-                                </div>
-                                <button type="button" class="feature-wish">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <div class="feature-content">
-                                    <ol class="breadcrumb feature-category">
-                                        <li><span class="flat-badge sale">sale</span></li>
-                                        <li class="breadcrumb-item"><a href="#">gadget</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">iphone</li>
-                                    </ol>
-                                    <h3 class="feature-title"><a href="ad-details-left.html">Unde eveniet ducimus nostrum maiores soluta temporibus ipsum dolor sit amet.</a></h3>
-                                    <div class="feature-meta">
-                                        <span class="feature-price">$1150<small>/Negotiable</small></span>
-                                        <span class="feature-time"><i class="fas fa-clock"></i>56 minute ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="feature-card">
-                                <a href="#" class="feature-img">
-                                    <img src="~/images/product/06.jpg" alt="feature">
-                                </a>
-                                <div class="cross-inline-badge feature-badge">
-                                    <span>featured</span>
-                                    <i class="fas fa-book-open"></i>
-                                </div>
-                                <button type="button" class="feature-wish">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <div class="feature-content">
-                                    <ol class="breadcrumb feature-category">
-                                        <li><span class="flat-badge sale">sale</span></li>
-                                        <li class="breadcrumb-item"><a href="#">automobile</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">cycle</li>
-                                    </ol>
-                                    <h3 class="feature-title"><a href="ad-details-left.html">Unde eveniet ducimus nostrum maiores soluta temporibus ipsum dolor sit amet.</a></h3>
-                                    <div class="feature-meta">
-                                        <span class="feature-price">$455<small>/fixed</small></span>
-                                        <span class="feature-time"><i class="fas fa-clock"></i>56 minute ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> *@
-                @* <div class="row"> *@
-                @{
-                    // List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
-                    // var itemsPerPage = 12;
-                    // int currentPage = ViewBag.CurrentPage;
-                    // var pagedProducts = Model.Products.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
-                    // int productsOnPage = pagedProducts.Count;
-                }
                 <div class="row" id="divPartial">
                     @Html.Partial("_ProductsPartial", Model.Products)
                 </div>
-                @* <div class="row">
-                        <div class="col-lg-12">
-                            <div class="footer-pagection">
-                                <p class="page-info">Showing @productsOnPage of @Model.Products.Count() Results</p>
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">
-                                            <i class="fas fa-long-arrow-alt-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link active" id="defaultPage" onclick="changePage(this, '1')">1</a></li>
-                                    @for (int i = 2; i <= (Model.Products.Count() / itemsPerPage) + 1; i++)
-                                    {
-                                        <li class="page-item"><a class="page-link" id="currentPage" onclick="changePage(this, '@i')">@i</a></li>
-                                    }
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">
-                                            <i class="fas fa-long-arrow-alt-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div> *@
             </div>
         </div>
     </div>
@@ -722,8 +588,8 @@
 
     function updatePriceRange(type) {
         minPrice = parseFloat($('#decMinPrice').val());
-        maxPrice = parseFloat($('#decMaxPrice').val()); 
-       
+        maxPrice = parseFloat($('#decMaxPrice').val());
+
         if (type === null) {
             minPrice = null;
             maxPrice = null;
@@ -733,7 +599,7 @@
         }
         updateAdList();
     }
-    
+
 
     function updateAdList() {
         var strCity = selectedCities.join(',');
@@ -754,7 +620,7 @@
         });
     }
 
-    function updateCategory(cat) 
+    function updateCategory(cat)
     {
         categoryId = cat;
         updateAdList();
@@ -778,7 +644,7 @@
         } else {
             selectedCities = selectedCities.filter(c => c !== city.toLowerCase());
         }
-        updateAdList(); 
+        updateAdList();
     }
     function updateAdType(type, isChecked) {
         if (type === 'clear') {
@@ -829,7 +695,7 @@
         const input = document.getElementById("citySearchInput");
         const filter = input.value.toLowerCase();
         const items = document.querySelectorAll(".city-item");
-    
+
         items.forEach(item => {
             const cityName = item.querySelector(".city-text").textContent.toLowerCase();
             if (cityName.includes(filter)) {

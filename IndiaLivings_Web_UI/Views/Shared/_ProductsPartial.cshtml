@@ -1,13 +1,13 @@
 ﻿@model List<ProductViewModel>
 <style>
     .product-card:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    z-index: 2;
+        transform: scale(1.1);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        z-index: 2;
     }
 
     .rating-size:hover {
-    transform: scale(1.5);
+        transform: scale(1.5);
     }
 </style>
 @{
@@ -26,8 +26,8 @@
             <div class="product-media">
                 <div class="product-img">
                     <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                    onerror="this.onerror=null; this.src='/images/white-screen.jpg';"
-                    alt="@product.productImageName" width="288" height="205" />
+                         onerror="this.onerror=null; this.src='/images/white-screen.jpg';"
+                         alt="@product.productImageName" width="288" height="205" />
                 </div>
                 <div class="cross-vertical-badge product-badge">
                     <i class="fas fa-clipboard-check"></i>
@@ -58,13 +58,13 @@
                 <div class="product-info">
                     <h5 class="product-price">₹@product.productPrice.ToString("F2")<span>/@product.productPriceCondition</span></h5>
                     <div class="product-btn">
-                        <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Compare" class="fas fa-eye"></a>
+                        <a asp-action="ProductDetails" asp-controller="Dashboard" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Compare" class="fas fa-eye"></a>
                         <a href='#' class='fas fa-compress'
-                        data-toggle='modal' data-target='#productDetailsModal'
-                        onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
+                           data-toggle='modal' data-target='#productDetailsModal'
+                           onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
                         </a>
                         <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
-                        onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
+                                onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
                     </div>
                 </div>
             </div>
@@ -88,23 +88,6 @@
                     </a>
                 </li>
             </ul>
-            @* <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#">
-                        <i class="fas fa-long-arrow-alt-left"></i>
-                    </a>
-                </li> 
-                @for (int i = 1; i <= Math.Ceiling(modelCount / itemsPerPage); i++)
-                {
-                    var activeClass = (i == currentPage) ? "active" : "";
-                    <li class="page-item"><a class="page-link @activeClass" id="currentPage" onclick="changePage(this, '@i')">@i</a></li>
-                }
-                <li class="page-item">
-                    <a class="page-link" href="#">
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                    </a>
-                </li>
-            </ul> *@
         </div>
     </div>
 </div>
@@ -318,9 +301,6 @@
         $(elem).addClass("selected");
         $(elem).prevAll().removeClass("selected");
         submitRating(rating);
-        // $('#productDetailsModal').Modal('hide');
-        // $(elem).siblings().removeClass("selected");
-        // $(elem).removeClass("selected");
     }
 
     function submitRating(rating) {
@@ -335,8 +315,6 @@
                 } else {
                     ShowToast("failed", "An Error occured");
                 }
-                // $("#selectedRating").val(0);
-                // $(".star-rating .fa-star").removeClass("selected");
             },
             error: function () {
                 alert("Error submitting rating.");
