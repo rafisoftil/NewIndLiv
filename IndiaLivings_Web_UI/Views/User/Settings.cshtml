@@ -436,7 +436,7 @@
             const selectedCountryId = $(this).val();
             if (selectedCountryId) {
                 $.ajax({
-                    url: '/User/GetStates',
+                    url: '/Dashboard/GetStates',
                     type: 'GET',
                     data: {countryId: selectedCountryId},
                     success: function (states) {
@@ -489,7 +489,7 @@
             const selectedStateId = $(this).val();
             if (selectedStateId) {
                 $.ajax({
-                    url: '/User/GetCities',
+                    url: '/Dashboard/GetCities',
                     type: 'GET',
                     data: {stateId: selectedStateId},
                     success: function (cities) {

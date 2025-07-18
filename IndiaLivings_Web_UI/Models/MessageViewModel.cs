@@ -40,5 +40,19 @@ namespace IndiaLivings_Web_UI.Models
             }
             return messages;
         }
+        public string DeleteUserMessage(int messageId, int userId)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            string response = "An error occurred";
+            try
+            {
+                response = AH.DeleteUserMessage(messageId, userId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }

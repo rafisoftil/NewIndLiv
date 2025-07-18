@@ -221,6 +221,29 @@
 =======================================-->
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        // Handle Enter key for Login form
+        $('#loginForm input').on('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                // Only trigger if login tab is active
+                if ($('#login-tab').hasClass('active')) {
+                    Validate_User();
+                }
+            }
+        });
+
+        // Handle Enter key for Sign up form
+        $('#register-tab input').on('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                // Only trigger if register tab is active
+                if ($('#register-tab').hasClass('active')) {
+                    AddUser();
+                }
+            }
+        });
+    });
 
     $(document).ready(function () {
         $("input").on("focus input", function () {
