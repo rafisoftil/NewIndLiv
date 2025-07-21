@@ -398,7 +398,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api("https://localhost:7158/api/Blog/addBlog", blog).Trim('\"');
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Blog/addBlog", blog).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -431,7 +431,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<BlogModel> blogs = new List<BlogModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Blog/getAllBlogs?pageNumber={pageNumber}&pageSize={pageSize}&categoryId={categoryId}&publishedOnly={publishedOnly}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Blog/getAllBlogs?pageNumber={pageNumber}&pageSize={pageSize}&categoryId={categoryId}&publishedOnly={publishedOnly}");
                 // Parse the response and extract the "data" property
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
@@ -451,7 +451,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             BlogModel blog = new BlogModel();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Blog/getBlogById?blogId={blogId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Blog/getBlogById?blogId={blogId}");
                 // Parse the response and extract the "data" property
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
@@ -471,7 +471,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api("https://localhost:7158/api/Blog/updateBlog", blog).Trim('\"');
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Blog/updateBlog", blog).Trim('\"');
             }
             catch (Exception ex)
             {
