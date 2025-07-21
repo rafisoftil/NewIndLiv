@@ -644,10 +644,108 @@ namespace IndiaLivings_Web_UI.Controllers
 
         public IActionResult BlogPost()
         {
-            return View();
+            // Get categories for dropdown
+            List<BlogCategoriesViewModel> blogCategories = BlogCategoriesViewModel.GetAllBlogCategories();
+            
+            // Create dynamic object to match view's expectations
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Blog = null;  // null because this is create mode
+            viewModel.Categories = blogCategories;
+            
+            return View(viewModel);
+        }
+        [HttpPost]
+        public IActionResult BlogPost(IFormFile featuredImageFile, string title, string summary, string content, string tags, int categoryID)
+        {
+            var userName = HttpContext.Session.GetString("userName") ?? "";
+            var now = DateTime.Now;
+            byte[] ImageBytes = [];
+            if (featuredImageFile != null)
+            {
+                ImageBytes = GetByteInfo(featuredImageFile);
+            }
+            var blog = new BlogViewModel
+            {
+                title = title,
+                summary = summary,
+                content = content,
+                tags = tags,
+                categoryID = categoryID,
+                author = userName,
+                featuredImage = ImageBytes,
+                isPublished = true,
+                isActive = true,
+                publishedDate = now,
+                createdDate = now,
+                createdBy = userName,
+                updatedDate = now,
+                updatedBy = userName
+            };
+
+            var result = new BlogViewModel().PostBlog(blog);
+
+            if (result == "Success")
+                return RedirectToAction("BlogPost"); // Or redirect to a list/details page
+
+            ViewBag.Error = result;
+            return BlogPost();
+        }
+        public IActionResult UpdateBlog(int blogId)
+        {
+            BlogViewModel blog = BlogViewModel.GetBlogById(blogId);
+            List<BlogCategoriesViewModel> blogCategories = BlogCategoriesViewModel.GetAllBlogCategories();
+
+            dynamic data = new ExpandoObject();
+            data.Blog = blog;
+            data.Categories = blogCategories;
+
+            return View("BlogPost", data);
+        }
+        [HttpPost]
+        public IActionResult UpdateBlogPost(IFormFile featuredImageFile, string title, string summary, string content, string tags, int categoryID, int blogId)
+        {
+            var userName = HttpContext.Session.GetString("userName") ?? "";
+            var now = DateTime.Now;
+            byte[] ImageBytes = [];
+            if (featuredImageFile != null)
+            {
+                ImageBytes = GetByteInfo(featuredImageFile);
+            }
+            var blog = new BlogViewModel
+            {
+                blogId = blogId,
+                title = title,
+                summary = summary,
+                content = content,
+                tags = tags,
+                categoryID = categoryID,
+                author = userName,
+                featuredImage = ImageBytes,
+                isPublished = true,
+                isActive = true,
+                publishedDate = now,
+                createdDate = now,
+                createdBy = userName,
+                updatedDate = now,
+                updatedBy = userName
+            };
+            var result = new BlogViewModel().UpdateBlog(blog);
+            if (result == "Success")
+                return RedirectToAction("BlogPost"); // Or redirect to a list/details page
+            ViewBag.Error = result;
+            return BlogPost();
+        }
+        public IActionResult DeleteBlog(int blogId)
+        {
+            var updatedBy = HttpContext.Session.GetString("userName") ?? "";
+            BlogViewModel blogVM = new BlogViewModel();
+            var response = blogVM.DeleteBlog(blogId, updatedBy);
+            //return Json(new { status = response });
+            return View("ManageBlogs");
         }
     }
 }
+
 
 
 

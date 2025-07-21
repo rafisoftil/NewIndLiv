@@ -625,19 +625,11 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Manage Blogs Page
         /// </summary>
         /// <returns> List of all Blogs (Status of active ads can be changed) </returns>
-        public IActionResult ManageBlogs()
+        public IActionResult ManageBlogs(int pageNumber = 1, int pageSize=6, int categoryId=0, bool publishedOnly=false)
         {
-            try
-            {
-                ProductViewModel productModel = new ProductViewModel();
-                List<ProductViewModel> products = productModel.AdsList(0);
-                return View(products);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            ViewBag.CurrentPage = pageNumber;
+            List<BlogViewModel> blogs = BlogViewModel.GetAllBlogs(pageNumber, pageSize, categoryId, publishedOnly);
+            return View(blogs);
         }
         public IActionResult navSearch(int categoryid = 0, int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "")
         {
@@ -722,6 +714,26 @@ namespace IndiaLivings_Web_UI.Controllers
                 Categories = categoryList
             };
             return View(adListFilters);
+        }
+        public IActionResult BlogDetails(int blogId)
+        {
+            BlogViewModel blogs = BlogViewModel.GetBlogById(blogId);
+            if (blogs != null)
+            {
+                return View(blogs);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        public IActionResult PublishBlog(int blogId)
+        {
+            var updatedBy = HttpContext.Session.GetString("userName") ?? "";
+            BlogViewModel blogVM = new BlogViewModel();
+            var response = blogVM.PublishBlog(blogId, updatedBy);
+            //return Json(new { status = response });
+            return View("ManageBlogs");
         }
     }
 }

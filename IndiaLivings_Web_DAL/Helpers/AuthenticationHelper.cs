@@ -2,6 +2,7 @@
 using IndiaLivings_Web_DAL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text.Json.Nodes;
 
 namespace IndiaLivings_Web_DAL.Helpers
@@ -89,7 +90,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string UpdateAddress(int intUserID, string strUserContactFullAddress,string strUserContactCity,string strUserContactState,string strUserContactCountry,string strUserContactPinCode , int intUserAddressType)
+        public string UpdateAddress(int intUserID, string strUserContactFullAddress, string strUserContactCity, string strUserContactState, string strUserContactCountry, string strUserContactPinCode, int intUserAddressType)
         {
             string response = String.Empty;
             try
@@ -385,6 +386,118 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/DeleteUserMessage?messageId={messageId}&userId={userId}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string BlogPost(BlogModel blog)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api("https://localhost:7158/api/Blog/addBlog", blog).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public List<BlogCategoriesModel> GetBlogCategories()
+        {
+            List<BlogCategoriesModel> categories = new List<BlogCategoriesModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Blog/getAllBlogCategories");
+                // Parse the response and extract the "data" property
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    categories = JsonConvert.DeserializeObject<List<BlogCategoriesModel>>(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return categories;
+        }
+        public List<BlogModel> GetAllBlogs(int pageNumber, int pageSize, int categoryId, bool publishedOnly)
+        {
+            List<BlogModel> blogs = new List<BlogModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Blog/getAllBlogs?pageNumber={pageNumber}&pageSize={pageSize}&categoryId={categoryId}&publishedOnly={publishedOnly}");
+                // Parse the response and extract the "data" property
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    blogs = JsonConvert.DeserializeObject<List<BlogModel>>(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return blogs;
+        }
+        public BlogModel GetBlogById(int blogId)
+        {
+            BlogModel blog = new BlogModel();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Blog/getBlogById?blogId={blogId}");
+                // Parse the response and extract the "data" property
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    blog = JsonConvert.DeserializeObject<BlogModel>(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return blog;
+        }
+        public string UpdateBlog(BlogModel blog)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api("https://localhost:7158/api/Blog/updateBlog", blog).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string DeleteBlog(int blogId, string updatedBy)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Blog/deleteBlog?blogId={blogId}&updatedBy={updatedBy}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string PublishBlog(int blogId, string updatedBy)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Blog/publishBlog?blogId={blogId}&updatedBy={updatedBy}").Trim('\"');
             }
             catch (Exception ex)
             {

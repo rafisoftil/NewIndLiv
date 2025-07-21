@@ -1,6 +1,205 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model dynamic
 @{
-    ViewBag.Title = "Blog Post";
+    var blog = Model?.Blog as BlogViewModel;
+    var categories = Model?.Categories as List<BlogCategoriesViewModel>;
+    var isEditMode = blog != null;
+    ViewBag.Title = isEditMode ? "Edit Blog Post" : "Create New Blog Post";
+}
+<!--=====================================
+                      SINGLE BANNER PART START
+            =======================================-->
+<section class="inner-section single-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="single-content">
+                    <h2>Blog Post</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Dashboard">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">ad-list</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=====================================
+          SINGLE BANNER PART END
+=======================================-->
+<section class="">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="section-title">
+                    <h2>Create a New Blog Post</h2>
+                    <br/>
+                    <form asp-action="@(isEditMode ? "UpdateBlogPost" : "BlogPost")" method="post" enctype="multipart/form-data">
+                        @if (isEditMode)
+                        {
+                            <input type="hidden" name="blogID" value="@blog.blogId" />
+                        }
+                        <div class="mb-3">
+                            <label class="form-label">Blog Title</label>
+                            <input class="form-control" name="title" required value="@(isEditMode? blog.title: "")" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Main Image</label>
+                            <input type="file" class="form-control" name="featuredImageFile" accept="image/*" onchange="previewMainImage(event)" />
+                            <span class="text-danger"></span>
+                            @if (isEditMode && blog.featuredImage != null)
+                            {
+                                <img id="mainImagePreview" src="data:image/png;base64,@Convert.ToBase64String(blog.featuredImage)"
+                                class="img-thumbnail mb-2" style="max-height: 200px;" />
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Summary</label>
+                            <input class="form-control" name="summary" required value="@(isEditMode? blog.summary: "")" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Content</label>
+                            <textarea class="form-control" name="content" rows="5" required>@(isEditMode? blog.title: "")</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tags</label>
+                            <input class="form-control" name="tags" value="@(isEditMode? blog.tags: "")" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Category</label> 
+                            <select class="custom-select filter-select" name="categoryID">
+                                <option value="0" disabled selected>Select a Category</option>
+                                @foreach (var category in categories)
+                                {
+                                    <option value="@category.categoryID" selected="@(isEditMode && blog.categoryID == category.categoryID ? "selected" : null)">
+                                        @category.categoryName
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Sections logic can be added here if you want to support multiple sections -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit Blog</button>
+                        </div>
+                        
+                        @* <div class="mb-3">
+                                <label class="form-label">Blog Title</label>
+                                <input class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Main Image</label>
+                                <input type="file" class="form-control" accept="image/*" onchange="previewMainImage(event)" />
+                                <span class="text-danger"></span>
+                                <img id="mainImagePreview" src="#" alt="Preview" class="img-thumbnail mt-2 d-none" style="max-height: 200px;" />
+                            </div>
+
+                            <hr />
+                            <h4>Sections</h4>
+                            <div id="sections-container">
+                                <div class="blog-section border p-3 mb-3 position-relative">
+                                    <button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-section-btn" title="Remove section"></button>
+                                    <div class="mb-2">
+                                        <label>Section Heading</label>
+                                        <input name="Sections[0].Heading" class="form-control" />
+                                    </div>
+                                    <div class="mb-2">
+                                        <label>Section Content</label>
+                                        <textarea name="Sections[0].Content" class="form-control" rows="5"></textarea>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label>Section Image</label>
+                                        <input name="Sections[0].Image" type="file" class="form-control" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <button type="button" id="add-section-btn" class="btn btn-outline-secondary mb-3">+ Add Section</button>
+
+                            <div>
+                                <button type="submit" class="btn btn-primary">Submit Blog</button>
+                            </div> *@
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+</section>
+
+@section Scripts {
+    <script>
+        let sectionIndex = 1;
+
+        function previewMainImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById("mainImagePreview");
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove("d-none");
+            } else {
+                preview.src = "#";
+                preview.classList.add("d-none");
+            }
+        }
+
+        function previewSectionImage(event, previewId) {
+            const file = event.target.files[0];
+            const preview = document.getElementById(previewId);
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove("d-none");
+            } else {
+                preview.src = "#";
+                preview.classList.add("d-none");
+            }
+        }
+
+        document.getElementById("add-section-btn").addEventListener("click", function () {
+            const container = document.getElementById("sections-container");
+
+            const section = document.createElement("div");
+            const imgPreviewId = `sectionImagePreview${sectionIndex}`;
+
+            section.classList.add("blog-section", "border", "p-3", "mb-3", "position-relative");
+
+            section.innerHTML = `
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-section-btn" title="Remove section"></button>
+
+                <div class="mb-2">
+                    <label>Section Heading</label>
+                    <input name="Sections[${sectionIndex}].Heading" class="form-control" />
+                </div>
+
+                <div class="mb-2">
+                    <label>Section Content</label>
+                    <textarea name="Sections[${sectionIndex}].Content" class="form-control" rows="5"></textarea>
+                </div>
+
+                <div class="mb-2">
+                    <label>Section Image</label>
+                    <input name="Sections[${sectionIndex}].Image" type="file" class="form-control"
+                        accept="image/*" onchange="previewSectionImage(event, '${imgPreviewId}')" />
+                    <img id="${imgPreviewId}" src="#" alt="Preview" class="img-thumbnail mt-2 d-none" style="max-height: 200px;" />
+                </div>
+            `;
+
+            container.appendChild(section);
+            sectionIndex++;
+        });
+
+        document.getElementById("sections-container").addEventListener("click", function (e) {
+            if (e.target && e.target.classList.contains("remove-section-btn")) {
+                e.target.closest(".blog-section").remove();
+            }
+        });
+    </script>
 }
