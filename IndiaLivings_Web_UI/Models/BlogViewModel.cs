@@ -15,8 +15,8 @@ namespace IndiaLivings_Web_UI.Models
         public int categoryID { get; set; }
         public string categoryName { get; set; } = string.Empty;
         public int viewCount { get; set; }
-        public bool isFeatured { get; set; }
-        public bool isPublished { get; set; }
+        public bool isFeatured { get; set; } = false;
+        public bool isPublished { get; set; } = false;
         public DateTime publishedDate { get; set; }
         public bool isActive { get; set; }
         public DateTime createdDate { get; set; }

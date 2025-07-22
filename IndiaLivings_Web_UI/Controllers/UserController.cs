@@ -673,7 +673,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 categoryID = categoryID,
                 author = userName,
                 featuredImage = ImageBytes,
-                isPublished = true,
+                isPublished = false,
                 isActive = true,
                 publishedDate = now,
                 createdDate = now,

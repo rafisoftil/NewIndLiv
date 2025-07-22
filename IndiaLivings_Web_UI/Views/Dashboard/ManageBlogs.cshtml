@@ -263,7 +263,7 @@
                                             <h4><a href="blog-details.html">@blog.title</a></h4>
                                             <p>@blog.summary</p>
                                         </div>
-                                        <a href="/Dashboard/BlogDetails/@blog.blogId" class="blog-read">
+                                        <a asp-controller="Dashboard" asp-action="BlogDetails" asp-route-blogId="@blog.blogId" class="blog-read">
                                             <span>read more</span>
                                             <i class="fas fa-long-arrow-alt-right"></i>
                                         </a>

@@ -733,7 +733,7 @@ namespace IndiaLivings_Web_UI.Controllers
             BlogViewModel blogVM = new BlogViewModel();
             var response = blogVM.PublishBlog(blogId, updatedBy);
             //return Json(new { status = response });
-            return View("ManageBlogs");
+            return RedirectToAction("BlogDetails", new { blogId = blogId });
         }
     }
 }
