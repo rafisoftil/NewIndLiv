@@ -53,6 +53,11 @@
                                 <img id="mainImagePreview" src="data:image/png;base64,@Convert.ToBase64String(blog.featuredImage)"
                                 class="img-thumbnail mb-2" style="max-height: 200px;" />
                             }
+                            else
+                            {
+                                <img id="mainImagePreview" src="#" alt="Preview"
+                                     class="img-thumbnail mb-2 d-none" style="max-height: 200px;" />
+                            }
                         </div>
 
                         <div class="mb-3">
