@@ -33,6 +33,9 @@
                 <div class="section-title">
                     <h2>Create a New Blog Post</h2>
                     <br/>
+                    <div class="d-flex justify-content-end">
+                        <a type="button" class="btn btn-secondary" asp-action="Dashboard" asp-controller="Dashboard">Cancel</a>
+                    </div>
                     <form asp-action="@(isEditMode ? "UpdateBlogPost" : "BlogPost")" method="post" enctype="multipart/form-data">
                         @if (isEditMode)
                         {
