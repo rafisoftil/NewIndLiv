@@ -1,6 +1,6 @@
-﻿@{
-    ViewBag.Title = "User Form";
-    Layout = null;
+﻿﻿@{
+ViewBag.Title = "User Form";
+Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -18,9 +18,9 @@
     <link rel="stylesheet" href="~/css/custom/main.css" asp-append-version="true" />
 </head>
 <body>
-<!--=====================================
-                USER-FORM PART START
-    =======================================-->
+    <!--=====================================
+                    USER-FORM PART START
+        =======================================-->
     <section class="user-form-part">
         <div class="user-form-banner">
             <div class="user-form-content">
@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <input type="text" class="form-control"
                                        placeholder="Phone number or Email" id="userName"
-                                       name="userName" autocomplete="off" />
+                                       name="userName" autocomplete="off" value="@ViewBag.UsernameFromCookie" />
                                 <small id="userNameError" class="text-danger" style="display:none;">
                                     User Name is Required
                                 </small>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group d-flex">
-                                <input type="password" class="form-control" placeholder="Password" id="password" name="password" />
+                                <input type="password" class="form-control" placeholder="Password" id="password" name="password" value="@ViewBag.PasswordFromCookie" />
                                 <div id="toggle_Signin_pswd" class="form-icon" onclick="fn_toggle_pswd('password','toggle_Signin_pswd');"><i class="eye fas fa-eye-slash"></i></div>
                             </div>
                             <div>
@@ -125,7 +125,7 @@
                             <div class="form-group">
                                 <input type="password" class="form-control" placeholder="Password must be 6 characters"
                                        id="passwordSignUp" name="passwordSignUp" />
-                                <div id="toggle_signuppswd" class="form-icon" onclick="fn_toggle_pswd('passwordSignUp','toggle_signuppswd');"><i class="eye fas fa-eye-slash"></i></div>                                
+                                <div id="toggle_signuppswd" class="form-icon" onclick="fn_toggle_pswd('passwordSignUp','toggle_signuppswd');"><i class="eye fas fa-eye-slash"></i></div>
                                 <small id="passwordSignUpError" class="text-danger" style="display:none;">
                                     Password is Required
                                 </small>
@@ -135,7 +135,7 @@
                             <div class="form-group">
                                 <input type="password" class="form-control" placeholder="Confirm your password"
                                        id="confirmPassword" name="confirmPassword" />
-                                <div type="toggle_signupconfpswd" class="form-icon" onclick="fn_toggle_pswd('confirmPassword','toggle_signupconfpswd');"><i class="eye fas fa-eye-slash"></i></div>                  
+                                <div type="toggle_signupconfpswd" class="form-icon" onclick="fn_toggle_pswd('confirmPassword','toggle_signupconfpswd');"><i class="eye fas fa-eye-slash"></i></div>
                                 <small id="confirmPasswordError" class="text-danger" style="display:none;">
                                     Password did not match
                                 </small>
@@ -145,7 +145,7 @@
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="signup-check" name="signup-check">
-                                    <label class="custom-control-label" for="signup-check">I agree to the all <a href="@Url.Action("termsAndConditions", "Dashboard")">terms & conditions</a> of IndiaLivings.</label> 
+                                    <label class="custom-control-label" for="signup-check">I agree to the all <a href="@Url.Action("termsAndConditions", "Dashboard")">terms & conditions</a> of IndiaLivings.</label>
                                 </div>
                                 <small id="checkboxError" class="text-danger" style="display:none;">
                                     Please select the checkbox
@@ -291,7 +291,8 @@
                 url: '@Url.Action("Login", "Dashboard")',
                 data: {
                     userName: $("#userName").val(),
-                    Password: $("#password").val()
+                    Password: $("#password").val(),
+                    RememberMe: $("#signin-check").is(":checked")
                 },
                 success: function (response) {
 
@@ -363,7 +364,7 @@
         }
 
     function sendEmail() {
-        
+
             var UserData = {
                 email: $("#Email").val()
             };
@@ -398,7 +399,7 @@
                     alert("Error sending Email.");
                 }
             });
-        }; 
+        };
     // bool userExists=false;
     // bool passwordValid = false;
 
@@ -536,7 +537,7 @@
                 data: {
                     userName: $("#userSignUp").val(),
                     Password: $("#passwordSignUp").val()
-                },
+                }
                 success: function (response) {
                     if (response.statusCode == 200) {
                         //showToast('Registration completed Successfully', 'success');
@@ -548,7 +549,7 @@
                     else {
                         showToast('Something went wrong. Please contact your Administrator', 'error');
                         $("#spinner").addClass('d-none');
-                    }                    
+                    }
                 },
                 error: function (error) {
                     $("#spinner").addClass('d-none');

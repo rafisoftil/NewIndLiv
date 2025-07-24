@@ -44,6 +44,8 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <returns>once User clicks on "Join Me" Login page will be loaded</returns>
         public IActionResult Login()
         {
+            ViewBag.UsernameFromCookie = Request.Cookies["UsernameFromCookie"] ?? "";
+            ViewBag.PasswordFromCookie = Request.Cookies["PasswordFromCookie"] ?? "";
             return View();
         }
         /// <summary>
@@ -103,7 +105,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns>To verify whether User is existing or not</returns>
         [HttpPost]
-        public JsonResult Login(string userName, string password)
+        public JsonResult Login(string userName, string password, bool RememberMe = false)
         {
 
             dynamic JsonData = null;
@@ -117,6 +119,18 @@ namespace IndiaLivings_Web_UI.Controllers
             HttpContext.Session.SetString("UserFullName", "");
             if (user != null)
             {
+                if (RememberMe)
+                {
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTimeOffset.UtcNow.AddDays(30), 
+                        IsEssential = true,
+                        HttpOnly = true,
+                        Secure = true
+                    };
+                    Response.Cookies.Append("UsernameFromCookie", userName, cookieOptions);
+                    Response.Cookies.Append("PasswordFromCookie", password, cookieOptions);
+                }
                 HttpContext.Session.SetObject("UserDetails", user);
                 HttpContext.Session.SetString("userName", user.username);
                 HttpContext.Session.SetInt32("RoleId", user.userRoleID);
