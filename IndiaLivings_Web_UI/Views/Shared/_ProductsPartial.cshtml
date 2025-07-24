@@ -53,10 +53,10 @@
                 </h5>
                 <div class="product-meta">
                     <span><i class="fas fa-map-marker-alt"></i>@product.userContactCity</span>
-                    <span><i class="fas fa-clock"></i>@product.updatedDate.ToString("dd-MM-yyyy")</span>
+                    <span><i class="fas fa-clock"></i>@product.updatedDate.ToString("dd MMM yyyy")</span>
                 </div>
                 <div class="product-info">
-                    <h5 class="product-price">₹@product.productPrice.ToString("F2")<span>/@product.productPriceCondition</span></h5>
+                    <h5 class="product-price">₹@Convert.ToInt32(product.productPrice)<span>/@product.productPriceCondition</span></h5>
                     <div class="product-btn">
                         <a asp-action="ProductDetails" asp-controller="Dashboard" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Compare" class="fas fa-eye"></a>
                         <a href='#' class='fas fa-compress'
