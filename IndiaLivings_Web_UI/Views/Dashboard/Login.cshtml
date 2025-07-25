@@ -281,11 +281,6 @@ Layout = null;
             $("#userNameError").hide();
             $("#passwordError").hide();
             $("#spinner").removeClass('d-none');
-
-            var data = {
-                userName: $("#userName").val(),
-                Password: $("#password").val()
-            };
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("Login", "Dashboard")',
@@ -537,7 +532,7 @@ Layout = null;
                 data: {
                     userName: $("#userSignUp").val(),
                     Password: $("#passwordSignUp").val()
-                }
+                },
                 success: function (response) {
                     if (response.statusCode == 200) {
                         //showToast('Registration completed Successfully', 'success');
