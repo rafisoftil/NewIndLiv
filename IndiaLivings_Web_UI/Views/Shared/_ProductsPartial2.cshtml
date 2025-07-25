@@ -21,7 +21,7 @@
 
 @foreach (var product in pagedProducts)
 {
-    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <div class="product-card">
             <div class="product-media">
                 <div class="product-img">
@@ -280,7 +280,7 @@
         // Add "active" class to the clicked page
         $(curPage).addClass('active');
         $.ajax({
-            url: '/Dashboard/ProductsList?page=' + page,
+            url: '/Dashboard/ProductsList2?page=' + page,
             type: 'POST',
             data: JSON.stringify(@Html.Raw(Json.Serialize(Model))),
             contentType: 'application/json',

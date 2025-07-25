@@ -134,14 +134,6 @@ namespace IndiaLivings_Web_UI.Controllers
             //};
             return PartialView("_ProductsPartial", products);
         }
-
-        public IActionResult ProductsList([FromBody] List<ProductViewModel> products, int page = 1)
-        {
-            ViewBag.Count = products.Count();
-            ViewBag.CurrentPage = page;
-
-            return PartialView("_ProductsPartial", products);
-        }
         public IActionResult ProductsSearch(string strProductName, string strCity, string strState, decimal decMinPrice, decimal decMaxPrice, string strSearchType, string strSearchText)
         {
             ProductViewModel productViewModel = new ProductViewModel();

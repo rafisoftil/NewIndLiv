@@ -749,5 +749,26 @@ namespace IndiaLivings_Web_UI.Controllers
             //return Json(new { status = response });
             return RedirectToAction("BlogDetails", new { blogId = blogId });
         }
+        public IActionResult ProductsList([FromBody] List<ProductViewModel> products, int page = 1)
+        {
+            ViewBag.Count = products.Count();
+            ViewBag.CurrentPage = page;
+
+            return PartialView("_ProductsPartial", products);
+        }
+        public IActionResult ProductsList2([FromBody] List<ProductViewModel> products, int page = 1)
+        {
+            ViewBag.Count = products.Count();
+            ViewBag.CurrentPage = page;
+
+            return PartialView("_ProductsPartial2", products);
+        }
+        public IActionResult ProductsList3([FromBody] List<ProductViewModel> products, int page = 1)
+        {
+            ViewBag.Count = products.Count();
+            ViewBag.CurrentPage = page;
+
+            return PartialView("_ProductsPartial3", products);
+        }
     }
 }
