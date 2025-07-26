@@ -53,95 +53,6 @@ namespace IndiaLivings_Web_UI.Controllers
             }
 
         }
-        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "")
-        {
-            ProductViewModel productViewModel = new ProductViewModel();
-            List<ProductViewModel> products;
-
-            // If no search/filter parameters are used, fall back to category-based logic  
-            //bool isSearch = !string.IsNullOrEmpty(strProductName) ||
-            //                !string.IsNullOrEmpty(strCity) ||
-            //                !string.IsNullOrEmpty(strState) ||
-            //                decMinPrice > 0 || decMaxPrice > 0 ||
-            //                !string.IsNullOrEmpty(strSearchType) ||
-            //                !string.IsNullOrEmpty(strSearchText);
-
-            //if (isSearch)
-            //{
-            //    products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
-            //}
-            //else
-            //{
-            //    products = productViewModel.GetProducts(categoryid);
-            //}
-            if (decMinPrice > 0 || decMaxPrice > 0)
-            {
-                products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
-            }
-            else
-            {
-                products = productViewModel.GetAds(0);
-            }
-
-            if (categoryid != 0)
-            {
-                products = products.Where(product => product.productCategoryID == categoryid).ToList();
-
-                if (subcategoryid != 0)
-                {
-                    products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
-                }
-            }
-
-            if (strCity != "")
-            {
-                List<string> citiesList = strCity.Split(',').ToList();
-                products = products.Where(product => citiesList.Contains(product.userContactCity.ToLower())).ToList();
-            }
-
-            if (adtype != "")
-            {
-                List<string> adtypeList = adtype.Split(',').ToList();
-                products = products.Where(product => adtypeList.Contains(product.productAdCategory.ToLower())).ToList();
-            }
-
-            if (sort != "")
-            {
-                if (sort == "desc")
-                {
-                    products = products.OrderByDescending(p => p.productPrice).ToList();
-                }
-                else
-                {
-                    products = products.OrderBy(p => p.productPrice).ToList();
-                }
-            }
-
-            //CategoryViewModel category = new CategoryViewModel();
-            //List<CategoryViewModel> categoryList = category.GetCategoryCount();
-            //SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
-            //List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
-            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<int> wishlistIds = productViewModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
-            ViewBag.WishlistIds = wishlistIds;
-            ViewBag.CurrentPage = page;
-            ViewBag.Count = products.Count();
-            //AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
-            //{
-            //    Products = products,
-            //    Filters = filDetails,
-            //    Categories = categoryList
-            //};
-            return PartialView("_ProductsPartial", products);
-        }
-
-        public IActionResult ProductsList([FromBody] List<ProductViewModel> products, int page = 1)
-        {
-            ViewBag.Count = products.Count();
-            ViewBag.CurrentPage = page;
-
-            return PartialView("_ProductsPartial", products);
-        }
         public IActionResult ProductsSearch(string strProductName, string strCity, string strState, decimal decMinPrice, decimal decMaxPrice, string strSearchType, string strSearchText)
         {
             ProductViewModel productViewModel = new ProductViewModel();
@@ -644,10 +555,108 @@ namespace IndiaLivings_Web_UI.Controllers
 
         public IActionResult BlogPost()
         {
-            return View();
+            // Get categories for dropdown
+            List<BlogCategoriesViewModel> blogCategories = BlogCategoriesViewModel.GetAllBlogCategories();
+            
+            // Create dynamic object to match view's expectations
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Blog = null;  // null because this is create mode
+            viewModel.Categories = blogCategories;
+            
+            return View(viewModel);
+        }
+        [HttpPost]
+        public IActionResult BlogPost(IFormFile featuredImageFile, string title, string summary, string content, string tags, int categoryID)
+        {
+            var userName = HttpContext.Session.GetString("userName") ?? "";
+            var now = DateTime.Now;
+            byte[] ImageBytes = [];
+            if (featuredImageFile != null)
+            {
+                ImageBytes = GetByteInfo(featuredImageFile);
+            }
+            var blog = new BlogViewModel
+            {
+                title = title,
+                summary = summary,
+                content = content,
+                tags = tags,
+                categoryID = categoryID,
+                author = userName,
+                featuredImage = ImageBytes,
+                isPublished = false,
+                isActive = true,
+                publishedDate = now,
+                createdDate = now,
+                createdBy = userName,
+                updatedDate = now,
+                updatedBy = userName
+            };
+
+            var result = new BlogViewModel().PostBlog(blog);
+
+            if (result == "Success")
+                return RedirectToAction("BlogPost"); // Or redirect to a list/details page
+
+            ViewBag.Error = result;
+            return BlogPost();
+        }
+        public IActionResult UpdateBlog(int blogId)
+        {
+            BlogViewModel blog = BlogViewModel.GetBlogById(blogId);
+            List<BlogCategoriesViewModel> blogCategories = BlogCategoriesViewModel.GetAllBlogCategories();
+
+            dynamic data = new ExpandoObject();
+            data.Blog = blog;
+            data.Categories = blogCategories;
+
+            return View("BlogPost", data);
+        }
+        [HttpPost]
+        public IActionResult UpdateBlogPost(IFormFile featuredImageFile, string title, string summary, string content, string tags, int categoryID, int blogId)
+        {
+            var userName = HttpContext.Session.GetString("userName") ?? "";
+            var now = DateTime.Now;
+            byte[] ImageBytes = [];
+            if (featuredImageFile != null)
+            {
+                ImageBytes = GetByteInfo(featuredImageFile);
+            }
+            var blog = new BlogViewModel
+            {
+                blogId = blogId,
+                title = title,
+                summary = summary,
+                content = content,
+                tags = tags,
+                categoryID = categoryID,
+                author = userName,
+                featuredImage = ImageBytes,
+                isPublished = true,
+                isActive = true,
+                publishedDate = now,
+                createdDate = now,
+                createdBy = userName,
+                updatedDate = now,
+                updatedBy = userName
+            };
+            var result = new BlogViewModel().UpdateBlog(blog);
+            if (result == "Success")
+                return RedirectToAction("BlogPost"); // Or redirect to a list/details page
+            ViewBag.Error = result;
+            return BlogPost();
+        }
+        public IActionResult DeleteBlog(int blogId)
+        {
+            var updatedBy = HttpContext.Session.GetString("userName") ?? "";
+            BlogViewModel blogVM = new BlogViewModel();
+            var response = blogVM.DeleteBlog(blogId, updatedBy);
+            //return Json(new { status = response });
+            return View("ManageBlogs");
         }
     }
 }
+
 
 
 

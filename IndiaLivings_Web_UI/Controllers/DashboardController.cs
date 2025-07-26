@@ -3,6 +3,7 @@ using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.Net.Mail;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace IndiaLivings_Web_UI.Controllers
 {
     public class DashboardController : Controller
@@ -44,6 +45,8 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <returns>once User clicks on "Join Me" Login page will be loaded</returns>
         public IActionResult Login()
         {
+            ViewBag.UsernameFromCookie = Request.Cookies["UsernameFromCookie"] ?? "";
+            ViewBag.PasswordFromCookie = Request.Cookies["PasswordFromCookie"] ?? "";
             return View();
         }
         /// <summary>
@@ -103,7 +106,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns>To verify whether User is existing or not</returns>
         [HttpPost]
-        public JsonResult Login(string userName, string password)
+        public JsonResult Login(string userName, string password, bool RememberMe = false)
         {
 
             dynamic JsonData = null;
@@ -117,6 +120,18 @@ namespace IndiaLivings_Web_UI.Controllers
             HttpContext.Session.SetString("UserFullName", "");
             if (user != null)
             {
+                if (RememberMe)
+                {
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTimeOffset.UtcNow.AddDays(30), 
+                        IsEssential = true,
+                        HttpOnly = true,
+                        Secure = true
+                    };
+                    Response.Cookies.Append("UsernameFromCookie", userName, cookieOptions);
+                    Response.Cookies.Append("PasswordFromCookie", password, cookieOptions);
+                }
                 HttpContext.Session.SetObject("UserDetails", user);
                 HttpContext.Session.SetString("userName", user.username);
                 HttpContext.Session.SetInt32("RoleId", user.userRoleID);
@@ -625,19 +640,11 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Manage Blogs Page
         /// </summary>
         /// <returns> List of all Blogs (Status of active ads can be changed) </returns>
-        public IActionResult ManageBlogs()
+        public IActionResult ManageBlogs(int pageNumber = 1, int pageSize=6, int categoryId=0, bool publishedOnly=false)
         {
-            try
-            {
-                ProductViewModel productModel = new ProductViewModel();
-                List<ProductViewModel> products = productModel.AdsList(0);
-                return View(products);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            ViewBag.CurrentPage = pageNumber;
+            List<BlogViewModel> blogs = BlogViewModel.GetAllBlogs(pageNumber, pageSize, categoryId, publishedOnly);
+            return View(blogs);
         }
         public IActionResult navSearch(int categoryid = 0, int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "")
         {
@@ -714,14 +721,138 @@ namespace IndiaLivings_Web_UI.Controllers
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
-            ViewBag.Count = products.Count();
+            ViewBag.Count = products.Count();;
+            List<ProductViewModel> recommendedList = products.Where(product => product.productMembershipID == 2).ToList();
             AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
             {
                 Products = products,
                 Filters = filDetails,
-                Categories = categoryList
+                Categories = categoryList,
+                RecommendedAds = recommendedList
             };
             return View(adListFilters);
+        }
+        public IActionResult BlogDetails(int blogId)
+        {
+            BlogViewModel blogs = BlogViewModel.GetBlogById(blogId);
+            if (blogs != null)
+            {
+                return View(blogs);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        public IActionResult PublishBlog(int blogId)
+        {
+            var updatedBy = HttpContext.Session.GetString("userName") ?? "";
+            BlogViewModel blogVM = new BlogViewModel();
+            var response = blogVM.PublishBlog(blogId, updatedBy);
+            //return Json(new { status = response });
+            return RedirectToAction("BlogDetails", new { blogId = blogId });
+        }
+        public IActionResult ProductsList([FromBody] List<ProductViewModel> products, int page = 1)
+        {
+            ViewBag.Count = products.Count();
+            ViewBag.CurrentPage = page;
+
+            return PartialView("_ProductsPartial", products);
+        }
+        public IActionResult ProductsList2([FromBody] List<ProductViewModel> products, int page = 1)
+        {
+            ViewBag.Count = products.Count();
+            ViewBag.CurrentPage = page;
+
+            return PartialView("_ProductsPartial2", products);
+        }
+        public IActionResult ProductsList3([FromBody] List<ProductViewModel> products, int page = 1)
+        {
+            ViewBag.Count = products.Count();
+            ViewBag.CurrentPage = page;
+
+            return PartialView("_ProductsPartial3", products);
+        }
+        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "")
+        {
+            ProductViewModel productViewModel = new ProductViewModel();
+            List<ProductViewModel> products;
+
+            // If no search/filter parameters are used, fall back to category-based logic  
+            //bool isSearch = !string.IsNullOrEmpty(strProductName) ||
+            //                !string.IsNullOrEmpty(strCity) ||
+            //                !string.IsNullOrEmpty(strState) ||
+            //                decMinPrice > 0 || decMaxPrice > 0 ||
+            //                !string.IsNullOrEmpty(strSearchType) ||
+            //                !string.IsNullOrEmpty(strSearchText);
+
+            //if (isSearch)
+            //{
+            //    products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
+            //}
+            //else
+            //{
+            //    products = productViewModel.GetProducts(categoryid);
+            //}
+            if (decMinPrice > 0 || decMaxPrice > 0)
+            {
+                products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
+            }
+            else
+            {
+                products = productViewModel.GetAds(0);
+            }
+
+            if (categoryid != 0)
+            {
+                products = products.Where(product => product.productCategoryID == categoryid).ToList();
+
+                if (subcategoryid != 0)
+                {
+                    products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
+                }
+            }
+
+            if (strCity != "")
+            {
+                List<string> citiesList = strCity.Split(',').ToList();
+                products = products.Where(product => citiesList.Contains(product.userContactCity.ToLower())).ToList();
+            }
+
+            if (adtype != "")
+            {
+                List<string> adtypeList = adtype.Split(',').ToList();
+                products = products.Where(product => adtypeList.Contains(product.productAdCategory.ToLower())).ToList();
+            }
+
+            if (sort != "")
+            {
+                if (sort == "desc")
+                {
+                    products = products.OrderByDescending(p => p.productPrice).ToList();
+                }
+                else
+                {
+                    products = products.OrderBy(p => p.productPrice).ToList();
+                }
+            }
+
+            //CategoryViewModel category = new CategoryViewModel();
+            //List<CategoryViewModel> categoryList = category.GetCategoryCount();
+            //SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+            //List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<int> wishlistIds = productViewModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            ViewBag.WishlistIds = wishlistIds;
+            ViewBag.CurrentPage = page;
+            ViewBag.Count = products.Count();
+            //AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
+            //{
+            //    Products = products,
+            //    Filters = filDetails,
+            //    Categories = categoryList
+            //};
+            return PartialView("_ProductsPartial", products);
         }
     }
 }

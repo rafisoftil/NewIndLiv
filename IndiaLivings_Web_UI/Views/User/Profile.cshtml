@@ -33,56 +33,21 @@
                     <div class="dash-menu-list">
                         <ul>
                             <li><a asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
-                            <li><a asp-controller="User" class="active" asp-action="Profile">Profile</a></li>
+                            <li><a asp-controller="User" asp-action="Profile" class="active">Profile</a></li>
                             <li><a asp-controller="User" asp-action="PostAd">Ad Post</a></li>
-                            <li><a asp-controller="User" asp-action="MyAds">my ads</a></li>
-                            <li><a asp-controller="User" asp-action="Settings">settings</a></li>
-                            <li><a asp-controller="User" asp-action="Bookmark">bookmarks</a></li>
-                            <li><a asp-controller="User" asp-action="Message">message</a></li>
-                            <li><a asp-controller="User" asp-action="Notification">notification</a></li>
-                            <li><a asp-controller="Dashboard" asp-action="Logout">logout</a></li>
+                            <li><a asp-controller="User" asp-action="MyAds">My Ads</a></li>
+                            <li><a asp-controller="User" asp-action="Settings">Settings</a></li>
+                            <li><a asp-controller="User" asp-action="Bookmark">Bookmarks</a></li>
+                            <li><a asp-controller="User" asp-action="Message">Message</a></li>
+                            <li><a asp-controller="User" asp-action="Notification">Notification</a></li>
+                            <li><a asp-controller="Dashboard" asp-action="Logout">Logout</a></li>
                         </ul>
-                    </div>
-            </div>
-        </div>
-    </section>
-    <!--=====================================
-              SINGLE BANNER PART END
-    =======================================-->
-    <!--=====================================
-            DASHBOARD HEADER PART START
-    =======================================-->
-    <section class="dash-header-part">
-        <div class="container">
-            <div class="dash-header-card">
-               
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="dash-menu-list">
-                            <ul>
-                                <li><a href="@Url.Action("Dashboard", "User")">dashboard</a></li>
-                                <li><a class="active" href="@Url.Action("Profile", "User")">Profile</a></li>
-                                <li><a href="@Url.Action("AdPost", "User")">ad post</a></li>
-                                <li><a href="@Url.Action("MyAds", "User")">my ads</a></li>
-                                <li><a href="@Url.Action("Settings", "User")">settings</a></li>
-                                <li><a href="@Url.Action("Bookmark", "User")">bookmarks</a></li>
-                                <li><a href="@Url.Action("Message", "User")">message</a></li>
-                                <li><a href="@Url.Action("Notification", "User")">notification</a></li>
-                                <li><a href="@Url.Action("Login", "Dashboard")">logout</a></li>
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
-
-        <div id="toast-container"></div>
     </div>
 </section>
-    <!--=====================================
-            DASHBOARD HEADER PART END
-    =======================================-->
     <!--=====================================
                 PROFILE PART START
     =======================================-->

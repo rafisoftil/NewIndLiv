@@ -47,7 +47,7 @@
                                 </div>
                             </div>
 
-                            <form class="product-widget-form" asp-controller="User" asp-action="productsList" method="get">
+                            <form class="product-widget-form" asp-controller="Dashboard" asp-action="productsList" method="get">
                                 <div class="product-widget-group">
                                     <input type="text" id="decMinPrice" placeholder="min - 00">
                                     <input type="text" id="decMaxPrice" placeholder="max - 1B">
@@ -371,10 +371,43 @@
                                 </select>
                             </div>
                             <div class="filter-action">
-                                <a href="ad-column3.html" title="Three Column" class="active"><i class="fas fa-th"></i></a>
-                                <a href="ad-column2.html" title="Two Column"><i class="fas fa-th-large"></i></a>
-                                <a href="ad-column1.html" title="One Column"><i class="fas fa-th-list"></i></a>
+                                <a onclick="changeGridView()" id="grid1" title="Three Column" class="active"><i class="fas fa-th"></i></a>
+                                <a onclick="changeGridView2()" id="grid2" title="Two Column"><i class="fas fa-th-large"></i></a>
+                                <a onclick="changeGridView3()" id="grid3" title="One Column"><i class="fas fa-th-list"></i></a>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ad-feature-slider slider-arrow">
+                            @foreach (var product in Model.RecommendedAds)
+                            {
+                                <div class="feature-card">
+                                    <a href="#" class="feature-img">
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="feature" width="565" height="401" />
+                                    </a>
+                                    <div class="cross-inline-badge feature-badge">
+                                        <span>featured</span>
+                                        <i class="fas fa-book-open"></i>
+                                    </div>
+                                    <button type="button" class="feature-wish">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                    <div class="feature-content">
+                                        <ol class="breadcrumb feature-category">
+                                            <li><span class="flat-badge @(product.productAdCategory.ToLower())">@product.productAdCategory</span></li>
+                                            <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
+                                        </ol>
+                                        <h3 class="feature-title"><a href="ad-details-left.html">@product.productDescription</a></h3>
+                                        <div class="feature-meta">
+                                            <span class="feature-price">₹@product.productPrice.ToString("F2")<small>/@product.productPriceCondition</small></span>
+                                            <span class="feature-time"><i class="fas fa-clock"></i>@product.updatedDate.ToString("MMM dd, h:mm tt")</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -559,6 +592,7 @@
            LANGUAGE MODAL PART END
 =======================================-->
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     function AddToWishlist(button, productID, createdBy) {
         var isInWishlist = button.classList.contains("fas");
@@ -610,7 +644,7 @@
         var decMaxPrice = parseFloat($('#decMaxPrice').val());
         $('#divPartial').html('<div style="text-align:center; margin-top:500px;"><img src="/images/Hourglass.gif" /></div>');
         $.ajax({
-          url: '/User/ProductList',
+          url: '/Dashboard/ProductList',
           type: 'GET',
           data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid, sort: sort},
           contentType: 'application/json',
@@ -667,6 +701,20 @@
     }
 
     $(document).ready(function () {
+        // Get the city parameter from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const cityParam = urlParams.get('strCity');
+      
+        if (cityParam) {
+            // Find and check the corresponding checkbox
+            const cityCheckbox = document.querySelector(`#city_${cityParam}`);
+            if (cityCheckbox) {
+                cityCheckbox.checked = true;
+                // Update the selected cities array and trigger filter
+                updateCity(cityParam, true);
+            }
+        }
+
         // Ad Type Checkbox
         $('.filter-type').on('change', function () {
             var type = $(this).val();
@@ -768,7 +816,7 @@
         var queryParams = `?strProductName=${encodeURIComponent(productName)}&strCity=${encodeURIComponent(city)}&strState=${encodeURIComponent(state)}&decMinPrice=${encodeURIComponent(minPrice)}&decMaxPrice=${encodeURIComponent(maxPrice)}`;
 
         // Navigate to the AdsList page with query params
-        window.location.href = '/User/navSearch' + queryParams;
+        window.location.href = '/Dashboard/navSearch' + queryParams;
     }
 
 </script>
