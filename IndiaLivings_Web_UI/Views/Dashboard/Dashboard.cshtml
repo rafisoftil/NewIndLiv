@@ -56,7 +56,7 @@
                     {
                         <div class="feature-card">
                             <a href="#" class="feature-img">
-                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="feature">
+                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="feature" width="565" height="401" />
                             </a>
                             <div class="cross-inline-badge feature-badge">
                                 <span>featured</span>
@@ -83,7 +83,7 @@
                 <div class="feature-thumb-slider">
                     @foreach (var product in recommendedAds)
                     {
-                        <div class="feature-thumb"><img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="feature"></div>
+                        <div class="feature-thumb"><img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="feature" width="142" height="101" /></div>
                     }
                 </div>
             </div>
