@@ -773,5 +773,86 @@ namespace IndiaLivings_Web_UI.Controllers
 
             return PartialView("_ProductsPartial3", products);
         }
+        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "")
+        {
+            ProductViewModel productViewModel = new ProductViewModel();
+            List<ProductViewModel> products;
+
+            // If no search/filter parameters are used, fall back to category-based logic  
+            //bool isSearch = !string.IsNullOrEmpty(strProductName) ||
+            //                !string.IsNullOrEmpty(strCity) ||
+            //                !string.IsNullOrEmpty(strState) ||
+            //                decMinPrice > 0 || decMaxPrice > 0 ||
+            //                !string.IsNullOrEmpty(strSearchType) ||
+            //                !string.IsNullOrEmpty(strSearchText);
+
+            //if (isSearch)
+            //{
+            //    products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
+            //}
+            //else
+            //{
+            //    products = productViewModel.GetProducts(categoryid);
+            //}
+            if (decMinPrice > 0 || decMaxPrice > 0)
+            {
+                products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
+            }
+            else
+            {
+                products = productViewModel.GetAds(0);
+            }
+
+            if (categoryid != 0)
+            {
+                products = products.Where(product => product.productCategoryID == categoryid).ToList();
+
+                if (subcategoryid != 0)
+                {
+                    products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
+                }
+            }
+
+            if (strCity != "")
+            {
+                List<string> citiesList = strCity.Split(',').ToList();
+                products = products.Where(product => citiesList.Contains(product.userContactCity.ToLower())).ToList();
+            }
+
+            if (adtype != "")
+            {
+                List<string> adtypeList = adtype.Split(',').ToList();
+                products = products.Where(product => adtypeList.Contains(product.productAdCategory.ToLower())).ToList();
+            }
+
+            if (sort != "")
+            {
+                if (sort == "desc")
+                {
+                    products = products.OrderByDescending(p => p.productPrice).ToList();
+                }
+                else
+                {
+                    products = products.OrderBy(p => p.productPrice).ToList();
+                }
+            }
+
+            //CategoryViewModel category = new CategoryViewModel();
+            //List<CategoryViewModel> categoryList = category.GetCategoryCount();
+            //SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+            //List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<int> wishlistIds = productViewModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            ViewBag.WishlistIds = wishlistIds;
+            ViewBag.CurrentPage = page;
+            ViewBag.Count = products.Count();
+            //AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
+            //{
+            //    Products = products,
+            //    Filters = filDetails,
+            //    Categories = categoryList
+            //};
+            return PartialView("_ProductsPartial", products);
+        }
     }
 }

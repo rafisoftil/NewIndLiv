@@ -687,7 +687,7 @@
                 if (i<8) {
                     <div class="col-sm-6 col-md-6 col-lg-3">
 
-                    <a href="ad-list-column3.html" class="city-card" style="background: url(images/cities/01.jpg) no-repeat center; background-size: cover">
+                    <a href="javascript:void(0);" onclick="navigateToAdsListWithCity('@Model.Cities[i].CategoryValue')" class="city-card" style="background: url(images/cities/01.jpg) no-repeat center; background-size: cover">
                         <div class="city-content">
                             <h4>@Model.Cities[i].CategoryValue</h4>
                             <p>(@Model.Cities[i].totalCount) ads</p>
@@ -912,3 +912,9 @@
         </div>
     </div>
 </section>
+<script>
+    function navigateToAdsListWithCity(cityName) {
+        // Navigate to AdsList page with the city parameter
+        window.location.href = `/Dashboard/AdsList?strCity=${encodeURIComponent(cityName)}`;
+    }
+</script>

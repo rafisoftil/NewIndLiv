@@ -47,7 +47,7 @@
                                 </div>
                             </div>
 
-                            <form class="product-widget-form" asp-controller="User" asp-action="productsList" method="get">
+                            <form class="product-widget-form" asp-controller="Dashboard" asp-action="productsList" method="get">
                                 <div class="product-widget-group">
                                     <input type="text" id="decMinPrice" placeholder="min - 00">
                                     <input type="text" id="decMaxPrice" placeholder="max - 1B">
@@ -592,6 +592,7 @@
            LANGUAGE MODAL PART END
 =======================================-->
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     function AddToWishlist(button, productID, createdBy) {
         var isInWishlist = button.classList.contains("fas");
@@ -643,7 +644,7 @@
         var decMaxPrice = parseFloat($('#decMaxPrice').val());
         $('#divPartial').html('<div style="text-align:center; margin-top:500px;"><img src="/images/Hourglass.gif" /></div>');
         $.ajax({
-          url: '/User/ProductList',
+          url: '/Dashboard/ProductList',
           type: 'GET',
           data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid, sort: sort},
           contentType: 'application/json',
@@ -700,6 +701,20 @@
     }
 
     $(document).ready(function () {
+        // Get the city parameter from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const cityParam = urlParams.get('strCity');
+      
+        if (cityParam) {
+            // Find and check the corresponding checkbox
+            const cityCheckbox = document.querySelector(`#city_${cityParam}`);
+            if (cityCheckbox) {
+                cityCheckbox.checked = true;
+                // Update the selected cities array and trigger filter
+                updateCity(cityParam, true);
+            }
+        }
+
         // Ad Type Checkbox
         $('.filter-type').on('change', function () {
             var type = $(this).val();
@@ -801,7 +816,7 @@
         var queryParams = `?strProductName=${encodeURIComponent(productName)}&strCity=${encodeURIComponent(city)}&strState=${encodeURIComponent(state)}&decMinPrice=${encodeURIComponent(minPrice)}&decMaxPrice=${encodeURIComponent(maxPrice)}`;
 
         // Navigate to the AdsList page with query params
-        window.location.href = '/User/navSearch' + queryParams;
+        window.location.href = '/Dashboard/navSearch' + queryParams;
     }
 
 </script>
