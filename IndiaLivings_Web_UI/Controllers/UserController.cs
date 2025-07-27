@@ -494,12 +494,20 @@ namespace IndiaLivings_Web_UI.Controllers
             response = model.SendMessage(senderUserId, receiverUserId, messageText);
             return response;
         }
-        public IActionResult GetMessagesByUser(int userId)
+        public IActionResult GetMessagesByUser(int userId, string username="")
         {
             MessageViewModel messageViewModel = new MessageViewModel();
             ViewBag.UserID = userId;
             List<MessageViewModel> messages = messageViewModel.GetMessageByUser(userId);
-            return PartialView("_MessagesByUser", messages);
+            dynamic data = new ExpandoObject();
+            data.Messages = messages;
+            if (username != "")
+            {
+                UserViewModel UVM = new UserViewModel();
+                UserViewModel userDetails = UVM.GetUsersInfo(username)[0];
+                data.UserData = userDetails;
+            }
+            return PartialView("_MessagesByUser", data);
         }
         public IActionResult ChatList()
         {

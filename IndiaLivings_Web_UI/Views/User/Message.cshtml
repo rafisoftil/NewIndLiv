@@ -127,12 +127,12 @@
             });
             });
                     // When a search result is clicked
-            
-            function loadMessages(userId) {
+
+            function loadMessages(userId, UserName) {
                 $.ajax({
                     url: '/User/GetMessagesByUser',
                     type: 'GET',
-                    data: { userId: userId},
+                    data: { userId: userId, username: UserName},
                     success: function (partialViewHtml) {
                         $('#chat-box').html(partialViewHtml);
                         //setTimeout(scrollToBottom, 100); // scroll to bottom after render
@@ -148,7 +148,7 @@
                 var defaultUserId = '@defaultUser?.userID';
                 var currentUsername = '@defaultUser?.username';
                 if (defaultUserId) {
-                    loadMessages(defaultUserId);
+                    loadMessages(defaultUserId, currentUsername);
                 }
             });
             const connection = new signalR.HubConnectionBuilder()
@@ -181,6 +181,7 @@
                             if (response) {
                                 connection.invoke("SendMessage", sender, receiver, message);
                                 $("#chat-emoji").val("");
+                                setTimeout(scrollToBottom, 100);
                             }
                         }
                     });
@@ -227,9 +228,10 @@
                 $(document).on("click", ".message-link", function (e) {
                     e.preventDefault();
                     const userId = $(this).data("user-id");
+                    const username = $(this).data("username");
                     $("#receiverId").val(userId);
 
-                    $.get("/User/GetMessagesByUser?userId=" + userId, function (data) {
+                    $.get("/User/GetMessagesByUser?userId=" + userId + "&username=" + username, function (data) {
                         $("#chat-box").html(data);
                         $(".message-item").removeClass("active");
                         $('.message-link[data-user-id="' + userId + '"]').closest("li").addClass("active");
