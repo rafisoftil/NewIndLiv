@@ -667,7 +667,7 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 products = productViewModel.GetProducts(categoryid);
             }
-
+            List<ProductViewModel> allProducts = productViewModel.GetAds(0);
             CategoryViewModel category = new CategoryViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
@@ -677,11 +677,13 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
+            List<ProductViewModel> recommendedList = allProducts.Where(product => product.productMembershipID == 2).ToList();
             AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
             {
                 Products = products,
                 Filters = filDetails,
-                Categories = categoryList
+                Categories = categoryList,
+                RecommendedAds = recommendedList
             };
             return View("AdsList", adListFilters);
         }
@@ -721,7 +723,7 @@ namespace IndiaLivings_Web_UI.Controllers
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
-            ViewBag.Count = products.Count();;
+            ViewBag.Count = products.Count();
             List<ProductViewModel> recommendedList = products.Where(product => product.productMembershipID == 2).ToList();
             AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
             {
