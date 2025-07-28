@@ -69,9 +69,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
         <script>
             $(document).ready(function () {
-                $("#searchUser").on("keyup", function () {
+                $("#searchUser").on("keypress", function (event) {
                     const query = $(this).val().trim();
-                    if (query.length >= 2) {
+                    if (event.key === "Enter") {
                         $.get('/User/SearchUsers', { term: query }, function (data) {
                             let suggestions = "";
                             data.forEach(u => {
@@ -199,7 +199,7 @@
                         const msgHtml = `
                             <li class="inbox-chat-item ${isMine ? "my-chat" : ""}">
                                 <div class="inbox-chat-img">
-                                    <img src="/images/user.png" alt="avatar">
+                                    <img src="${isMine ? window.chatImages.senderImage : window.chatImages.receiverImage}" alt="avatar">
                                 </div>
                                 <div class="inbox-chat-content">
                                     <div class="inbox-chat-text">
@@ -209,7 +209,7 @@
                                 </div>
                             </li>`;
                         $("#chatMessageList").append(msgHtml);
-                        //scrollToBottom();
+                        setTimeout(scrollToBottom, 100);
                     }
 
                     $.ajax({

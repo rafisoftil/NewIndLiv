@@ -5,6 +5,12 @@
         ?? ((IEnumerable<MessageViewModel>)Model.Messages)
         .FirstOrDefault(m => m.ReceiverId != currentUserId.ToString())?.ReceiverId;
     var receiverUser = (UserViewModel)Model.UserData;
+    var receiverImage = receiverUser?.byteUserImageData != null && receiverUser.byteUserImageData.Length > 0
+        ? $"data:image/png;base64,{Convert.ToBase64String(receiverUser.byteUserImageData)}"
+        : "/images/user.png";
+    var senderImage = Context.Session.GetObject<byte[]>("UserImage") != null && Context.Session.GetObject<byte[]>("UserImage").Length > 0
+        ? $"data:image/png;base64,{Convert.ToBase64String(Context.Session.GetObject<byte[]>("UserImage"))}"
+        : "/images/user.png";
 }
 
 <section>
@@ -70,6 +76,10 @@
     </div>
 </section>
 <script>
+    window.chatImages = {
+        senderImage: '@Html.Raw(senderImage)',
+        receiverImage: '@Html.Raw(receiverImage)'
+    };
     const scrollToBottom = () => {
                 const list = document.getElementById("chatMessageList");
                 if (list) {
