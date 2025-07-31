@@ -856,5 +856,6 @@ namespace IndiaLivings_Web_UI.Controllers
             //};
             return PartialView("_ProductsPartial", products);
         }
+        
     }
 }

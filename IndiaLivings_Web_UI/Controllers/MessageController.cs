@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace IndiaLivings_Web_UI.Hubs
 {
-    public class Message : Hub
+    public class MessageController : Hub
     {
         public async Task SendMessage(string senderId, string receiverId, string message)
         {

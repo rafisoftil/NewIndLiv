@@ -1,22 +1,25 @@
-﻿@model IEnumerable<IndiaLivings_Web_UI.Models.RoleViewModel>
+﻿@model IEnumerable<IndiaLivings_Web_UI.Models.JobNewsViewModel>
 @using NonFactors.Mvc.Grid
 @{
-    ViewBag.Title = "User Roles";
+    ViewBag.Title = "Job News";
     <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
     <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
 }
 
 <div class="container">
-    
-    <h4 class="m-2">Roles</h4>
-    <div class="container-fluid" style="width:50%; height:300px" >
+
+    <h4 class="m-2">Job News</h4>
+
+    <div class="container-fluid">
         @(
             Html.Grid(Model).Build(col =>
-                {
-                    col.Add().RenderedAs((model, row) => row + 1).Titled("#").Width("1%").Css("text-center");
-                    @* col.Add(Model => Model.RoleID).Titled("RoleID"); *@
-                    col.Add(Model => Model.RoleName).Titled("Role Name");
-                col.Add(Model => Model.RoleStatus).Titled("Status").RenderedAs(model => model.RoleStatus == true ? "Active" : "In-Active");
+            {
+                col.Add().RenderedAs((model, row) => row + 1).Titled("#").Width("1%").Css("text-center");
+                @* col.Add(Model => Model.RoleID).Titled("RoleID"); *@
+                col.Add(Model => Model.CompanyName).Titled("Job Name");
+                col.Add(Model => Model.SalaryRange).Titled("Salary");
+                col.Add(Model => Model.JobLocation).Titled("JobLocation");
+                col.Add(Model => Model.Summary).Titled("Job Summary");
             })
             .Sortable().Filterable()
             .Empty("No data Found")
@@ -30,8 +33,11 @@
             })
             )
     </div>
+    <div class="container-fluid p-2 d-flex justify-content-end">
+        <button type="submit" class="btn btn-inline">Apply</button>
+    </div>
 </div>
 <script src="~/js/mvc-grid/mvc-grid.js"></script>
 <script>
     document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
-</script>    
+</script>
