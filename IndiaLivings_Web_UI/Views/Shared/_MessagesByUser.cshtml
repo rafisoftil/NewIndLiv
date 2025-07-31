@@ -1,8 +1,16 @@
-﻿@model List<MessageViewModel>
-@{
+﻿@{
     int currentUserId = Context.Session.GetInt32("UserId") ?? 0;
-    var receiver = Model.FirstOrDefault(m => m.SenderId != currentUserId.ToString())?.SenderId
-                ?? Model.FirstOrDefault(m => m.ReceiverId != currentUserId.ToString())?.ReceiverId;
+    var receiver = ((IEnumerable<MessageViewModel>)Model.Messages)
+        .FirstOrDefault(m => m.SenderId != currentUserId.ToString())?.SenderId
+        ?? ((IEnumerable<MessageViewModel>)Model.Messages)
+        .FirstOrDefault(m => m.ReceiverId != currentUserId.ToString())?.ReceiverId;
+    var receiverUser = (UserViewModel)Model.UserData;
+    var receiverImage = receiverUser?.byteUserImageData != null && receiverUser.byteUserImageData.Length > 0
+        ? $"data:image/png;base64,{Convert.ToBase64String(receiverUser.byteUserImageData)}"
+        : "/images/user.png";
+    var senderImage = Context.Session.GetObject<byte[]>("UserImage") != null && Context.Session.GetObject<byte[]>("UserImage").Length > 0
+        ? $"data:image/png;base64,{Convert.ToBase64String(Context.Session.GetObject<byte[]>("UserImage"))}"
+        : "/images/user.png";
 }
 
 <section>
@@ -10,10 +18,18 @@
         <div class="inbox-header">
             <div class="inbox-header-profile">
                 <a class="inbox-header-img" href="#">
-                    <img src="~/images/user.png" alt="avatar">
+                    <img src="@((receiverUser?.byteUserImageData != null && receiverUser.byteUserImageData.Length > 0
+                                                                 ? $"data:image/png;base64,{Convert.ToBase64String(receiverUser.byteUserImageData)}"
+                                                                 : "/images/user.png"))">
                 </a>
                 <div class="inbox-header-text">
-                    <h5><a href="#">miron mahmud</a></h5>
+                    <h5>
+                        <a href="#">
+                            @(string.IsNullOrWhiteSpace($"{receiverUser?.userFirstName} {receiverUser?.userMiddleName} {receiverUser?.userLastName}".Trim())
+                                                        ? receiverUser?.username
+                                                        : $"{receiverUser?.userFirstName} {receiverUser?.userMiddleName} {receiverUser?.userLastName}".Trim())
+                        </a>
+                    </h5>
                     <span>active now</span>
                 </div>
             </div>
@@ -24,18 +40,24 @@
             </ul>
         </div>
         <ul class="inbox-chat-list message-list" id="chatMessageList">
-            @foreach (var msg in Model.OrderBy(m => m.Timestamp))
+            @foreach (var msg in ((IEnumerable<MessageViewModel>)Model.Messages).OrderBy(m => m.Timestamp))
             {
                 bool isMine = msg.SenderId == currentUserId.ToString();
                 <li class="inbox-chat-item @(isMine ? "my-chat" : "")">
                     <div class="inbox-chat-img">
-                        <img src="~/images/user.png">
+                        <img src="@(isMine 
+                                    ? ((Context.Session.GetObject<byte[]>("UserImage") != null && Context.Session.GetObject<byte[]>("UserImage").Length > 0) 
+                                        ? $"data:image/png;base64,{Convert.ToBase64String(Context.Session.GetObject<byte[]>("UserImage"))}" 
+                                        : "/images/user.png") 
+                                    : (receiverUser?.byteUserImageData != null && receiverUser.byteUserImageData.Length > 0 
+                                        ? $"data:image/png;base64,{Convert.ToBase64String(receiverUser.byteUserImageData)}" 
+                                        : "/images/user.png"))">
                     </div>
                     <div class="inbox-chat-content">
                         <div class="inbox-chat-text">
                             <p>@msg.text</p>
                             <div class="inbox-chat-action">
-                                <a onclick="DeleteMessage('@msg.Id', '@(isMine? msg.SenderId: msg.ReceiverId)', '@msg.ReceiverId')" title="Remove" class="fas fa-trash-alt"></a>
+                                <a onclick="DeleteMessage('@msg.Id', '@(isMine? msg.SenderId: msg.ReceiverId)', '@msg.ReceiverId', '@receiverUser.username')" title="Remove" class="fas fa-trash-alt"></a>
                                 <a href="#" title="Forward" class="fas fa-forward"></a>
                             </div>
                         </div>
@@ -54,6 +76,10 @@
     </div>
 </section>
 <script>
+    window.chatImages = {
+        senderImage: '@Html.Raw(senderImage)',
+        receiverImage: '@Html.Raw(receiverImage)'
+    };
     const scrollToBottom = () => {
                 const list = document.getElementById("chatMessageList");
                 if (list) {
@@ -62,14 +88,14 @@
             };
     setTimeout(scrollToBottom, 100);
 
-    function DeleteMessage(messageId, userId, refreshId){
+    function DeleteMessage(messageId, userId, refreshId, username){
         $.ajax({
             url: '/User/DeleteUserMessage',
             type: 'POST',
             data: {messageId: messageId, userId: userId},
             success: function(response) {
                 if (response.includes("deleted")) {
-                    loadMessages(refreshId)
+                    loadMessages(refreshId, username)
                 }
             }
         });
