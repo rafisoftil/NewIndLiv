@@ -37,7 +37,7 @@ COMPARE PART START
             Html.Grid(Model).Build(col =>
                 {
                 col.Add().Encoded(false)
-            .RenderedAs(Model => $@"<i class='fas fa-plus' style='cursor:pointer' onclick='showSubCategories({Model.SubCategoryName})' />");
+            .RenderedAs(Model => $@"<i class='fas fa-plus categoryCss' style='cursor:pointer' data-subCategory='{Model.SubCategoryName}' />");
             //col.Add().RenderedAs((model, row) => row + 1).Titled("#");
                 col.Add(Model => Model.CategoryName).Titled("Category Name");
                 col.Add().Titled("Category Image").Encoded(false).RenderedAs(c =>// Render image tag with the ImageUrl property
@@ -56,7 +56,7 @@ COMPARE PART START
      </div>
 </div>
 
-<script src="~/js/mvc-grid/mvc-grid.js"></script>
+@* <script src="~/js/mvc-grid/mvc-grid.js"></script> *@
 
 <script type="text/javascript">
 
@@ -67,6 +67,24 @@ COMPARE PART START
         var subCategories = $(this).data("id");
         alert(subCategoryName); // Example to show the first subcategory name
     }
+
+    $(".mvc-grid").on("click",".categoryCss", function () {
+        var subCategories = $(this).data("subCategory");
+        alert("testing")
+        // Get the Payment ID from the clicked row
+        var paymentId = $(this).find("td:first").text().trim();
+
+        if (paymentId) {
+            // Display the secondary grid container
+            $("#secondaryGridContainer").show();
+
+            // Set the selected Payment ID
+            $("#selectedPaymentId").text(paymentId);
+
+            // Load the secondary grid (e.g., via AJAX or Razor partial)
+            loadSecondaryGrid(paymentId);
+        }
+    });
 </script>
 <!--=====================================
             JS LINK PART END

@@ -16,7 +16,7 @@
                     <h2>Blog Post</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Dashboard">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">ad-list</li>
+                        <li class="breadcrumb-item active" aria-current="page">Blog Post</li>
                     </ol>
                 </div>
             </div>
@@ -28,119 +28,81 @@
 =======================================-->
 <section class="">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-10">
-                <div class="section-title">
-                    <h2>Create a New Blog Post</h2>
-                    <br/>
-                    <div class="d-flex justify-content-end">
-                        <a type="button" class="btn btn-secondary" asp-action="Dashboard" asp-controller="Dashboard">Cancel</a>
-                    </div>
-                    <form asp-action="@(isEditMode ? "UpdateBlogPost" : "BlogPost")" method="post" enctype="multipart/form-data">
-                        @if (isEditMode)
-                        {
-                            <input type="hidden" name="blogID" value="@blog.blogId" />
-                        }
-                        <div class="mb-3">
-                            <label class="form-label">Blog Title</label>
-                            <input class="form-control" name="title" required value="@(isEditMode? blog.title: "")" />
-                            <span class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Main Image</label>
-                            <input type="file" class="form-control" name="featuredImageFile" accept="image/*" onchange="previewMainImage(event)" />
-                            <span class="text-danger"></span>
-                            @if (isEditMode && blog.featuredImage != null)
-                            {
-                                <img id="mainImagePreview" src="data:image/png;base64,@Convert.ToBase64String(blog.featuredImage)"
-                                class="img-thumbnail mb-2" style="max-height: 200px;" />
-                            }
-                            else
-                            {
-                                <img id="mainImagePreview" src="#" alt="Preview"
-                                     class="img-thumbnail mb-2 d-none" style="max-height: 200px;" />
-                            }
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Summary</label>
-                            <input class="form-control" name="summary" required value="@(isEditMode? blog.summary: "")" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Content</label>
-                            <textarea class="form-control" name="content" rows="5" required>@(isEditMode? blog.title: "")</textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Tags</label>
-                            <input class="form-control" name="tags" value="@(isEditMode? blog.tags: "")" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Category</label> 
-                            <select class="custom-select filter-select" name="categoryID">
-                                <option value="0" disabled selected>Select a Category</option>
-                                @foreach (var category in categories)
-                                {
-                                    <option value="@category.categoryID" selected="@(isEditMode && blog.categoryID == category.categoryID ? "selected" : null)">
-                                        @category.categoryName
-                                    </option>
-                                }
-                            </select>
-                        </div>
-
-                        <!-- Sections logic can be added here if you want to support multiple sections -->
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Submit Blog</button>
-                        </div>
-                        
-                        @* <div class="mb-3">
-                                <label class="form-label">Blog Title</label>
-                                <input class="form-control" />
-                                <span class="text-danger"></span>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Main Image</label>
-                                <input type="file" class="form-control" accept="image/*" onchange="previewMainImage(event)" />
-                                <span class="text-danger"></span>
-                                <img id="mainImagePreview" src="#" alt="Preview" class="img-thumbnail mt-2 d-none" style="max-height: 200px;" />
-                            </div>
-
-                            <hr />
-                            <h4>Sections</h4>
-                            <div id="sections-container">
-                                <div class="blog-section border p-3 mb-3 position-relative">
-                                    <button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-section-btn" title="Remove section"></button>
-                                    <div class="mb-2">
-                                        <label>Section Heading</label>
-                                        <input name="Sections[0].Heading" class="form-control" />
-                                    </div>
-                                    <div class="mb-2">
-                                        <label>Section Content</label>
-                                        <textarea name="Sections[0].Content" class="form-control" rows="5"></textarea>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label>Section Image</label>
-                                        <input name="Sections[0].Image" type="file" class="form-control" />
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <button type="button" id="add-section-btn" class="btn btn-outline-secondary mb-3">+ Add Section</button>
-
-                            <div>
-                                <button type="submit" class="btn btn-primary">Submit Blog</button>
-                            </div> *@
-                    </form>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-10">
+                    <h2 style="color:#0044bb">Blog Post</h2>
+                </div>
+                <div class="d-flex justify-content-end col-2">
+                    <a type="button" class="btn btn-secondary" asp-action="Dashboard" asp-controller="Dashboard">Cancel</a>
                 </div>
             </div>
-        </div>
-    </div>
- 
+
+            <div class="col-12 p-2">
+                <form asp-action="@(isEditMode ? "UpdateBlogPost" : "BlogPost")" method="post" enctype="multipart/form-data">
+                    @if (isEditMode)
+                    {
+                        <input type="hidden" name="blogID" value="@blog.blogId" />
+                    }
+                    <div class="mb-3">
+                        <label class="form-label">Blog Title</label>
+                        <input class="form-control" name="title" required value="@(isEditMode? blog.title: "")" />
+                        <span class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Main Image</label>
+                        <input type="file" class="form-control" name="featuredImageFile" accept="image/*" onchange="previewMainImage(event)" />
+                        <span class="text-danger"></span>
+                        @if (isEditMode && blog.featuredImage != null)
+                        {
+                            <img id="mainImagePreview" src="data:image/png;base64,@Convert.ToBase64String(blog.featuredImage)"
+                                 class="img-thumbnail mb-2" style="max-height: 200px;" />
+                        }
+                        else
+                        {
+                            <img id="mainImagePreview" src="#" alt="Preview"
+                                 class="img-thumbnail mb-2 d-none" style="max-height: 200px;" />
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Summary</label>
+                        <input class="form-control" name="summary" required value="@(isEditMode? blog.summary: "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Content</label>
+                        <textarea class="form-control" name="content" rows="5" required>@(isEditMode ? blog.title : "")</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tags</label>
+                        <input class="form-control" name="tags" value="@(isEditMode? blog.tags: "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select class="custom-select filter-select" name="categoryID">
+                            <option value="0" disabled selected>Select a Category</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.categoryID" selected="@(isEditMode && blog.categoryID == category.categoryID ? "selected" : null)">
+                                    @category.categoryName
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Sections logic can be added here if you want to support multiple sections -->
+                    <div class="text-center d-flex justify-content-end">
+                        <button type="submit" class="btn btn-inline">Submit Blog</button>
+                    </div>
+                </form>
+            </div>
+        </div>          
+            
+    </div> 
 </section>
 
 @section Scripts {

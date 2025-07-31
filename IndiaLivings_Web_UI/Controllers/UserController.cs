@@ -565,12 +565,12 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             // Get categories for dropdown
             List<BlogCategoriesViewModel> blogCategories = BlogCategoriesViewModel.GetAllBlogCategories();
-            
+
             // Create dynamic object to match view's expectations
             dynamic viewModel = new ExpandoObject();
             viewModel.Blog = null;  // null because this is create mode
             viewModel.Categories = blogCategories;
-            
+
             return View(viewModel);
         }
         [HttpPost]
@@ -661,6 +661,13 @@ namespace IndiaLivings_Web_UI.Controllers
             var response = blogVM.DeleteBlog(blogId, updatedBy);
             //return Json(new { status = response });
             return View("ManageBlogs");
+        }
+
+        public IActionResult JobInfo()
+        {
+            JobNewsViewModel jobNews = new JobNewsViewModel();
+            List<JobNewsViewModel> jobList = new List<JobNewsViewModel>();
+            return View(jobList.ToList());
         }
     }
 }
