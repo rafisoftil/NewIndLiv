@@ -621,19 +621,11 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Review Blogs Page
         /// </summary>
         /// <returns> List of all Blogs to be reviewed </returns>
-        public IActionResult ReviewBlogs()
+        public IActionResult ReviewBlogs(int pageNumber = 1, int pageSize = 10, int categoryId = 0, bool publishedOnly = false)
         {
-            try
-            {
-                ProductViewModel productModel = new ProductViewModel();
-                List<ProductViewModel> products = productModel.AdsList(1);
-                return View(products);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            ViewBag.CurrentPage = pageNumber;
+            List<BlogViewModel> blogs = BlogViewModel.GetAllBlogs(pageNumber, pageSize, categoryId, publishedOnly);
+            return View(blogs);
         }
 
         /// <summary>
