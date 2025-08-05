@@ -699,7 +699,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns> List of all Ads will be returned</returns>
         /// // Need to be reviewed with Anoop
-        public IActionResult AdsList(int categoryid = 0, int page = 1)
+        public IActionResult AdsList(int categoryid = 0, int page = 1, int ItemsPerPage = 12)
         {
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(0);
@@ -716,6 +716,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
+            ViewBag.ItemsPerPage = ItemsPerPage;
             List<ProductViewModel> recommendedList = products.Where(product => product.productMembershipID == 2).ToList();
             AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
             {
@@ -746,28 +747,31 @@ namespace IndiaLivings_Web_UI.Controllers
             //return Json(new { status = response });
             return RedirectToAction("BlogDetails", new { blogId = blogId });
         }
-        public IActionResult ProductsList([FromBody] List<ProductViewModel> products, int page = 1)
+        public IActionResult ProductsList([FromBody] List<ProductViewModel> products, int page = 1, int itemsPerPage = 12)
         {
             ViewBag.Count = products.Count();
             ViewBag.CurrentPage = page;
+            ViewBag.ItemsPerPage = itemsPerPage;
 
             return PartialView("_ProductsPartial", products);
         }
-        public IActionResult ProductsList2([FromBody] List<ProductViewModel> products, int page = 1)
+        public IActionResult ProductsList2([FromBody] List<ProductViewModel> products, int page = 1, int itemsPerPage = 12)
         {
             ViewBag.Count = products.Count();
             ViewBag.CurrentPage = page;
+            ViewBag.ItemsPerPage = itemsPerPage;
 
             return PartialView("_ProductsPartial2", products);
         }
-        public IActionResult ProductsList3([FromBody] List<ProductViewModel> products, int page = 1)
+        public IActionResult ProductsList3([FromBody] List<ProductViewModel> products, int page = 1, int itemsPerPage = 12)
         {
             ViewBag.Count = products.Count();
             ViewBag.CurrentPage = page;
+            ViewBag.ItemsPerPage = itemsPerPage;
 
             return PartialView("_ProductsPartial3", products);
         }
-        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "")
+        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "", int itemsPerPage = 12)
         {
             ProductViewModel productViewModel = new ProductViewModel();
             List<ProductViewModel> products;
@@ -840,6 +844,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
+            ViewBag.ItemsPerPage = itemsPerPage;
             //AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
             //{
             //    Products = products,

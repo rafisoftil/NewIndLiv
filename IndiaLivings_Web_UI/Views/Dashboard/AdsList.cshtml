@@ -353,10 +353,10 @@
                         <div class="header-filter">
                             <div class="filter-show">
                                 <label class="filter-label">Show :</label>
-                                <select class="custom-select filter-select">
-                                    <option value="1">12</option>
-                                    <option value="2">24</option>
-                                    <option value="3">36</option>
+                                <select id="itemsPerPageSelect" class="custom-select filter-select">
+                                    <option value="12">12</option>
+                                    <option value="24">24</option>
+                                    <option value="36">36</option>
                                 </select>
                             </div>
                             <div class="filter-short">
@@ -611,7 +611,7 @@
         });
     }
 
-
+    var itemsPerPage = 12;
     var selectedCities = [];
     var selectedAdTypes = [];
     let categoryId = 0;
@@ -619,6 +619,10 @@
     var minPrice = null;
     var maxPrice = null;
     var sort = "";
+    $('#itemsPerPageSelect').on('change', function () {
+        itemsPerPage = $(this).val();
+        changePage();
+    });
 
     function updatePriceRange(type) {
         minPrice = parseFloat($('#decMinPrice').val());
@@ -646,7 +650,7 @@
         $.ajax({
           url: '/Dashboard/ProductList',
           type: 'GET',
-          data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid, sort: sort},
+          data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid, sort: sort, itemsPerPage: itemsPerPage},
           contentType: 'application/json',
           success: function (data) {
             $('#divPartial').html(data); // Load updated product list
