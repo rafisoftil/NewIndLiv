@@ -825,9 +825,13 @@ namespace IndiaLivings_Web_UI.Controllers
 
             if (sort != "")
             {
-                if (sort == "desc")
+                if (sort == "desc" || sort == "5")
                 {
                     products = products.OrderByDescending(p => p.productPrice).ToList();
+                }
+                else if (sort == "1")
+                {
+                    products = products.Where(p => p.productMembershipID == 2).ToList();
                 }
                 else
                 {
