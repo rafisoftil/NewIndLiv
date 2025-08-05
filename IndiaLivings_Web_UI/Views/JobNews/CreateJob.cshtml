@@ -1,4 +1,10 @@
-﻿@model IndiaLivings_Web_UI.Models.JobNewsViewModel
+﻿@model dynamic
+@{
+    var job = Model?.JobNews as JobNewsViewModel;
+    var categories = Model?.Categories as List<JobNewsCategoryViewModel>;
+    var isEditMode = job != null;
+    ViewBag.Title = isEditMode ? "Edit Blog Post" : "Create New Blog Post";
+}
 <!--=====================================
                       SINGLE BANNER PART START
             =======================================-->
@@ -7,10 +13,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="single-content">
-                    <h2>New Job</h2>
+                    <h2>Job Post</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Dashboard">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Create Job</li>
+                        <li class="breadcrumb-item active" aria-current="page">Job Post</li>
                     </ol>
                 </div>
             </div>
@@ -25,168 +31,169 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-10">
-                    <h2 style="color:#0044bb">New Job</h2>
+                    <h2 style="color:#0044bb">Job Post</h2>
                 </div>
                 <div class="d-flex justify-content-end col-2">
                     <a type="button" class="btn btn-secondary" asp-action="Dashboard" asp-controller="Dashboard">Cancel</a>
                 </div>
-            </div>           
-        </div>
-        <div class="container-fluid">
-            <div class="col-12 p-2">
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Job Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Location<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Job Location is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Company Name<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Company Name is required.</small>
-                    </div>
-                </div>
             </div>
-            <div class="col-12 p-2">
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 p-2">
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 p-2">
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 p-2">
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 p-2">
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 p-2">
-                <div class="col-3 p-2">
-                    <div class="form-group">
-                        <label class="form-label">Job Title<sup style="color: red">*</sup></label>
-                        <input type="text" class="form-control" id="productTitle" name="productName" value="" placeholder="Type your product title here" required>
-                        <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
-                    </div>
-                </div>
-                <div class="col-9 p-2 d-flex justify-content-end">
 
-                    <button type="submit" class="btn btn-inline">Create Job</button>
-                     <button type="submit" class="btn btn-error">Apply Job</button>
-                    <button type="submit" class="btn btn-inline">Cancel Job</button>
-                </div>
+            <div class="col-12 p-2">
+                <form id="JobPost" asp-action="@(isEditMode ? "UpdateJobPost" : "JobPost")" method="post" enctype="multipart/form-data" novalidate>
+                    @if (isEditMode)
+                    {
+                        <input type="hidden" name="JobNewsID" value="@job.JobNewsID" />
+                    }
+                    <div class="mb-3">
+                        <label class="form-label">Job Title <span class="text-danger">*</span></label>
+                        <input class="form-control" name="Title" required value="@(isEditMode? job.Title: "")" />
+                        <span class="text-danger"></span>
+                    </div>
+
+                    @* <div class="mb-3">
+                        <label class="form-label">Main Image <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="featuredImageFile" accept="image/*" required onchange="previewMainImage(event)" />
+                        <span class="text-danger"></span>
+                        @if (isEditMode && job.featuredImage != null)
+                        {
+                            <img id="mainImagePreview" src="data:image/png;base64,@Convert.ToBase64String(job.FeaturedImage)"
+                                 class="img-thumbnail mb-2" style="max-height: 200px;" />
+                        }
+                        else
+                        {
+                            <img id="mainImagePreview" src="#" alt="Preview"
+                                 class="img-thumbnail mb-2 d-none" style="max-height: 200px;" />
+                        }
+                    </div> *@
+
+                    <div class="mb-3">
+                        <label class="form-label">Summary <span class="text-danger">*</span></label>
+                        <input class="form-control" name="Summary" required value="@(isEditMode? job.Summary: "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Content <span class="text-danger">*</span></label>
+                        <textarea class="form-control" name="Content" rows="5" required>@(isEditMode? job.Content: "")</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Company Name <span class="text-danger">*</span></label>
+                        <input class="form-control" name="CompanyName" required value="@(isEditMode? job.CompanyName: "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Job Location <span class="text-danger">*</span></label>
+                        <input class="form-control" name="JobLocation" required value="@(isEditMode? job.JobLocation: "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Job Type <span class="text-danger">*</span></label>
+                        <input class="form-control" name="JobType" required value="@(isEditMode? job.JobType: "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Experience Level <span class="text-danger">*</span></label>
+                        <input class="form-control" name="ExperienceLevel" required value="@(isEditMode? job.ExperienceLevel: "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Salary Range <span class="text-danger">*</span></label>
+                        @* <input class="form-control" name="SalaryRange" required value="@(isEditMode? job.SalaryRange: "")" /> *@
+                        <input type="range"
+                               class="form-range"
+                               name="SalaryRange"
+                               id="salaryRange"
+                               min="0"
+                               max="1000000"
+                               step="1000"
+                               value="@(isEditMode? job.SalaryRange: "50000")"
+                               required
+                               oninput="document.getElementById('rangeValue').innerText = this.value" />
+
+                        <div>Selected: ₹<span id="rangeValue">@((isEditMode ? job.SalaryRange : "50000"))</span></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Application Deadline <span class="text-danger">*</span></label>
+                        <input type="datetime" class="form-control" name="Deadline" required value="@(isEditMode? job.ApplicationDeadline: "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Application Url <span class="text-danger">*</span></label>
+                        <textarea class="form-control" name="ApplicationUrl" rows="5" required>@(isEditMode? job.ApplicationUrl: "")</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Contact Email <span class="text-danger">*</span></label>
+                        <input class="form-control" name="Email" required value="@(isEditMode? job.ContactEmail: "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tags <span class="text-danger">*</span></label>
+                        <input class="form-control" name="Tags" required value="@(isEditMode? job.Tags: "")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Category <span class="text-danger">*</span></label>
+                        <select id="category" class="custom-select filter-select" name="CategoryID" required>
+                            <option value="" disabled selected>Select a Category</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.CategoryID" selected="@(isEditMode && job.CategoryID == category.CategoryID ? "selected" : null)">
+                                    @category.CategoryName
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="text-center d-flex justify-content-end">
+                        <button type="button" class="btn btn-inline" onclick="JobPost()">Submit Job</button>
+                    </div>
+                </form>
             </div>
         </div>
 
     </div>
 </section>
+<script>
+    function previewMainImage(event) {
+         const mainImagePreview = document.getElementById('mainImagePreview');
+         if (event.target.files && event.target.files[0]) {
+             const reader = new FileReader();
+             reader.onload = function (e) {
+                 mainImagePreview.src = e.target.result;
+                 mainImagePreview.classList.remove('d-none');
+             };
+             reader.readAsDataURL(event.target.files[0]);
+         } else {
+             mainImagePreview.src = '#';
+             mainImagePreview.classList.add('d-none');
+         }
+     }
+    // Function to handle form submission
+    function JobPost() {
+         var form = document.getElementById('JobPost');
+         if (!form.checkValidity()) {
+             form.classList.add('was-validated');
+             form.reportValidity();
+             return;
+         }
+         let formData = new FormData(form);
+         formData.append("CategoryName", $('#category option:selected').text());
+         $.ajax({
+             url: '@Url.Action(isEditMode ? "EditJob" : "JobPost", "JobNews")',
+             type: 'POST',
+             data: formData,
+             contentType: false,
+             processData: false,
+             success: function (response) {
+                 alert('Job Posted successfully!');
+                 window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+             },
+             error: function (xhr, status, error) {
+                 alert('An error occurred while submitting the blog post.');
+                 console.error(error);
+             }
+          });
+      }
+</script>

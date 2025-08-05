@@ -1,0 +1,67 @@
+﻿@model JobNewsViewModel
+
+<div class="modal fade" id="JobById" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content p-4">
+            <div class="modal-header border-0">
+                <h4 class="modal-title fw-bold">@Model.Title</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body pt-0">
+                <!-- Top Details -->
+                <div class="mb-3">
+                    <p class="mb-1"><strong>@Model.CompanyName</strong> – @Model.JobLocation</p>
+                    <p class="text-muted mb-0">Posted: @GetRelativeTime(Model.CreatedDate)</p>
+                </div>
+
+                <!-- Summary and Key Info -->
+                <div class="mb-3">
+                    <p class="text-muted">@Model.Summary</p>
+                    <p class="mt-2"><strong>Experience:</strong> @Model.ExperienceLevel</p>
+                    <p><strong>Salary Range:</strong> @Model.SalaryRange</p>
+                    @* <p><strong>Application Deadline:</strong> @Model.ApplicationDeadline.ToString("dd MMM yyyy")</p> *@
+                    <p>
+                        <strong>Apply here:</strong>
+                        @if (!string.IsNullOrEmpty(Model.ApplicationUrl))
+                        {
+                            <a href="@Model.ApplicationUrl" target="_blank" class="text-primary">@Model.ApplicationUrl</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Not provided</span>
+                        }
+                    </p>
+                </div>
+
+                <!-- Job Description -->
+                <h5 class="fw-semibold mt-4 mb-2">Job Description</h5>
+                <div class="text-muted">
+                    @Html.Raw(Model.Content)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string GetRelativeTime(DateTime dateTime)
+    {
+        var span = DateTime.Now - dateTime;
+
+        if (span.TotalSeconds < 60)
+            return $"{(int)span.TotalSeconds} seconds ago";
+        if (span.TotalMinutes < 60)
+            return $"{(int)span.TotalMinutes} minutes ago";
+        if (span.TotalHours < 24)
+            return $"{(int)span.TotalHours} hours ago";
+        if (span.TotalDays < 7)
+            return $"{(int)span.TotalDays} days ago";
+        if (span.TotalDays < 30)
+            return $"{(int)(span.TotalDays / 7)} week(s) ago";
+        if (span.TotalDays < 365)
+            return $"{(int)(span.TotalDays / 30)} month(s) ago";
+
+        return $"{(int)(span.TotalDays / 365)} year(s) ago";
+    }
+}
