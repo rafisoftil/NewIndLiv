@@ -1,0 +1,598 @@
+﻿@{
+    ViewBag.Title = "Services";
+    <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
+    <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
+    <link rel="stylesheet" href="~/css/custom/ad-post.css" />
+}
+<section class="single-banner admin-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="single-content">
+                    <h2>Services Management</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="admin-dashboard.html">Admin</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Services Management</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="admin-services-part">
+    <div class="container">
+        <!-- Services Statistics -->
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="admin-stat-card">
+                    <div class="stat-content">
+                        <h4>324</h4>
+                        <p>Total Services</p>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="admin-stat-card">
+                    <div class="stat-content">
+                        <h4>45</h4>
+                        <p>Pending Approval</p>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="admin-stat-card">
+                    <div class="stat-content">
+                        <h4>278</h4>
+                        <p>Active Services</p>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="admin-stat-card">
+                    <div class="stat-content">
+                        <h4>156</h4>
+                        <p>Service Providers</p>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Management Content -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="admin-content-card">
+                    <!-- Tab Navigation -->
+                    <div class="admin-tabs">
+                        <ul class="nav nav-tabs" id="servicesTabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="all-services-tab" data-toggle="tab" href="#all-services">All Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending-approval">Pending Approval</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="categories-tab" data-toggle="tab" href="#service-categories">Categories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="reports-tab" data-toggle="tab" href="#service-reports">Reports</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="servicesTabContent">
+                        <!-- All Services Tab -->
+                        <div class="tab-pane fade show active" id="all-services">
+                            <div class="content-header">
+                                <h4>All Services</h4>
+                                <div class="content-actions">
+                                    <button class="btn btn-primary" onclick="addNewService()">
+                                        <i class="fas fa-plus"></i> Add New Service
+                                    </button>
+                                    <button class="btn btn-outline-secondary" onclick="exportServices()">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Services Table -->
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="servicesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Service Name</th>
+                                            <th>Provider</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Rating</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#001</td>
+                                            <td>
+                                                <div class="service-info">
+                                                    <img src="images/product/01.jpg" alt="service" class="table-service-img" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;align-items:center;justify-content:center;width:50px;height:50px;background-color:#f8f9fa;color:#6c757d;margin-right:10px;&quot;><i class=&quot;fas fa-home&quot;></i></div><div><h6>Deep House Cleaning</h6><small class=&quot;text-muted&quot;>Professional house cleaning service</small></div>'">
+                                                    <div>
+                                                        <h6>Deep House Cleaning</h6>
+                                                        <small class="text-muted">Professional house cleaning service</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="provider-info">
+                                                    <img src="images/avatar/01.jpg" alt="provider" class="table-avatar">
+                                                    <span>Clean Pro Services</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="category-tag">Home Cleaning</span></td>
+                                            <td>?1,299</td>
+                                            <td>
+                                                <div class="rating">
+                                                    <i class="fas fa-star"></i>
+                                                    <span>4.8 (245)</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="status-badge active">Active</span></td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewService(1)">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary" onclick="editService(1)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteService(1)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#002</td>
+                                            <td>
+                                                <div class="service-info">
+                                                    <img src="images/services/plumbing.jpg" alt="service" class="table-service-img">
+                                                    <div>
+                                                        <h6>Plumbing Repair</h6>
+                                                        <small class="text-muted">Emergency plumbing services</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="provider-info">
+                                                    <img src="images/avatar/02.jpg" alt="provider" class="table-avatar">
+                                                    <span>Fix It Fast</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="category-tag">Home Repair</span></td>
+                                            <td>?599</td>
+                                            <td>
+                                                <div class="rating">
+                                                    <i class="fas fa-star"></i>
+                                                    <span>4.6 (189)</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="status-badge active">Active</span></td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewService(2)">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary" onclick="editService(2)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteService(2)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#003</td>
+                                            <td>
+                                                <div class="service-info">
+                                                    <img src="images/services/beauty.jpg" alt="service" class="table-service-img">
+                                                    <div>
+                                                        <h6>Hair Cut & Styling</h6>
+                                                        <small class="text-muted">Professional hair services</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="provider-info">
+                                                    <img src="images/avatar/03.jpg" alt="provider" class="table-avatar">
+                                                    <span>Bella Beauty</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="category-tag">Beauty & Salon</span></td>
+                                            <td>?899</td>
+                                            <td>
+                                                <div class="rating">
+                                                    <i class="fas fa-star"></i>
+                                                    <span>4.9 (324)</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="status-badge pending">Pending</span></td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewService(3)">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-success" onclick="approveService(3)">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger" onclick="rejectService(3)">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Pending Approval Tab -->
+                        <div class="tab-pane fade" id="pending-approval">
+                            <div class="content-header">
+                                <h4>Pending Approval</h4>
+                                <div class="content-actions">
+                                    <button class="btn btn-success" onclick="approveAllSelected()">
+                                        <i class="fas fa-check"></i> Approve Selected
+                                    </button>
+                                    <button class="btn btn-danger" onclick="rejectAllSelected()">
+                                        <i class="fas fa-times"></i> Reject Selected
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="pending-services-list">
+                                <div class="pending-service-item">
+                                    <div class="service-checkbox">
+                                        <input type="checkbox" id="service_3" name="pending_services[]" value="3">
+                                    </div>
+                                    <div class="service-details">
+                                        <div class="service-image">
+                                            <img src="images/services/beauty.jpg" alt="service">
+                                        </div>
+                                        <div class="service-info">
+                                            <h5>Hair Cut & Styling</h5>
+                                            <p class="provider-name">Bella Beauty</p>
+                                            <p class="service-description">Professional hair cutting, styling, and treatment services at your doorstep by certified stylists.</p>
+                                            <div class="service-meta">
+                                                <span class="price">?899</span>
+                                                <span class="category">Beauty & Salon</span>
+                                                <span class="submitted-date">Submitted: Dec 20, 2023</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="service-actions">
+                                        <button class="btn btn-primary btn-sm" onclick="viewServiceDetails(3)">
+                                            <i class="fas fa-eye"></i> Review
+                                        </button>
+                                        <button class="btn btn-success btn-sm" onclick="approveService(3)">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="rejectService(3)">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="pending-service-item">
+                                    <div class="service-checkbox">
+                                        <input type="checkbox" id="service_4" name="pending_services[]" value="4">
+                                    </div>
+                                    <div class="service-details">
+                                        <div class="service-image">
+                                            <img src="images/services/ac-repair.jpg" alt="service">
+                                        </div>
+                                        <div class="service-info">
+                                            <h5>AC Repair & Service</h5>
+                                            <p class="provider-name">Cool Tech Services</p>
+                                            <p class="service-description">AC installation, repair, and maintenance services. Gas refilling and deep cleaning included.</p>
+                                            <div class="service-meta">
+                                                <span class="price">?799</span>
+                                                <span class="category">AC & Appliance</span>
+                                                <span class="submitted-date">Submitted: Dec 19, 2023</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="service-actions">
+                                        <button class="btn btn-primary btn-sm" onclick="viewServiceDetails(4)">
+                                            <i class="fas fa-eye"></i> Review
+                                        </button>
+                                        <button class="btn btn-success btn-sm" onclick="approveService(4)">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="rejectService(4)">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service Categories Tab -->
+                        <div class="tab-pane fade" id="service-categories">
+                            <div class="content-header">
+                                <h4>Service Categories</h4>
+                                <div class="content-actions">
+                                    <button class="btn btn-primary" onclick="addNewCategory()">
+                                        <i class="fas fa-plus"></i> Add Category
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="categories-grid">
+                                <div class="category-management-card">
+                                    <div class="category-icon">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                    <div class="category-info">
+                                        <h5>Home Cleaning</h5>
+                                        <p>45 services � 12 providers</p>
+                                    </div>
+                                    <div class="category-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editCategory(1)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(1)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="category-management-card">
+                                    <div class="category-icon">
+                                        <i class="fas fa-cut"></i>
+                                    </div>
+                                    <div class="category-info">
+                                        <h5>Beauty & Salon</h5>
+                                        <p>67 services � 28 providers</p>
+                                    </div>
+                                    <div class="category-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editCategory(2)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(2)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="category-management-card">
+                                    <div class="category-icon">
+                                        <i class="fas fa-wrench"></i>
+                                    </div>
+                                    <div class="category-info">
+                                        <h5>AC & Appliance</h5>
+                                        <p>32 services � 18 providers</p>
+                                    </div>
+                                    <div class="category-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editCategory(3)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(3)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="category-management-card">
+                                    <div class="category-icon">
+                                        <i class="fas fa-tools"></i>
+                                    </div>
+                                    <div class="category-info">
+                                        <h5>Home Repair</h5>
+                                        <p>89 services � 45 providers</p>
+                                    </div>
+                                    <div class="category-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editCategory(4)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(4)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service Reports Tab -->
+                        <div class="tab-pane fade" id="service-reports">
+                            <div class="content-header">
+                                <h4>Service Reports</h4>
+                                <div class="content-actions">
+                                    <select class="form-control form-control-sm">
+                                        <option>Last 7 days</option>
+                                        <option>Last 30 days</option>
+                                        <option>Last 3 months</option>
+                                        <option>Last year</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="reports-grid">
+                                <div class="report-card">
+                                    <h5>Most Popular Services</h5>
+                                    <div class="report-list">
+                                        <div class="report-item">
+                                            <span class="rank">1</span>
+                                            <span class="service-name">Deep House Cleaning</span>
+                                            <span class="booking-count">245 bookings</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="rank">2</span>
+                                            <span class="service-name">Hair Cut & Styling</span>
+                                            <span class="booking-count">189 bookings</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="rank">3</span>
+                                            <span class="service-name">Plumbing Repair</span>
+                                            <span class="booking-count">156 bookings</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="report-card">
+                                    <h5>Top Rated Services</h5>
+                                    <div class="report-list">
+                                        <div class="report-item">
+                                            <span class="rank">1</span>
+                                            <span class="service-name">Hair Cut & Styling</span>
+                                            <span class="rating">4.9 ?</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="rank">2</span>
+                                            <span class="service-name">Deep House Cleaning</span>
+                                            <span class="rating">4.8 ?</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="rank">3</span>
+                                            <span class="service-name">Interior Painting</span>
+                                            <span class="rating">4.7 ?</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="report-card">
+                                    <h5>Revenue by Category</h5>
+                                    <div class="report-list">
+                                        <div class="report-item">
+                                            <span class="category">Home Cleaning</span>
+                                            <span class="revenue">?2,45,680</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="category">Beauty & Salon</span>
+                                            <span class="revenue">?1,89,450</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="category">Home Repair</span>
+                                            <span class="revenue">?1,56,320</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    // Initialize DataTable
+    $(document).ready(function () {
+        $('#servicesTable').DataTable({
+            "pageLength": 10,
+            "ordering": true,
+            "searching": true,
+            "responsive": true
+        });
+    });
+
+    // Admin Functions
+    function addNewService() {
+        alert('Opening Add New Service Modal');
+        // Open add service modal
+    }
+
+    function viewService(serviceId) {
+        alert('Viewing service details for ID: ' + serviceId);
+        // Open service details modal
+    }
+
+    function editService(serviceId) {
+        alert('Editing service ID: ' + serviceId);
+        // Open edit service modal
+    }
+
+    function deleteService(serviceId) {
+        if (confirm('Are you sure you want to delete this service?')) {
+            alert('Service deleted: ' + serviceId);
+            // Handle service deletion
+        }
+    }
+
+    function approveService(serviceId) {
+        if (confirm('Approve this service?')) {
+            alert('Service approved: ' + serviceId);
+            // Handle service approval
+        }
+    }
+
+    function rejectService(serviceId) {
+        if (confirm('Reject this service?')) {
+            alert('Service rejected: ' + serviceId);
+            // Handle service rejection
+        }
+    }
+
+    function exportServices() {
+        alert('Exporting services data...');
+        // Handle export functionality
+    }
+
+    function addNewCategory() {
+        alert('Opening Add New Category Modal');
+        // Open add category modal
+    }
+
+    function editCategory(categoryId) {
+        alert('Editing category ID: ' + categoryId);
+        // Open edit category modal
+    }
+
+    function deleteCategory(categoryId) {
+        if (confirm('Are you sure you want to delete this category?')) {
+            alert('Category deleted: ' + categoryId);
+            // Handle category deletion
+        }
+    }
+
+    function approveAllSelected() {
+        const selected = $('input[name="pending_services[]"]:checked').length;
+        if (selected > 0) {
+            if (confirm('Approve ' + selected + ' selected services?')) {
+                alert('Approved ' + selected + ' services');
+                // Handle bulk approval
+            }
+        } else {
+            alert('Please select services to approve');
+        }
+    }
+
+    function rejectAllSelected() {
+        const selected = $('input[name="pending_services[]"]:checked').length;
+        if (selected > 0) {
+            if (confirm('Reject ' + selected + ' selected services?')) {
+                alert('Rejected ' + selected + ' services');
+                // Handle bulk rejection
+            }
+        } else {
+            alert('Please select services to reject');
+        }
+    }
+
+    function viewServiceDetails(serviceId) {
+        alert('Viewing detailed review for service ID: ' + serviceId);
+        // Open detailed service review modal
+    }
+</script>

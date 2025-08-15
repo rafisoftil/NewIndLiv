@@ -45,10 +45,7 @@
                     </div>
                 </div>
             </form>
-            <a href="service/ServicesList" class="header-widget">
-                <i class="fas fa-tools"></i>
-                <span>Services</span>
-            </a>
+            
             @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
             {
                 <div class="header-right">
@@ -57,6 +54,12 @@
                             <a href="~/User/Bookmark" class="header-widget">
                                 <i class="fas fa-heart"></i>
                                 <sup>@Context.Session.GetInt32("wishlistCount")</sup>
+                            </a>
+                        </li>
+                        <li class="header-item">
+                            <a href="~/service/ServicesList" class="header-widget">
+                                <i class="fas fa-tools"></i>
+                                @* <span>Services</span> *@
                             </a>
                         </li>
                         <li class="header-item">
