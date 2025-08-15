@@ -505,5 +505,102 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
+        public string CreateJob(JobNewsModel job)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/JobNews/addJobNews", job).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public List<JobNewsCategoryModel> GetJobCategoryModels()
+        {
+            List<JobNewsCategoryModel> categories = new List<JobNewsCategoryModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/JobNews/getAllJobNewsCategories");
+                // Parse the response and extract the "data" property
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    categories = JsonConvert.DeserializeObject<List<JobNewsCategoryModel>>(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return categories;
+        }
+        public List<JobNewsModel> GetAllJobNews(int pageNumber, int pageSize, int categoryId, bool publishedOnly, bool activeOnly)
+        {
+            List<JobNewsModel> jobNews = [];
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/JobNews/getAllJobNews?pageNumber={pageNumber}&pageSize={pageSize}&categoryId={categoryId}&publishedOnly={publishedOnly}&activeOnly={activeOnly}");
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    jobNews = JsonConvert.DeserializeObject<List<JobNewsModel>>(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return jobNews;
+        }
+        public JobNewsModel GetJobNewsByID(int jobId)
+        {
+            JobNewsModel jobNews = null;
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/JobNews/getJobNewsById?jobNewsId={jobId}");
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    jobNews = JsonConvert.DeserializeObject<JobNewsModel>(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return jobNews;
+        }
+        public string UpdateJobNews(JobNewsModel job)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/JobNews/updateJobNews", job).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string DeleteJobNews(int jobId, string updatedBy)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/JobNews/deleteJobNews?jobNewsId={jobId}&updatedBy={updatedBy}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }
