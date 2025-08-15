@@ -1449,6 +1449,34 @@
     }
 }
 
+/* Temporary fix for missing images */
+.service-card-img img, .service-provider img {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.service-card-img {
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+    .image-placeholder i {
+        font-size: 48px;
+        margin-bottom: 10px;
+    }
+
 /*=====================================
         SERVICES CSS END
 =======================================*/
