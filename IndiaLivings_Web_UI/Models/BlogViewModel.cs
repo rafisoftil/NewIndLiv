@@ -199,6 +199,48 @@ namespace IndiaLivings_Web_UI.Models
             }
             return result;
         }
+        public static List<BlogViewModel> GetBlogsByUser(string username, int pageNumber, int pageSize, int categoryId, bool publishedOnly)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            List<BlogModel> blogList = AH.GetBlogsByUser(username, pageNumber, pageSize, categoryId, publishedOnly);
+            List<BlogViewModel> blogs = new List<BlogViewModel>();
+            try
+            {
+                if (blogList != null && blogList.Count > 0)
+                {
+                    foreach (var blog in blogList)
+                    {
+                        BlogViewModel blogVM = new BlogViewModel
+                        {
+                            blogId = blog.blogId,
+                            title = blog.title,
+                            content = blog.content,
+                            summary = blog.summary,
+                            author = blog.author,
+                            featuredImage = blog.featuredImage,
+                            tags = blog.tags,
+                            categoryID = blog.categoryID,
+                            categoryName = blog.categoryName,
+                            viewCount = blog.viewCount,
+                            isFeatured = blog.isFeatured,
+                            isPublished = blog.isPublished,
+                            publishedDate = blog.publishedDate,
+                            isActive = blog.isActive,
+                            createdDate = blog.createdDate,
+                            createdBy = blog.createdBy,
+                            updatedDate = blog.updatedDate,
+                            updatedBy = blog.updatedBy
+                        };
+                        blogs.Add(blogVM);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return blogs;
+        }
     }
     public class BlogCategoriesViewModel
     {

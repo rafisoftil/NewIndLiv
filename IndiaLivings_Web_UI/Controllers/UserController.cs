@@ -662,6 +662,12 @@ namespace IndiaLivings_Web_UI.Controllers
             //return Json(new { status = response });
             return View("ManageBlogs");
         }
+        public IActionResult BlogsByUser(int pageNumber = 1, int pageSize = 12, int categoryId = 0, bool publishedOnly = false)
+        {
+            string username = HttpContext.Session.GetString("userName") ?? "";
+            List<BlogViewModel> blogs = BlogViewModel.GetBlogsByUser(username, pageNumber, pageSize, categoryId, publishedOnly);
+            return View(blogs);
+        }
 
         public IActionResult JobInfo()
         {
