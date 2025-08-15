@@ -56,6 +56,16 @@
                             </a>
                         </li>
                         <li class="header-item">
+                            <a href="~/User/Bookmark" class="header-widget">
+                                <i class="fas fa-heart"></i>
+                                <sup>@Context.Session.GetInt32("wishlistCount")</sup>
+                            </a>  
+                            <button type="button" class="header-widget">
+                                <i class="fas fa-solid fa-wrench"></i>
+                                <sup>0</sup>
+                            </button>
+                        </li>
+                        <li class="header-item">
                             <button type="button" class="header-widget">
                                 <i class="fas fa-envelope"></i>
                                 <sup>0</sup>
