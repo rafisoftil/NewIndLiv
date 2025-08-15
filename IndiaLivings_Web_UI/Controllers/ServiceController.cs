@@ -16,7 +16,7 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             return View();
         }
-        public IActionResult ServiceProviderDashboard()
+        public IActionResult ServiceInfo()
         {
             return View();
         }

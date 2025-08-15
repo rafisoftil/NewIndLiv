@@ -1,5 +1,506 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Service Provider Dashboard";
 }
+
+<!-- VENDOR -->
+<link rel="stylesheet" href="~/css/vendor/bootstrap.min.css">
+<link rel="stylesheet" href="~/css/vendor/chart.min.css">
+
+<!-- CUSTOM -->
+<link rel="stylesheet" href="~/css/custom/main.css">
+<link rel="stylesheet" href="~/css/custom/dashboard.css">
+<link rel="stylesheet" href="~/css/custom/services.css">
+<!--=====================================
+            CSS LINK PART END
+=======================================-->
+<!--=====================================
+            SINGLE BANNER PART START
+=======================================-->
+<section class="single-banner dashboard-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="single-content">
+                    <h2>Provider Dashboard</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Provider Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=====================================
+            SINGLE BANNER PART END
+=======================================-->
+<!--=====================================
+        PROVIDER DASHBOARD HEADER START
+=======================================-->
+<section class="dash-header-part">
+    <div class="container">
+        <div class="dash-header-card">
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dash-count-card">
+                        <div class="dash-count-text">
+                            <h4>45</h4>
+                            <p>Total Bookings</p>
+                        </div>
+                        <div class="dash-count-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dash-count-card">
+                        <div class="dash-count-text">
+                            <h4>8</h4>
+                            <p>Pending Bookings</p>
+                        </div>
+                        <div class="dash-count-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dash-count-card">
+                        <div class="dash-count-text">
+                            <h4>?58,420</h4>
+                            <p>Total Earnings</p>
+                        </div>
+                        <div class="dash-count-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dash-count-card">
+                        <div class="dash-count-text">
+                            <h4>4.8</h4>
+                            <p>Average Rating</p>
+                        </div>
+                        <div class="dash-count-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=====================================
+        PROVIDER DASHBOARD HEADER END
+=======================================-->
+<!--=====================================
+        PROVIDER DASHBOARD CONTENT START
+=======================================-->
+<section class="provider-dashboard-part">
+    <div class="container">
+        <div class="row">
+            <!-- Recent Bookings -->
+            <div class="col-lg-8">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h4>Recent Bookings</h4>
+                        <a href="#bookings" class="view-all-link">View All</a>
+                    </div>
+                    <div class="card-content">
+                        <div class="bookings-list">
+                            <!-- Booking Item -->
+                            <div class="booking-item">
+                                <div class="booking-info">
+                                    <div class="customer-avatar">
+                                        <img src="~/images/avatar/02.jpg" alt="customer">
+                                    </div>
+                                    <div class="booking-details">
+                                        <h5>Deep House Cleaning</h5>
+                                        <p class="customer-name">Sarah Johnson</p>
+                                        <p class="booking-date">
+                                            <i class="fas fa-calendar"></i>
+                                            Dec 25, 2023 - 8:00 AM
+                                        </p>
+                                        <p class="booking-address">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            123 Main Street, Downtown
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="booking-meta">
+                                    <div class="booking-status">
+                                        <span class="status-badge pending">Pending</span>
+                                    </div>
+                                    <div class="booking-amount">
+                                        <span class="amount">?1,349</span>
+                                    </div>
+                                    <div class="booking-actions">
+                                        <button class="btn btn-sm btn-success" onclick="acceptBooking('booking1')">
+                                            <i class="fas fa-check"></i> Accept
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" onclick="rejectBooking('booking1')">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Booking Item -->
+                            <div class="booking-item">
+                                <div class="booking-info">
+                                    <div class="customer-avatar">
+                                        <img src="~/images/avatar/03.jpg" alt="customer">
+                                    </div>
+                                    <div class="booking-details">
+                                        <h5>Home Deep Cleaning</h5>
+                                        <p class="customer-name">Michael Chen</p>
+                                        <p class="booking-date">
+                                            <i class="fas fa-calendar"></i>
+                                            Dec 24, 2023 - 2:00 PM
+                                        </p>
+                                        <p class="booking-address">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            456 Oak Avenue, Midtown
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="booking-meta">
+                                    <div class="booking-status">
+                                        <span class="status-badge confirmed">Confirmed</span>
+                                    </div>
+                                    <div class="booking-amount">
+                                        <span class="amount">?1,299</span>
+                                    </div>
+                                    <div class="booking-actions">
+                                        <button class="btn btn-sm btn-primary" onclick="startService('booking2')">
+                                            <i class="fas fa-play"></i> Start
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="contactCustomer('booking2')">
+                                            <i class="fas fa-phone"></i> Call
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Booking Item -->
+                            <div class="booking-item">
+                                <div class="booking-info">
+                                    <div class="customer-avatar">
+                                        <img src="~/images/avatar/04.jpg" alt="customer">
+                                    </div>
+                                    <div class="booking-details">
+                                        <h5>Office Cleaning Service</h5>
+                                        <p class="customer-name">Emily Davis</p>
+                                        <p class="booking-date">
+                                            <i class="fas fa-calendar"></i>
+                                            Dec 23, 2023 - 10:00 AM
+                                        </p>
+                                        <p class="booking-address">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            789 Business Park, Uptown
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="booking-meta">
+                                    <div class="booking-status">
+                                        <span class="status-badge completed">Completed</span>
+                                    </div>
+                                    <div class="booking-amount">
+                                        <span class="amount">?1,599</span>
+                                    </div>
+                                    <div class="booking-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewFeedback('booking3')">
+                                            <i class="fas fa-star"></i> Review
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earnings Chart -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h4>Earnings Overview</h4>
+                        <div class="chart-period">
+                            <select class="form-control form-control-sm">
+                                <option>Last 7 days</option>
+                                <option>Last 30 days</option>
+                                <option>Last 3 months</option>
+                                <option>Last year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="earnings-chart">
+                            <canvas id="earningsChart" height="300"></canvas>
+                        </div>
+                        <div class="earnings-summary">
+                            <div class="summary-item">
+                                <span class="label">This Month:</span>
+                                <span class="value">?15,240</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Last Month:</span>
+                                <span class="value">?12,580</span>
+                            </div>
+                            <div class="summary-item success">
+                                <span class="label">Growth:</span>
+                                <span class="value">+21.1%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Content -->
+            <div class="col-lg-4">
+                <!-- Quick Stats -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h4>Today's Overview</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="quick-stats">
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h5>3</h5>
+                                    <p>Today's Bookings</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-rupee-sign"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h5>?3,850</h5>
+                                    <p>Today's Earnings</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h5>6.5</h5>
+                                    <p>Hours Worked</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Performance -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h4>Service Performance</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="service-performance">
+                            <div class="performance-item">
+                                <div class="service-name">
+                                    <i class="fas fa-home"></i>
+                                    <span>Deep House Cleaning</span>
+                                </div>
+                                <div class="performance-stats">
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>4.9</span>
+                                    </div>
+                                    <div class="bookings">
+                                        <span>28 bookings</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="performance-item">
+                                <div class="service-name">
+                                    <i class="fas fa-building"></i>
+                                    <span>Office Cleaning</span>
+                                </div>
+                                <div class="performance-stats">
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>4.7</span>
+                                    </div>
+                                    <div class="bookings">
+                                        <span>12 bookings</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="performance-item">
+                                <div class="service-name">
+                                    <i class="fas fa-couch"></i>
+                                    <span>Carpet Cleaning</span>
+                                </div>
+                                <div class="performance-stats">
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>4.8</span>
+                                    </div>
+                                    <div class="bookings">
+                                        <span>15 bookings</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Reviews -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h4>Recent Reviews</h4>
+                        <a href="#reviews" class="view-all-link">View All</a>
+                    </div>
+                    <div class="card-content">
+                        <div class="recent-reviews">
+                            <div class="review-item">
+                                <div class="reviewer-info">
+                                    <img src="~/images/avatar/02.jpg" alt="reviewer">
+                                    <div class="reviewer-details">
+                                        <h6>Sarah Johnson</h6>
+                                        <div class="review-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="review-text">Excellent service! Very professional and thorough.</p>
+                                <span class="review-date">2 days ago</span>
+                            </div>
+                            <div class="review-item">
+                                <div class="reviewer-info">
+                                    <img src="~/images/avatar/03.jpg" alt="reviewer">
+                                    <div class="reviewer-details">
+                                        <h6>Michael Chen</h6>
+                                        <div class="review-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="review-text">Great job on the cleaning. Will book again!</p>
+                                <span class="review-date">1 week ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h4>Quick Actions</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="quick-actions-grid">
+                            <a href="#add-service" class="quick-action-btn">
+                                <i class="fas fa-plus"></i>
+                                <span>Add Service</span>
+                            </a>
+                            <a href="#update-availability" class="quick-action-btn">
+                                <i class="fas fa-calendar"></i>
+                                <span>Update Availability</span>
+                            </a>
+                            <a href="#view-earnings" class="quick-action-btn">
+                                <i class="fas fa-chart-line"></i>
+                                <span>View Earnings</span>
+                            </a>
+                            <a href="#support" class="quick-action-btn">
+                                <i class="fas fa-headset"></i>
+                                <span>Get Support</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=====================================
+        PROVIDER DASHBOARD CONTENT END
+=======================================-->
+<!--=====================================
+            JS LINK PART START
+=======================================-->
+<!-- VENDOR -->
+<script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="~/js/vendor/popper.min.js"></script>
+<script src="~/js/vendor/bootstrap.min.js"></script>
+<script src="~/js/vendor/chart.min.js"></script>
+
+<!-- CUSTOM -->
+<script src="~/js/custom/main.js"></script>
+<script>
+    // Earnings Chart
+    const ctx = document.getElementById('earningsChart').getContext('2d');
+    const earningsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Daily Earnings',
+                data: [1200, 1900, 800, 1500, 2000, 1800, 2400],
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return '?' + value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Provider Dashboard Functions
+    function acceptBooking(bookingId) {
+        if(confirm('Accept this booking?')) {
+            alert('Booking accepted: ' + bookingId);
+            // Update booking status
+        }
+    }
+
+    function rejectBooking(bookingId) {
+        if(confirm('Reject this booking?')) {
+            alert('Booking rejected: ' + bookingId);
+            // Update booking status
+        }
+    }
+
+    function startService(bookingId) {
+        alert('Starting service for booking: ' + bookingId);
+        // Update booking to in-progress
+    }
+
+    function contactCustomer(bookingId) {
+        alert('Contacting customer for booking: ' + bookingId);
+        // Open contact modal or initiate call
+    }
+
+    function viewFeedback(bookingId) {
+        alert('Viewing feedback for booking: ' + bookingId);
+        // Show feedback modal
+    }
+</script>
+<!--=====================================
+            JS LINK PART END
+=======================================-->
