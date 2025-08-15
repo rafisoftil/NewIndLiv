@@ -12,7 +12,7 @@
 </style>
 @{
     List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
-    int itemsPerPage = 12;
+    int itemsPerPage = ViewBag.ItemsPerPage;
     int currentPage = ViewBag.CurrentPage;
     double modelCount = Model.Count();
     var pagedProducts = Model.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
@@ -280,7 +280,7 @@
         // Add "active" class to the clicked page
         $(curPage).addClass('active');
         $.ajax({
-            url: '/Dashboard/ProductsList?page=' + page,
+            url: '/Dashboard/ProductsList?page=' + page + '&itemsPerPage=' + itemsPerPage,
             type: 'POST',
             data: JSON.stringify(@Html.Raw(Json.Serialize(Model))),
             contentType: 'application/json',
@@ -331,7 +331,7 @@
         $('#grid2').removeClass('active');
         $('#grid3').removeClass('active');
         $.ajax({
-            url: '/Dashboard/ProductsList',
+            url: '/Dashboard/ProductsList?itemsPerPage=' + @itemsPerPage,
             type: 'POST',
             data: JSON.stringify(@Html.Raw(Json.Serialize(Model))),
             contentType: 'application/json',
@@ -353,7 +353,7 @@
         $('#grid2').addClass('active');
         $('#grid3').removeClass('active');
         $.ajax({
-            url: '/Dashboard/ProductsList2',
+            url: '/Dashboard/ProductsList2?itemsPerPage=' + @itemsPerPage,
             type: 'POST',
             data: JSON.stringify(@Html.Raw(Json.Serialize(Model))),
             contentType: 'application/json',
@@ -375,7 +375,7 @@
         $('#grid2').removeClass('active');
         $('#grid3').addClass('active');
         $.ajax({
-            url: '/Dashboard/ProductsList3',
+            url: '/Dashboard/ProductsList3?itemsPerPage=' + @itemsPerPage,
             type: 'POST',
             data: JSON.stringify(@Html.Raw(Json.Serialize(Model))),
             contentType: 'application/json',

@@ -41,6 +41,9 @@
                     <a class="navbar-link" asp-controller="User" asp-action="Settings">Settings</a>
                 </li>
                 <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="Service" asp-action="ServiceProviderDashboard">Services</a>
+                </li>
+                <li class="navbar-item">
                     <a class="navbar-link" asp-controller="User" asp-action="Bookmark">
                         <span>Bookmarks</span>
                         <span>@Context.Session.GetInt32("wishlistCount")</span>

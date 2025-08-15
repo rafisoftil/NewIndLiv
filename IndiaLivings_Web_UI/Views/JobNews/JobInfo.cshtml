@@ -1,0 +1,91 @@
+﻿@model List<IndiaLivings_Web_UI.Models.JobNewsViewModel>
+@{
+    ViewBag.Title = "Job News";
+    <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
+    <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
+}
+<style>
+    .title {
+        text-decoration: none;
+    }
+</style>
+
+<div class="container">
+
+    <h3 style="color:#0044bb">Job News</h3>
+    <div class="job-listings">
+        @foreach (var job in Model)
+        {
+            <div class="card mb-3 shadow-sm p-3 rounded border">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="mb-1">
+                            <a class="text-dark" onmouseover="this.style.textDecoration='underline';"
+                               onmouseout="this.style.textDecoration='none';" onclick="JobExpand(@job.JobNewsID)">
+                                @job.Title
+                            </a>
+                        </h5>
+                        <p class="text-muted">@job.CompanyName</p>
+                        <p class="mb-1 text-muted">@job.JobLocation</p>
+                        <p class="text-muted">
+                            @GetRelativeTime(job.CreatedDate)
+                        </p>
+                    </div>
+
+                    @if (Context.Session.GetString("Role") == "Administrator")
+                    {
+                        <div>
+                            <a asp-action="UpdateJob" asp-controller="JobNews" asp-route-jobId="@job.JobNewsID" class="text-secondary">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a asp-action="DeleteJob" asp-controller="JobNews" asp-route-jobId="@job.JobNewsID" class="text-secondary">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+<div id="modalPlaceholder"></div>
+@functions {
+    public string GetRelativeTime(DateTime dateTime)
+    {
+        var span = DateTime.Now - dateTime;
+
+        if (span.TotalSeconds < 60)
+            return $"{(int)span.TotalSeconds} seconds ago";
+        if (span.TotalMinutes < 60)
+            return $"{(int)span.TotalMinutes} minutes ago";
+        if (span.TotalHours < 24)
+            return $"{(int)span.TotalHours} hours ago";
+        if (span.TotalDays < 7)
+            return $"{(int)span.TotalDays} days ago";
+        if (span.TotalDays < 30)
+            return $"{(int)(span.TotalDays / 7)} week(s) ago";
+        if (span.TotalDays < 365)
+            return $"{(int)(span.TotalDays / 30)} month(s) ago";
+
+        return $"{(int)(span.TotalDays / 365)} year(s) ago";
+    }
+}
+<script>
+    function JobExpand(jobId) {
+
+        $.ajax({
+            url: '/JobNews/GetJobNewsByID/jobId', // Controller action name
+            type: 'GET',
+            data: { jobId: jobId},
+            success: function (html) {
+                $('#modalPlaceholder').html(html);
+                var modal = new bootstrap.Modal(document.getElementById('JobById'));
+                modal.show();
+            },
+            error: function () {
+                alert('Failed to load modal.');
+            }
+        });
+    }
+</script>
