@@ -1,840 +1,814 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!--=====================================
-                META-TAG PART START
-    =======================================-->
-    <!-- REQUIRE META -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+﻿@{
+ViewBag.Title = "My Services - Classicads";
+}
+<!--=====================================
+            CSS LINK PART START
+=======================================-->
+<!-- FAVICON -->
+<link rel="icon" href="~/images/favicon.png">
 
-    <!-- AUTHOR META -->
-    <meta name="author" content="Mironcoder">
-    <meta name="email" content="mironcoder@gmail.com">
-    <meta name="profile" content="https://themeforest.net/user/mironcoder">
+<!-- FONTS -->
+<link rel="stylesheet" href="fonts/flaticon/flaticon.css">
+<link rel="stylesheet" href="fonts/font-awesome/fontawesome.css">
 
-    <!-- TEMPLATE META -->
-    <meta name="name" content="Classicads">
-    <meta name="type" content="Classified Advertising">
-    <meta name="title" content="Classicads - Classified Ads HTML Template">
-    <meta name="keywords" content="classicads, classified, ads, classified ads, listing, business, directory, jobs, marketing, portal, advertising, local, posting, ad listing, ad posting,">
-    <!--=====================================
-                META-TAG PART END
-    =======================================-->
-    <!-- FOR WEBPAGE TITLE -->
-    <title>My Services - Classicads</title>
+<!-- VENDOR -->
+<link rel="stylesheet" href="css/vendor/bootstrap.min.css">
 
-    <!--=====================================
-                CSS LINK PART START
-    =======================================-->
-    <!-- FAVICON -->
-    <link rel="icon" href="~/images/favicon.png">
+<!-- CUSTOM -->
+<link rel="stylesheet" href="css/custom/main.css">
+<link rel="stylesheet" href="css/custom/dashboard.css">
+<link rel="stylesheet" href="css/custom/services.css">
+<!--=====================================
+            CSS LINK PART END
+=======================================-->
 
-    <!-- FONTS -->
-    <link rel="stylesheet" href="fonts/flaticon/flaticon.css">
-    <link rel="stylesheet" href="fonts/font-awesome/fontawesome.css">
-
-    <!-- VENDOR -->
-    <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
-
-    <!-- CUSTOM -->
-    <link rel="stylesheet" href="css/custom/main.css">
-    <link rel="stylesheet" href="css/custom/dashboard.css">
-    <link rel="stylesheet" href="css/custom/services.css">
-    <!--=====================================
-                CSS LINK PART END
-    =======================================-->
-</head>
-<body>
-    <!--=====================================
-                HEADER PART START
-    =======================================-->
-    <header class="header-part">
-        <div class="container">
-            <div class="header-content">
-                <div class="header-left">
-                    <button type="button" class="header-widget sidebar-btn">
-                        <i class="fas fa-align-left"></i>
-                    </button>
-                    <a href="index.html" class="header-logo">
-                        <img src="~/images/logo.png" alt="logo">
-                    </a>
-                    <a href="user-form.html" class="header-widget header-user">
-                        <img src="~/images/user.png" alt="user">
-                        <span>join me</span>
-                    </a>
-                    <button type="button" class="header-widget search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <form class="header-form">
-                    <div class="header-search">
-                        <button type="submit" title="Search Submit "><i class="fas fa-search"></i></button>
-                        <input type="text" placeholder="Search for services...">
-                        <button type="button" title="Search Option" class="option-btn"><i class="fas fa-sliders-h"></i></button>
-                    </div>
-                    <div class="header-option">
-                        <div class="option-grid">
-                            <div class="option-group"><input type="text" placeholder="City"></div>
-                            <div class="option-group"><input type="text" placeholder="Service Type"></div>
-                            <div class="option-group"><input type="text" placeholder="Min Price"></div>
-                            <div class="option-group"><input type="text" placeholder="Max Price"></div>
-                            <button type="submit"><i class="fas fa-search"></i><span>Search</span></button>
-                        </div>
-                    </div>
-                </form>
-                <div class="header-right">
-                    <ul class="header-list">
-                        <li class="header-item">
-                            <a href="bookmark.html" class="header-widget">
-                                <i class="fas fa-heart"></i>
-                                <sup>0</sup>
-                            </a>
-                        </li>
-                        <li class="header-item">
-                            <a href="services-list.html" class="header-widget">
-                                <i class="fas fa-tools"></i>
-                                <span>Services</span>
-                            </a>
-                        </li>
-                        <li class="header-item">
-                            <button type="button" class="header-widget">
-                                <i class="fas fa-envelope"></i>
-                                <sup>0</sup>
-                            </button>
-                        </li>
-                        <li class="header-item">
-                            <button type="button" class="header-widget">
-                                <i class="fas fa-bell"></i>
-                                <sup>0</sup>
-                            </button>
-                        </li>
-                    </ul>
-                    <a href="ad-post.html" class="btn btn-inline post-btn">
-                        <i class="fas fa-plus-circle"></i>
-                        <span>post your ad</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!--=====================================
-                HEADER PART END
-    =======================================-->
-    <!--=====================================
-                SIDEBAR PART START
-    =======================================-->
-    <aside class="sidebar-part">
-        <div class="sidebar-body">
-            <div class="sidebar-header">
-                <a href="index.html" class="sidebar-logo"><img src="~/images/logo.png" alt="logo"></a>
-                <button class="sidebar-cross"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="sidebar-content">
-                <div class="sidebar-profile">
-                    <a href="#" class="sidebar-avatar"><img src="~/images/avatar/01.jpg" alt="avatar"></a>
-                    <h4><a href="#" class="sidebar-name">Jackon Honson</a></h4>
-                    <a href="ad-post.html" class="btn btn-inline sidebar-post">
-                        <i class="fas fa-plus-circle"></i>
-                        <span>post your ad</span>
-                    </a>
-                </div>
-                <div class="sidebar-menu">
-                    <ul class="nav nav-tabs">
-                        <li><a href="#main-menu" class="nav-link active" data-toggle="tab">Main Menu</a></li>
-                        <li><a href="#author-menu" class="nav-link" data-toggle="tab">Author Menu</a></li>
-                    </ul>
-
-                    <div class="tab-pane active" id="main-menu">
-                        <ul class="navbar-list">
-                            <li class="navbar-item"><a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
-                            <li class="navbar-item"><a class="navbar-link" href="services-list.html">Services</a></li>
-                            <li class="navbar-item navbar-dropdown">
-                                <a class="navbar-link" href="#">
-                                    <span>Categories</span>
-                                    <i class="fas fa-plus"></i>
-                                </a>
-                                <ul class="dropdown-list">
-                                    <li><a class="dropdown-link" href="category-list.html">category list</a></li>
-                                    <li><a class="dropdown-link" href="category-details.html">category details</a></li>
-                                </ul>
-                            </li>
-                            <li class="navbar-item"><a class="navbar-link" href="contact.html">Contact</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="tab-pane" id="author-menu">
-                        <ul class="navbar-list">
-                            <li class="navbar-item"><a class="navbar-link" href="dashboard.html">Dashboard</a></li>
-                            <li class="navbar-item"><a class="navbar-link" href="my-services.html">My Services</a></li>
-                            <li class="navbar-item"><a class="navbar-link" href="service-provider-dashboard.html">Provider Dashboard</a></li>
-                            <li class="navbar-item"><a class="navbar-link" href="profile.html">Profile</a></li>
-                            <li class="navbar-item"><a class="navbar-link" href="setting.html">Settings</a></li>
-                            <li class="navbar-item"><a class="navbar-link" href="user-form.html">Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="sidebar-footer">
-                    <p>All Rights Reserved By <a href="#">Classicads</a></p>
-                    <p>Developed By <a href="https://themeforest.net/user/mironcoder">Mironcoder</a></p>
-                </div>
-            </div>
-        </div>
-    </aside>
-    <!--=====================================
-                SIDEBAR PART END
-    =======================================-->
-    <!--=====================================
-                MOBILE-NAV PART START
-    =======================================-->
-    <nav class="mobile-nav">
-        <div class="container">
-            <div class="mobile-group">
-                <a href="index.html" class="mobile-widget">
-                    <i class="fas fa-home"></i>
-                    <span>home</span>
+<!--=====================================
+            HEADER PART START
+=======================================-->
+<header class="header-part">
+    <div class="container">
+        <div class="header-content">
+            <div class="header-left">
+                <button type="button" class="header-widget sidebar-btn">
+                    <i class="fas fa-align-left"></i>
+                </button>
+                <a href="index.html" class="header-logo">
+                    <img src="~/images/logo.png" alt="logo">
                 </a>
-                <a href="services-list.html" class="mobile-widget">
-                    <i class="fas fa-tools"></i>
-                    <span>services</span>
-                </a>
-                <a href="user-form.html" class="mobile-widget">
-                    <i class="fas fa-user"></i>
+                <a href="user-form.html" class="header-widget header-user">
+                    <img src="~/images/user.png" alt="user">
                     <span>join me</span>
                 </a>
-                <a href="notification.html" class="mobile-widget">
-                    <i class="fas fa-bell"></i>
-                    <span>notify</span>
-                    <sup>0</sup>
-                </a>
-                <a href="message.html" class="mobile-widget">
-                    <i class="fas fa-envelope"></i>
-                    <span>message</span>
-                    <sup>0</sup>
-                </a>
+                <button type="button" class="header-widget search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
-        </div>
-    </nav>
-    <!--=====================================
-                MOBILE-NAV PART END
-    =======================================-->
-    <!--=====================================
-              SINGLE BANNER PART START
-    =======================================-->
-    <section class="single-banner dashboard-banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="single-content">
-                        <h2>My Services</h2>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">My Services</li>
-                        </ol>
+            <form class="header-form">
+                <div class="header-search">
+                    <button type="submit" title="Search Submit "><i class="fas fa-search"></i></button>
+                    <input type="text" placeholder="Search for services...">
+                    <button type="button" title="Search Option" class="option-btn"><i class="fas fa-sliders-h"></i></button>
+                </div>
+                <div class="header-option">
+                    <div class="option-grid">
+                        <div class="option-group"><input type="text" placeholder="City"></div>
+                        <div class="option-group"><input type="text" placeholder="Service Type"></div>
+                        <div class="option-group"><input type="text" placeholder="Min Price"></div>
+                        <div class="option-group"><input type="text" placeholder="Max Price"></div>
+                        <button type="submit"><i class="fas fa-search"></i><span>Search</span></button>
                     </div>
                 </div>
+            </form>
+            <div class="header-right">
+                <ul class="header-list">
+                    <li class="header-item">
+                        <a href="bookmark.html" class="header-widget">
+                            <i class="fas fa-heart"></i>
+                            <sup>0</sup>
+                        </a>
+                    </li>
+                    <li class="header-item">
+                        <a href="services-list.html" class="header-widget">
+                            <i class="fas fa-tools"></i>
+                            <span>Services</span>
+                        </a>
+                    </li>
+                    <li class="header-item">
+                        <button type="button" class="header-widget">
+                            <i class="fas fa-envelope"></i>
+                            <sup>0</sup>
+                        </button>
+                    </li>
+                    <li class="header-item">
+                        <button type="button" class="header-widget">
+                            <i class="fas fa-bell"></i>
+                            <sup>0</sup>
+                        </button>
+                    </li>
+                </ul>
+                <a href="ad-post.html" class="btn btn-inline post-btn">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>post your ad</span>
+                </a>
             </div>
         </div>
-    </section>
-    <!--=====================================
-              SINGLE BANNER PART END
-    =======================================-->
-    <!--=====================================
-            DASHBOARD HEADER PART START
-    =======================================-->
-    <section class="dash-header-part">
-        <div class="container">
-            <div class="dash-header-card">
-                <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="dash-count-card">
-                            <div class="dash-count-text">
-                                <h4>15</h4>
-                                <p>Total Bookings</p>
-                            </div>
-                            <div class="dash-count-icon">
-                                <i class="fas fa-calendar-check"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="dash-count-card">
-                            <div class="dash-count-text">
-                                <h4>3</h4>
-                                <p>Upcoming Services</p>
-                            </div>
-                            <div class="dash-count-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="dash-count-card">
-                            <div class="dash-count-text">
-                                <h4>8</h4>
-                                <p>Completed Services</p>
-                            </div>
-                            <div class="dash-count-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="dash-count-card">
-                            <div class="dash-count-text">
-                                <h4>?18,540</h4>
-                                <p>Total Spent</p>
-                            </div>
-                            <div class="dash-count-icon">
-                                <i class="fas fa-rupee-sign"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    </div>
+</header>
+<!--=====================================
+            HEADER PART END
+=======================================-->
+<!--=====================================
+            SIDEBAR PART START
+=======================================-->
+<aside class="sidebar-part">
+    <div class="sidebar-body">
+        <div class="sidebar-header">
+            <a href="index.html" class="sidebar-logo"><img src="~/images/logo.png" alt="logo"></a>
+            <button class="sidebar-cross"><i class="fas fa-times"></i></button>
         </div>
-    </section>
-    <!--=====================================
-            DASHBOARD HEADER PART END
-    =======================================-->
-    <!--=====================================
-            MY SERVICES PART START
-    =======================================-->
-    <section class="my-services-part">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="my-services-content">
-                        <!-- Filter Tabs -->
-                        <div class="services-filter">
-                            <ul class="nav nav-tabs" id="servicesTabs">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all-services">All Services</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="upcoming-tab" data-toggle="tab" href="#upcoming-services">Upcoming</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="completed-tab" data-toggle="tab" href="#completed-services">Completed</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="cancelled-tab" data-toggle="tab" href="#cancelled-services">Cancelled</a>
-                                </li>
+        <div class="sidebar-content">
+            <div class="sidebar-profile">
+                <a href="#" class="sidebar-avatar"><img src="~/images/avatar/01.jpg" alt="avatar"></a>
+                <h4><a href="#" class="sidebar-name">Jackon Honson</a></h4>
+                <a href="ad-post.html" class="btn btn-inline sidebar-post">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>post your ad</span>
+                </a>
+            </div>
+            <div class="sidebar-menu">
+                <ul class="nav nav-tabs">
+                    <li><a href="#main-menu" class="nav-link active" data-toggle="tab">Main Menu</a></li>
+                    <li><a href="#author-menu" class="nav-link" data-toggle="tab">Author Menu</a></li>
+                </ul>
+
+                <div class="tab-pane active" id="main-menu">
+                    <ul class="navbar-list">
+                        <li class="navbar-item"><a class="navbar-link" asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
+                        <li class="navbar-item"><a class="navbar-link" href="services-list.html">Services</a></li>
+                        <li class="navbar-item navbar-dropdown">
+                            <a class="navbar-link" href="#">
+                                <span>Categories</span>
+                                <i class="fas fa-plus"></i>
+                            </a>
+                            <ul class="dropdown-list">
+                                <li><a class="dropdown-link" href="category-list.html">category list</a></li>
+                                <li><a class="dropdown-link" href="category-details.html">category details</a></li>
                             </ul>
-                        </div>
+                        </li>
+                        <li class="navbar-item"><a class="navbar-link" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
 
-                        <div class="tab-content" id="servicesTabContent">
-                            <!-- All Services -->
-                            <div class="tab-pane fade show active" id="all-services">
-                                <div class="services-list">
-                                    <!-- Service Booking Item -->
-                                    <div class="service-booking-item">
-                                        <div class="booking-status">
-                                            <span class="status-badge upcoming">Upcoming</span>
-                                        </div>
-                                        <div class="booking-content">
-                                            <div class="service-info">
-                                                <div class="service-image">
-                                                    <img src="~/images/product/01.jpg" alt="service" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;background-color:#f8f9fa;color:#6c757d;&quot;><i class=&quot;fas fa-home&quot; style=&quot;font-size:24px;margin-bottom:5px;&quot;></i><span>Cleaning</span></div>';">
-                                                </div>
-                                                <div class="service-details">
-                                                    <h4>Deep House Cleaning</h4>
-                                                    <p class="provider-name">
-                                                        <i class="fas fa-user"></i>
-                                                        Clean Pro Services
-                                                    </p>
-                                                    <p class="booking-date">
-                                                        <i class="fas fa-calendar"></i>
-                                                        Dec 25, 2023 - Morning (8:00 AM - 12:00 PM)
-                                                    </p>
-                                                    <p class="booking-address">
-                                                        <i class="fas fa-map-marker-alt"></i>
-                                                        123 Main Street, Downtown, City - 12345
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="booking-meta">
-                                                <div class="booking-price">
-                                                    <span class="price">?1,349</span>
-                                                    <small>Total Amount</small>
-                                                </div>
-                                                <div class="booking-actions">
-                                                    <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('booking1')">
-                                                        <i class="fas fa-eye"></i> View Details
-                                                    </button>
-                                                    <button class="btn btn-outline-danger btn-sm" onclick="cancelBooking('booking1')">
-                                                        <i class="fas fa-times"></i> Cancel
-                                                    </button>
-                                                    <button class="btn btn-primary btn-sm" onclick="contactProvider('booking1')">
-                                                        <i class="fas fa-phone"></i> Contact
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                <div class="tab-pane" id="author-menu">
+                    <ul class="navbar-list">
+                        <li class="navbar-item"><a class="navbar-link" href="dashboard.html">Dashboard</a></li>
+                        <li class="navbar-item"><a class="navbar-link" href="my-services.html">My Services</a></li>
+                        <li class="navbar-item"><a class="navbar-link" href="service-provider-dashboard.html">Provider Dashboard</a></li>
+                        <li class="navbar-item"><a class="navbar-link" href="profile.html">Profile</a></li>
+                        <li class="navbar-item"><a class="navbar-link" href="setting.html">Settings</a></li>
+                        <li class="navbar-item"><a class="navbar-link" href="user-form.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
 
-                                    <!-- Service Booking Item -->
-                                    <div class="service-booking-item">
-                                        <div class="booking-status">
-                                            <span class="status-badge completed">Completed</span>
-                                        </div>
-                                        <div class="booking-content">
-                                            <div class="service-info">
-                                                <div class="service-image">
-                                                    <img src="~/images/services/plumbing.jpg" alt="service">
-                                                </div>
-                                                <div class="service-details">
-                                                    <h4>Plumbing Repair</h4>
-                                                    <p class="provider-name">
-                                                        <i class="fas fa-user"></i>
-                                                        Fix It Fast
-                                                    </p>
-                                                    <p class="booking-date">
-                                                        <i class="fas fa-calendar"></i>
-                                                        Dec 20, 2023 - Afternoon (12:00 PM - 4:00 PM)
-                                                    </p>
-                                                    <p class="booking-address">
-                                                        <i class="fas fa-map-marker-alt"></i>
-                                                        123 Main Street, Downtown, City - 12345
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="booking-meta">
-                                                <div class="booking-price">
-                                                    <span class="price">?649</span>
-                                                    <small>Total Amount</small>
-                                                </div>
-                                                <div class="booking-actions">
-                                                    <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('booking2')">
-                                                        <i class="fas fa-eye"></i> View Details
-                                                    </button>
-                                                    <button class="btn btn-outline-warning btn-sm" onclick="rateService('booking2')">
-                                                        <i class="fas fa-star"></i> Rate Service
-                                                    </button>
-                                                    <button class="btn btn-success btn-sm" onclick="rebookService('booking2')">
-                                                        <i class="fas fa-redo"></i> Book Again
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Service Booking Item -->
-                                    <div class="service-booking-item">
-                                        <div class="booking-status">
-                                            <span class="status-badge upcoming">Upcoming</span>
-                                        </div>
-                                        <div class="booking-content">
-                                            <div class="service-info">
-                                                <div class="service-image">
-                                                    <img src="~/images/services/beauty.jpg" alt="service">
-                                                </div>
-                                                <div class="service-details">
-                                                    <h4>Hair Cut & Styling</h4>
-                                                    <p class="provider-name">
-                                                        <i class="fas fa-user"></i>
-                                                        Bella Beauty
-                                                    </p>
-                                                    <p class="booking-date">
-                                                        <i class="fas fa-calendar"></i>
-                                                        Dec 28, 2023 - Evening (4:00 PM - 8:00 PM)
-                                                    </p>
-                                                    <p class="booking-address">
-                                                        <i class="fas fa-map-marker-alt"></i>
-                                                        123 Main Street, Downtown, City - 12345
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="booking-meta">
-                                                <div class="booking-price">
-                                                    <span class="price">?949</span>
-                                                    <small>Total Amount</small>
-                                                </div>
-                                                <div class="booking-actions">
-                                                    <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('booking3')">
-                                                        <i class="fas fa-eye"></i> View Details
-                                                    </button>
-                                                    <button class="btn btn-outline-warning btn-sm" onclick="rescheduleBooking('booking3')">
-                                                        <i class="fas fa-calendar-alt"></i> Reschedule
-                                                    </button>
-                                                    <button class="btn btn-primary btn-sm" onclick="contactProvider('booking3')">
-                                                        <i class="fas fa-phone"></i> Contact
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Service Booking Item -->
-                                    <div class="service-booking-item">
-                                        <div class="booking-status">
-                                            <span class="status-badge cancelled">Cancelled</span>
-                                        </div>
-                                        <div class="booking-content">
-                                            <div class="service-info">
-                                                <div class="service-image">
-                                                    <img src="~/images/services/ac-repair.jpg" alt="service">
-                                                </div>
-                                                <div class="service-details">
-                                                    <h4>AC Repair & Service</h4>
-                                                    <p class="provider-name">
-                                                        <i class="fas fa-user"></i>
-                                                        Cool Tech Services
-                                                    </p>
-                                                    <p class="booking-date">
-                                                        <i class="fas fa-calendar"></i>
-                                                        Dec 18, 2023 - Morning (8:00 AM - 12:00 PM)
-                                                    </p>
-                                                    <p class="booking-address">
-                                                        <i class="fas fa-map-marker-alt"></i>
-                                                        123 Main Street, Downtown, City - 12345
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="booking-meta">
-                                                <div class="booking-price">
-                                                    <span class="price">?849</span>
-                                                    <small>Refund Amount</small>
-                                                </div>
-                                                <div class="booking-actions">
-                                                    <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('booking4')">
-                                                        <i class="fas fa-eye"></i> View Details
-                                                    </button>
-                                                    <button class="btn btn-success btn-sm" onclick="rebookService('booking4')">
-                                                        <i class="fas fa-redo"></i> Book Again
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Upcoming Services -->
-                            <div class="tab-pane fade" id="upcoming-services">
-                                <div class="services-list">
-                                    <!-- Show only upcoming services -->
-                                    <div class="service-booking-item">
-                                        <div class="booking-status">
-                                            <span class="status-badge upcoming">Upcoming</span>
-                                        </div>
-                                        <div class="booking-content">
-                                            <div class="service-info">
-                                                <div class="service-image">
-                                                    <img src="~/images/product/01.jpg" alt="service" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;background-color:#f8f9fa;color:#6c757d;&quot;><i class=&quot;fas fa-home&quot; style=&quot;font-size:24px;margin-bottom:5px;&quot;></i><span>Cleaning</span></div>';">
-                                                </div>
-                                                <div class="service-details">
-                                                    <h4>Deep House Cleaning</h4>
-                                                    <p class="provider-name">
-                                                        <i class="fas fa-user"></i>
-                                                        Clean Pro Services
-                                                    </p>
-                                                    <p class="booking-date">
-                                                        <i class="fas fa-calendar"></i>
-                                                        Dec 25, 2023 - Morning (8:00 AM - 12:00 PM)
-                                                    </p>
-                                                    <div class="countdown-timer">
-                                                        <i class="fas fa-clock"></i>
-                                                        <span>Service starts in: <strong>2 days 14 hours</strong></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="booking-meta">
-                                                <div class="booking-price">
-                                                    <span class="price">?1,349</span>
-                                                    <small>Total Amount</small>
-                                                </div>
-                                                <div class="booking-actions">
-                                                    <button class="btn btn-outline-primary btn-sm">
-                                                        <i class="fas fa-eye"></i> View Details
-                                                    </button>
-                                                    <button class="btn btn-outline-danger btn-sm">
-                                                        <i class="fas fa-times"></i> Cancel
-                                                    </button>
-                                                    <button class="btn btn-primary btn-sm">
-                                                        <i class="fas fa-phone"></i> Contact
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Completed Services -->
-                            <div class="tab-pane fade" id="completed-services">
-                                <div class="services-list">
-                                    <!-- Show only completed services -->
-                                    <div class="service-booking-item">
-                                        <div class="booking-status">
-                                            <span class="status-badge completed">Completed</span>
-                                        </div>
-                                        <div class="booking-content">
-                                            <div class="service-info">
-                                                <div class="service-image">
-                                                    <img src="~/images/services/plumbing.jpg" alt="service">
-                                                </div>
-                                                <div class="service-details">
-                                                    <h4>Plumbing Repair</h4>
-                                                    <p class="provider-name">
-                                                        <i class="fas fa-user"></i>
-                                                        Fix It Fast
-                                                    </p>
-                                                    <p class="booking-date">
-                                                        <i class="fas fa-calendar"></i>
-                                                        Dec 20, 2023 - Afternoon (12:00 PM - 4:00 PM)
-                                                    </p>
-                                                    <div class="service-rating">
-                                                        <span>Your Rating: </span>
-                                                        <div class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                            <span>4.0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="booking-meta">
-                                                <div class="booking-price">
-                                                    <span class="price">?649</span>
-                                                    <small>Total Amount</small>
-                                                </div>
-                                                <div class="booking-actions">
-                                                    <button class="btn btn-outline-primary btn-sm">
-                                                        <i class="fas fa-eye"></i> View Details
-                                                    </button>
-                                                    <button class="btn btn-success btn-sm">
-                                                        <i class="fas fa-redo"></i> Book Again
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Cancelled Services -->
-                            <div class="tab-pane fade" id="cancelled-services">
-                                <div class="services-list">
-                                    <!-- Show only cancelled services -->
-                                    <div class="service-booking-item">
-                                        <div class="booking-status">
-                                            <span class="status-badge cancelled">Cancelled</span>
-                                        </div>
-                                        <div class="booking-content">
-                                            <div class="service-info">
-                                                <div class="service-image">
-                                                    <img src="~/images/services/ac-repair.jpg" alt="service">
-                                                </div>
-                                                <div class="service-details">
-                                                    <h4>AC Repair & Service</h4>
-                                                    <p class="provider-name">
-                                                        <i class="fas fa-user"></i>
-                                                        Cool Tech Services
-                                                    </p>
-                                                    <p class="booking-date">
-                                                        <i class="fas fa-calendar"></i>
-                                                        Dec 18, 2023 - Morning (8:00 AM - 12:00 PM)
-                                                    </p>
-                                                    <p class="cancellation-reason">
-                                                        <i class="fas fa-info-circle"></i>
-                                                        Cancelled by customer - Schedule conflict
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="booking-meta">
-                                                <div class="booking-price">
-                                                    <span class="price">?849</span>
-                                                    <small>Refund Amount</small>
-                                                </div>
-                                                <div class="booking-actions">
-                                                    <button class="btn btn-outline-primary btn-sm">
-                                                        <i class="fas fa-eye"></i> View Details
-                                                    </button>
-                                                    <button class="btn btn-success btn-sm">
-                                                        <i class="fas fa-redo"></i> Book Again
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Quick Actions -->
-                        <div class="quick-actions">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="quick-actions-card">
-                                        <h4>Quick Actions</h4>
-                                        <div class="actions-grid">
-                                            <a href="services-list.html" class="action-item">
-                                                <i class="fas fa-search"></i>
-                                                <span>Book New Service</span>
-                                            </a>
-                                            <a href="#" class="action-item">
-                                                <i class="fas fa-heart"></i>
-                                                <span>Favorite Providers</span>
-                                            </a>
-                                            <a href="#" class="action-item">
-                                                <i class="fas fa-receipt"></i>
-                                                <span>Service History</span>
-                                            </a>
-                                            <a href="#" class="action-item">
-                                                <i class="fas fa-headset"></i>
-                                                <span>Customer Support</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="sidebar-footer">
+                <p>All Rights Reserved By <a href="#">Classicads</a></p>
+                <p>Developed By <a href="https://themeforest.net/user/mironcoder">Mironcoder</a></p>
+            </div>
+        </div>
+    </div>
+</aside>
+<!--=====================================
+            SIDEBAR PART END
+=======================================-->
+<!--=====================================
+            MOBILE-NAV PART START
+=======================================-->
+<nav class="mobile-nav">
+    <div class="container">
+        <div class="mobile-group">
+            <a href="index.html" class="mobile-widget">
+                <i class="fas fa-home"></i>
+                <span>home</span>
+            </a>
+            <a href="services-list.html" class="mobile-widget">
+                <i class="fas fa-tools"></i>
+                <span>services</span>
+            </a>
+            <a href="user-form.html" class="mobile-widget">
+                <i class="fas fa-user"></i>
+                <span>join me</span>
+            </a>
+            <a href="notification.html" class="mobile-widget">
+                <i class="fas fa-bell"></i>
+                <span>notify</span>
+                <sup>0</sup>
+            </a>
+            <a href="message.html" class="mobile-widget">
+                <i class="fas fa-envelope"></i>
+                <span>message</span>
+                <sup>0</sup>
+            </a>
+        </div>
+    </div>
+</nav>
+<!--=====================================
+            MOBILE-NAV PART END
+=======================================-->
+<!--=====================================
+            SINGLE BANNER PART START
+=======================================-->
+<section class="single-banner dashboard-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="single-content">
+                    <h2>My Services</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">My Services</li>
+                    </ol>
                 </div>
             </div>
         </div>
-    </section>
-    <!--=====================================
-            MY SERVICES PART END
-    =======================================-->
-    <!--=====================================
-                FOOTER PART START
-    =======================================-->
-    <footer class="footer-part">
-        <div class="container">
+    </div>
+</section>
+<!--=====================================
+            SINGLE BANNER PART END
+=======================================-->
+<!--=====================================
+        DASHBOARD HEADER PART START
+=======================================-->
+<section class="dash-header-part">
+    <div class="container">
+        <div class="dash-header-card">
             <div class="row">
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="footer-content">
-                        <h3>Contact Us</h3>
-                        <ul class="footer-address">
-                            <li>
-                                <i class="fas fa-map-marker-alt"></i>
-                                <p>1420 West Jalkuri Fatullah, <span>Narayanganj, BD</span></p>
-                            </li>
-                            <li>
-                                <i class="fas fa-envelope"></i>
-                                <p>support@classicads.com <span>info@classicads.com</span></p>
-                            </li>
-                            <li>
-                                <i class="fas fa-phone-alt"></i>
-                                <p>+8801838288389 <span>+8801941101915</span></p>
-                            </li>
-                        </ul>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dash-count-card">
+                        <div class="dash-count-text">
+                            <h4>15</h4>
+                            <p>Total Bookings</p>
+                        </div>
+                        <div class="dash-count-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="footer-content">
-                        <h3>Quick Links</h3>
-                        <ul class="footer-widget">
-                            <li><a href="services-list.html">All Services</a></li>
-                            <li><a href="my-services.html">My Bookings</a></li>
-                            <li><a href="service-provider-dashboard.html">Become Provider</a></li>
-                            <li><a href="#">Help & Support</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dash-count-card">
+                        <div class="dash-count-text">
+                            <h4>3</h4>
+                            <p>Upcoming Services</p>
+                        </div>
+                        <div class="dash-count-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="footer-content">
-                        <h3>Services</h3>
-                        <ul class="footer-widget">
-                            <li><a href="#">Home Cleaning</a></li>
-                            <li><a href="#">Beauty & Salon</a></li>
-                            <li><a href="#">AC & Appliance</a></li>
-                            <li><a href="#">Plumbing</a></li>
-                            <li><a href="#">Painting</a></li>
-                        </ul>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dash-count-card">
+                        <div class="dash-count-text">
+                            <h4>8</h4>
+                            <p>Completed Services</p>
+                        </div>
+                        <div class="dash-count-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="footer-info">
-                        <a href="#"><img src="~/images/logo.png" alt="logo"></a>
-                        <ul class="footer-count">
-                            <li>
-                                <h5>15,000+</h5>
-                                <p>Happy Customers</p>
-                            </li>
-                            <li>
-                                <h5>2,500+</h5>
-                                <p>Service Providers</p>
-                            </li>
-                        </ul>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="dash-count-card">
+                        <div class="dash-count-text">
+                            <h4>?18,540</h4>
+                            <p>Total Spent</p>
+                        </div>
+                        <div class="dash-count-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="footer-end">
-            <div class="container">
-                <div class="footer-end-content">
-                    <p>All Copyrights Reserved &copy; 2021 - Developed by <a href="#">Mironcoder</a></p>
-                    <ul class="footer-social">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                        <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                        <li><a href="#"><i class="fab fa-dribbble"></i></a></li>
+    </div>
+</section>
+<!--=====================================
+        DASHBOARD HEADER PART END
+=======================================-->
+<!--=====================================
+        MY SERVICES PART START
+=======================================-->
+<section class="my-services-part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="my-services-content">
+                    <!-- Filter Tabs -->
+                    <div class="services-filter">
+                        <ul class="nav nav-tabs" id="servicesTabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all-services">All Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="upcoming-tab" data-toggle="tab" href="#upcoming-services">Upcoming</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="completed-tab" data-toggle="tab" href="#completed-services">Completed</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="cancelled-tab" data-toggle="tab" href="#cancelled-services">Cancelled</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content" id="servicesTabContent">
+                        <!-- All Services -->
+                        <div class="tab-pane fade show active" id="all-services">
+                            <div class="services-list">
+                                <!-- Service Booking Item -->
+                                <div class="service-booking-item">
+                                    <div class="booking-status">
+                                        <span class="status-badge upcoming">Upcoming</span>
+                                    </div>
+                                    <div class="booking-content">
+                                        <div class="service-info">
+                                            <div class="service-image">
+                                                <img src="~/images/product/01.jpg" alt="service" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;background-color:#f8f9fa;color:#6c757d;&quot;><i class=&quot;fas fa-home&quot; style=&quot;font-size:24px;margin-bottom:5px;&quot;></i><span>Cleaning</span></div>';">
+                                            </div>
+                                            <div class="service-details">
+                                                <h4>Deep House Cleaning</h4>
+                                                <p class="provider-name">
+                                                    <i class="fas fa-user"></i>
+                                                    Clean Pro Services
+                                                </p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    Dec 25, 2023 - Morning (8:00 AM - 12:00 PM)
+                                                </p>
+                                                <p class="booking-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    123 Main Street, Downtown, City - 12345
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="booking-meta">
+                                            <div class="booking-price">
+                                                <span class="price">?1,349</span>
+                                                <small>Total Amount</small>
+                                            </div>
+                                            <div class="booking-actions">
+                                                <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('booking1')">
+                                                    <i class="fas fa-eye"></i> View Details
+                                                </button>
+                                                <button class="btn btn-outline-danger btn-sm" onclick="cancelBooking('booking1')">
+                                                    <i class="fas fa-times"></i> Cancel
+                                                </button>
+                                                <button class="btn btn-primary btn-sm" onclick="contactProvider('booking1')">
+                                                    <i class="fas fa-phone"></i> Contact
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Service Booking Item -->
+                                <div class="service-booking-item">
+                                    <div class="booking-status">
+                                        <span class="status-badge completed">Completed</span>
+                                    </div>
+                                    <div class="booking-content">
+                                        <div class="service-info">
+                                            <div class="service-image">
+                                                <img src="~/images/services/plumbing.jpg" alt="service">
+                                            </div>
+                                            <div class="service-details">
+                                                <h4>Plumbing Repair</h4>
+                                                <p class="provider-name">
+                                                    <i class="fas fa-user"></i>
+                                                    Fix It Fast
+                                                </p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    Dec 20, 2023 - Afternoon (12:00 PM - 4:00 PM)
+                                                </p>
+                                                <p class="booking-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    123 Main Street, Downtown, City - 12345
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="booking-meta">
+                                            <div class="booking-price">
+                                                <span class="price">?649</span>
+                                                <small>Total Amount</small>
+                                            </div>
+                                            <div class="booking-actions">
+                                                <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('booking2')">
+                                                    <i class="fas fa-eye"></i> View Details
+                                                </button>
+                                                <button class="btn btn-outline-warning btn-sm" onclick="rateService('booking2')">
+                                                    <i class="fas fa-star"></i> Rate Service
+                                                </button>
+                                                <button class="btn btn-success btn-sm" onclick="rebookService('booking2')">
+                                                    <i class="fas fa-redo"></i> Book Again
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Service Booking Item -->
+                                <div class="service-booking-item">
+                                    <div class="booking-status">
+                                        <span class="status-badge upcoming">Upcoming</span>
+                                    </div>
+                                    <div class="booking-content">
+                                        <div class="service-info">
+                                            <div class="service-image">
+                                                <img src="~/images/services/beauty.jpg" alt="service">
+                                            </div>
+                                            <div class="service-details">
+                                                <h4>Hair Cut & Styling</h4>
+                                                <p class="provider-name">
+                                                    <i class="fas fa-user"></i>
+                                                    Bella Beauty
+                                                </p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    Dec 28, 2023 - Evening (4:00 PM - 8:00 PM)
+                                                </p>
+                                                <p class="booking-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    123 Main Street, Downtown, City - 12345
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="booking-meta">
+                                            <div class="booking-price">
+                                                <span class="price">?949</span>
+                                                <small>Total Amount</small>
+                                            </div>
+                                            <div class="booking-actions">
+                                                <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('booking3')">
+                                                    <i class="fas fa-eye"></i> View Details
+                                                </button>
+                                                <button class="btn btn-outline-warning btn-sm" onclick="rescheduleBooking('booking3')">
+                                                    <i class="fas fa-calendar-alt"></i> Reschedule
+                                                </button>
+                                                <button class="btn btn-primary btn-sm" onclick="contactProvider('booking3')">
+                                                    <i class="fas fa-phone"></i> Contact
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Service Booking Item -->
+                                <div class="service-booking-item">
+                                    <div class="booking-status">
+                                        <span class="status-badge cancelled">Cancelled</span>
+                                    </div>
+                                    <div class="booking-content">
+                                        <div class="service-info">
+                                            <div class="service-image">
+                                                <img src="~/images/services/ac-repair.jpg" alt="service">
+                                            </div>
+                                            <div class="service-details">
+                                                <h4>AC Repair & Service</h4>
+                                                <p class="provider-name">
+                                                    <i class="fas fa-user"></i>
+                                                    Cool Tech Services
+                                                </p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    Dec 18, 2023 - Morning (8:00 AM - 12:00 PM)
+                                                </p>
+                                                <p class="booking-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    123 Main Street, Downtown, City - 12345
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="booking-meta">
+                                            <div class="booking-price">
+                                                <span class="price">?849</span>
+                                                <small>Refund Amount</small>
+                                            </div>
+                                            <div class="booking-actions">
+                                                <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('booking4')">
+                                                    <i class="fas fa-eye"></i> View Details
+                                                </button>
+                                                <button class="btn btn-success btn-sm" onclick="rebookService('booking4')">
+                                                    <i class="fas fa-redo"></i> Book Again
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upcoming Services -->
+                        <div class="tab-pane fade" id="upcoming-services">
+                            <div class="services-list">
+                                <!-- Show only upcoming services -->
+                                <div class="service-booking-item">
+                                    <div class="booking-status">
+                                        <span class="status-badge upcoming">Upcoming</span>
+                                    </div>
+                                    <div class="booking-content">
+                                        <div class="service-info">
+                                            <div class="service-image">
+                                                <img src="~/images/product/01.jpg" alt="service" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;background-color:#f8f9fa;color:#6c757d;&quot;><i class=&quot;fas fa-home&quot; style=&quot;font-size:24px;margin-bottom:5px;&quot;></i><span>Cleaning</span></div>';">
+                                            </div>
+                                            <div class="service-details">
+                                                <h4>Deep House Cleaning</h4>
+                                                <p class="provider-name">
+                                                    <i class="fas fa-user"></i>
+                                                    Clean Pro Services
+                                                </p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    Dec 25, 2023 - Morning (8:00 AM - 12:00 PM)
+                                                </p>
+                                                <div class="countdown-timer">
+                                                    <i class="fas fa-clock"></i>
+                                                    <span>Service starts in: <strong>2 days 14 hours</strong></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="booking-meta">
+                                            <div class="booking-price">
+                                                <span class="price">?1,349</span>
+                                                <small>Total Amount</small>
+                                            </div>
+                                            <div class="booking-actions">
+                                                <button class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-eye"></i> View Details
+                                                </button>
+                                                <button class="btn btn-outline-danger btn-sm">
+                                                    <i class="fas fa-times"></i> Cancel
+                                                </button>
+                                                <button class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-phone"></i> Contact
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Completed Services -->
+                        <div class="tab-pane fade" id="completed-services">
+                            <div class="services-list">
+                                <!-- Show only completed services -->
+                                <div class="service-booking-item">
+                                    <div class="booking-status">
+                                        <span class="status-badge completed">Completed</span>
+                                    </div>
+                                    <div class="booking-content">
+                                        <div class="service-info">
+                                            <div class="service-image">
+                                                <img src="~/images/services/plumbing.jpg" alt="service">
+                                            </div>
+                                            <div class="service-details">
+                                                <h4>Plumbing Repair</h4>
+                                                <p class="provider-name">
+                                                    <i class="fas fa-user"></i>
+                                                    Fix It Fast
+                                                </p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    Dec 20, 2023 - Afternoon (12:00 PM - 4:00 PM)
+                                                </p>
+                                                <div class="service-rating">
+                                                    <span>Your Rating: </span>
+                                                    <div class="rating">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <span>4.0</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="booking-meta">
+                                            <div class="booking-price">
+                                                <span class="price">?649</span>
+                                                <small>Total Amount</small>
+                                            </div>
+                                            <div class="booking-actions">
+                                                <button class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-eye"></i> View Details
+                                                </button>
+                                                <button class="btn btn-success btn-sm">
+                                                    <i class="fas fa-redo"></i> Book Again
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cancelled Services -->
+                        <div class="tab-pane fade" id="cancelled-services">
+                            <div class="services-list">
+                                <!-- Show only cancelled services -->
+                                <div class="service-booking-item">
+                                    <div class="booking-status">
+                                        <span class="status-badge cancelled">Cancelled</span>
+                                    </div>
+                                    <div class="booking-content">
+                                        <div class="service-info">
+                                            <div class="service-image">
+                                                <img src="~/images/services/ac-repair.jpg" alt="service">
+                                            </div>
+                                            <div class="service-details">
+                                                <h4>AC Repair & Service</h4>
+                                                <p class="provider-name">
+                                                    <i class="fas fa-user"></i>
+                                                    Cool Tech Services
+                                                </p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    Dec 18, 2023 - Morning (8:00 AM - 12:00 PM)
+                                                </p>
+                                                <p class="cancellation-reason">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    Cancelled by customer - Schedule conflict
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="booking-meta">
+                                            <div class="booking-price">
+                                                <span class="price">?849</span>
+                                                <small>Refund Amount</small>
+                                            </div>
+                                            <div class="booking-actions">
+                                                <button class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-eye"></i> View Details
+                                                </button>
+                                                <button class="btn btn-success btn-sm">
+                                                    <i class="fas fa-redo"></i> Book Again
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="quick-actions-card">
+                                    <h4>Quick Actions</h4>
+                                    <div class="actions-grid">
+                                        <a href="services-list.html" class="action-item">
+                                            <i class="fas fa-search"></i>
+                                            <span>Book New Service</span>
+                                        </a>
+                                        <a href="#" class="action-item">
+                                            <i class="fas fa-heart"></i>
+                                            <span>Favorite Providers</span>
+                                        </a>
+                                        <a href="#" class="action-item">
+                                            <i class="fas fa-receipt"></i>
+                                            <span>Service History</span>
+                                        </a>
+                                        <a href="#" class="action-item">
+                                            <i class="fas fa-headset"></i>
+                                            <span>Customer Support</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=====================================
+        MY SERVICES PART END
+=======================================-->
+<!--=====================================
+            FOOTER PART START
+=======================================-->
+<footer class="footer-part">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                <div class="footer-content">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-address">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>1420 West Jalkuri Fatullah, <span>Narayanganj, BD</span></p>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <p>support@classicads.com <span>info@classicads.com</span></p>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone-alt"></i>
+                            <p>+8801838288389 <span>+8801941101915</span></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                <div class="footer-content">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-widget">
+                        <li><a href="services-list.html">All Services</a></li>
+                        <li><a href="my-services.html">My Bookings</a></li>
+                        <li><a href="service-provider-dashboard.html">Become Provider</a></li>
+                        <li><a href="#">Help & Support</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                <div class="footer-content">
+                    <h3>Services</h3>
+                    <ul class="footer-widget">
+                        <li><a href="#">Home Cleaning</a></li>
+                        <li><a href="#">Beauty & Salon</a></li>
+                        <li><a href="#">AC & Appliance</a></li>
+                        <li><a href="#">Plumbing</a></li>
+                        <li><a href="#">Painting</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                <div class="footer-info">
+                    <a href="#"><img src="~/images/logo.png" alt="logo"></a>
+                    <ul class="footer-count">
+                        <li>
+                            <h5>15,000+</h5>
+                            <p>Happy Customers</p>
+                        </li>
+                        <li>
+                            <h5>2,500+</h5>
+                            <p>Service Providers</p>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
-    </footer>
-    <!--=====================================
-                FOOTER PART END
-    =======================================-->
-    <!--=====================================
-                JS LINK PART START
-    =======================================-->
-    <!-- VENDOR -->
-    <script src="js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="js/vendor/popper.min.js"></script>
-    <script src="js/vendor/bootstrap.min.js"></script>
+    </div>
+    <div class="footer-end">
+        <div class="container">
+            <div class="footer-end-content">
+                <p>All Copyrights Reserved &copy; 2021 - Developed by <a href="#">Mironcoder</a></p>
+                <ul class="footer-social">
+                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                    <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                    <li><a href="#"><i class="fab fa-dribbble"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--=====================================
+            FOOTER PART END
+=======================================-->
+<!--=====================================
+            JS LINK PART START
+=======================================-->
+<!-- VENDOR -->
+<script src="js/vendor/jquery-1.12.4.min.js"></script>
+<script src="js/vendor/popper.min.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
 
-    <!-- CUSTOM -->
-    <script src="js/custom/main.js"></script>
-    <script>
-        // JavaScript functions for booking actions
-        function viewBookingDetails(bookingId) {
-            alert('Viewing details for booking: ' + bookingId);
-            // Redirect to booking details page
-        }
+<!-- CUSTOM -->
+<script src="js/custom/main.js"></script>
+<script>
+    // JavaScript functions for booking actions
+    function viewBookingDetails(bookingId) {
+        alert('Viewing details for booking: ' + bookingId);
+        // Redirect to booking details page
+    }
 
-        function cancelBooking(bookingId) {
-            if(confirm('Are you sure you want to cancel this booking?')) {
-                alert('Booking cancelled: ' + bookingId);
-                // Handle cancellation logic
-            }
+    function cancelBooking(bookingId) {
+        if(confirm('Are you sure you want to cancel this booking?')) {
+            alert('Booking cancelled: ' + bookingId);
+            // Handle cancellation logic
         }
+    }
 
-        function contactProvider(bookingId) {
-            alert('Contacting provider for booking: ' + bookingId);
-            // Open contact modal or redirect to contact page
-        }
+    function contactProvider(bookingId) {
+        alert('Contacting provider for booking: ' + bookingId);
+        // Open contact modal or redirect to contact page
+    }
 
-        function rateService(bookingId) {
-            alert('Rating service for booking: ' + bookingId);
-            // Open rating modal
-        }
+    function rateService(bookingId) {
+        alert('Rating service for booking: ' + bookingId);
+        // Open rating modal
+    }
 
-        function rebookService(bookingId) {
-            alert('Rebooking service for booking: ' + bookingId);
-            // Redirect to service booking page
-        }
+    function rebookService(bookingId) {
+        alert('Rebooking service for booking: ' + bookingId);
+        // Redirect to service booking page
+    }
 
-        function rescheduleBooking(bookingId) {
-            alert('Rescheduling booking: ' + bookingId);
-            // Open reschedule modal
-        }
-    </script>
-    <!--=====================================
-                JS LINK PART END
-    =======================================-->
-</body>
-</html>
+    function rescheduleBooking(bookingId) {
+        alert('Rescheduling booking: ' + bookingId);
+        // Open reschedule modal
+    }
+</script>
+<!--=====================================
+            JS LINK PART END
+=======================================-->

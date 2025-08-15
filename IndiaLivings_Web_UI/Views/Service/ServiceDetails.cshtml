@@ -1,415 +1,403 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- FOR WEBPAGE TITLE -->
-    <title>Service Details - Classicads</title>
+﻿
+@{
+    ViewBag.Title = "Service Details";
+}
+<link rel="icon" href="~/images/favicon.png">
 
-    <!--=====================================
-                CSS LINK PART START
-    =======================================-->
-    <!-- FAVICON -->
-    <link rel="icon" href="~/images/favicon.png">
+<!-- FONTS -->
+<link rel="stylesheet" href="~/fonts/flaticon/flaticon.css">
+<link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css">
 
-    <!-- FONTS -->
-    <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css">
-    <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css">
+<!-- VENDOR -->
+<link rel="stylesheet" href="~/css/vendor/bootstrap.min.css">
 
-    <!-- VENDOR -->
-    <link rel="stylesheet" href="~/css/vendor/bootstrap.min.css">
-
-    <!-- CUSTOM -->
-    <link rel="stylesheet" href="~/css/custom/main.css">
-    <link rel="stylesheet" href="~/css/custom/services.css">
-    <!--=====================================
-                CSS LINK PART END
-    =======================================-->
-</head>
-<body>
-    <!--=====================================
-              SINGLE BANNER PART START
-    =======================================-->
-    <section class="single-banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="single-content">
-                        <h2>Service Details</h2>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
-                            <li class="breadcrumb-item"><a asp-controller ="Service" asp-action="ServicesList">Services</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Deep House Cleaning</li>
-                        </ol>
-                    </div>
+<!-- CUSTOM -->
+<link rel="stylesheet" href="~/css/custom/main.css">
+<link rel="stylesheet" href="~/css/custom/services.css">
+<!--=====================================
+            SINGLE BANNER PART START
+=======================================-->
+<section class="single-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="single-content">
+                    <h2>Service Details</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a asp-controller ="Service" asp-action="ServicesList">Services</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Deep House Cleaning</li>
+                    </ol>
                 </div>
             </div>
         </div>
-    </section>
-    <!--=====================================
-              SINGLE BANNER PART END
-    =======================================-->
-    <!--=====================================
-                SERVICE DETAILS PART START
-    =======================================-->
-    <section class="service-details-part">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="service-details-content">
-                        <!-- Service Images -->
-                        <div class="service-images">
-                            <div class="main-image">
-                                <img src="~/images/product/01.jpg" alt="service" id="main-service-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;background-color:#f8f9fa;color:#6c757d;&quot;><i class=&quot;fas fa-home&quot; style=&quot;font-size:48px;margin-bottom:10px;&quot;></i><span>Cleaning Service Image</span></div>'">
+    </div>
+</section>
+<!--=====================================
+            SINGLE BANNER PART END
+=======================================-->
+<!--=====================================
+            SERVICE DETAILS PART START
+=======================================-->
+<section class="service-details-part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="service-details-content">
+                    <!-- Service Images -->
+                    <div class="service-images">
+                        <div class="main-image">
+                            <img src="~/images/product/01.jpg" alt="service" id="main-service-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;background-color:#f8f9fa;color:#6c757d;&quot;><i class=&quot;fas fa-home&quot; style=&quot;font-size:48px;margin-bottom:10px;&quot;></i><span>Cleaning Service Image</span></div>'">
+                        </div>
+                        <div class="service-thumbnails">
+                            <img src="~/images/product/01.jpg" alt="service" class="thumbnail active" onclick="changeImage(this)" onerror="this.style.display='none';">
+                            <img src="~/images/product/02.jpg" alt="service" class="thumbnail" onclick="changeImage(this)" onerror="this.style.display='none';">
+                            <img src="~/images/product/03.jpg" alt="service" class="thumbnail" onclick="changeImage(this)" onerror="this.style.display='none';">
+                            <img src="~/images/product/04.jpg" alt="service" class="thumbnail" onclick="changeImage(this)" onerror="this.style.display='none';">
+                        </div>
+                    </div>
+
+                    <!-- Service Info -->
+                    <div class="service-info">
+                        <div class="service-header">
+                            <div class="service-category">
+                                <span class="flat-badge featured">Featured</span>
+                                <span class="category-tag">Home Cleaning</span>
                             </div>
-                            <div class="service-thumbnails">
-                                <img src="~/images/product/01.jpg" alt="service" class="thumbnail active" onclick="changeImage(this)" onerror="this.style.display='none';">
-                                <img src="~/images/product/02.jpg" alt="service" class="thumbnail" onclick="changeImage(this)" onerror="this.style.display='none';">
-                                <img src="~/images/product/03.jpg" alt="service" class="thumbnail" onclick="changeImage(this)" onerror="this.style.display='none';">
-                                <img src="~/images/product/04.jpg" alt="service" class="thumbnail" onclick="changeImage(this)" onerror="this.style.display='none';">
+                            <h1>Deep House Cleaning Service</h1>
+                            <div class="service-meta-info">
+                                <div class="provider-details">
+                                    <img src="~/images/avatar/01.jpg" alt="provider">
+                                    <div class="provider-info">
+                                        <h4>Clean Pro Services</h4>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <span>4.8 (245 reviews)</span>
+                                        </div>
+                                        <p>5+ years experience � 1000+ bookings</p>
+                                    </div>
+                                </div>
+                                <div class="service-actions">
+                                    <button class="btn-wishlist"><i class="far fa-heart"></i></button>
+                                    <button class="btn-share"><i class="fas fa-share-alt"></i></button>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Service Info -->
-                        <div class="service-info">
-                            <div class="service-header">
-                                <div class="service-category">
-                                    <span class="flat-badge featured">Featured</span>
-                                    <span class="category-tag">Home Cleaning</span>
+                        <!-- Service Price -->
+                        <div class="service-pricing">
+                            <div class="price-info">
+                                <h3>?1,299 <small>per session</small></h3>
+                                <p class="price-note">*Final price may vary based on home size</p>
+                            </div>
+                            <div class="service-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>2-3 hours</span>
+                            </div>
+                        </div>
+
+                        <!-- Service Features -->
+                        <div class="service-features-list">
+                            <h4>What's Included</h4>
+                            <div class="features-grid">
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Deep cleaning of all rooms</span>
                                 </div>
-                                <h1>Deep House Cleaning Service</h1>
-                                <div class="service-meta-info">
-                                    <div class="provider-details">
-                                        <img src="~/images/avatar/01.jpg" alt="provider">
-                                        <div class="provider-info">
-                                            <h4>Clean Pro Services</h4>
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <span>4.8 (245 reviews)</span>
-                                            </div>
-                                            <p>5+ years experience � 1000+ bookings</p>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Kitchen deep clean</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Bathroom sanitization</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Floor mopping & vacuuming</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Eco-friendly cleaning products</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Professional equipment</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service Description -->
+                        <div class="service-description">
+                            <h4>Service Description</h4>
+                            <p>Our professional deep house cleaning service ensures your home is spotless from top to bottom. Our trained professionals use eco-friendly cleaning products and modern equipment to deliver exceptional results.</p>
+
+                            <p>We clean every corner of your home including hard-to-reach areas that are often overlooked in regular cleaning. Our service includes thorough cleaning of bedrooms, living rooms, kitchen, bathrooms, and common areas.</p>
+
+                            <h5>Service Process:</h5>
+                            <ul>
+                                <li>Initial assessment and planning</li>
+                                <li>Decluttering and organizing</li>
+                                <li>Deep cleaning of all surfaces</li>
+                                <li>Specialized bathroom and kitchen cleaning</li>
+                                <li>Floor cleaning and sanitization</li>
+                                <li>Final inspection and touch-ups</li>
+                            </ul>
+
+                            <h5>Why Choose Us:</h5>
+                            <ul>
+                                <li>Trained and verified professionals</li>
+                                <li>Insured and bonded service</li>
+                                <li>Eco-friendly cleaning products</li>
+                                <li>Satisfaction guarantee</li>
+                                <li>Flexible scheduling</li>
+                                <li>Competitive pricing</li>
+                            </ul>
+                        </div>
+
+                        <!-- Reviews Section -->
+                        <div class="service-reviews">
+                            <h4>Customer Reviews</h4>
+                            <div class="reviews-summary">
+                                <div class="rating-overview">
+                                    <div class="overall-rating">
+                                        <span class="rating-score">4.8</span>
+                                        <div class="rating-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
                                         </div>
+                                        <p>245 reviews</p>
                                     </div>
-                                    <div class="service-actions">
-                                        <button class="btn-wishlist"><i class="far fa-heart"></i></button>
-                                        <button class="btn-share"><i class="fas fa-share-alt"></i></button>
+                                    <div class="rating-breakdown">
+                                        <div class="rating-bar">
+                                            <span>5 star</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 85%"></div>
+                                            </div>
+                                            <span>85%</span>
+                                        </div>
+                                        <div class="rating-bar">
+                                            <span>4 star</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 12%"></div>
+                                            </div>
+                                            <span>12%</span>
+                                        </div>
+                                        <div class="rating-bar">
+                                            <span>3 star</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 2%"></div>
+                                            </div>
+                                            <span>2%</span>
+                                        </div>
+                                        <div class="rating-bar">
+                                            <span>2 star</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 1%"></div>
+                                            </div>
+                                            <span>1%</span>
+                                        </div>
+                                        <div class="rating-bar">
+                                            <span>1 star</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 0%"></div>
+                                            </div>
+                                            <span>0%</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Service Price -->
-                            <div class="service-pricing">
-                                <div class="price-info">
-                                    <h3>?1,299 <small>per session</small></h3>
-                                    <p class="price-note">*Final price may vary based on home size</p>
-                                </div>
-                                <div class="service-duration">
-                                    <i class="fas fa-clock"></i>
-                                    <span>2-3 hours</span>
-                                </div>
-                            </div>
-
-                            <!-- Service Features -->
-                            <div class="service-features-list">
-                                <h4>What's Included</h4>
-                                <div class="features-grid">
-                                    <div class="feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>Deep cleaning of all rooms</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>Kitchen deep clean</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>Bathroom sanitization</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>Floor mopping & vacuuming</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>Eco-friendly cleaning products</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>Professional equipment</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Service Description -->
-                            <div class="service-description">
-                                <h4>Service Description</h4>
-                                <p>Our professional deep house cleaning service ensures your home is spotless from top to bottom. Our trained professionals use eco-friendly cleaning products and modern equipment to deliver exceptional results.</p>
-
-                                <p>We clean every corner of your home including hard-to-reach areas that are often overlooked in regular cleaning. Our service includes thorough cleaning of bedrooms, living rooms, kitchen, bathrooms, and common areas.</p>
-
-                                <h5>Service Process:</h5>
-                                <ul>
-                                    <li>Initial assessment and planning</li>
-                                    <li>Decluttering and organizing</li>
-                                    <li>Deep cleaning of all surfaces</li>
-                                    <li>Specialized bathroom and kitchen cleaning</li>
-                                    <li>Floor cleaning and sanitization</li>
-                                    <li>Final inspection and touch-ups</li>
-                                </ul>
-
-                                <h5>Why Choose Us:</h5>
-                                <ul>
-                                    <li>Trained and verified professionals</li>
-                                    <li>Insured and bonded service</li>
-                                    <li>Eco-friendly cleaning products</li>
-                                    <li>Satisfaction guarantee</li>
-                                    <li>Flexible scheduling</li>
-                                    <li>Competitive pricing</li>
-                                </ul>
-                            </div>
-
-                            <!-- Reviews Section -->
-                            <div class="service-reviews">
-                                <h4>Customer Reviews</h4>
-                                <div class="reviews-summary">
-                                    <div class="rating-overview">
-                                        <div class="overall-rating">
-                                            <span class="rating-score">4.8</span>
-                                            <div class="rating-stars">
+                            <div class="reviews-list">
+                                <div class="review-item">
+                                    <div class="reviewer-info">
+                                        <img src="~/images/avatar/02.jpg" alt="reviewer">
+                                        <div class="reviewer-details">
+                                            <h6>Sarah Johnson</h6>
+                                            <div class="review-rating">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                             </div>
-                                            <p>245 reviews</p>
-                                        </div>
-                                        <div class="rating-breakdown">
-                                            <div class="rating-bar">
-                                                <span>5 star</span>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 85%"></div>
-                                                </div>
-                                                <span>85%</span>
-                                            </div>
-                                            <div class="rating-bar">
-                                                <span>4 star</span>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 12%"></div>
-                                                </div>
-                                                <span>12%</span>
-                                            </div>
-                                            <div class="rating-bar">
-                                                <span>3 star</span>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 2%"></div>
-                                                </div>
-                                                <span>2%</span>
-                                            </div>
-                                            <div class="rating-bar">
-                                                <span>2 star</span>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 1%"></div>
-                                                </div>
-                                                <span>1%</span>
-                                            </div>
-                                            <div class="rating-bar">
-                                                <span>1 star</span>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 0%"></div>
-                                                </div>
-                                                <span>0%</span>
-                                            </div>
+                                            <span class="review-date">2 days ago</span>
                                         </div>
                                     </div>
+                                    <p class="review-text">Excellent service! The team was professional, punctual, and thorough. My house has never been cleaner. Highly recommend this service!</p>
                                 </div>
 
-                                <div class="reviews-list">
-                                    <div class="review-item">
-                                        <div class="reviewer-info">
-                                            <img src="~/images/avatar/02.jpg" alt="reviewer">
-                                            <div class="reviewer-details">
-                                                <h6>Sarah Johnson</h6>
-                                                <div class="review-rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                </div>
-                                                <span class="review-date">2 days ago</span>
+                                <div class="review-item">
+                                    <div class="reviewer-info">
+                                        <img src="~/images/avatar/03.jpg" alt="reviewer">
+                                        <div class="reviewer-details">
+                                            <h6>Michael Chen</h6>
+                                            <div class="review-rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
                                             </div>
+                                            <span class="review-date">1 week ago</span>
                                         </div>
-                                        <p class="review-text">Excellent service! The team was professional, punctual, and thorough. My house has never been cleaner. Highly recommend this service!</p>
                                     </div>
+                                    <p class="review-text">Great attention to detail. They cleaned areas I didn't even think about. Very satisfied with the service quality.</p>
+                                </div>
 
-                                    <div class="review-item">
-                                        <div class="reviewer-info">
-                                            <img src="~/images/avatar/03.jpg" alt="reviewer">
-                                            <div class="reviewer-details">
-                                                <h6>Michael Chen</h6>
-                                                <div class="review-rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                </div>
-                                                <span class="review-date">1 week ago</span>
+                                <div class="review-item">
+                                    <div class="reviewer-info">
+                                        <img src="~/images/avatar/04.jpg" alt="reviewer">
+                                        <div class="reviewer-details">
+                                            <h6>Emily Davis</h6>
+                                            <div class="review-rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
                                             </div>
+                                            <span class="review-date">2 weeks ago</span>
                                         </div>
-                                        <p class="review-text">Great attention to detail. They cleaned areas I didn't even think about. Very satisfied with the service quality.</p>
                                     </div>
-
-                                    <div class="review-item">
-                                        <div class="reviewer-info">
-                                            <img src="~/images/avatar/04.jpg" alt="reviewer">
-                                            <div class="reviewer-details">
-                                                <h6>Emily Davis</h6>
-                                                <div class="review-rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                </div>
-                                                <span class="review-date">2 weeks ago</span>
-                                            </div>
-                                        </div>
-                                        <p class="review-text">Fantastic service! They arrived on time, were very friendly, and did an amazing job. Will definitely book again.</p>
-                                    </div>
+                                    <p class="review-text">Fantastic service! They arrived on time, were very friendly, and did an amazing job. Will definitely book again.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Booking Sidebar -->
-                <div class="col-lg-4">
-                    <div class="booking-sidebar">
-                        <div class="booking-card">
-                            <div class="booking-header">
-                                <h4>Book This Service</h4>
-                                <div class="price-display">
-                                    <span class="current-price">?1,299</span>
-                                    <small>per session</small>
-                                </div>
-                            </div>
-
-                            <form class="booking-form">
-                                <!-- Date Selection -->
-                                <div class="form-group">
-                                    <label>Select Date</label>
-                                    <input type="date" class="form-control" id="booking-date" min="" required>
-                                </div>
-
-                                <!-- Time Slot Selection -->
-                                <div class="form-group">
-                                    <label>Select Time Slot</label>
-                                    <div class="time-slots">
-                                        <div class="time-slot">
-                                            <input type="radio" name="time_slot" value="morning" id="morning">
-                                            <label for="morning">Morning<br><small>8:00 AM - 12:00 PM</small></label>
-                                        </div>
-                                        <div class="time-slot">
-                                            <input type="radio" name="time_slot" value="afternoon" id="afternoon">
-                                            <label for="afternoon">Afternoon<br><small>12:00 PM - 4:00 PM</small></label>
-                                        </div>
-                                        <div class="time-slot">
-                                            <input type="radio" name="time_slot" value="evening" id="evening">
-                                            <label for="evening">Evening<br><small>4:00 PM - 8:00 PM</small></label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Address -->
-                                <div class="form-group">
-                                    <label>Service Address</label>
-                                    <textarea class="form-control" rows="3" placeholder="Enter your complete address..." required></textarea>
-                                </div>
-
-                                <!-- Special Instructions -->
-                                <div class="form-group">
-                                    <label>Special Instructions (Optional)</label>
-                                    <textarea class="form-control" rows="2" placeholder="Any specific requirements or instructions..."></textarea>
-                                </div>
-
-                                <!-- Contact Info -->
-                                <div class="form-group">
-                                    <label>Contact Number</label>
-                                    <input type="tel" class="form-control" placeholder="Enter your phone number" required>
-                                </div>
-
-                                <!-- Price Breakdown -->
-                                <div class="price-breakdown">
-                                    <div class="price-row">
-                                        <span>Service charge</span>
-                                        <span>?1,299</span>
-                                    </div>
-                                    <div class="price-row">
-                                        <span>Convenience fee</span>
-                                        <span>?50</span>
-                                    </div>
-                                    <div class="price-row total">
-                                        <span><strong>Total Amount</strong></span>
-                                        <span><strong>?1,349</strong></span>
-                                    </div>
-                                </div>
-
-                                <!-- Book Button -->
-                                <button type="submit" class="btn btn-book-service">
-                                    <i class="fas fa-calendar-check"></i>
-                                    Book Service
-                                </button>
-
-                                <!-- Safety Note -->
-                                <div class="safety-note">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <p>All our professionals are background verified and insured for your safety.</p>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- Provider Contact -->
-                        <div class="provider-contact">
-                            <h5>Need Help?</h5>
-                            <div class="contact-options">
-                                <a href="tel:+1234567890" class="contact-btn">
-                                    <i class="fas fa-phone"></i>
-                                    Call Provider
-                                </a>
-                                <a href="#" class="contact-btn">
-                                    <i class="fas fa-comments"></i>
-                                    Chat with Us
-                                </a>
+            <!-- Booking Sidebar -->
+            <div class="col-lg-4">
+                <div class="booking-sidebar">
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <h4>Book This Service</h4>
+                            <div class="price-display">
+                                <span class="current-price">?1,299</span>
+                                <small>per session</small>
                             </div>
                         </div>
 
-                        <!-- Similar Services -->
-                        <div class="similar-services">
-                            <h5>Similar Services</h5>
-                            <div class="similar-service-item">
-                                <img src="~/images/services/carpet-cleaning.jpg" alt="service">
-                                <div class="similar-service-info">
-                                    <h6>Carpet Cleaning</h6>
-                                    <p>Starting at ?899</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <span>4.6</span>
+                        <form class="booking-form">
+                            <!-- Date Selection -->
+                            <div class="form-group">
+                                <label>Select Date</label>
+                                <input type="date" class="form-control" id="booking-date" min="" required>
+                            </div>
+
+                            <!-- Time Slot Selection -->
+                            <div class="form-group">
+                                <label>Select Time Slot</label>
+                                <div class="time-slots">
+                                    <div class="time-slot">
+                                        <input type="radio" name="time_slot" value="morning" id="morning">
+                                        <label for="morning">Morning<br><small>8:00 AM - 12:00 PM</small></label>
+                                    </div>
+                                    <div class="time-slot">
+                                        <input type="radio" name="time_slot" value="afternoon" id="afternoon">
+                                        <label for="afternoon">Afternoon<br><small>12:00 PM - 4:00 PM</small></label>
+                                    </div>
+                                    <div class="time-slot">
+                                        <input type="radio" name="time_slot" value="evening" id="evening">
+                                        <label for="evening">Evening<br><small>4:00 PM - 8:00 PM</small></label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="similar-service-item">
-                                <img src="~/images/services/sofa-cleaning.jpg" alt="service">
-                                <div class="similar-service-info">
-                                    <h6>Sofa Cleaning</h6>
-                                    <p>Starting at ?699</p>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <span>4.7</span>
-                                    </div>
+
+                            <!-- Address -->
+                            <div class="form-group">
+                                <label>Service Address</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter your complete address..." required></textarea>
+                            </div>
+
+                            <!-- Special Instructions -->
+                            <div class="form-group">
+                                <label>Special Instructions (Optional)</label>
+                                <textarea class="form-control" rows="2" placeholder="Any specific requirements or instructions..."></textarea>
+                            </div>
+
+                            <!-- Contact Info -->
+                            <div class="form-group">
+                                <label>Contact Number</label>
+                                <input type="tel" class="form-control" placeholder="Enter your phone number" required>
+                            </div>
+
+                            <!-- Price Breakdown -->
+                            <div class="price-breakdown">
+                                <div class="price-row">
+                                    <span>Service charge</span>
+                                    <span>?1,299</span>
+                                </div>
+                                <div class="price-row">
+                                    <span>Convenience fee</span>
+                                    <span>?50</span>
+                                </div>
+                                <div class="price-row total">
+                                    <span><strong>Total Amount</strong></span>
+                                    <span><strong>?1,349</strong></span>
+                                </div>
+                            </div>
+
+                            <!-- Book Button -->
+                            <button type="submit" class="btn btn-book-service">
+                                <i class="fas fa-calendar-check"></i>
+                                Book Service
+                            </button>
+
+                            <!-- Safety Note -->
+                            <div class="safety-note">
+                                <i class="fas fa-shield-alt"></i>
+                                <p>All our professionals are background verified and insured for your safety.</p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Provider Contact -->
+                    <div class="provider-contact">
+                        <h5>Need Help?</h5>
+                        <div class="contact-options">
+                            <a href="tel:+1234567890" class="contact-btn">
+                                <i class="fas fa-phone"></i>
+                                Call Provider
+                            </a>
+                            <a href="#" class="contact-btn">
+                                <i class="fas fa-comments"></i>
+                                Chat with Us
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Similar Services -->
+                    <div class="similar-services">
+                        <h5>Similar Services</h5>
+                        <div class="similar-service-item">
+                            <img src="~/images/services/carpet-cleaning.jpg" alt="service">
+                            <div class="similar-service-info">
+                                <h6>Carpet Cleaning</h6>
+                                <p>Starting at ?899</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.6</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="similar-service-item">
+                            <img src="~/images/services/sofa-cleaning.jpg" alt="service">
+                            <div class="similar-service-info">
+                                <h6>Sofa Cleaning</h6>
+                                <p>Starting at ?699</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.7</span>
                                 </div>
                             </div>
                         </div>
@@ -417,33 +405,33 @@
                 </div>
             </div>
         </div>
-    </section>
-    <!--=====================================
-                SERVICE DETAILS PART END
-    =======================================-->
-    <!--=====================================
-                JS LINK PART START
-    =======================================-->
-    <!-- VENDOR -->
-    <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="~/js/vendor/popper.min.js"></script>
-    <script src="~/js/vendor/bootstrap.min.js"></script>
+    </div>
+</section>
+<!--=====================================
+            SERVICE DETAILS PART END
+=======================================-->
+<!--=====================================
+            JS LINK PART START
+=======================================-->
+   
+<!-- VENDOR -->
+<script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="~/js/vendor/popper.min.js"></script>
+<script src="~/js/vendor/bootstrap.min.js"></script>
 
-    <!-- CUSTOM -->
-    <script src="js/custom/main.js"></script>
-    <script>
-        // Set minimum date to today
-        document.getElementById('booking-date').min = new Date().toISOString().split('T')[0];
+<!-- CUSTOM -->
+<script src="js/custom/main.js"></script>
+<script>
+    // Set minimum date to today
+    document.getElementById('booking-date').min = new Date().toISOString().split('T')[0];
 
-        // Image change function
-        function changeImage(thumbnail) {
-            document.getElementById('main-service-image').src = thumbnail.src;
-            document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
-            thumbnail.classList.add('active');
-        }
-    </script>
-    <!--=====================================
-                JS LINK PART END
-    =======================================-->
-</body>
-</html>
+    // Image change function
+    function changeImage(thumbnail) {
+        document.getElementById('main-service-image').src = thumbnail.src;
+        document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+        thumbnail.classList.add('active');
+    }
+</script>
+<!--=====================================
+            JS LINK PART END
+=======================================-->
