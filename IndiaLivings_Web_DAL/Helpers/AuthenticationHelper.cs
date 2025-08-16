@@ -505,6 +505,26 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
+        public List<BlogModel> GetBlogsByUser(string username, int pageNumber, int pageSize, int categoryId, bool publishedOnly)
+        {
+            List<BlogModel> blogs = new List<BlogModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Blog/getBlogByUser?username={username}&pageNumber={pageNumber}&pageSize={pageSize}&categoryID={categoryId}&publishedOnly={publishedOnly}");
+                // Parse the response and extract the "data" property
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    blogs = JsonConvert.DeserializeObject<List<BlogModel>>(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return blogs;
+        }
         public string CreateJob(JobNewsModel job)
         {
             string response = string.Empty;

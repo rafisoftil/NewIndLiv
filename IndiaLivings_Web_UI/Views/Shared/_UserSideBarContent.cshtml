@@ -28,8 +28,19 @@
                 <li class="navbar-item">
                     <a class="navbar-link" asp-controller="User" asp-action="PostAd">Ad Post</a>
                 </li>
-                <li class="navbar-item">
-                    <a class="navbar-link" asp-controller="User" asp-action="BlogPost">Blog Post</a>
+                <li class="navbar-item navbar-dropdown">
+                    <a class="navbar-link" href="#">
+                        <span>Blog</span>
+                        <i class="fas fa-greater-than"></i>
+                    </a>
+                    <ul class="dropdown-list">
+                        <li class="navbar-item">
+                            <a class="navbar-link" asp-controller="User" asp-action="BlogPost">Blog Post</a>
+                        </li>
+                        <li class="navbar-item">
+                            <a class="navbar-link" asp-controller="User" asp-action="BlogsByUser">My Blogs</a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="navbar-item">
                     <a class="navbar-link" asp-controller="User" asp-action="MyAds">My Ads</a>
