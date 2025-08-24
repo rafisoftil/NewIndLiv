@@ -1,493 +1,399 @@
-﻿@{
-    ViewBag.Title = "Service List";
-}
-<!--=====================================
-SINGLE BANNER PART START
-=======================================-->
-<section class="single-banner">
-<div class="container">
-<div class="row">
-<div class="col-lg-12">
-<div class="single-content">
-    <h2>Book Services</h2>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Services</li>
-    </ol>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!--=====================================
-SINGLE BANNER PART END
-=======================================-->
-<!--=====================================
-SERVICE CATEGORIES PART START
-=======================================-->
-<section class="service-categories-part">
-<div class="container">
-<div class="row">
-<div class="col-lg-12">
-    <div class="section-center-heading">
-        <h2>Popular Service <span>Categories</span></h2>
-        <p>Choose from a wide range of professional services available in your area</p>
-    </div>
-</div>
-</div>
-<div class="row">
-<div class="col-sm-6 col-md-4 col-lg-3">
-    <div class="service-category-card">
-        <div class="service-category-icon">
-            <i class="fas fa-home"></i>
-        </div>
-        <div class="service-category-content">
-            <h4>Home Cleaning</h4>
-            <p>Professional house cleaning services</p>
-            <span class="service-count">45+ services</span>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-4 col-lg-3">
-    <div class="service-category-card">
-        <div class="service-category-icon">
-            <i class="fas fa-cut"></i>
-        </div>
-        <div class="service-category-content">
-            <h4>Beauty & Salon</h4>
-            <p>Hair, makeup, and grooming services</p>
-            <span class="service-count">67+ services</span>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-4 col-lg-3">
-    <div class="service-category-card">
-        <div class="service-category-icon">
-            <i class="fas fa-wrench"></i>
-        </div>
-        <div class="service-category-content">
-            <h4>AC & Appliance</h4>
-            <p>Repair and maintenance services</p>
-            <span class="service-count">32+ services</span>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-4 col-lg-3">
-    <div class="service-category-card">
-        <div class="service-category-icon">
-            <i class="fas fa-tools"></i>
-        </div>
-        <div class="service-category-content">
-            <h4>Home Repair</h4>
-            <p>Plumbing, electrical, and more</p>
-            <span class="service-count">89+ services</span>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-4 col-lg-3">
-    <div class="service-category-card">
-        <div class="service-category-icon">
-            <i class="fas fa-laptop"></i>
-        </div>
-        <div class="service-category-content">
-            <h4>Tech Support</h4>
-            <p>Computer and device repair</p>
-            <span class="service-count">23+ services</span>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-4 col-lg-3">
-    <div class="service-category-card">
-        <div class="service-category-icon">
-            <i class="fas fa-paint-brush"></i>
-        </div>
-        <div class="service-category-content">
-            <h4>Painting</h4>
-            <p>Interior and exterior painting</p>
-            <span class="service-count">34+ services</span>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-4 col-lg-3">
-    <div class="service-category-card">
-        <div class="service-category-icon">
-            <i class="fas fa-car"></i>
-        </div>
-        <div class="service-category-content">
-            <h4>Car Care</h4>
-            <p>Car wash and maintenance</p>
-            <span class="service-count">15+ services</span>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-4 col-lg-3">
-    <div class="service-category-card">
-        <div class="service-category-icon">
-            <i class="fas fa-truck"></i>
-        </div>
-        <div class="service-category-content">
-            <h4>Moving</h4>
-            <p>Packers and movers</p>
-            <span class="service-count">18+ services</span>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-</section>
-<!--=====================================
-SERVICE CATEGORIES PART END
-=======================================-->
-<!--=====================================
-FEATURED SERVICES PART START
-=======================================-->
-<section class="featured-services-part">
-<div class="container">
-<div class="row">
-<div class="col-lg-12">
-    <div class="section-center-heading">
-        <h2>Featured <span>Services</span></h2>
-        <p>Top-rated service providers in your area</p>
-    </div>
-</div>
-</div>
-<div class="row">
-<div class="col-sm-6 col-md-6 col-lg-4">
-    <div class="service-card">
-        <div class="service-card-img">
-            <img src="~/images/product/01.jpg" alt="Deep House Cleaning" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-home&quot;></i><span>Cleaning Service</span></div>'">
-            <div class="service-badge">
-                <span class="flat-badge featured">featured</span>
-            </div>
-        </div>
-        <div class="service-card-content">
-            <div class="service-provider">
-                <img src="~/images/avatar/01.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
-                <div class="provider-info">
-                    <h6>Clean Pro Services</h6>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <span>4.8 (245 reviews)</span>
+﻿@model List<ServiceViewModel>
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <!--=====================================
+              SINGLE BANNER PART START
+    =======================================-->
+    <section class="single-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="single-content">
+                        <h2>Book Services</h2>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Services</li>
+                        </ol>
                     </div>
                 </div>
             </div>
-            <h4 class="service-title">
-                <a href="service-details.html">Deep House Cleaning</a>
-            </h4>
-            <p class="service-description">Complete home cleaning with eco-friendly products. Kitchen, bathroom, bedroom cleaning included.</p>
-            <div class="service-features">
-                <span><i class="fas fa-check"></i>2-3 Hours</span>
-                <span><i class="fas fa-check"></i>Eco-friendly</span>
-                <span><i class="fas fa-check"></i>Insured</span>
-            </div>
-            <div class="service-meta">
-                <div class="service-price">
-                    <span class="price">₹1,299</span>
-                    <small>per session</small>
-                </div>
-                <a asp-controller="Service" asp-action="ServiceDetails" class="btn btn-service">Book Now</a>
-            </div>
         </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-6 col-lg-4">
-    <div class="service-card">
-        <div class="service-card-img">
-            <img src="~/images/product/02.jpg" alt="Plumbing Repair" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-tools&quot;></i><span>Plumbing Service</span></div>'">
-            <div class="service-badge">
-                <span class="flat-badge featured">featured</span>
-            </div>
-        </div>
-        <div class="service-card-content">
-            <div class="service-provider">
-                <img src="~/images/avatar/02.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
-                <div class="provider-info">
-                    <h6>Fix It Fast</h6>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <span>4.6 (189 reviews)</span>
+    </section>
+    <!--=====================================
+              SINGLE BANNER PART END
+    =======================================-->
+    <!--=====================================
+                SERVICE CATEGORIES PART START
+    =======================================-->
+    <section class="service-categories-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-center-heading">
+                        <h2>Popular Service <span>Categories</span></h2>
+                        <p>Choose from a wide range of professional services available in your area</p>
                     </div>
                 </div>
             </div>
-            <h4 class="service-title">
-                <a href="service-details.html">Plumbing Repair</a>
-            </h4>
-            <p class="service-description">Professional plumbing services for leaks, blockages, and installations. 24/7 emergency service available.</p>
-            <div class="service-features">
-                <span><i class="fas fa-check"></i>Same Day</span>
-                <span><i class="fas fa-check"></i>Emergency</span>
-                <span><i class="fas fa-check"></i>Warranty</span>
-            </div>
-            <div class="service-meta">
-                <div class="service-price">
-                    <span class="price">₹599</span>
-                    <small>per hour</small>
-                </div>
-                <a asp-controller="Service" asp-action="ServiceDetails" class="btn btn-service">Book Now</a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-6 col-lg-4">
-    <div class="service-card">
-        <div class="service-card-img">
-            <img src="~/images/product/03.jpg" alt="Hair Cut & Styling" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-cut&quot;></i><span>Beauty Service</span></div>'">
-            <div class="service-badge">
-                <span class="flat-badge featured">featured</span>
+            <div class="row">
+                @{
+                    foreach (var cat in Model)
+                    {
+                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="service-category-card">
+                                <a href="ServicesSubCategory?categoryId=@cat.CategoryID">
+                                    <div class="service-category-icon">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                    <div class="service-category-content">
+                                        <h4>@cat.Name</h4>
+                                        <p>@cat.Description</p>
+                                        <span class="service-count">@cat.ServiceCount+ services</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         </div>
-        <div class="service-card-content">
-            <div class="service-provider">
-                <img src="~/images/avatar/03.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
-                <div class="provider-info">
-                    <h6>Bella Beauty</h6>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <span>4.9 (324 reviews)</span>
+    </section>
+    <!--=====================================
+                SERVICE CATEGORIES PART END
+    =======================================-->
+    <!--=====================================
+                FEATURED SERVICES PART START
+    =======================================-->
+    <section class="featured-services-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-center-heading">
+                        <h2>Featured <span>Services</span></h2>
+                        <p>Top-rated service providers in your area</p>
                     </div>
                 </div>
             </div>
-            <h4 class="service-title">
-                <a href="service-details.html">Hair Cut & Styling</a>
-            </h4>
-            <p class="service-description">Professional hair cutting, styling, and treatment services at your doorstep by certified stylists.</p>
-            <div class="service-features">
-                <span><i class="fas fa-check"></i>Certified</span>
-                <span><i class="fas fa-check"></i>Premium</span>
-                <span><i class="fas fa-check"></i>Home Visit</span>
-            </div>
-            <div class="service-meta">
-                <div class="service-price">
-                    <span class="price">₹899</span>
-                    <small>per session</small>
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-card-img">
+                            <img src="~/images/product/01.jpg" alt="Deep House Cleaning" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-home&quot;></i><span>Cleaning Service</span></div>'">
+                            <div class="service-badge">
+                                <span class="flat-badge featured">featured</span>
+                            </div>
+                        </div>
+                        <div class="service-card-content">
+                            <div class="service-provider">
+                                <img src="~/images/avatar/01.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
+                                <div class="provider-info">
+                                    <h6>Clean Pro Services</h6>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>4.8 (245 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="service-title">
+                                <a href="service-details.html">Deep House Cleaning</a>
+                            </h4>
+                            <p class="service-description">Complete home cleaning with eco-friendly products. Kitchen, bathroom, bedroom cleaning included.</p>
+                            <div class="service-features">
+                                <span><i class="fas fa-check"></i>2-3 Hours</span>
+                                <span><i class="fas fa-check"></i>Eco-friendly</span>
+                                <span><i class="fas fa-check"></i>Insured</span>
+                            </div>
+                            <div class="service-meta">
+                                <div class="service-price">
+                                    <span class="price">?1,299</span>
+                                    <small>per session</small>
+                                </div>
+                                <a href="service-details.html" class="btn btn-service">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <a asp-controller="Service" asp-action="ServiceDetails" class="btn btn-service">Book Now</a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-6 col-lg-4">
-    <div class="service-card">
-        <div class="service-card-img">
-            <img src="~/images/product/04.jpg" alt="AC Repair & Service" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-wrench&quot;></i><span>AC Repair Service</span></div>'">
-        </div>
-        <div class="service-card-content">
-            <div class="service-provider">
-                <img src="~/images/avatar/04.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
-                <div class="provider-info">
-                    <h6>Cool Tech Services</h6>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <span>4.5 (156 reviews)</span>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-card-img">
+                            <img src="~/images/product/02.jpg" alt="Plumbing Repair" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-tools&quot;></i><span>Plumbing Service</span></div>'">
+                            <div class="service-badge">
+                                <span class="flat-badge featured">featured</span>
+                            </div>
+                        </div>
+                        <div class="service-card-content">
+                            <div class="service-provider">
+                                <img src="~/images/avatar/02.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
+                                <div class="provider-info">
+                                    <h6>Fix It Fast</h6>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <span>4.6 (189 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="service-title">
+                                <a href="service-details.html">Plumbing Repair</a>
+                            </h4>
+                            <p class="service-description">Professional plumbing services for leaks, blockages, and installations. 24/7 emergency service available.</p>
+                            <div class="service-features">
+                                <span><i class="fas fa-check"></i>Same Day</span>
+                                <span><i class="fas fa-check"></i>Emergency</span>
+                                <span><i class="fas fa-check"></i>Warranty</span>
+                            </div>
+                            <div class="service-meta">
+                                <div class="service-price">
+                                    <span class="price">?599</span>
+                                    <small>per hour</small>
+                                </div>
+                                <a href="service-details.html" class="btn btn-service">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-card-img">
+                            <img src="~/images/product/03.jpg" alt="Hair Cut & Styling" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-cut&quot;></i><span>Beauty Service</span></div>'">
+                            <div class="service-badge">
+                                <span class="flat-badge featured">featured</span>
+                            </div>
+                        </div>
+                        <div class="service-card-content">
+                            <div class="service-provider">
+                                <img src="~/images/avatar/03.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
+                                <div class="provider-info">
+                                    <h6>Bella Beauty</h6>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>4.9 (324 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="service-title">
+                                <a href="service-details.html">Hair Cut & Styling</a>
+                            </h4>
+                            <p class="service-description">Professional hair cutting, styling, and treatment services at your doorstep by certified stylists.</p>
+                            <div class="service-features">
+                                <span><i class="fas fa-check"></i>Certified</span>
+                                <span><i class="fas fa-check"></i>Premium</span>
+                                <span><i class="fas fa-check"></i>Home Visit</span>
+                            </div>
+                            <div class="service-meta">
+                                <div class="service-price">
+                                    <span class="price">?899</span>
+                                    <small>per session</small>
+                                </div>
+                                <a href="service-details.html" class="btn btn-service">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-card-img">
+                            <img src="~/images/product/04.jpg" alt="AC Repair & Service" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-wrench&quot;></i><span>AC Repair Service</span></div>'">
+                        </div>
+                        <div class="service-card-content">
+                            <div class="service-provider">
+                                <img src="~/images/avatar/04.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
+                                <div class="provider-info">
+                                    <h6>Cool Tech Services</h6>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <span>4.5 (156 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="service-title">
+                                <a href="service-details.html">AC Repair & Service</a>
+                            </h4>
+                            <p class="service-description">AC installation, repair, and maintenance services. Gas refilling and deep cleaning included.</p>
+                            <div class="service-features">
+                                <span><i class="fas fa-check"></i>Licensed</span>
+                                <span><i class="fas fa-check"></i>Quick Fix</span>
+                                <span><i class="fas fa-check"></i>Guarantee</span>
+                            </div>
+                            <div class="service-meta">
+                                <div class="service-price">
+                                    <span class="price">?799</span>
+                                    <small>per service</small>
+                                </div>
+                                <a href="service-details.html" class="btn btn-service">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-card-img">
+                            <img src="~/images/product/05.jpg" alt="Interior Painting" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-paint-brush&quot;></i><span>Painting Service</span></div>'">
+                        </div>
+                        <div class="service-card-content">
+                            <div class="service-provider">
+                                <img src="~/images/avatar/01.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
+                                <div class="provider-info">
+                                    <h6>Perfect Paint</h6>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>4.7 (201 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="service-title">
+                                <a href="service-details.html">Interior Painting</a>
+                            </h4>
+                            <p class="service-description">Professional interior painting services with premium quality paints and expert painters.</p>
+                            <div class="service-features">
+                                <span><i class="fas fa-check"></i>Premium Paint</span>
+                                <span><i class="fas fa-check"></i>Expert Team</span>
+                                <span><i class="fas fa-check"></i>Clean Work</span>
+                            </div>
+                            <div class="service-meta">
+                                <div class="service-price">
+                                    <span class="price">?45</span>
+                                    <small>per sq ft</small>
+                                </div>
+                                <a href="service-details.html" class="btn btn-service">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-card-img">
+                            <img src="~/images/product/06.jpg" alt="Spa & Massage" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-spa&quot;></i><span>Spa Service</span></div>'">
+                        </div>
+                        <div class="service-card-content">
+                            <div class="service-provider">
+                                <img src="~/images/avatar/02.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
+                                <div class="provider-info">
+                                    <h6>Relax Spa</h6>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>4.8 (287 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="service-title">
+                                <a href="service-details.html">Spa & Massage</a>
+                            </h4>
+                            <p class="service-description">Relaxing spa and therapeutic massage services at home by certified therapists.</p>
+                            <div class="service-features">
+                                <span><i class="fas fa-check"></i>Certified</span>
+                                <span><i class="fas fa-check"></i>Relaxing</span>
+                                <span><i class="fas fa-check"></i>Therapeutic</span>
+                            </div>
+                            <div class="service-meta">
+                                <div class="service-price">
+                                    <span class="price">?1,499</span>
+                                    <small>per session</small>
+                                </div>
+                                <a href="service-details.html" class="btn btn-service">Book Now</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <h4 class="service-title">
-                <a href="service-details.html">AC Repair & Service</a>
-            </h4>
-            <p class="service-description">AC installation, repair, and maintenance services. Gas refilling and deep cleaning included.</p>
-            <div class="service-features">
-                <span><i class="fas fa-check"></i>Licensed</span>
-                <span><i class="fas fa-check"></i>Quick Fix</span>
-                <span><i class="fas fa-check"></i>Guarantee</span>
-            </div>
-            <div class="service-meta">
-                <div class="service-price">
-                    <span class="price">₹799</span>
-                    <small>per service</small>
-                </div>
-                <a asp-controller="Service" asp-action="ServiceDetails" class="btn btn-service">Book Now</a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-6 col-lg-4">
-    <div class="service-card">
-        <div class="service-card-img">
-            <img src="~/images/product/05.jpg" alt="Interior Painting" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-paint-brush&quot;></i><span>Painting Service</span></div>'">
-        </div>
-        <div class="service-card-content">
-            <div class="service-provider">
-                <img src="~/images/avatar/01.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
-                <div class="provider-info">
-                    <h6>Perfect Paint</h6>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <span>4.7 (201 reviews)</span>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="center-20">
+                        <a href="#" class="btn btn-inline">
+                            <i class="fas fa-eye"></i>
+                            <span>View All Services</span>
+                        </a>
                     </div>
                 </div>
             </div>
-            <h4 class="service-title">
-                <a href="service-details.html">Interior Painting</a>
-            </h4>
-            <p class="service-description">Professional interior painting services with premium quality paints and expert painters.</p>
-            <div class="service-features">
-                <span><i class="fas fa-check"></i>Premium Paint</span>
-                <span><i class="fas fa-check"></i>Expert Team</span>
-                <span><i class="fas fa-check"></i>Clean Work</span>
-            </div>
-            <div class="service-meta">
-                <div class="service-price">
-                    <span class="price">₹45</span>
-                    <small>per sq ft</small>
-                </div>
-                <a asp-controller="Service" asp-action="ServiceDetails" class="btn btn-service">Book Now</a>
-            </div>
         </div>
-    </div>
-</div>
-<div class="col-sm-6 col-md-6 col-lg-4">
-    <div class="service-card">
-        <div class="service-card-img">
-            <img src="~/images/product/06.jpg" alt="Spa & Massage" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><i class=&quot;fas fa-spa&quot;></i><span>Spa Service</span></div>'">
-        </div>
-        <div class="service-card-content">
-            <div class="service-provider">
-                <img src="~/images/avatar/02.jpg" alt="provider" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzZjNzU3ZCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTUiIHI9IjYiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEwIDMwYTEwIDEwIDAgMCAxIDIwIDBaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==';">
-                <div class="provider-info">
-                    <h6>Relax Spa</h6>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <span>4.8 (287 reviews)</span>
+    </section>
+    <!--=====================================
+                FEATURED SERVICES PART END
+    =======================================-->
+    <!--=====================================
+                HOW IT WORKS PART START
+    =======================================-->
+    <section class="how-it-works-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-center-heading">
+                        <h2>How It <span>Works</span></h2>
+                        <p>Book services in just a few simple steps</p>
                     </div>
                 </div>
             </div>
-            <h4 class="service-title">
-                <a href="service-details.html">Spa & Massage</a>
-            </h4>
-            <p class="service-description">Relaxing spa and therapeutic massage services at home by certified therapists.</p>
-            <div class="service-features">
-                <span><i class="fas fa-check"></i>Certified</span>
-                <span><i class="fas fa-check"></i>Relaxing</span>
-                <span><i class="fas fa-check"></i>Therapeutic</span>
-            </div>
-            <div class="service-meta">
-                <div class="service-price">
-                    <span class="price">₹1,499</span>
-                    <small>per session</small>
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <div class="work-step">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h4>Choose Service</h4>
+                        <p>Browse and select from hundreds of services available in your area</p>
+                    </div>
                 </div>
-                <a asp-controller="Service" asp-action="ServiceDetails" class="btn btn-service">Book Now</a>
+                <div class="col-md-6 col-lg-3">
+                    <div class="work-step">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h4>Book Appointment</h4>
+                        <p>Select your preferred date and time slot that works best for you</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="work-step">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <h4>Professional Arrives</h4>
+                        <p>Trained and verified professional will arrive at your doorstep on time</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="work-step">
+                        <div class="step-number">4</div>
+                        <div class="step-icon">
+                            <i class="fas fa-thumbs-up"></i>
+                        </div>
+                        <h4>Rate & Review</h4>
+                        <p>Rate your experience and help others choose the best service providers</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-</div>
-<div class="row">
-<div class="col-lg-12">
-    <div class="center-20">
-        <a href="#" class="btn btn-inline">
-            <i class="fas fa-eye"></i>
-            <span>View All Services</span>
-        </a>
-    </div>
-</div>
-</div>
-</div>
-</section>
-<!--=====================================
-FEATURED SERVICES PART END
-=======================================-->
-<!--=====================================
-HOW IT WORKS PART START
-=======================================-->
-<section class="how-it-works-part">
-<div class="container">
-<div class="row">
-<div class="col-lg-12">
-    <div class="section-center-heading">
-        <h2>How It <span>Works</span></h2>
-        <p>Book services in just a few simple steps</p>
-    </div>
-</div>
-</div>
-<div class="row">
-<div class="col-md-6 col-lg-3">
-    <div class="work-step">
-        <div class="step-number">1</div>
-        <div class="step-icon">
-            <i class="fas fa-search"></i>
-        </div>
-        <h4>Choose Service</h4>
-        <p>Browse and select from hundreds of services available in your area</p>
-    </div>
-</div>
-<div class="col-md-6 col-lg-3">
-    <div class="work-step">
-        <div class="step-number">2</div>
-        <div class="step-icon">
-            <i class="fas fa-calendar-alt"></i>
-        </div>
-        <h4>Book Appointment</h4>
-        <p>Select your preferred date and time slot that works best for you</p>
-    </div>
-</div>
-<div class="col-md-6 col-lg-3">
-    <div class="work-step">
-        <div class="step-number">3</div>
-        <div class="step-icon">
-            <i class="fas fa-user-check"></i>
-        </div>
-        <h4>Professional Arrives</h4>
-        <p>Trained and verified professional will arrive at your doorstep on time</p>
-    </div>
-</div>
-<div class="col-md-6 col-lg-3">
-    <div class="work-step">
-        <div class="step-number">4</div>
-        <div class="step-icon">
-            <i class="fas fa-thumbs-up"></i>
-        </div>
-        <h4>Rate & Review</h4>
-        <p>Rate your experience and help others choose the best service providers</p>
-    </div>
-</div>
-</div>
-</div>
-</section>
-<!--=====================================
-HOW IT WORKS PART END
-=======================================-->
-
-<link rel="stylesheet" href="~/fonts/flaticon/flaticon.css">
-<link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css">
-
-<!-- VENDOR -->
-<link rel="stylesheet" href="~/css/vendor/bootstrap.min.css">
-
-<!-- CUSTOM -->
-<link rel="stylesheet" href="~/css/custom/main.css">
-<link rel="stylesheet" href="~/css/custom/services.css">
-<!--=====================================
-JS LINK PART START
-=======================================-->
-<!-- VENDOR -->
-<script src="~/js/vendor/jquery-1.12.4.min.js"></script>
-<script src="~/js/vendor/popper.min.js"></script>
-<script src="~/js/vendor/bootstrap.min.js"></script>
-
-<!-- CUSTOM -->
-<script src="~/js/custom/main.js"></script>
+    </section>
+    <!--=====================================
+                HOW IT WORKS PART END
+    =======================================-->
+</body>
+</html>
