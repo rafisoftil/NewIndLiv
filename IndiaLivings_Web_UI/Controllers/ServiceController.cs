@@ -37,5 +37,13 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             return View();
         }
+        public IActionResult AdminBookings()
+        {
+            return View();
+        }
+        public IActionResult AdminProviders()
+        {
+            return View();
+        }
     }
 }
