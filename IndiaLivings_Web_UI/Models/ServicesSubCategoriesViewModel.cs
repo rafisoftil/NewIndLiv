@@ -21,8 +21,8 @@ namespace IndiaLivings_Web_UI.Models
         public List<ServicesSubCategoriesViewModel> GetAllActiveSubCategoriesByCategoryId(int categoryId)
         {
             List<ServicesSubCategoriesViewModel> lstSubCategories = new List<ServicesSubCategoriesViewModel>();
-            AuthenticationHelper AH = new AuthenticationHelper();
-            List<ServicesSubCategoriesModel> subCategories = AH.GetServiceSubCategories(categoryId);
+            ServiceHelper SH = new ServiceHelper();
+            List<ServicesSubCategoriesModel> subCategories = SH.GetServiceSubCategories(categoryId);
             foreach (var subCategory in subCategories)
             {
                 ServicesSubCategoriesViewModel servicesSubCategories = new ServicesSubCategoriesViewModel();

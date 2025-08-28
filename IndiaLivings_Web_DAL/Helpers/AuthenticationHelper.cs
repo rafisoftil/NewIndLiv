@@ -622,43 +622,5 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public List<ServiceModel> GetActiveServiceCategories()
-        {
-            List<ServiceModel> services = new List<ServiceModel>();
-            try
-            {
-                var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Service/categories/getActiveServiceCategories");
-                var json = JObject.Parse(response);
-                var data = json["data"]?.ToString();
-                if (!string.IsNullOrEmpty(data))
-                {
-                    services = JsonConvert.DeserializeObject<List<ServiceModel>>(data) ?? new List<ServiceModel>();
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
-            }
-            return services;
-        }
-        public List<ServicesSubCategoriesModel> GetServiceSubCategories(int categoryId)
-        {
-            List<ServicesSubCategoriesModel> subCategories = new List<ServicesSubCategoriesModel>();
-            try
-            {
-                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Service/category/getActiveServicesByCategory/{categoryId}");
-                var json = JObject.Parse(response);
-                var data = json["data"]?.ToString();
-                if (!string.IsNullOrEmpty(data))
-                {
-                    subCategories = JsonConvert.DeserializeObject<List<ServicesSubCategoriesModel>>(data) ?? new List<ServicesSubCategoriesModel>();
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
-            }
-            return subCategories;
-        }
     }
 }

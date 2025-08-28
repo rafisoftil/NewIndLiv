@@ -7,15 +7,19 @@ namespace IndiaLivings_Web_UI.Controllers
     {
         public IActionResult Services()
         {
-            return View();
+            ServiceViewModel svm = new ServiceViewModel();
+            List<ServiceViewModel> categories = svm.getAllCategories();
+            return View(categories);
         }
         public IActionResult AdminServices()
         {
             return View();
         }
-        public IActionResult ServiceDetails()
+        public IActionResult ServiceDetails(int categoryId)
         {
-            return View();
+            ServiceViewModel svm = new ServiceViewModel();
+            ServiceViewModel categories = svm.ViewServiceCategory(categoryId);
+            return View(categories);
         }
         public IActionResult ServiceInfo()
         {
@@ -24,7 +28,7 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult ServicesList()
         {
             ServiceViewModel svm = new ServiceViewModel();
-            List<ServiceViewModel> categories = svm.getAllActiveCategories();
+            List<ServiceViewModel> categories = svm.getAllCategories();
             return View(categories);
         }
         public IActionResult ServicesSubCategory(int categoryId)
@@ -44,6 +48,30 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult AdminProviders()
         {
             return View();
+        }
+        public JsonResult AddServiceCategory(string name, string slug, string description)
+        {
+            var username = HttpContext.Session.GetString("userName") ?? "";
+            ServiceViewModel svm = new ServiceViewModel();
+            string result = svm.CreateServiceCategory(name, slug, description, username);
+            bool success = result == "Success";
+            return Json(new { success = success, message = result });
+        }
+        public string UpdateServiceCategory(int categoryId, string name, string slug, string description, bool isActive)
+        {
+            string result = "An error occured";
+            var username = HttpContext.Session.GetString("userName") ?? "";
+            ServiceViewModel svm = new ServiceViewModel();
+            result = svm.UpdateServiceCategory(categoryId, name, slug, description, isActive, username);
+            return result;
+        }
+        public string DeleteServiceCategory(int categoryId)
+        {
+            string result = "An error occured";
+            var username = HttpContext.Session.GetString("userName") ?? "";
+            ServiceViewModel svm = new ServiceViewModel();
+            result = svm.DeleteServiceCategory(categoryId, username);
+            return result;
         }
     }
 }

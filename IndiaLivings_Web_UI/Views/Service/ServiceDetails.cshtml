@@ -1,4 +1,4 @@
-﻿
+﻿@model ServiceViewModel
 @{
     ViewBag.Title = "Service Details";
 }
@@ -64,7 +64,7 @@
                                 <span class="flat-badge featured">Featured</span>
                                 <span class="category-tag">Home Cleaning</span>
                             </div>
-                            <h1>Deep House Cleaning Service</h1>
+                            <h1>@Model.Category</h1>
                             <div class="service-meta-info">
                                 <div class="provider-details">
                                     <img src="~/images/avatar/01.jpg" alt="provider">
@@ -78,7 +78,7 @@
                                             <i class="fas fa-star"></i>
                                             <span>4.8 (245 reviews)</span>
                                         </div>
-                                        <p>5+ years experience � 1000+ bookings</p>
+                                        <p>@Model.ServiceCount+ years experience � 1000+ bookings</p>
                                     </div>
                                 </div>
                                 <div class="service-actions">
