@@ -505,47 +505,6 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
 <script>
-    // Initialize DataTable
-    $(document).ready(function () {
-        $('#servicesTable').DataTable({
-            "pageLength": 10,
-            "ordering": true,
-            "searching": true,
-            "responsive": true
-        });
-
-        $('#addCategoryForm').validate({
-            rules: {
-                name: {
-                    required: true,
-                    maxlength: 100
-                },
-                slug: {
-                    required: true,
-                    maxlength: 120
-                },
-                description: {
-                    required: true,
-                    maxlength: 512
-                }
-            },
-            messages: {
-                name: {
-                    required: "Category Name is required.",
-                    maxlength: "Maximum length is 100 characters."
-                },
-                slug: {
-                    required: "Slug is required.",
-                    maxlength: "Maximum length is 120 characters."
-                },
-                description: {
-                    required: "Description is required.",
-                    maxlength: "Maximum length is 512 characters."
-                }
-            },
-            errorClass: "text-danger"
-        });
-    });
 
     // Admin Functions
     function addNewService() {
