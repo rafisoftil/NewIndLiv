@@ -13,6 +13,7 @@ namespace IndiaLivings_Web_DAL.Models
         public string Slug { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public bool IsActive { get; set; }
+        public string Image { get; set; } = string.Empty;
         public int ServiceCount { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
