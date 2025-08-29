@@ -1,5 +1,6 @@
 ﻿using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
@@ -54,24 +55,24 @@ namespace IndiaLivings_Web_UI.Controllers
             var username = HttpContext.Session.GetString("userName") ?? "";
             ServiceViewModel svm = new ServiceViewModel();
             string result = svm.CreateServiceCategory(name, slug, description, username);
-            bool success = result == "Success";
-            return Json(new { success = success, message = result });
+            var response = JObject.Parse(result);
+            return Json(response);
         }
-        public string UpdateServiceCategory(int categoryId, string name, string slug, string description, bool isActive)
+        public JsonResult UpdateServiceCategory(int categoryId, string name, string slug, string description, bool isActive)
         {
-            string result = "An error occured";
             var username = HttpContext.Session.GetString("userName") ?? "";
             ServiceViewModel svm = new ServiceViewModel();
-            result = svm.UpdateServiceCategory(categoryId, name, slug, description, isActive, username);
-            return result;
+            string result = svm.UpdateServiceCategory(categoryId, name, slug, description, isActive, username);
+            var response = JObject.Parse(result);
+            return Json(response);
         }
-        public string DeleteServiceCategory(int categoryId)
+        public JsonResult DeleteServiceCategory(int categoryId)
         {
-            string result = "An error occured";
             var username = HttpContext.Session.GetString("userName") ?? "";
             ServiceViewModel svm = new ServiceViewModel();
-            result = svm.DeleteServiceCategory(categoryId, username);
-            return result;
+            var result = svm.DeleteServiceCategory(categoryId, username);
+            var response = JObject.Parse(result);
+            return Json(response);
         }
     }
 }

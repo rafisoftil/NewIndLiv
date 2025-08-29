@@ -442,15 +442,15 @@
                 <form id="addCategoryForm">
                     <div class="mb-3">
                         <label for="name" class="form-label">Category Name</label>
-                        <input name="name" id="name" class="form-control" placeholder="Enter category name" />
+                        <input name="name" id="name" class="form-control" placeholder="Enter category name" required />
                     </div>
                     <div class="mb-3">
                         <label for="slug" class="form-label">Slug</label>
-                        <input name="slug" id="slug" class="form-control" placeholder="Enter slug" />
+                        <input name="slug" id="slug" class="form-control" placeholder="Enter slug" required />
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <input name="description" id="description" class="form-control" placeholder="Enter description" />
+                        <input name="description" id="description" class="form-control" placeholder="Enter description" required />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -498,6 +498,10 @@
         </div>
     </div>
 </div>
+<div id="spinner" class="d-none">
+    <img style="height: 100px" src="~/images/spinner.gif" />
+</div>
+<div id="toast" class="d-none"></div>
 <script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -610,20 +614,17 @@
         const name = $('#name').val().trim();
         const slug = $('#slug').val().trim();
         const description = $('#description').val().trim();
-        if (name === '' || slug === '' || description === '') {
-            alert('All fields are required.');
-            return;
-        }
+
         $.ajax({
             url: '/Service/AddServiceCategory',
             type: 'POST',
             data: { name: name, slug: slug, description: description },
             success: function (response) {
-                if (response) {
-                    alert('Category added successfully!');
+                if (response.success) {
+                    ShowToast('success', 'Category added successfully!');
                     location.reload();
                 } else {
-                    alert('Error adding category: ' + response);
+                    ShowToast('Failed', 'Error adding category');
                 }
             },
             error: function () {
@@ -648,11 +649,11 @@
             type: 'PUT',
             data: { categoryId: id, name: name, slug: slug, description: description, isActive: status },
             success: function (response) {
-                if (response) {
-                    alert('Category updated successfully!');
+                if (response.success) {
+                    ShowToast('success', 'Category updated successfully!');
                     location.reload();
                 } else {
-                    alert('Error updating category: ' + response);
+                    ShowToast('failed', 'Error updating category');
                 }
             },
             error: function () {
@@ -668,11 +669,11 @@
             type: 'DELETE',
             data: { categoryId: categoryId },
             success: function (response) {
-                if (response) {
-                    alert('Category deleted successfully!');
+                if (response.success) {
+                    ShowToast('success', 'Category deleted successfully!');
                     location.reload();
                 } else {
-                    alert('Error deleting category: ' + response);
+                    ShowToast('failed', 'Error deleting category');
                 }
             },
             error: function () {
