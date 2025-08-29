@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<IndiaLivings_Web_UI.Models.ServiceViewModel>
+@{
     ViewBag.Title = "Services";
     <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
     <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
@@ -11,7 +12,7 @@
                 <div class="single-content">
                     <h2>Services Management</h2>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="admin-dashboard.html">Admin</a></li>
+                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Dashboard">Admin</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Services Management</li>
                     </ol>
                 </div>
@@ -98,7 +99,7 @@
                             <div class="content-header">
                                 <h4>All Services</h4>
                                 <div class="content-actions">
-                                    <button class="btn btn-primary" onclick="addNewService()">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#AddCategoryModal">
                                         <i class="fas fa-plus"></i> Add New Service
                                     </button>
                                     <button class="btn btn-outline-secondary" onclick="exportServices()">
@@ -123,126 +124,59 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>#001</td>
-                                            <td>
-                                                <div class="service-info">
-                                                    <img src="images/product/01.jpg" alt="service" class="table-service-img" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;align-items:center;justify-content:center;width:50px;height:50px;background-color:#f8f9fa;color:#6c757d;margin-right:10px;&quot;><i class=&quot;fas fa-home&quot;></i></div><div><h6>Deep House Cleaning</h6><small class=&quot;text-muted&quot;>Professional house cleaning service</small></div>'">
-                                                    <div>
-                                                        <h6>Deep House Cleaning</h6>
-                                                        <small class="text-muted">Professional house cleaning service</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="provider-info">
-                                                    <img src="images/avatar/01.jpg" alt="provider" class="table-avatar">
-                                                    <span>Clean Pro Services</span>
-                                                </div>
-                                            </td>
-                                            <td><span class="category-tag">Home Cleaning</span></td>
-                                            <td>?1,299</td>
-                                            <td>
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <span>4.8 (245)</span>
-                                                </div>
-                                            </td>
-                                            <td><span class="status-badge active">Active</span></td>
-                                            <td>
-                                                <div class="action-buttons">
-                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewService(1)">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-outline-secondary" onclick="editService(1)">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteService(1)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>#002</td>
-                                            <td>
-                                                <div class="service-info">
-                                                    <img src="images/services/plumbing.jpg" alt="service" class="table-service-img">
-                                                    <div>
-                                                        <h6>Plumbing Repair</h6>
-                                                        <small class="text-muted">Emergency plumbing services</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="provider-info">
-                                                    <img src="images/avatar/02.jpg" alt="provider" class="table-avatar">
-                                                    <span>Fix It Fast</span>
-                                                </div>
-                                            </td>
-                                            <td><span class="category-tag">Home Repair</span></td>
-                                            <td>?599</td>
-                                            <td>
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <span>4.6 (189)</span>
-                                                </div>
-                                            </td>
-                                            <td><span class="status-badge active">Active</span></td>
-                                            <td>
-                                                <div class="action-buttons">
-                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewService(2)">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-outline-secondary" onclick="editService(2)">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteService(2)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>#003</td>
-                                            <td>
-                                                <div class="service-info">
-                                                    <img src="images/services/beauty.jpg" alt="service" class="table-service-img">
-                                                    <div>
-                                                        <h6>Hair Cut & Styling</h6>
-                                                        <small class="text-muted">Professional hair services</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="provider-info">
-                                                    <img src="images/avatar/03.jpg" alt="provider" class="table-avatar">
-                                                    <span>Bella Beauty</span>
-                                                </div>
-                                            </td>
-                                            <td><span class="category-tag">Beauty & Salon</span></td>
-                                            <td>?899</td>
-                                            <td>
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <span>4.9 (324)</span>
-                                                </div>
-                                            </td>
-                                            <td><span class="status-badge pending">Pending</span></td>
-                                            <td>
-                                                <div class="action-buttons">
-                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewService(3)">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-success" onclick="approveService(3)">
-                                                        <i class="fas fa-check"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-outline-danger" onclick="rejectService(3)">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        @{
+                                            int serial = 0;
+                                        }
+                                        @foreach(var service in Model)
+                                        {
+                                            serial = serial + 1;
+                                            <tr>
+                                                    <td>@serial</td>
+                                                    <td>
+                                                        <div class="service-info">
+                                                            <img src="~/images/product/01.jpg" alt="service" class="table-service-img" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;align-items:center;justify-content:center;width:50px;height:50px;background-color:#f8f9fa;color:#6c757d;margin-right:10px;&quot;><i class=&quot;fas fa-home&quot;></i></div><div><h6>Deep House Cleaning</h6><small class=&quot;text-muted&quot;>Professional house cleaning service</small></div>'">
+                                                            <div>
+                                                                <h6>@service.Name</h6>
+                                                                <small class="text-muted">@service.Category</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="provider-info">
+                                                            <img src="~/images/avatar/01.jpg" alt="provider" class="table-avatar">
+                                                            <span>Clean Pro Services</span> 
+                                                        </div>
+                                                    </td>
+                                                    <td><span class="category-tag">@service.Name</span></td>
+                                                    <td>?1,299</td>
+                                                    <td>
+                                                        <div class="rating">
+                                                            <i class="fas fa-star"></i>
+                                                            <span>4.8 (245)</span>
+                                                        </div>
+                                                    </td>
+                                                    <td><span class="status-badge active">@service.IsActive</span></td>
+                                                    <td>
+                                                        <div class="action-buttons">
+                                                            <a class="btn btn-sm btn-outline-primary" asp-action="ServiceDetails" asp-controller="Service" asp-route-categoryId="@service.CategoryId">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                            <button class="btn btn-sm btn-outline-secondary"
+                                                                onclick="editService(this)"
+                                                                data-id="@service.CategoryId"
+                                                                data-name="@service.Name"
+                                                                data-slug="@service.Slug"
+                                                                data-description="@service.Description"
+                                                                data-status="@service.IsActive">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteService(@service.CategoryId)">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
                                     </tbody>
                                 </table>
                             </div>
@@ -497,16 +431,84 @@
         </div>
     </div>
 </section>
+<div class="modal fade" id="AddCategoryModal" tabindex="-1" aria-labelledby="addCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h4 class="modal-title text-white" id="addCategoryLabel">Add New Service Category</h4>
+                <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addCategoryForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Category Name</label>
+                        <input name="name" id="name" class="form-control" placeholder="Enter category name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="slug" class="form-label">Slug</label>
+                        <input name="slug" id="slug" class="form-control" placeholder="Enter slug" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input name="description" id="description" class="form-control" placeholder="Enter description" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="AddNewCategoryService()">Add Category</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="EditCategoryModal" tabindex="-1" aria-labelledby="addCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h4 class="modal-title text-white" id="addCategoryLabel">Edit Service Category</h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Category Name</label>
+                        <input name="name" id="name" class="form-control" placeholder="Enter category name" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="slug" class="form-label">Slug</label>
+                        <input name="slug" id="slug" class="form-control" placeholder="Enter slug" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input name="description" id="description" class="form-control" placeholder="Enter description" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select id="status" class="form-control">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="updateCategory()">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="spinner" class="d-none">
+    <img style="height: 100px" src="~/images/spinner.gif" />
+</div>
+<div id="toast" class="d-none"></div>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
 <script>
-    // Initialize DataTable
-    $(document).ready(function () {
-        $('#servicesTable').DataTable({
-            "pageLength": 10,
-            "ordering": true,
-            "searching": true,
-            "responsive": true
-        });
-    });
 
     // Admin Functions
     function addNewService() {
@@ -519,9 +521,21 @@
         // Open service details modal
     }
 
-    function editService(serviceId) {
-        alert('Editing service ID: ' + serviceId);
-        // Open edit service modal
+    function editService(btn) {
+        // Get data from button attributes
+        var id = $(btn).data('id');
+        var name = $(btn).data('name');
+        var slug = $(btn).data('slug');
+        var description = $(btn).data('description');
+        var status = $(btn).data('status');
+
+        // Fill modal fields
+        $('#EditCategoryModal').modal('show');
+        $('#EditCategoryModal input#name').val(name);
+        $('#EditCategoryModal input#slug').val(slug);
+        $('#EditCategoryModal input#description').val(description);
+        $('#EditCategoryModal select#status').val(String(status).toLowerCase());
+        $('#EditCategoryModal').data('category-id', id);
     }
 
     function deleteService(serviceId) {
@@ -595,4 +609,92 @@
         alert('Viewing detailed review for service ID: ' + serviceId);
         // Open detailed service review modal
     }
+
+    function AddNewCategoryService() {
+        const name = $('#name').val().trim();
+        const slug = $('#slug').val().trim();
+        const description = $('#description').val().trim();
+
+        $.ajax({
+            url: '/Service/AddServiceCategory',
+            type: 'POST',
+            data: { name: name, slug: slug, description: description },
+            success: function (response) {
+                if (response.success) {
+                    ShowToast('success', 'Category added successfully!');
+                    location.reload();
+                } else {
+                    ShowToast('Failed', 'Error adding category');
+                }
+            },
+            error: function () {
+                alert('Error adding category.');
+            }
+        });
+        $('#AddCategoryModal').modal('hide');
+    }
+
+    function updateCategory() {
+        const id = $('#EditCategoryModal').data('category-id');
+        const name = $('#EditCategoryModal input#name').val().trim();
+        const slug = $('#EditCategoryModal input#slug').val().trim();
+        const description = $('#EditCategoryModal input#description').val().trim();
+        const status = $('#EditCategoryModal select#status').val() === 'true';
+        if (name === '' || slug === '' || description === '') {
+            alert('All fields are required.');
+            return;
+        }
+        $.ajax({
+            url: '/Service/UpdateServiceCategory',
+            type: 'PUT',
+            data: { categoryId: id, name: name, slug: slug, description: description, isActive: status },
+            success: function (response) {
+                if (response.success) {
+                    ShowToast('success', 'Category updated successfully!');
+                    location.reload();
+                } else {
+                    ShowToast('failed', 'Error updating category');
+                }
+            },
+            error: function () {
+                alert('Error updating category.');
+            }
+        });
+        $('#EditCategoryModal').modal('hide');
+    }
+
+    function deleteService(categoryId) {
+        $.ajax({
+            url: '/Service/DeleteServiceCategory',
+            type: 'DELETE',
+            data: { categoryId: categoryId },
+            success: function (response) {
+                if (response.success) {
+                    ShowToast('success', 'Category deleted successfully!');
+                    location.reload();
+                } else {
+                    ShowToast('failed', 'Error deleting category');
+                }
+            },
+            error: function () {
+                alert('Error deleting category.');
+            }
+        });
+    }
+    // function viewService(categoryId) 
+    // {
+    //     $.ajax({
+    //         url: '/Service/ServiceDetails',
+    //         type: 'GET',
+    //         data: { categoryId: categoryId },
+    //         success: function (response) {
+    //             if (response) {
+    //                 alert('Category details: ' + JSON.stringify(response));
+    //                 // Populate and show modal with category details
+    //             } else {
+    //                 alert('Error fetching category details: ' + response);
+    //             }
+    //         },}
+    //     })
+    // }
 </script>
