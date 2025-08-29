@@ -93,9 +93,18 @@
                         <li><a class="dropdown-link" asp-area="" asp-controller="JobNews" asp-action="JobInfo" asp-route-id="">Manage Jobs</a></li>
                     </ul>
                 </li>
-                <li class="navbar-item">
-                    <a class="navbar-link" asp-controller="Service" asp-action="Services">Service Management</a>
-                </li>
+                <li class="navbar-item navbar-dropdown">
+                    <a class="navbar-link" href="#">
+                        <span>Services</span>
+                        <i class="fas fa-greater-than"></i>
+                    </a>
+                    <ul class="dropdown-list">
+                        <li><a class="dropdown-link" asp-area="" asp-controller="Service" asp-action="AdminServices" asp-route-id="">Service Management</a></li>
+                        <li><a class="dropdown-link" asp-area="" asp-controller="Service" asp-action="ServiceProviders" asp-route-id="">Service Providers</a></li>
+                        <li><a class="dropdown-link" asp-area="" asp-controller="Service" asp-action="ServiceBookings" asp-route-id="">Service Bookings</a></li>
+                    </ul>
+                </li>               
+
                 <li class="navbar-item">
                     <a class="navbar-link" asp-controller="Dashboard" asp-action="Logout">Logout</a>
                 </li>
