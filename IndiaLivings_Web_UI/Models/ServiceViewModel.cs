@@ -10,6 +10,7 @@ namespace IndiaLivings_Web_UI.Models
         public string Slug { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public bool IsActive { get; set; }
+        public string Image { get; set; } = string.Empty;
         public int ServiceCount { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
@@ -56,6 +57,7 @@ namespace IndiaLivings_Web_UI.Models
                 services.Slug = category.Slug;
                 services.Description = category.Description;
                 services.IsActive = category.IsActive;
+                services.Image = category.Image;
                 services.ServiceCount = category.ServiceCount;
                 services.CreatedAt = category.CreatedAt;
                 services.UpdatedAt = category.UpdatedAt;

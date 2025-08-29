@@ -611,39 +611,110 @@
     }
 
     function AddNewCategoryService() {
-        const name = $('#name').val().trim();
-        const slug = $('#slug').val().trim();
-        const description = $('#description').val().trim();
+        // Manual validation in JavaScript
+        var name = $('#name').val().trim();
+        var slug = $('#slug').val().trim();
+        var description = $('#description').val().trim();
+        var errors = [];
 
-        $.ajax({
-            url: '/Service/AddServiceCategory',
-            type: 'POST',
-            data: { name: name, slug: slug, description: description },
-            success: function (response) {
-                if (response.success) {
-                    ShowToast('success', 'Category added successfully!');
-                    location.reload();
-                } else {
+        if (!name) {
+            errors.push('Category Name is required.');
+            $('#name').addClass('is-invalid');
+        } else if (name.length > 100) {
+            errors.push('Category Name cannot exceed 100 characters.');
+            $('#name').addClass('is-invalid');
+        } else {
+            $('#name').removeClass('is-invalid');
+        }
+
+        if (!slug) {
+            errors.push('Slug is required.');
+            $('#slug').addClass('is-invalid');
+        } else if (slug.length > 120) {
+            errors.push('Slug cannot exceed 120 characters.');
+            $('#slug').addClass('is-invalid');
+        } else {
+            $('#slug').removeClass('is-invalid');
+        }
+
+        if (!description) {
+            errors.push('Description is required.');
+            $('#description').addClass('is-invalid');
+        } else if (description.length > 512) {
+            errors.push('Description cannot exceed 512 characters.');
+            $('#description').addClass('is-invalid');
+        } else {
+            $('#description').removeClass('is-invalid');
+        }
+
+        if (errors.length > 0) {
+            ShowToast('failed', errors.join('\n'));
+            return false;
+        }
+
+            $.ajax({
+                url: '/Service/AddServiceCategory',
+                type: 'POST',
+                data: { name: name, slug: slug, description: description },
+                success: function (response) {
+                    if (response.success) {
+                        ShowToast('success', 'Category added successfully!');
+                        location.reload();
+                    } else {
+                        ShowToast('Failed', 'Error adding category');
+                    }
+                },
+                error: function () {
                     ShowToast('Failed', 'Error adding category');
                 }
-            },
-            error: function () {
-                alert('Error adding category.');
-            }
-        });
-        $('#AddCategoryModal').modal('hide');
+            });
+            $('#AddCategoryModal').modal('hide');
     }
 
     function updateCategory() {
+        // Manual validation in JavaScript
         const id = $('#EditCategoryModal').data('category-id');
         const name = $('#EditCategoryModal input#name').val().trim();
         const slug = $('#EditCategoryModal input#slug').val().trim();
         const description = $('#EditCategoryModal input#description').val().trim();
         const status = $('#EditCategoryModal select#status').val() === 'true';
-        if (name === '' || slug === '' || description === '') {
-            alert('All fields are required.');
-            return;
+        var errors = [];
+
+        if (!name) {
+            errors.push('Category Name is required.');
+            $('#EditCategoryModal input#name').addClass('is-invalid');
+        } else if (name.length > 100) {
+            errors.push('Category Name cannot exceed 100 characters.');
+            $('#EditCategoryModal input#name').addClass('is-invalid');
+        } else {
+            $('#EditCategoryModal input#name').removeClass('is-invalid');
         }
+
+        if (!slug) {
+            errors.push('Slug is required.');
+            $('#EditCategoryModal input#slug').addClass('is-invalid');
+        } else if (slug.length > 120) {
+            errors.push('Slug cannot exceed 120 characters.');
+            $('#EditCategoryModal input#slug').addClass('is-invalid');
+        } else {
+            $('#EditCategoryModal input#slug').removeClass('is-invalid');
+        }
+
+        if (!description) {
+            errors.push('Description is required.');
+            $('#EditCategoryModal input#description').addClass('is-invalid');
+        } else if (description.length > 512) {
+            errors.push('Description cannot exceed 512 characters.');
+            $('#EditCategoryModal input#description').addClass('is-invalid');
+        } else {
+            $('#EditCategoryModal input#description').removeClass('is-invalid');
+        }
+
+        if (errors.length > 0) {
+            ShowToast('failed', errors.join('\n'));
+            return false;
+        }
+
         $.ajax({
             url: '/Service/UpdateServiceCategory',
             type: 'PUT',
