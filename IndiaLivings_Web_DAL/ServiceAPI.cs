@@ -100,5 +100,61 @@ namespace IndiaLivings_Web_DAL
                 return "Exception occurred.";
             }
         }
+
+        public static string Put_Api(string apiUrl, object clsObject = null)
+        {
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
+            };
+            var responseString = string.Empty;
+            using (var client = new HttpClient(handler))
+            {
+                try
+                {
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.Timeout = TimeSpan.FromSeconds(30);
+                    string jsonPutData = JsonConvert.SerializeObject(clsObject);
+                    var content = new StringContent(jsonPutData, Encoding.UTF8, "application/json");
+                    var response = client.PutAsync(apiUrl, content).Result;
+                    if (response.IsSuccessStatusCode)
+                        responseString = response.Content.ReadAsStringAsync().Result;
+                    else
+                        responseString = $"Error: {response.StatusCode}, {response.Content.ReadAsStringAsync().Result}";
+                }
+                catch (Exception ex)
+                {
+                    ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                }
+            }
+            return responseString;
+        }
+
+        public static string Delete_Api(string apiUrl)
+        {
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
+            };
+            var responseString = string.Empty;
+            using (var client = new HttpClient(handler))
+            {
+                try
+                {
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.Timeout = TimeSpan.FromSeconds(30);
+                    var response = client.DeleteAsync(apiUrl).Result;
+                    if (response.IsSuccessStatusCode)
+                        responseString = response.Content.ReadAsStringAsync().Result;
+                    else
+                        responseString = $"Error: {response.StatusCode}, {response.Content.ReadAsStringAsync().Result}";
+                }
+                catch (Exception ex)
+                {
+                    ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                }
+            }
+            return responseString;
+        }
     }
 }
