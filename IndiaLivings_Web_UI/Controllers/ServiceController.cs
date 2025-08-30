@@ -40,7 +40,10 @@ namespace IndiaLivings_Web_UI.Controllers
         }
         public IActionResult MyServices()
         {
-            return View();
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            ServiceBookingViewModel booking = new ServiceBookingViewModel();
+            List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
+            return View(myservices);
         }
         public IActionResult AdminBookings()
         {
@@ -73,6 +76,43 @@ namespace IndiaLivings_Web_UI.Controllers
             var result = svm.DeleteServiceCategory(categoryId, username);
             var response = JObject.Parse(result);
             return Json(response);
+        }
+        public IActionResult ServiceBookings()
+        {
+            return View();
+        }
+        public JsonResult CreateBooking(int serviceId, decimal price, DateTime date, string address, string notes)
+        {
+            ServiceBookingViewModel sbvm = new ServiceBookingViewModel();
+            sbvm.CustomerUserId = Convert.ToString(HttpContext.Session.GetInt32("UserId")) ?? "";
+            sbvm.CustomerName = HttpContext.Session.GetString("UserFullName") ?? "";
+            sbvm.CustomerEmail = HttpContext.Session.GetString("Email") ?? "";
+            sbvm.CustomerPhone = HttpContext.Session.GetString("Mobile") ?? "";
+            sbvm.ServiceId = serviceId;
+            sbvm.RequestedStartAt = date;
+            sbvm.RequestedEndAt = date;
+            sbvm.AddressLine1 = address;
+            sbvm.AddressLine2 = "";
+            sbvm.City = "";
+            sbvm.State = "";
+            sbvm.PostalCode = "";
+            sbvm.Country = "";
+            sbvm.Latitude = 0;
+            sbvm.Longitude = 0;
+            sbvm.PriceQuoted = price;
+            sbvm.Notes = notes;
+
+            string result = sbvm.BookService(sbvm);
+            var response = JObject.Parse(result);
+            return Json(response);
+        }
+        public JsonResult CancelBooking(int bookingId, string reason)
+        {
+            string cancelledBy = HttpContext.Session.GetString("userName") ?? "";
+            ServiceBookingViewModel bookingStatus = new ServiceBookingViewModel();
+            var response = bookingStatus.CancelBooking(bookingId, reason, cancelledBy);
+            var result = JObject.Parse(response);
+            return Json(result);
         }
     }
 }

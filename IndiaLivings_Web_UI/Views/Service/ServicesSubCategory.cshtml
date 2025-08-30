@@ -2,11 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
-    <!-- Font Awesome for icons (already present, but ensure it's loaded after Bootstrap for best results) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    
     <style>
         .category-services-part {
             padding: 60px 0;
@@ -272,8 +267,16 @@
                     <div id="categoryHeader" class="category-services-header">
                         <div class="icon" id="categoryIcon"><i class="fas fa-tag"></i></div>
                         <div class="info">
-                            <h1 id="categoryTitle">@Model[0].CategoryName</h1>
-                            <p id="categoryDesc">@Model[0].Description</p>
+                            @if (Model != null && Model.Count > 0)
+                            {
+                                <h1 id="categoryTitle">@Model[0].CategoryName</h1>
+                                <p id="categoryDesc">@Model[0].Description</p>
+                            }
+                            else
+                            {
+                                <h1 id="categoryTitle">No services found</h1>
+                                <p id="categoryDesc">There are no subcategories available for this category.</p>
+                            }
                         </div>
                         <div class="ml-auto d-flex flex-column gap-2" style="gap:10px;">
                             <div><span class="service-count" id="serviceCount">@Model.Count()+ services</span></div>
@@ -374,7 +377,8 @@
                 </div>
                 <div class="modal-body">
                     <form id="bookingForm">
-                        <input type="hidden" id="bookingServiceId">
+                        <input type="hidden" id="bookingServiceId"/>
+                        <input type="hidden" id="bookingPrice" name="price"/>
                         <div class="form-group">
                             <label>Date</label>
                             <input type="date" class="form-control" id="bookingDate" required>
@@ -400,7 +404,7 @@
                             <div><strong>Total:</strong> <span id="bookingPriceDisplay">₹0</span></div>
                             <a href="ServiceDetails" id="viewDetailsLink" class="btn btn-outline-service" style="padding:8px 14px;">Full Details</a>
                         </div>
-                        <button type="submit" class="btn btn-inline btn-block" style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;">
+                        <button onclick="CreateBooking()" type="submit" class="btn btn-inline btn-block" style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;">
                             <i class="fas fa-calendar-check"></i><span>Confirm Booking</span>
                         </button>
                     </form>
@@ -408,6 +412,10 @@
             </div>
         </div>
     </div>
+    <div id="spinner" class="d-none">
+        <img style="height: 100px" src="~/images/spinner.gif" />
+    </div>
+    <div id="toast" class="d-none"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -508,11 +516,100 @@
             // Fill modal fields as needed
             $('#bookingServiceId').val(serviceId);
             $('#bookingServiceTitle').text('Book: ' + categoryName);
+            $('#bookingPrice').val(basePrice);
             $('#bookingPriceDisplay').text('₹' + basePrice);
             // Optionally fill other modal fields
             $('#bookingModal').modal('show');
         });
     });
+
+    function CreateBooking() {
+        $.ajax({
+            url: '@Url.Action("CreateBooking", "Service")',
+            type: 'POST',
+            data: {
+                serviceId: $('#bookingServiceId').val(),
+                date: $('#bookingDate').val(),
+                slot: $('#bookingSlot').val(),
+                address: $('#bookingAddress').val(),
+                price: $('#bookingPrice').val(),
+                notes: $('#bookingNotes').val()
+            },
+            success: function(response) {
+                if (response.success) {
+                    ShowToast('success', 'Booking created successfully!');
+                    window.location.href = '@Url.Action("MyServices", "Service")';
+                } else {
+                    ShowToast('failed', 'Error creating booking');
+                }
+            },
+            error: function() {
+                ShowToast('failed', 'An error occurred while creating the booking.');
+            }
+        });
+    }
     </script>
 </body>
 </html>
+<script>
+    function getLocation() {
+        return new Promise((resolve, reject) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        resolve({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        });
+                    },
+                    (error) => {
+                        console.warn("Error getting location:", error.message);
+                        resolve(null); // Resolve with null if there's an error
+                    }
+                );
+            } else {
+                console.warn("Geolocation is not supported by this browser");
+                resolve(null);
+            }
+        });
+    }
+
+    async function submitBooking(event) {
+        event.preventDefault();
+
+        // Get form data
+        const form = document.getElementById('bookingForm');
+        const formData = new FormData(form);
+        const bookingData = Object.fromEntries(formData.entries());
+
+        try {
+            // Get location
+            const location = await getLocation();
+            if (location) {
+                bookingData.latitude = location.latitude;
+                bookingData.longitude = location.longitude;
+            }
+
+            // Submit the booking
+            const response = await fetch('@Url.Action("CreateBooking", "Service")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Booking created successfully!');
+                window.location.href = '@Url.Action("MyServices", "Service")';
+            } else {
+                alert('Error creating booking: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while creating the booking.');
+        }
+    }
+</script>
