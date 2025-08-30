@@ -452,6 +452,10 @@
                         <label for="description" class="form-label">Description</label>
                         <input name="description" id="description" class="form-control" placeholder="Enter description" required />
                     </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image Icon</label>
+                        <input name="image" id="image" class="form-control" placeholder="Enter a Image Icon" required />
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-primary" onclick="AddNewCategoryService()">Add Category</button>
@@ -615,6 +619,7 @@
         var name = $('#name').val().trim();
         var slug = $('#slug').val().trim();
         var description = $('#description').val().trim();
+        var image = $('#image').val().trim();
         var errors = [];
 
         if (!name) {
@@ -652,10 +657,20 @@
             return false;
         }
 
+        if (!image) {
+            errors.push('Image Icon is required.');
+            $('#image').addClass('is-invalid');
+        } else if (image.length > 256) {
+            errors.push('Image Icon cannot exceed 256 characters.');
+            $('#image').addClass('is-invalid');
+        } else {
+            $('#image').removeClass('is-invalid');
+        }
+
             $.ajax({
                 url: '/Service/AddServiceCategory',
                 type: 'POST',
-                data: { name: name, slug: slug, description: description },
+                data: { name: name, slug: slug, description: description, image: image },
                 success: function (response) {
                     if (response.success) {
                         ShowToast('success', 'Category added successfully!');

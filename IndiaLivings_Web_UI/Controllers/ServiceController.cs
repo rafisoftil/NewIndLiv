@@ -50,11 +50,11 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             return View();
         }
-        public JsonResult AddServiceCategory(string name, string slug, string description)
+        public JsonResult AddServiceCategory(string name, string slug, string description, string image)
         {
             var username = HttpContext.Session.GetString("userName") ?? "";
             ServiceViewModel svm = new ServiceViewModel();
-            string result = svm.CreateServiceCategory(name, slug, description, username);
+            string result = svm.CreateServiceCategory(name, slug, description, image, username);
             var response = JObject.Parse(result);
             return Json(response);
         }
