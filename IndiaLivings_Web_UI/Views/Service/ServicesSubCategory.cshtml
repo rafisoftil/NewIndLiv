@@ -393,6 +393,22 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="countriesDropdown" class="form-label">Country</label>
+                            <select id="countriesDropdown" class="form-control" style="width: 100%" value="" placeholder="select a country">India</select>
+                        </div>
+                        <div class="form-group">
+                            <label for="statesDropdown" class="form-label">State</label>
+                            <select id="statesDropdown" class="form-control" style="width: 100%" value="@Context.Session.GetString("State")"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="citiesDropdown" class="form-label">City</label>
+                            <select id="citiesDropdown" class="form-control" style="width: 100%" value="@Context.Session.GetString("City")"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pincode" class="form-label">Pincode</label>
+                            <input id="pincode" class="form-control" style="width: 100%" />
+                        </div>
+                        <div class="form-group">
                             <label>Address</label>
                             <textarea class="form-control" id="bookingAddress" rows="2" required placeholder="Enter service address..."></textarea>
                         </div>
@@ -402,7 +418,7 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div><strong>Total:</strong> <span id="bookingPriceDisplay">₹0</span></div>
-                            <a href="ServiceDetails" id="viewDetailsLink" class="btn btn-outline-service" style="padding:8px 14px;">Full Details</a>
+                            <a href="Service/ServiceDetails/" id="viewDetailsLink" class="btn btn-outline-service" style="padding:8px 14px;">Full Details</a>
                         </div>
                         <button onclick="CreateBooking()" type="submit" class="btn btn-inline btn-block" style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;">
                             <i class="fas fa-calendar-check"></i><span>Confirm Booking</span>
@@ -504,6 +520,161 @@
         }
     </script>
     <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/User/GetCountryName',
+                    type: 'GET',
+                    success: function (response) {
+                        if (typeof response === "string") {
+                            response = JSON.parse(response);
+                        }
+
+                        const countries = response
+                            .filter(c => c && c.strCountryName)
+                            .sort((a, b) => a.strCountryName.localeCompare(b.strCountryName));
+
+                        let $dropdown = $('#countriesDropdown');
+                        $dropdown.empty();
+
+                        $dropdown.append('<option value="">Please select your country</option>');
+
+                        countries.forEach(function (country) {
+                            $dropdown.append(
+                                $('<option></option>')
+                                    .val(country.intCountryID)
+                                    .text(country.strCountryName)
+                            );
+                        });
+                        const selectedCountry = "India".trim();
+                        if (selectedCountry) {
+                            let matchedOption = $dropdown.find('option').filter(function () {
+                                return $(this).text().trim() === selectedCountry;
+                            }).first();
+                            if (matchedOption.length) {
+                                $dropdown.val(matchedOption.val()).trigger('change');
+                            }
+                        } else {
+                            // Default to "Please select your country"
+                            $dropdown.val("").trigger('change');
+                        }
+
+                        $dropdown.select2({
+                            placeholder: "Select a country",
+                            allowClear: true
+                        });
+                    },
+                    error: function () {
+                        alert('Failed to load countries');
+                    }
+                });
+
+            $('#countriesDropdown').on('change', function () {
+                const selectedCountryId = $(this).val();
+                if (selectedCountryId) {
+                    $.ajax({
+                        url: '/Dashboard/GetStates',
+                        type: 'GET',
+                        data: {countryId: selectedCountryId},
+                        success: function (states) {
+                            if (typeof states === "string") {
+                                states = JSON.parse(states);
+                            }
+
+                            const filteredStates = states
+                                .filter(s => s && s.strStateName && s.IsActive)
+                                .sort((a, b) => a.strStateName.localeCompare(b.strStateName));
+
+                            let $stateDropdown = $('#statesDropdown');
+                            $stateDropdown.empty().append('<option>Select your state</option>');
+
+                            filteredStates.forEach(function (state) {
+                                $stateDropdown.append(
+                                    $('<option></option>')
+                                        .val(state.intStateID)
+                                        .text(state.strStateName)
+                                );
+                            });
+
+                            const selectedState = "@Context.Session.GetString("State")".trim();
+                            if (selectedState) {
+                                let matchedOption = $stateDropdown.find('option').filter(function () {
+                                    return $(this).text().trim() === selectedState;
+                                }).first();
+                                if (matchedOption.length) {
+                                    $stateDropdown.val(matchedOption.val()).trigger('change');
+                                }
+                            } else {
+                                $stateDropdown.val("").trigger('change');
+                            }
+
+                            $stateDropdown.select2({
+                                placeholder: "Select a state",
+                                allowClear: true
+                            });
+                        },
+                        error: function () {
+                            alert('Failed to load states');
+                        }
+                    });
+                } else {
+                    $('#statesDropdown').empty().trigger('change');
+                }
+            });
+
+            $('#statesDropdown').on('change', function () {
+                const selectedStateId = $(this).val();
+                if (selectedStateId) {
+                    $.ajax({
+                        url: '/Dashboard/GetCities',
+                        type: 'GET',
+                        data: {stateId: selectedStateId},
+                        success: function (cities) {
+                            if (typeof cities === "string") {
+                                cities = JSON.parse(cities);
+                            }
+
+                            const filteredCities = cities
+                                .filter(s => s && s.strCityName && s.IsActive)
+                                .sort((a, b) => a.strCityName.localeCompare(b.strCityName));
+
+                            let $cityDropdown = $('#citiesDropdown');
+                            $cityDropdown.empty().append('<option>Select your City</option>');
+
+                            filteredCities.forEach(function (city) {
+                                $cityDropdown.append(
+                                    $('<option></option>')
+                                        .val(city.intCityID)
+                                        .text(city.strCityName)
+                                );
+                            });
+
+                            const selectedCity = "@Context.Session.GetString("City")".trim();
+                            if (selectedCity) {
+                                let matchedOption = $cityDropdown.find('option').filter(function () {
+                                    return $(this).text().trim() === selectedCity;
+                                }).first();
+                                if (matchedOption.length) {
+                                    $cityDropdown.val(matchedOption.val()).trigger('change');
+                                }
+                            } else {
+                                // Default to "Please select your country"
+                                $cityDropdown.val("").trigger('change');
+                            }
+
+                            $stateDropdown.select2({
+                                placeholder: "Select a city",
+                                allowClear: true
+                            });
+                        },
+                        error: function () {
+                            alert('Failed to load cities');
+                        }
+                    });
+                } else {
+                    $('#citiesDropdown').empty().trigger('change');
+                }
+            });
+        });
     $(document).ready(function() {
         // When any book button is clicked, open the booking modal and fill details
         $('.quick-book-btn').on('click', function() {
@@ -519,6 +690,7 @@
             $('#bookingPrice').val(basePrice);
             $('#bookingPriceDisplay').text('₹' + basePrice);
             // Optionally fill other modal fields
+            $('#viewDetailsLink').attr('href', '/Service/ServiceDetails?categoryId=' + serviceId);
             $('#bookingModal').modal('show');
         });
     });
@@ -532,6 +704,10 @@
                 date: $('#bookingDate').val(),
                 slot: $('#bookingSlot').val(),
                 address: $('#bookingAddress').val(),
+                country: $('#countriesDropdown option:selected').text(),
+                state: $('#statesDropdown option:selected').text(),
+                city: $('#citiesDropdown option:selected').text(),
+                pincode: $('#pincode').val(),
                 price: $('#bookingPrice').val(),
                 notes: $('#bookingNotes').val()
             },

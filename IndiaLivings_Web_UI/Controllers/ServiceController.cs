@@ -1,6 +1,7 @@
 ﻿using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics.Metrics;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
@@ -34,6 +35,9 @@ namespace IndiaLivings_Web_UI.Controllers
         }
         public IActionResult ServicesSubCategory(int categoryId)
         {
+            ViewBag.State = HttpContext.Session.GetString("State");
+            ViewBag.City = HttpContext.Session.GetString("City");
+            ViewBag.Country = HttpContext.Session.GetString("Country");
             ServicesSubCategoriesViewModel sscvm = new ServicesSubCategoriesViewModel();
             List<ServicesSubCategoriesViewModel> subCategories = sscvm.GetAllActiveSubCategoriesByCategoryId(categoryId);
             return View(subCategories);
@@ -51,7 +55,8 @@ namespace IndiaLivings_Web_UI.Controllers
         }
         public IActionResult AdminProviders()
         {
-            return View();
+            List<ServiceProviderViewModel> providers = new ServiceProviderViewModel().GetAllServiceProviders();
+            return View(providers);
         }
         public JsonResult AddServiceCategory(string name, string slug, string description, string image)
         {
@@ -81,7 +86,7 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             return View();
         }
-        public JsonResult CreateBooking(int serviceId, decimal price, DateTime date, string address, string notes)
+        public JsonResult CreateBooking(int serviceId, decimal price, DateTime date, string country, string state, string city, string address, string notes)
         {
             ServiceBookingViewModel sbvm = new ServiceBookingViewModel();
             sbvm.CustomerUserId = Convert.ToString(HttpContext.Session.GetInt32("UserId")) ?? "";
@@ -93,10 +98,10 @@ namespace IndiaLivings_Web_UI.Controllers
             sbvm.RequestedEndAt = date;
             sbvm.AddressLine1 = address;
             sbvm.AddressLine2 = "";
-            sbvm.City = "";
-            sbvm.State = "";
+            sbvm.City = city;
+            sbvm.State = state;
             sbvm.PostalCode = "";
-            sbvm.Country = "";
+            sbvm.Country = country;
             sbvm.Latitude = 0;
             sbvm.Longitude = 0;
             sbvm.PriceQuoted = price;
@@ -113,6 +118,53 @@ namespace IndiaLivings_Web_UI.Controllers
             var response = bookingStatus.CancelBooking(bookingId, reason, cancelledBy);
             var result = JObject.Parse(response);
             return Json(result);
+        }
+        public byte[] GetByteInfo(IFormFile productImage)
+        {
+            byte[] bytes = null;
+            using (var br = new MemoryStream())
+            {
+                productImage.OpenReadStream().CopyTo(br);
+                bytes = br.ToArray();
+            }
+            return bytes;
+        }
+        public JsonResult CreateServiceProvider(IFormFile ProviderImage, IFormCollection ServiceProvider)
+        {
+            ServiceProviderViewModel spvm = new ServiceProviderViewModel();
+            spvm.UserId = Convert.ToString(HttpContext.Session.GetInt32("UserId")) ?? "";
+            spvm.ProviderId = ServiceProvider["ProviderId"];
+            spvm.DisplayName = ServiceProvider["DisplayName"].ToString();
+            byte[] image = [];
+            if (ProviderImage != null)
+            {
+                image = GetByteInfo(ProviderImage);
+            }
+            spvm.ProviderImage = image;
+            //spvm.ContactName = contactName;
+            spvm.Email = ServiceProvider["Email"];
+            spvm.Phone = ServiceProvider["Phone"];
+            spvm.AltPhone = ServiceProvider["altPhone"];
+            //spvm.CompanyName = companyName;
+            spvm.AddressLine1 = ServiceProvider["AddressLine1"];
+            spvm.AddressLine2 = ServiceProvider["AddressLine2"];
+            spvm.City = ServiceProvider["City"];
+            spvm.State = ServiceProvider["State"];
+            spvm.PostalCode = ServiceProvider["PostalCode"];
+            spvm.Country = ServiceProvider["Country"];
+            spvm.IsVerified = false;
+            spvm.IsActive = true;
+            string result = "";
+            if (Convert.ToInt32(ServiceProvider["ProviderCode"]) > 0)
+            {
+                result = spvm.UpdateServiceProvider(spvm);
+            }
+            else
+            {
+                result = spvm.CreateServiceProvider(spvm);
+            }
+            var response = JObject.Parse(result);
+            return Json(response);
         }
     }
 }

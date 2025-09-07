@@ -179,5 +179,50 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
+        public string CreateServiceProvider(ServiceProviderModel provider)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://localhost:7158/api/ServiceProvider/createServiceProvider", provider).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string UpdateServiceProvider(ServiceProviderModel provider)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceProvider/updateServiceProvider", provider).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public List<ServiceProviderModel> ServiceProviders()
+        {
+            List<ServiceProviderModel> providers = new List<ServiceProviderModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/ServiceProvider/ServiceProviders");
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    providers = JsonConvert.DeserializeObject<List<ServiceProviderModel>>(data) ?? new List<ServiceProviderModel>();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return providers;
+        }
     }
 }

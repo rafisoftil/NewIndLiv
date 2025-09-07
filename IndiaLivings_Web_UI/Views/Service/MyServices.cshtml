@@ -206,7 +206,7 @@
                     <input type="hidden" id="CancelBookingId" />
                     <div class="form-group">
                         <label for="Reason">Please provide a reason for Cancelling</label>
-                        <input type="text" id="Reason" class="form-control" />
+                        <textarea id="Reason" class="form-control"></textarea>
                     </div>
                 </form>
             </div>
@@ -243,6 +243,7 @@
     function BookingCancel() {
         var bookingId = $('#CancelBookingId').val();
         var reason = $('#Reason').val();
+        var errors = [];
 
         if (!reason) {
             errors.push('Please enter the reason');
@@ -252,6 +253,10 @@
             $('#Reason').addClass('is-invalid');
         } else {
             $('#Reason').removeClass('is-invalid');
+        }
+        if (errors.length > 0) {
+            ShowToast('failed', errors.join('\n'));
+            return false;
         }
 
         $.ajax({
