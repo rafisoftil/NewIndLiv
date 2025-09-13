@@ -184,7 +184,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://localhost:7158/api/ServiceProvider/createServiceProvider", provider).Trim('\"');
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceProvider/createServiceProvider", provider).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -210,7 +210,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ServiceProviderModel> providers = new List<ServiceProviderModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/ServiceProvider/ServiceProviders");
+                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/ServiceProvider/ServiceProviders");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -223,6 +223,128 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return providers;
+        }
+        public string CreateServiceSubCategory(ServiceSubCategoryModel subCategory)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/createCategoryService", subCategory).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string UpdateServiceSubCategory(ServiceUpdateRequest subCategory)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Put_Api($"{BaseApiUrl}/Service/category/updateService", subCategory).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string DeleteServiceSubCategory(int serviceId, string username)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Delete_Api($"{BaseApiUrl}/Service/category/deleteService/{serviceId}?serviceId={serviceId}&deletedBy={username}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public List<ServiceSubCategoryModel> GetAllServiceSubCategories()
+        {
+            List<ServiceSubCategoryModel> subCategory = new List<ServiceSubCategoryModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/Service/category/getAllServices").Trim('\"');
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    subCategory = JsonConvert.DeserializeObject<List<ServiceSubCategoryModel>>(data) ?? new List<ServiceSubCategoryModel>();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return subCategory;
+        }
+        public ServiceSubCategoryModel GetServiceSubCategoryById(int serviceId)
+        {
+            ServiceSubCategoryModel subCategory = new ServiceSubCategoryModel();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/Service/category/getServiceById/{serviceId}").Trim('\"');
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    subCategory = JsonConvert.DeserializeObject<ServiceSubCategoryModel>(data) ?? new ServiceSubCategoryModel();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return subCategory;
+        }
+        public List<ServiceSubCategoryModel> GetSubServiceByCategory(int categoryId)
+        {
+            List<ServiceSubCategoryModel> subCategory = new List<ServiceSubCategoryModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/Service/category/getServicesByCategory/{categoryId}").Trim('\"');
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    subCategory = JsonConvert.DeserializeObject<List<ServiceSubCategoryModel>>(data) ?? new List<ServiceSubCategoryModel>();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return subCategory;
+        }
+        public string ApproveOrRejectBooking(int bookingId, string status, string remarks, string approvedBy)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceBooking/approveOrRejectBooking/{bookingId}?bookingId={bookingId}&status={status}&remarks={remarks}&approvedBy={approvedBy}");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public string AssignProvider()
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceBooking/assignProvider");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
     }
 }

@@ -49,6 +49,30 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
             return View(myservices);
         }
+        public IActionResult UpcomingServices()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            ServiceBookingViewModel booking = new ServiceBookingViewModel();
+            List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
+            List<ServiceBookingViewModel> upcomingServices = myservices.Where(s => s.Status == "Scheduled" || s.Status == "InProgress").ToList();
+            return View(upcomingServices);
+        }
+        public IActionResult CompletedServices()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            ServiceBookingViewModel booking = new ServiceBookingViewModel();
+            List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
+            List<ServiceBookingViewModel> completedServices = myservices.Where(s => s.Status == "Completed").ToList();
+            return View(completedServices);
+        }
+        public IActionResult CancelledServices()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            ServiceBookingViewModel booking = new ServiceBookingViewModel();
+            List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
+            List<ServiceBookingViewModel> cancelledServices = myservices.Where(s => s.Status == "Cancelled").ToList();
+            return View(cancelledServices);
+        }
         public IActionResult AdminBookings()
         {
             return View();
@@ -165,6 +189,61 @@ namespace IndiaLivings_Web_UI.Controllers
             }
             var response = JObject.Parse(result);
             return Json(response);
+        }
+        public JsonResult CreateServiceSubCategory(int categoryid, string name, decimal basePrice, string description, int durationMin)
+        {
+            ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
+            sscvm.CategoryId = categoryid;
+            sscvm.Name = name;
+            sscvm.Description = description;
+            sscvm.BasePrice = basePrice;
+            sscvm.DurationMin = durationMin;
+            sscvm.CreatedBy = HttpContext.Session.GetString("userName") ?? "";
+            string result = sscvm.CreateSubCategory(sscvm);
+            var response = JObject.Parse(result);
+            return Json(response);
+        }
+        public JsonResult UpdateServiceSubCategory([FromBody] ServiceSubCategoryViewModel subService)
+        {
+            ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
+            //sscvm.ServiceId = Convert.ToInt32(subService["serviceid"]);
+            //sscvm.CategoryId = Convert.ToInt32(subService["categoryid"]);
+            //sscvm.Name = subService["name"];
+            //sscvm.Description = subService["description"];
+            //sscvm.BasePrice = Convert.ToDecimal(subService["basePrice"]);
+            //sscvm.DurationMin = Convert.ToInt32(subService["durationMin"]);
+            //sscvm.CreatedBy = HttpContext.Session.GetString("userName") ?? "";
+            subService.UpdatedBy = HttpContext.Session.GetString("userName") ?? "";
+            string result = sscvm.UpdateSubCategory(subService);
+            var response = JObject.Parse(result);
+            return Json(response);
+        }
+        public JsonResult DeleteServiceSubCategory(int serviceId)
+        {
+            var username = HttpContext.Session.GetString("userName") ?? "";
+            ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
+            var result = sscvm.DeleteSubCategory(serviceId, username);
+            var response = JObject.Parse(result);
+            return Json(response);
+        }
+        //public IActionResult AdminSubServices()
+        //{
+        //    ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
+        //    List<ServiceSubCategoryViewModel> subCategories = sscvm.GetAllSubCategories();
+        //    return View(subCategories);
+        //}
+        public IActionResult GetServiceSubCategoryById(int serviceId)
+        {
+            ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
+            ServiceSubCategoryViewModel subCategory = sscvm.GetSubCategoryById(serviceId);
+            return View(subCategory);
+        }
+        public IActionResult AdminSubServices(int categoryId)
+        {
+            ViewBag.CategoryId = categoryId;
+            ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
+            List<ServiceSubCategoryViewModel> subCategories = sscvm.GetSubServicesByCategory(categoryId);
+            return View(subCategories);
         }
     }
 }
