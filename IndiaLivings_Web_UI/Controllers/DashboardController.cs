@@ -868,5 +868,16 @@ namespace IndiaLivings_Web_UI.Controllers
             List<CategoryViewModel> categoriesList = categoryModel.GetCategoryCount();
             return View(categoriesList);
         }
+        /// <summary>
+        /// Categories List
+        /// </summary>
+        /// <returns>List of Categories and Subcategories</returns>
+        public IActionResult Cities()
+        {
+            SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+            List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
+            var citiesList = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
+            return View(citiesList);
+        }
     }
 }
