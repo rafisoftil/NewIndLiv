@@ -669,6 +669,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
+            ViewBag.ItemsPerPage = 12;
             List<ProductViewModel> recommendedList = allProducts.Where(product => product.productMembershipID == 2).ToList();
             AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
             {
