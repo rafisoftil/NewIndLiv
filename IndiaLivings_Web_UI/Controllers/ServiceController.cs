@@ -55,7 +55,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
             List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
             List<ServiceBookingViewModel> upcomingServices = myservices.Where(s => s.Status == "Scheduled" || s.Status == "InProgress").ToList();
-            return View(upcomingServices);
+            return View("MyServices", upcomingServices);
         }
         public IActionResult CompletedServices()
         {
@@ -63,7 +63,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
             List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
             List<ServiceBookingViewModel> completedServices = myservices.Where(s => s.Status == "Completed").ToList();
-            return View(completedServices);
+            return View("MyServices", completedServices);
         }
         public IActionResult CancelledServices()
         {
@@ -71,7 +71,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
             List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
             List<ServiceBookingViewModel> cancelledServices = myservices.Where(s => s.Status == "Cancelled").ToList();
-            return View(cancelledServices);
+            return View("MyServices", cancelledServices);
         }
         public IActionResult AdminBookings()
         {
