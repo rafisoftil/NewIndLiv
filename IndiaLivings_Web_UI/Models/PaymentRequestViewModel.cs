@@ -1,4 +1,8 @@
-﻿namespace IndiaLivings_Web_UI.Models
+﻿using IndiaLivings_Web_DAL.Helpers;
+using IndiaLivings_Web_DAL.Models;
+
+
+namespace IndiaLivings_Web_UI.Models
 {
     public class PaymentRequestViewModel
     {
@@ -13,11 +17,14 @@
         public string Description { get; set; }
 
 
-        public PaymentRequestViewModel ProcessRequest(int requestedAmout, string ApiKey, string SecretKey)
+        public PaymentRequestViewModel ProcessRequest(int requestedAmout, string ApiKey, string SecretKey,int? loggedInUser,string? invoiceType)
         {
             HttpContext context = null;
             PaymentRequestViewModel paymentRequest = new PaymentRequestViewModel();
             Random randomObj = new Random();
+            InvoiceModel IVM = new InvoiceModel();
+            PaymentHelper PH = new PaymentHelper();
+            int isInsert = 0;
             try
             {
                 string TransactionId = randomObj.Next(10000000, 100000000).ToString();
@@ -37,6 +44,14 @@
                 paymentRequest.Email = "";
                 paymentRequest.Description = "";
                 paymentRequest.Address = "";
+
+                IVM.userID = loggedInUser.HasValue ? loggedInUser.Value : 0;
+                IVM.invoiceTotal = requestedAmout;
+                IVM.InvoiceType = invoiceType.ToLower() == "membership" ? InvoiceTypes.MEMBERSHIP : InvoiceTypes.OTHERS;
+                IVM.createdDate = DateTime.Now;
+                IVM.Status = InvoiceStatus.PENDING;
+                isInsert = PH.AddInvoice(IVM);
+
 
             }
             catch (Exception ex)

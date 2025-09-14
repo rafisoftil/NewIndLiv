@@ -834,6 +834,8 @@
             <div class="col-md-6 col-lg-4">
                 <form method="post" asp-action="ProcessPayment" asp-controller="User">
                     <div class="price-card price-active">
+                        <input type="hidden" id="planSelection" name="planSelection" value="23" />
+                        <input type="hidden" id="invoiceType" name="invoiceType" value="Membership" />
                         <div class="price-head">
                             <i class="flaticon-car-wash"></i>
                             <h3>$23</h3>
@@ -872,6 +874,8 @@
             </div>
             <div class="col-md-6 col-lg-4">
                 <form method="post" asp-action="ProcessPayment" asp-controller="User">
+                    <input type="hidden" id="planSelection" name="planSelection" value="49" />
+                    <input type="hidden" id="invoiceType" name="invoiceType" value="Membership" />
                     <div class="price-card">
                         <div class="price-head">
                             <i class="flaticon-airplane"></i>
