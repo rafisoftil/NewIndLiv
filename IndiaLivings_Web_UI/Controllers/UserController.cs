@@ -395,7 +395,7 @@ namespace IndiaLivings_Web_UI.Controllers
                     PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
                     string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
                     string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
-                    paymentRequestViewModel = paymentRequestViewModel.ProcessRequest(Amount, ApiKey, SecretKey);
+                    paymentRequestViewModel = paymentRequestViewModel.ProcessRequest(Amount, ApiKey, SecretKey, loggedInUser);
                     return View("Payment", paymentRequestViewModel);
                 }
                 else

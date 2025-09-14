@@ -13,7 +13,7 @@
         public string Description { get; set; }
 
 
-        public PaymentRequestViewModel ProcessRequest(int requestedAmout, string ApiKey, string SecretKey)
+        public PaymentRequestViewModel ProcessRequest(int requestedAmout, string ApiKey, string SecretKey,int? loggedInUser)
         {
             HttpContext context = null;
             PaymentRequestViewModel paymentRequest = new PaymentRequestViewModel();

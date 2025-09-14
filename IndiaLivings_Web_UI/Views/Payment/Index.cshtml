@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Razorpay Payment";
+}
+
+<h2>Pay with Razorpay</h2>
+
+<input type="number" id="amount" placeholder="Enter Amount" />
+<button id="payBtn">Pay Now</button>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $("#payBtn").click(function () {
+        var amount = $("#amount").val();
+
+        $.post("/Payment/CreateOrder", { amount: amount }, function (data) {
+            var options = {
+                "key": data.key,
+                "amount": data.amount * 100,
+                "currency": "INR",
+                "name": "My App",
+                "description": "Test Transaction",
+                "order_id": data.orderId,
+                "handler": function (response) {
+                    $.post("/Payment/PaymentCallback", response, function (res) {
+                        alert("Payment Success!");
+                    }).fail(function (err) {
+                        alert("Payment verification failed!");
+                    });
+                },
+                "prefill": {
+                    "name": "Test User",
+                    "email": "test@example.com",
+                    "contact": "9999999999"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        });
+    });
+</script>
