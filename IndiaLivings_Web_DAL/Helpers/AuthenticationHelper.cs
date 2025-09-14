@@ -30,10 +30,6 @@ namespace IndiaLivings_Web_DAL.Helpers
             return isUserExists;
         }
 
-        public void updateUser()
-        {
-        }
-
         public void deleteUser() { }
 
         public List<UserModel> ActiveUserList()
