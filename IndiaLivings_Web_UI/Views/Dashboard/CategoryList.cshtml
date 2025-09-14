@@ -1,0 +1,279 @@
+﻿@model List<CategoryViewModel>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/custom/category-list.css">
+    <!--=====================================
+                CSS LINK PART END
+    =======================================-->
+</head>
+<body>
+
+    <!--=====================================
+              SINGLE BANNER PART START
+    =======================================-->
+    <section class="inner-section single-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="single-content">
+                        <h2>category list</h2>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Dashboard">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">category-list</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=====================================
+              SINGLE BANNER PART END
+    =======================================-->
+    <!--=====================================
+                CATEGORY PART START
+    =======================================-->
+    <section class="inner-section category-part">
+        <div class="container">
+            <div class="row">
+                @for (var i = 0; i < Model.Count; i++)
+                {
+                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                        <div class="category-card">
+                            <div class="category-head">
+                                <img src="@Model[i].CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" />
+                                <a href="#" class="category-content">
+                                    <h4>@Model[i].CategoryName</h4>
+                                    <p>(@Model[i].CategoryCount)</p>
+                                </a>
+                            </div>
+                            @foreach (var subCategory in Model[i].subCategories)
+                            {
+                                <ul class="category-list">
+                                    <li><a href="#"><h6>@subCategory.subCatergoryName</h6><p>(@subCategory.intSubCategoryCount)</p></a></li>
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            @* <div class="row">
+                <div class="col-lg-12">
+                    <div class="center-20">
+                        <a href="#" class="btn btn-inline">
+                            <i class="fas fa-eye"></i>
+                            <span>show more categories</span>
+                        </a>
+                    </div>
+                </div>
+            </div> *@
+        </div>
+    </section>
+    <!--=====================================
+                CATEGORY PART END
+    =======================================-->
+    <section class="intro-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-center-heading">
+                        <h2>Do you have something to advertise?</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur.</p>
+                        <a href="@Url.Action("PostAd", "User")" class="btn btn-outline">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>post your ad</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="price-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-center-heading">
+                        <h2>Best Reliable Pricing Plans</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <form method="post" asp-action="ProcessPayment" asp-controller="User">
+                        <div class="price-card">
+                            <div class="price-head">
+                                <i class="flaticon-bicycle"></i>
+                                <h3>$00</h3>
+                                <h4>Free Plan</h4>
+                            </div>
+                            <ul class="price-list">
+                                <li>
+                                    <i class="fas fa-plus"></i>
+                                    <p>1 Regular Ad for 7 days</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-times"></i>
+                                    <p>No Credit card required</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-times"></i>
+                                    <p>No Top or Featured Ad</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-times"></i>
+                                    <p>No Ad will be bumped up</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-plus"></i>
+                                    <p>Limited Support</p>
+                                </li>
+                            </ul>
+                            <div class="price-btn">
+                                <button type="submit" class="btn btn-inline">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <span>Register Now</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <form method="post" asp-action="ProcessPayment" asp-controller="User">
+                        <div class="price-card price-active">
+                            <div class="price-head">
+                                <i class="flaticon-car-wash"></i>
+                                <h3>$23</h3>
+                                <h4>Standard Plan</h4>
+                            </div>
+                            <ul class="price-list">
+                                <li>
+                                    <i class="fas fa-plus"></i>
+                                    <p>1 Recom Ad for 30 days</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-times"></i>
+                                    <p>No Featured Ad Available</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-times"></i>
+                                    <p>No Ad will be bumped up</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-times"></i>
+                                    <p>No Top Ad Available</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-plus"></i>
+                                    <p>Basic Support</p>
+                                </li>
+                            </ul>
+                            <div class="price-btn">
+                                <button type="submit" class="btn btn-inline">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <span>Register Now</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <form method="post" asp-action="ProcessPayment" asp-controller="User">
+                        <div class="price-card">
+                            <div class="price-head">
+                                <i class="flaticon-airplane"></i>
+                                <h3>$49</h3>
+                                <h4>Premium Plan</h4>
+                            </div>
+                            <ul class="price-list">
+                                <li>
+                                    <i class="fas fa-plus"></i>
+                                    <p>1 Featured Ad for 60 days</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-plus"></i>
+                                    <p>Access to All features</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-plus"></i>
+                                    <p>With Recommended</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-plus"></i>
+                                    <p>Ad Top Category</p>
+                                </li>
+                                <li>
+                                    <i class="fas fa-plus"></i>
+                                    <p>Priority Support</p>
+                                </li>
+                            </ul>
+                            <div class="price-btn">
+                                <button type="submit" class="btn btn-inline">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <span>Register Now</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=====================================
+              CURRENCY MODAL PART START
+    =======================================-->
+    <div class="modal fade" id="currency">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Choose a Currency</h4>
+                    <button class="fas fa-times" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <button class="modal-link active">United States Doller (USD) - $</button>
+                    <button class="modal-link">Euro (EUR) - €</button>
+                    <button class="modal-link">British Pound (GBP) - £</button>
+                    <button class="modal-link">Australian Dollar (AUD) - A$</button>
+                    <button class="modal-link">Canadian Dollar (CAD) - C$</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--=====================================
+              CURRENCY MODAL PART END
+    =======================================-->
+    <!--=====================================
+              LANGUAGE MODAL PART END
+    =======================================-->
+    <div class="modal fade" id="language">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Choose a Language</h4>
+                    <button class="fas fa-times" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <button class="modal-link active">English</button>
+                    <button class="modal-link">bangali</button>
+                    <button class="modal-link">arabic</button>
+                    <button class="modal-link">germany</button>
+                    <button class="modal-link">spanish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--=====================================
+               LANGUAGE MODAL PART END
+    =======================================-->
+    <!--=====================================
+                JS LINK PART START
+    =======================================-->
+</body>
+</html>
+
+
+
+
+
+

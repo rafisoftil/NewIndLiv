@@ -124,7 +124,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 {
                     var cookieOptions = new CookieOptions
                     {
-                        Expires = DateTimeOffset.UtcNow.AddDays(30), 
+                        Expires = DateTimeOffset.UtcNow.AddDays(30),
                         IsEssential = true,
                         HttpOnly = true,
                         Secure = true
@@ -632,7 +632,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Manage Blogs Page
         /// </summary>
         /// <returns> List of all Blogs (Status of active ads can be changed) </returns>
-        public IActionResult ManageBlogs(int pageNumber = 1, int pageSize=6, int categoryId=0, bool publishedOnly=false)
+        public IActionResult ManageBlogs(int pageNumber = 1, int pageSize = 6, int categoryId = 0, bool publishedOnly = false)
         {
             ViewBag.CurrentPage = pageNumber;
             List<BlogViewModel> blogs = BlogViewModel.GetAllBlogs(pageNumber, pageSize, categoryId, publishedOnly);
@@ -669,6 +669,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
+            ViewBag.ItemsPerPage = 12;
             List<ProductViewModel> recommendedList = allProducts.Where(product => product.productMembershipID == 2).ToList();
             AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
             {
@@ -857,6 +858,26 @@ namespace IndiaLivings_Web_UI.Controllers
             //};
             return PartialView("_ProductsPartial", products);
         }
-        
+        /// <summary>
+        /// Categories List
+        /// </summary>
+        /// <returns>List of Categories and Subcategories</returns>
+        public IActionResult CategoryList()
+        {
+            CategoryViewModel categoryModel = new CategoryViewModel();
+            List<CategoryViewModel> categoriesList = categoryModel.GetCategoryCount();
+            return View(categoriesList);
+        }
+        /// <summary>
+        /// Categories List
+        /// </summary>
+        /// <returns>List of Categories and Subcategories</returns>
+        public IActionResult Cities()
+        {
+            SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+            List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
+            var citiesList = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
+            return View(citiesList);
+        }
     }
 }

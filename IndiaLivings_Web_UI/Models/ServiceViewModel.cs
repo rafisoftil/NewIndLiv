@@ -67,7 +67,7 @@ namespace IndiaLivings_Web_UI.Models
             return lstCategories;
         }
 
-        public string CreateServiceCategory(string name, string slug, string description, string username)
+        public string CreateServiceCategory(string name, string slug, string description, string image, string username)
         {
             ServiceHelper SH = new ServiceHelper();
             string result = "An error occured";
@@ -77,6 +77,7 @@ namespace IndiaLivings_Web_UI.Models
                 service.Name = name;
                 service.Slug = slug;
                 service.Description = description;
+                service.Image = string.Empty;
                 service.CreatedBy = username;
                 result = SH.CreateServiceCategory(service);
             }
