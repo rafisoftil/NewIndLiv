@@ -836,14 +836,19 @@
             //data: { productId: '@product.productId', rating: rating, name: name, email: email, quote: quote, description: description },
             data: { productId: '@product.productId', rating: rating, comments: description},
             success: function (response) {
-                $('#spinner').addClass('d-none');    // Hide spinner
-                ShowToast('success', 'Thanks for your review!');
+                $('#spinner').addClass('d-none');
+                if (response == "Rating added/updated successfully.") {
+                    ShowToast('success', 'Thanks for your review!');
+                }
+                else {
+                    ShowToast('failure', 'Cannot add your review. Please try again');
+                }
                 setTimeout(() => {
                     location.reload(); 
                 }, 1000);
             },
             error: function () {
-                $('#spinner').addClass('d-none');    // Hide spinner
+                $('#spinner').addClass('d-none');
                 ShowToast('failed', 'Error submitting review.');
             }
         });

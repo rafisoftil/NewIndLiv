@@ -1,3 +1,4 @@
+using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -440,6 +441,7 @@ namespace IndiaLivings_Web_UI.Controllers
             string createdBy = HttpContext.Session.GetString("userName") ?? string.Empty;
             ProductViewModel productViewModel = new ProductViewModel();
             string message = productViewModel.AddRating(productId, userId, rating, comments, createdBy);
+            string notification = new ProductHelper().AddNotification(productId, userId, "Rating", comments);
             return Json(new { status = message });
         }
         /// <summary>
