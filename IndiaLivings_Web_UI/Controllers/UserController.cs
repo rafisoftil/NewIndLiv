@@ -434,12 +434,12 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <param name="productId"></param>
         /// <param name="rating"></param>
         /// <returns>Status message</returns>
-        public JsonResult AddRating(int productId, int rating)
+        public JsonResult AddRating(int productId, int rating, string comments)
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             string createdBy = HttpContext.Session.GetString("userName") ?? string.Empty;
             ProductViewModel productViewModel = new ProductViewModel();
-            string message = productViewModel.AddRating(productId, userId, rating, createdBy);
+            string message = productViewModel.AddRating(productId, userId, rating, comments, createdBy);
             return Json(new { status = message });
         }
         /// <summary>

@@ -411,13 +411,13 @@
                                     </div>
                                 </li>
                             </ul>
-                            <form class="review-form">
+                            <form class="review-form" id="reviewForm">
                                 <div class="star-rating">
-                                    <input type="radio" name="rating" id="star-1" value="5" onclick="submitRating('@product.productId', this)"><label for="star-1"></label>
-                                    <input type="radio" name="rating" id="star-2" value="4" onclick="submitRating('@product.productId', this)"><label for="star-2"></label>
-                                    <input type="radio" name="rating" id="star-3" value="3" onclick="submitRating('@product.productId', this)"><label for="star-3"></label>
-                                    <input type="radio" name="rating" id="star-4" value="2" onclick="submitRating('@product.productId', this)"><label for="star-4"></label>
-                                    <input type="radio" name="rating" id="star-5" value="1" onclick="submitRating('@product.productId', this)"><label for="star-5"></label>
+                                    <input type="radio" name="rating" id="star-1" value="5"><label for="star-1"></label>
+                                    <input type="radio" name="rating" id="star-2" value="4"><label for="star-2"></label>
+                                    <input type="radio" name="rating" id="star-3" value="3"><label for="star-3"></label>
+                                    <input type="radio" name="rating" id="star-4" value="2"><label for="star-4"></label>
+                                    <input type="radio" name="rating" id="star-5" value="1"><label for="star-5"></label>
                                 </div>
                                 <div class="review-form-grid">
                                     <div class="form-group">
@@ -428,7 +428,7 @@
                                     </div>
                                     <div class="form-group">
                                         <select class="form-control custom-select">
-                                            <option selected>Qoute</option>
+                                            <option selected>Quote</option>
                                             <option value="1">delivery system</option>
                                             <option value="2">product quality</option>
                                             <option value="3">payment issue</option>
@@ -804,37 +804,80 @@
     <!--=====================================
                LANGUAGE MODAL PART END
     =======================================-->
+    <div id="spinner" class="d-none">
+        <img style="height: 100px" src="~/images/spinner.gif" />
+    </div>
+    <div id="toast" class="d-none"></div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/site.js"></script>
 <script>
-    function submitRating(productId, elem) {
-        const rating = parseInt($(elem).val());
-
+    $(function() {
+       $('#reviewForm').on('submit', function(e) {
+        e.preventDefault();
+        $('#spinner').removeClass('d-none'); // Show spinner
+        const rating = $('input[name="rating"]:checked').val();
+        const name = $(this).find('input[type="text"]').val();
+        const email = $(this).find('input[type="email"]').val();
+        const quote = $(this).find('select').val();
+        const description = $(this).find('textarea').val();
+        if (!rating) {
+            ShowToast('failed', 'Please select a rating.');
+            $('#spinner').addClass('d-none');    // Hide spinner
+            return;
+        }
+        // if (!name || !email || !quote || !description) {
+        //     alert('Please fill all the fields.');
+        //     return;
+        // }
         $.ajax({
             url: '/User/AddRating',
             type: 'POST',
-            data: { productId: productId, rating: rating },
+            //data: { productId: '@product.productId', rating: rating, name: name, email: email, quote: quote, description: description },
+            data: { productId: '@product.productId', rating: rating, comments: description},
             success: function (response) {
-                alert('Thanks for your rating!');
+                $('#spinner').addClass('d-none');    // Hide spinner
+                ShowToast('success', 'Thanks for your review!');
+                setTimeout(() => {
+                    location.reload(); 
+                }, 1000);
             },
             error: function () {
-                alert('Error submitting rating.');
+                $('#spinner').addClass('d-none');    // Hide spinner
+                ShowToast('failed', 'Error submitting review.');
             }
         });
-    }
+    });})
+    // function submitRating(productId, elem) {
+    //     const rating = parseInt($(elem).val());
+
+    //     $.ajax({
+    //         url: '/User/AddRating',
+    //         type: 'POST',
+    //         data: { productId: productId, rating: rating },
+    //         success: function (response) {
+    //             alert('Thanks for your rating!');
+    //         },
+    //         error: function () {
+    //             alert('Error submitting rating.');
+    //         }
+    //     });
+    // }
 
     function AddToWishlist(productID, createdBy) {
-        alert(productID);
         $.ajax({
             url: '/User/UpdateBookmarks',
             type: 'POST',
             data: { productID: productID, createdBy: createdBy, status: 1 },
             success: function (response) {
                 if (response.statusCode != 200) {
-                    alert('Error in processing request.');
+                    ShowToast('failed', 'Error in processing request.');
+                } else {
+                    ShowToast('success', 'Added to bookmarks!');
                 }
             },
             error: function () {
-                alert('Error in processing request.');
+                ShowToast('failed', 'Error in processing request.');
             }
         });
     }

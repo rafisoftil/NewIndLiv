@@ -244,12 +244,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return filterDetails;
         }
 
-        public string AddRating(int productId, int userId, int rating, string createdBy)
+        public string AddRating(int productId, int userId, int rating, string comments, string createdBy)
         {
             var response = "added";
             try
             {
-                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/AddProductRating?productId={productId}&userId={userId}&rating={rating}&createdBy={createdBy}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/AddProductRating?productId={productId}&userId={userId}&rating={rating}&strComments={comments}&createdBy={createdBy}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -271,6 +271,19 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return products;
+        }
+        public string AddNotification(int productId, int userId, string notificationType, string message)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/AddProductNotification?productId={productId}&userId={userId}&notificationType={notificationType}&message={message}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
     }
 }
