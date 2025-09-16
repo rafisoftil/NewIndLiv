@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/vendor/nice-select.min.css">
+    <link rel="stylesheet" href="~/css/custom/notification.css">
+</head>
+<body>
+    <!--=====================================
+              NOTIFICATION PART START
+    =======================================-->
+    <section class="notify-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <div class="notify-body">
+                        <div class="notify-filter">
+                            <select class="select notify-select" id="notificationFilter">
+                                <option value="all">all notification</option>
+                                <option value="read">read notification</option>
+                                <option value="unread">unread notification</option>
+                            </select>
+                            <div class="notify-action">
+                                <a href="#" title="Delete All" class="fas fa-trash-alt" id="deleteAllNotifications"></a>
+                                <a href="#" title="Mark All As Read" class="fas fa-envelope-open" id="markAllAsRead"></a>
+                                <a href="#" title="Notification Setting" class="fas fa-cog"></a>
+                            </div>
+                        </div>
+                        <ul class="notify-list notify-scroll" id="notificationList">
+                            @foreach (var notification in Model.Notifications)
+                            {
+                                <li class="notify-item @(notification.IsRead ? "" : "active")" data-id="@notification.Id">
+                                    <a href="@notification.Link" class="notify-link">
+                                        <div class="notify-img">
+                                            <img src="images/avatar/01.jpg" alt="avatar">
+                                        </div>
+                                        <div class="notify-content">
+                                            <p class="notify-text"><span>miron mahmud</span> has added the advertisement post of your <span>booking</span> to his wishlist.</p>
+                                            <span class="notify-time">just now</span>
+                                        </div>
+                                    </a>
+                                </li>
+                             }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        <!--=====================================
+                  NOTIFICATION PART END
+        =======================================-->
+    </body>
+</html>

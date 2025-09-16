@@ -677,6 +677,10 @@ namespace IndiaLivings_Web_UI.Controllers
             List<JobNewsViewModel> jobList = new List<JobNewsViewModel>();
             return View(jobList.ToList());
         }
+        public IActionResult Notification()
+        {
+            return View();
+        }
     }
 }
 
