@@ -834,7 +834,7 @@
             url: '/User/AddRating',
             type: 'POST',
             //data: { productId: '@product.productId', rating: rating, name: name, email: email, quote: quote, description: description },
-            data: { productId: '@product.productId', rating: rating, comments: description},
+            data: { userId: '@user.userID', productId: '@product.productId', rating: rating, comments: description},
             success: function (response) {
                 $('#spinner').addClass('d-none');
                 if (response == "Rating added/updated successfully.") {

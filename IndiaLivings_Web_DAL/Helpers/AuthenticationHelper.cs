@@ -618,5 +618,19 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
+        public List<NotificationModel> GetNotificationsByUser(int userId)
+        {
+            List<NotificationModel> notifications = new List<NotificationModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Users/GetNotificationsByUser?userId={userId}");
+                notifications = JsonConvert.DeserializeObject<List<NotificationModel>>(response);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return notifications;
+        }
     }
 }

@@ -3,8 +3,22 @@
 <head>
     <link rel="stylesheet" href="~/css/vendor/nice-select.min.css">
     <link rel="stylesheet" href="~/css/custom/notification.css">
+    <style>
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            z-index: 9999;
+            display: none;
+        }
+        .toast-success { background-color: #4CAF50; color: white; }
+        .toast-info { background-color: #2196F3; color: white; }
+    </style>
 </head>
 <body>
+    <div id="notification-toast" class="toast"></div>
     <!--=====================================
               NOTIFICATION PART START
     =======================================-->
@@ -26,28 +40,69 @@
                             </div>
                         </div>
                         <ul class="notify-list notify-scroll" id="notificationList">
-                            @foreach (var notification in Model.Notifications)
+                            @foreach (var notification in Model)
                             {
-                                <li class="notify-item @(notification.IsRead ? "" : "active")" data-id="@notification.Id">
-                                    <a href="@notification.Link" class="notify-link">
+                                @* <li class="notify-item @(notification.IsRead ? "" : "active") data-id="@notification.Id"> *@
+                                <li class="notify-item">
+                                    <a href="#" class="notify-link">
                                         <div class="notify-img">
-                                            <img src="images/avatar/01.jpg" alt="avatar">
+                                            <img src="~/images/user.png" alt="avatar" onerror="this.src='/images/user.png';">
                                         </div>
                                         <div class="notify-content">
-                                            <p class="notify-text"><span>miron mahmud</span> has added the advertisement post of your <span>booking</span> to his wishlist.</p>
-                                            <span class="notify-time">just now</span>
+                                            <p class="notify-text">@Html.Raw(notification.LastMessage)</p>
+                                            <span class="notify-time">@notification.LastMessageTime</span>
                                         </div>
                                     </a>
                                 </li>
-                             }
+                            }
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-        <!--=====================================
-                  NOTIFICATION PART END
-        =======================================-->
-    </body>
+    <!--=====================================
+              NOTIFICATION PART END
+    =======================================-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+    <script>
+        // Initialize SignalR connection
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/notificationHub")
+            .withAutomaticReconnect()
+            .build();
+
+        connection.start()
+            .then(() => console.log("Connected to notification hub"))
+            .catch(err => console.error("Error connecting to notification hub:", err));
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('notification-toast');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Add new notification to the list
+        function addNotificationToList(notification) {
+            const notificationHtml = `
+                <li class="notify-item active" data-id="${notification.id ?? ''}">
+                    <a href="${notification.link ?? '#'}" class="notify-link">
+                        <div class="notify-img">
+                            <img src="${notification.imageUrl ?? '/images/user.png'}" alt="avatar" onerror="this.src='/images/user.png';">
+                        </div>
+                        <div class="notify-content">
+                            <p class="notify-text">${notification.message}</p>
+                            <span class="notify-time">just now</span>
+                        </div>
+                    </a>
+                </li>`;
+            document.getElementById('notificationList').insertAdjacentHTML('afterbegin', notificationHtml);
+        }
+    </script>
+</body>
 </html>
