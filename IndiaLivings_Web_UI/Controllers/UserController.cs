@@ -437,7 +437,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <returns>Status message</returns>
         public JsonResult AddRating(int userId, int productId, int rating, string comments)
         {
-            string createdBy = HttpContext.Session.GetString("userName") ?? string.Empty;
+            string createdBy = HttpContext.Session.GetString("UserFullName") ?? string.Empty;
             ProductViewModel productViewModel = new ProductViewModel();
             string message = productViewModel.AddRating(productId, userId, rating, comments, createdBy);
             string notification = new ProductHelper().AddNotification(productId, userId, "Rating", comments);

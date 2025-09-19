@@ -1,6 +1,7 @@
 ﻿@{
     var product = Model.Product;
     var user = Model.User;
+    var userId = Context.Session.GetInt32("UserId") ?? 0;
 }
 <head>
     <link rel="stylesheet" href="~/css/custom/ad-details.css">
@@ -816,14 +817,24 @@
        $('#reviewForm').on('submit', function(e) {
         e.preventDefault();
         $('#spinner').removeClass('d-none'); // Show spinner
+        var userId = @userId;
+        if (userId == '0') {
+            window.location.href = '/Dashboard/Login';
+            return; 
+        }
         const rating = $('input[name="rating"]:checked').val();
         const name = $(this).find('input[type="text"]').val();
         const email = $(this).find('input[type="email"]').val();
         const quote = $(this).find('select').val();
         const description = $(this).find('textarea').val();
         if (!rating) {
-            ShowToast('failed', 'Please select a rating.');
+            ShowToast('failed', 'Please select a rating');
             $('#spinner').addClass('d-none');    // Hide spinner
+            return;
+        }
+        if(!description) {
+            ShowToast('failed', 'Please enter comments');
+            $('#spinner').addClass('d-none');
             return;
         }
         // if (!name || !email || !quote || !description) {
@@ -837,7 +848,7 @@
             data: { userId: '@user.userID', productId: '@product.productId', rating: rating, comments: description},
             success: function (response) {
                 $('#spinner').addClass('d-none');
-                if (response == "Rating added/updated successfully.") {
+                if (response.status === "Rating added/updated successfully.") {
                     ShowToast('success', 'Thanks for your review!');
                 }
                 else {
