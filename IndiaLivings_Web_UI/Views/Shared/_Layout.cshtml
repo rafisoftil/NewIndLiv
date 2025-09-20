@@ -18,9 +18,40 @@
     <link rel="stylesheet" href="~/css/mvc-grid/mvc-grid.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/custom/services.css">
     @* <link rel="stylesheet" href="~/css/vendor/bootstrap.min.css" /> *@
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            min-width: 250px;
+            max-width: 350px;
+            padding: 15px;
+            border-radius: 4px;
+            z-index: 9999;
+            display: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            font-size: 1rem;
+            animation: fadeIn 0.3s;
+        }
+
+        .toast-success {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .toast-info {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .toast-message {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-    
+    <div id="notification-toast" class="toast"></div>
     <partial name="~/Views/Shared/_Header.cshtml" />
     <partial name="~/Views/Shared/_SideBar.cshtml" />    
     <main role="main" class="pb-3">
@@ -43,6 +74,46 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
 <script>
-    
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notificationHub")
+        .withAutomaticReconnect()
+        .build();
+
+    connection.start()
+        .then(() => console.log("Connected to notification hub"))
+        .catch(err => console.error(err));
+
+    // Handle incoming notifications
+    connection.on("ReceiveNotification", function(notification) {
+        showToast(notification.message, notification.type);
+        playNotificationSound();
+        updateNotificationList(notification);
+    });
+
+    // Show in-page toast
+    function showToast(message, type) {
+        const toast = document.getElementById("notification-toast");
+        toast.className = `toast toast-${type || "info"}`;
+        toast.textContent = message;
+        toast.style.display = "block";
+        setTimeout(() => toast.style.display = "none", 5000);
+    }
+
+    // Play sound (preloaded to avoid decoding issues)
+    function playNotificationSound() {
+        let audio = document.getElementById("notificationSound");
+        if (!audio) {
+            // Create once if not exists
+            audio = document.createElement("audio");
+            audio.id = "notificationSound";
+            audio.src = "/sounds/noti.mp3"; // file must exist in wwwroot/sounds/
+            audio.preload = "auto";
+            document.body.appendChild(audio);
+        }
+        audio.currentTime = 0; // restart
+        audio.play().catch(err => console.log("Audio play failed:", err));
+    }
 </script>
+
