@@ -1,7 +1,8 @@
-
+using IndiaLivings_Web_UI.Controllers;
 using IndiaLivings_Web_UI.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,9 +17,12 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+//builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSignalR();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,22 +35,17 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.Use(async (context, next) =>
-{
-    context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-    context.Response.Headers["Pragma"] = "no-cache";
-    context.Response.Headers["Expires"] = "0";
-    await next();
-});
-
-app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+app.UseRouting();
+
+
 app.MapHub<MessageController>("/chatHub");
+app.MapHub<NotificationController>("/notificationHub");
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Dashboard}/{action=Dashboard}/{id?}");
 
-app.Run();                                                                  
+app.Run();app.Run();                                                                  

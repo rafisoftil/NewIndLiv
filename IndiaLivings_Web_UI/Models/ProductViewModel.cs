@@ -379,13 +379,13 @@ namespace IndiaLivings_Web_UI.Models
             return products;
         }
 
-        public string AddRating(int productId, int userId, int rating, string createdBy)
+        public string AddRating(int productId, int userId, int rating, string comments, string createdBy)
         {
             ProductHelper PH = new ProductHelper();
             string response = "Opeartion Failed";
             try
             {
-                response = PH.AddRating(productId, userId, rating, createdBy);
+                response = PH.AddRating(productId, userId, rating, comments, createdBy);
             }
             catch (Exception ex)
             {

@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/vendor/nice-select.min.css">
+    <link rel="stylesheet" href="~/css/custom/notification.css">
+</head>
+<body> 
+    <!--=====================================
+              NOTIFICATION PART START
+    =======================================-->
+    <section class="notify-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <div class="notify-body">
+                        <div class="notify-filter">
+                            <select class="select notify-select" id="notificationFilter">
+                                <option value="all">all notification</option>
+                                <option value="read">read notification</option>
+                                <option value="unread">unread notification</option>
+                            </select>
+                            <div class="notify-action">
+                                <a href="#" title="Delete All" class="fas fa-trash-alt" id="deleteAllNotifications"></a>
+                                <a onclick="GoToMessages()" title="Mark All As Read" class="fas fa-envelope-open" id="markAllAsRead"></a>
+                                <a href="#" title="Notification Setting" class="fas fa-cog"></a>
+                            </div>
+                        </div>
+                        <ul class="notify-list notify-scroll" id="notificationList">
+                            @foreach (var notification in Model)
+                            {
+                                @* <li class="notify-item @(notification.IsRead ? "" : "active") data-id="@notification.Id"> *@
+                                if (notification.NotificationType == "Message")
+                                {
+                                    <li class="notify-item">
+                                        <a href="/User/Message?userId=@notification.UserId&username=@notification.UserName" class="notify-link">
+                                            <div class="notify-img">
+                                                <img src="@(notification.UserImageData != null ? $"data:image/png;base64,{Convert.ToBase64String(notification.UserImageData)}" : Url.Content("~/images/user.png"))" alt="avatar" onerror="this.src='/images/user.png';">
+                                            </div>
+                                            <div class="notify-content">
+                                                <p class="notify-text">@Html.Raw(notification.LastMessage)</p>
+                                                <span class="notify-time">@notification.TimeAgo</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="notify-item">
+                                        <a href="/Dashboard/ProductDetails?productId=@notification.ProductId&username=@notification.UserName" class="notify-link">
+                                            <div class="notify-img">
+                                                <img src="@(notification.UserImageData != null ? $"data:image/png;base64,{Convert.ToBase64String(notification.UserImageData)}" : Url.Content("~/images/user.png"))" alt="avatar" onerror="this.src='/images/user.png';">
+                                            </div>
+                                            <div class="notify-content">
+                                                <p class="notify-text">@Html.Raw(notification.LastMessage)</p>
+                                                <span class="notify-time">@notification.TimeAgo</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=====================================
+              NOTIFICATION PART END
+    =======================================-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+    <script type="text/javascript">
+        function GoToMessages() {
+            window.location.href = '/User/Message';
+        }
+        window.GoToMessages = GoToMessages;
+
+        function updateNotificationList(notification) {
+            const list = document.getElementById('notificationList');
+            const existingItem = list.querySelector(`.notify-item[data-userid="${notification.UserId}"]`);
+
+            if (existingItem) {
+                existingItem.querySelector('.notify-text').innerText = notification.message;
+                existingItem.querySelector('.notify-time').innerText = "just now";
+
+                list.prepend(existingItem);
+            }
+            else {
+                const notificationHtml = `
+                    <li class="notify-item active" data-userid="${notification.UserId}">
+                        <a href="${notification.link ?? '#'}" class="notify-link">
+                            <div class="notify-img">
+                                <img src="${notification.UserImageData != null ? $"data:image/png;base64,{Convert.ToBase64String(notification.UserImageData)}" : Url.Content("~/images/user.png"))}" alt="avatar" onerror="this.src='/images/user.png';">
+                            </div>
+                            <div class="notify-content">
+                                <p class="notify-text">${notification.message}</p>
+                                <span class="notify-time">just now</span>
+                            </div>
+                        </a>
+                    </li>`;
+                list.insertAdjacentHTML('afterbegin', notificationHtml);
+            }
+        }
+        // Add new notification to the list
+        // function addNotificationToList(notification) {
+        //     const notificationHtml = `
+        //         <li class="notify-item active" data-id="${notification.id ?? ''}">
+        //             <a href="${notification.link ?? '#'}" class="notify-link">
+        //                 <div class="notify-img">
+        //                     <img src="${notification.imageUrl ?? '/images/user.png'}" alt="avatar" onerror="this.src='/images/user.png';">
+        //                 </div>
+        //                 <div class="notify-content">
+        //                     <p class="notify-text">${notification.message}</p>
+        //                     <span class="notify-time">just now</span>
+        //                 </div>
+        //             </a>
+        //         </li>`;
+        //     document.getElementById('notificationList').insertAdjacentHTML('afterbegin', notificationHtml);
+        // }
+    </script>
+</body>
+</html>
