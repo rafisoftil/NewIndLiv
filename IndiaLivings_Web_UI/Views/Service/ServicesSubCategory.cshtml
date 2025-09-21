@@ -376,7 +376,7 @@
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form id="bookingForm">
+                    <form id="bookingForm" method="post" asp-action="ServiceProcessPayment" asp-controller="User">
                         <input type="hidden" id="bookingServiceId"/>
                         <input type="hidden" id="bookingPrice" name="price"/>
                         <div class="form-group">
@@ -420,7 +420,7 @@
                             <div><strong>Total:</strong> <span id="bookingPriceDisplay">₹0</span></div>
                             <a href="Service/ServiceDetails/" id="viewDetailsLink" class="btn btn-outline-service" style="padding:8px 14px;">Full Details</a>
                         </div>
-                        <button onclick="CreateBooking()" type="submit" class="btn btn-inline btn-block" style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;">
+                        <button type="submit" class="btn btn-inline btn-block" style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;">
                             <i class="fas fa-calendar-check"></i><span>Confirm Booking</span>
                         </button>
                     </form>

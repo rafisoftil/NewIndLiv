@@ -396,7 +396,7 @@ namespace IndiaLivings_Web_UI.Controllers
                     PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
                     string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
                     string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
-                    paymentRequestViewModel = paymentRequestViewModel.ProcessRequest(Amount, ApiKey, SecretKey, loggedInUser, formData["invoiceType"]);
+                    paymentRequestViewModel = paymentRequestViewModel.ProcessRequest(Amount, ApiKey, SecretKey, loggedInUser, "Membership");
                     return View("Payment", paymentRequestViewModel);
                 }
                 else
@@ -428,6 +428,35 @@ namespace IndiaLivings_Web_UI.Controllers
         public IActionResult Payment()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult ServiceProcessPayment(IFormCollection formData)
+        {
+            int Amount = 0;
+            var loggedInUser = HttpContext.Session.GetInt32("UserId");
+            if (loggedInUser == 0)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                Amount = Convert.ToInt32(formData["price"]);
+                if (Amount != 0)
+                {
+                    var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+                    PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
+                    string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
+                    string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
+                    paymentRequestViewModel = paymentRequestViewModel.ProcessRequest(Amount, ApiKey, SecretKey, loggedInUser, "Service");
+                    return View("Payment", paymentRequestViewModel);
+                }
+                else
+                {
+                    return View("ServicesSubCategory");
+                }
+
+            }
+
         }
         /// <summary>
         /// Add Rating for Product
