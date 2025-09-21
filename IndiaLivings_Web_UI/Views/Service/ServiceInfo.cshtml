@@ -3,19 +3,13 @@
 }
 
 <!-- VENDOR -->
-<link rel="stylesheet" href="~/css/vendor/bootstrap.min.css">
-<link rel="stylesheet" href="~/css/vendor/chart.min.css">
+<link rel="stylesheet" href="~/css/vendor/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/vendor/chart.min.css" />
 
 <!-- CUSTOM -->
-<link rel="stylesheet" href="~/css/custom/main.css">
-<link rel="stylesheet" href="~/css/custom/dashboard.css">
-<link rel="stylesheet" href="~/css/custom/services.css">
-<!--=====================================
-            CSS LINK PART END
-=======================================-->
-<!--=====================================
-            SINGLE BANNER PART START
-=======================================-->
+<link rel="stylesheet" href="~/css/custom/main.css" />
+<link rel="stylesheet" href="~/css/custom/dashboard.css" />
+<link rel="stylesheet" href="~/css/custom/services.css" />
 <section class="single-banner dashboard-banner">
     <div class="container">
         <div class="row">
@@ -31,12 +25,6 @@
         </div>
     </div>
 </section>
-<!--=====================================
-            SINGLE BANNER PART END
-=======================================-->
-<!--=====================================
-        PROVIDER DASHBOARD HEADER START
-=======================================-->
 <section class="dash-header-part">
     <div class="container">
         <div class="dash-header-card">
@@ -89,12 +77,6 @@
         </div>
     </div>
 </section>
-<!--=====================================
-        PROVIDER DASHBOARD HEADER END
-=======================================-->
-<!--=====================================
-        PROVIDER DASHBOARD CONTENT START
-=======================================-->
 <section class="provider-dashboard-part">
     <div class="container">
         <div class="row">
@@ -425,20 +407,13 @@
         </div>
     </div>
 </section>
-<!--=====================================
-        PROVIDER DASHBOARD CONTENT END
-=======================================-->
-<!--=====================================
-            JS LINK PART START
-=======================================-->
-<!-- VENDOR -->
-<script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+@* duplicate JS inclusion *@
+@* <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
 <script src="~/js/vendor/popper.min.js"></script>
 <script src="~/js/vendor/bootstrap.min.js"></script>
-<script src="~/js/vendor/chart.min.js"></script>
+<script src="~/js/vendor/chart.min.js"></script> *@
+@* <script src="~/js/custom/main.js"></script> *@
 
-<!-- CUSTOM -->
-<script src="~/js/custom/main.js"></script>
 <script>
     // Earnings Chart
     const ctx = document.getElementById('earningsChart').getContext('2d');
@@ -462,7 +437,7 @@
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        callback: function(value) {
+                        callback: function (value) {
                             return '?' + value;
                         }
                     }
@@ -473,14 +448,14 @@
 
     // Provider Dashboard Functions
     function acceptBooking(bookingId) {
-        if(confirm('Accept this booking?')) {
+        if (confirm('Accept this booking?')) {
             alert('Booking accepted: ' + bookingId);
             // Update booking status
         }
     }
 
     function rejectBooking(bookingId) {
-        if(confirm('Reject this booking?')) {
+        if (confirm('Reject this booking?')) {
             alert('Booking rejected: ' + bookingId);
             // Update booking status
         }
@@ -501,6 +476,3 @@
         // Show feedback modal
     }
 </script>
-<!--=====================================
-            JS LINK PART END
-=======================================-->
