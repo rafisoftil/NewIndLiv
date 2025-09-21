@@ -1,3 +1,4 @@
+using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -434,12 +435,12 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <param name="productId"></param>
         /// <param name="rating"></param>
         /// <returns>Status message</returns>
-        public JsonResult AddRating(int productId, int rating)
+        public JsonResult AddRating(int userId, int productId, int rating, string comments)
         {
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            string createdBy = HttpContext.Session.GetString("userName") ?? string.Empty;
+            string createdBy = HttpContext.Session.GetString("UserFullName") ?? string.Empty;
             ProductViewModel productViewModel = new ProductViewModel();
-            string message = productViewModel.AddRating(productId, userId, rating, createdBy);
+            string message = productViewModel.AddRating(productId, userId, rating, comments, createdBy);
+            string notification = new ProductHelper().AddNotification(productId, userId, "Rating", comments);
             return Json(new { status = message });
         }
         /// <summary>
@@ -674,6 +675,13 @@ namespace IndiaLivings_Web_UI.Controllers
             JobNewsViewModel jobNews = new JobNewsViewModel();
             List<JobNewsViewModel> jobList = new List<JobNewsViewModel>();
             return View(jobList.ToList());
+        }
+        public IActionResult Notification()
+        {
+            NotificationViewModel notificationModel = new NotificationViewModel();
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<NotificationViewModel> notifications = notificationModel.GetUserNotifications(userId);
+            return View(notifications);
         }
     }
 }
