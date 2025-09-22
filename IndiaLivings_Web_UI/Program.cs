@@ -19,6 +19,11 @@ builder.Services.AddSession(options =>
 
 //builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSignalR();
+//builder.Services.AddSignalR(options =>
+//{
+//    options.KeepAliveInterval = TimeSpan.FromSeconds(15); // default is 15 seconds
+//    options.ClientTimeoutInterval = TimeSpan.FromSeconds(60); // default is 30 seconds
+//});
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
@@ -42,10 +47,10 @@ app.UseRouting();
 
 
 app.MapHub<MessageController>("/chatHub");
-app.MapHub<NotificationController>("/notificationHub");
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Dashboard}/{action=Dashboard}/{id?}");
 
-app.Run();app.Run();                                                                  
+app.Run();
