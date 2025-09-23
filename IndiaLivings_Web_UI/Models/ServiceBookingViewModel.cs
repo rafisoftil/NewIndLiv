@@ -61,6 +61,39 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
+        public List<ServiceBookingViewModel> GetAllBookings()
+        {
+            List<ServiceBookingViewModel> myservices = new List<ServiceBookingViewModel>();
+            ServiceHelper SH = new ServiceHelper();
+            List<ServiceBookingModel> services = SH.GetAllBookings();
+            try
+            {
+                foreach (var ser in services)
+                {
+                    ServiceBookingViewModel booking = new ServiceBookingViewModel();
+                    booking.BookingId = ser.BookingId;
+                    booking.StatusName = ser.StatusName;
+                    booking.CustomerName = ser.CustomerName; 
+                    booking.ServiceName = ser.ServiceName;
+                    booking.ProviderName = ser.ProviderName;
+                    booking.AddressLine1 = ser.AddressLine1;
+                    booking.AddressLine2 = ser.AddressLine2;
+                    booking.City = ser.City;
+                    booking.State = ser.State;
+                    booking.PostalCode = ser.PostalCode;
+                    booking.Country = ser.Country;
+                    booking.RequestedStartAt = ser.RequestedStartAt;
+                    booking.PriceQuoted = ser.PriceQuoted;
+                    booking.Status = ser.Status;
+                    myservices.Add(booking);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return myservices;
+        }
         public List<ServiceBookingViewModel> GetBookingsByUser(int userId)
         {
             List<ServiceBookingViewModel> myservices = new List<ServiceBookingViewModel>();
@@ -92,6 +125,35 @@ namespace IndiaLivings_Web_UI.Models
             {
                 ServiceHelper SH = new ServiceHelper();
                 response = SH.CancelBooking(bookingId, reason, cancelledBy);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+    }
+    public class AssignProviderRequestViewModel
+    {
+        public long BookingId { get; set; }
+        public int ProviderId { get; set; }
+        public string? AssignedByUserId { get; set; }
+        public string? Notes { get; set; }
+
+        public string AssignProvider(int bookingId, int providerId, string assignedBy, string notes)
+        {
+            string response = "An error occured";
+            try
+            {
+                ServiceHelper SH = new ServiceHelper();
+                AssignProviderRequestModel assignProviderRequest = new AssignProviderRequestModel()
+                {
+                    BookingId = bookingId,
+                    ProviderId = providerId,
+                    AssignedByUserId = assignedBy,
+                    Notes = notes
+                };
+                response = SH.AssignProvider(assignProviderRequest);
             }
             catch (Exception ex)
             {

@@ -147,6 +147,25 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return bookedService;
         }
+        public List<ServiceBookingModel> GetAllBookings()
+        {
+            List<ServiceBookingModel> myservices = new List<ServiceBookingModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/ServiceBooking/AllBookings");
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    myservices = JsonConvert.DeserializeObject<List<ServiceBookingModel>>(data) ?? new List<ServiceBookingModel>();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return myservices;
+        }
         public List<ServiceBookingModel> GetUserBookings(int userId)
         {
             List<ServiceBookingModel> myservices = new List<ServiceBookingModel>();
@@ -211,6 +230,25 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/ServiceProvider/ServiceProviders");
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    providers = JsonConvert.DeserializeObject<List<ServiceProviderModel>>(data) ?? new List<ServiceProviderModel>();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return providers;
+        }
+        public List<ServiceProviderModel> ActiveServiceProviders()
+        {
+            List<ServiceProviderModel> providers = new List<ServiceProviderModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/ServiceProvider/activeServiceProviders");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -333,12 +371,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string AssignProvider()
+        public string AssignProvider(AssignProviderRequestModel assignProvider)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceBooking/assignProvider");
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceBooking/assignProvider", assignProvider);
             }
             catch (Exception ex)
             {

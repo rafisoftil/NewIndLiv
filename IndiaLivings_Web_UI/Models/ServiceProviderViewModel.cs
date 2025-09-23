@@ -134,5 +134,42 @@ namespace IndiaLivings_Web_UI.Models
             }
             return providers;
         }
+        public List<ServiceProviderViewModel> GetActiveServiceProviders()
+        {
+            List<ServiceProviderViewModel> providers = new List<ServiceProviderViewModel>();
+            try
+            {
+                var serviceHelper = new ServiceHelper();
+                var serviceProviders = serviceHelper.ActiveServiceProviders();
+                providers = serviceProviders.Select(sp => new ServiceProviderViewModel
+                {
+                    UserId = sp.UserId,
+                    ProviderId = sp.ProviderId,
+                    DisplayName = sp.DisplayName,
+                    ProviderImage = sp.ProviderImage,
+                    ContactName = sp.ContactName,
+                    Email = sp.Email,
+                    Phone = sp.Phone,
+                    AltPhone = sp.AltPhone,
+                    CompanyName = sp.CompanyName,
+                    AddressLine1 = sp.AddressLine1,
+                    AddressLine2 = sp.AddressLine2,
+                    City = sp.City,
+                    State = sp.State,
+                    PostalCode = sp.PostalCode,
+                    Country = sp.Country,
+                    Latitude = sp.Latitude,
+                    Longitude = sp.Longitude,
+                    KYCStatus = sp.KYCStatus,
+                    IsVerified = sp.IsVerified,
+                    IsActive = sp.IsActive
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return providers;
+        }
     }
 }

@@ -32,4 +32,11 @@ namespace IndiaLivings_Web_DAL.Models
         public string? Notes { get; set; }
         public string? ProviderName { get; set; }
     }
+    public class AssignProviderRequestModel
+    {
+        public long BookingId { get; set; }
+        public int ProviderId { get; set; }
+        public string? AssignedByUserId { get; set; }
+        public string? Notes { get; set; }
+    }
 }

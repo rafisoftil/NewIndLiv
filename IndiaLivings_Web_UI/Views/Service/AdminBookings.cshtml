@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var title = "Admin - Bookings Management";
+    List<ServiceBookingViewModel> Bookings = Model.Bookings;
+    List<ServiceProviderViewModel> Providers = Model.Providers;
+
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <style>
@@ -232,419 +239,303 @@
                         <div class="admin-tabs">
                             <ul class="nav nav-tabs" id="bookingsTabs">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="pending-tab" data-toggle="tab" href="#pending-bookings">Pending Assignment</a>
+                                    <a class="nav-link @(currentAction == "AdminBookings" ? "active" : "")" asp-action="AdminBookings" asp-controller="Service">Pending Assignment</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="assigned-tab" data-toggle="tab" href="#assigned-bookings">Assigned</a>
+                                    <a class="nav-link @(currentAction == "AssignedBookings" ? "active" : "")" asp-action="AssignedBookings" asp-controller="Service">Assigned</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="completed-tab" data-toggle="tab" href="#completed-bookings">Completed</a>
+                                    <a class="nav-link @(currentAction == "CompletedBookings" ? "active" : "")" asp-action="CompletedBookings" asp-controller="Service">Completed</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="all-tab" data-toggle="tab" href="#all-bookings">All Bookings</a>
+                                    <a class="nav-link @(currentAction == "AllBookings" ? "active" : "")" asp-action="AllBookings" asp-controller="Service">All Bookings</a>
                                 </li>
                             </ul>
                         </div>
 
-                        <!-- Tab Content -->
                         <div class="tab-content" id="bookingsTabContent">
-                            <!-- Pending Assignment Tab -->
-                            <div class="tab-pane fade show active" id="pending-bookings">
-                                <div class="content-header">
-                                    <h4>Pending Assignment (23)</h4>
-                                    <div class="content-actions">
-                                        <select class="form-control form-control-sm" style="width: auto;">
-                                            <option>All Categories</option>
-                                            <option>Home Cleaning</option>
-                                            <option>Beauty & Salon</option>
-                                            <option>AC & Appliance</option>
-                                            <option>Home Repair</option>
-                                        </select>
+                            @if (currentAction == "AdminBookings")
+                            {
+                                <div class="tab-pane fade show active" id="pending-bookings">
+                                    <div class="content-header">
+                                        <h4>Pending Assignment (23)</h4>
+                                        <div class="content-actions">
+                                            <select class="form-control form-control-sm" style="width: auto;">
+                                                <option>All Categories</option>
+                                                <option>Home Cleaning</option>
+                                                <option>Beauty & Salon</option>
+                                                <option>AC & Appliance</option>
+                                                <option>Home Repair</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="bookings-list">
-                                    <!-- Booking Item 1 -->
-                                    <div class="booking-item">
-                                        <div class="booking-header">
-                                            <div class="booking-info">
-                                                <div class="booking-id">
-                                                    <h6>Booking #BK001</h6>
-                                                    <span class="status-badge status-pending">Pending Assignment</span>
-                                                </div>
-                                                <div class="booking-customer">
-                                                    <img src="~/images/avatar/01.jpg" alt="customer">
-                                                    <div>
-                                                        <h6>John Smith</h6>
-                                                        <small>+91 9876543210</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="booking-date">
-                                                <small>Booked: Dec 24, 2023</small>
-                                            </div>
-                                        </div>
-
-                                        <div class="booking-details">
-                                            <div class="detail-item">
-                                                <h6>Service</h6>
-                                                <p>Deep House Cleaning</p>
-                                                <small>Home Cleaning Category</small>
-                                            </div>
-                                            <div class="detail-item">
-                                                <h6>Scheduled Date & Time</h6>
-                                                <p>Dec 26, 2023</p>
-                                                <small>10:00 AM - 2:00 PM</small>
-                                            </div>
-                                            <div class="detail-item">
-                                                <h6>Service Address</h6>
-                                                <p>123 Main Street, Downtown</p>
-                                                <small>Mumbai, Maharashtra - 400001</small>
-                                            </div>
-                                        </div>
-
-                                        <div class="booking-details">
-                                            <div class="detail-item">
-                                                <h6>Service Amount</h6>
-                                                <p>?1,299</p>
-                                            </div>
-                                            <div class="detail-item">
-                                                <h6>Payment Status</h6>
-                                                <p><span class="badge badge-success">Paid</span></p>
-                                            </div>
-                                            <div class="detail-item">
-                                                <h6>Special Instructions</h6>
-                                                <p>Please bring eco-friendly cleaning products</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="provider-assignment">
-                                            <h6>Assign Service Provider</h6>
-                                            <div class="available-providers" id="providers-bk001">
-                                                <div class="provider-card" onclick="selectProvider('bk001', 'prov1')">
-                                                    <div class="provider-details">
-                                                        <img src="~/images/avatar/01.jpg" alt="provider">
-                                                        <div>
-                                                            <strong>Clean Pro Services</strong>
-                                                            <div class="provider-stats">
-                                                                <span>? 4.8 (245 reviews)</span>
-                                                                <span>?? 2.5 km away</span>
-                                                                <span>? Available</span>
+                                    <div class="bookings-list">
+                                        <!-- Pending Assignment Tab -->
+                                        @foreach (var booking in Bookings)
+                                        {
+                                            <!-- Booking Item 1 -->
+                                            <div class="booking-item">
+                                                <div class="booking-header">
+                                                    <div class="booking-info">
+                                                        <div class="booking-id">
+                                                            <h6>Booking @booking.BookingId</h6>
+                                                            <span class="status-badge status-@(booking.Status.ToLower())">@booking.Status Assignment</span>
+                                                        </div>
+                                                        <div class="booking-customer">
+                                                            <img src="~/images/avatar/01.jpg" alt="customer">
+                                                            <div>
+                                                                <h6>@booking.CustomerName</h6>
+                                                                <small>+91 @booking.CustomerPhone</small>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="provider-card" onclick="selectProvider('bk001', 'prov2')">
-                                                    <div class="provider-details">
-                                                        <img src="~/images/avatar/02.jpg" alt="provider">
-                                                        <div>
-                                                            <strong>Home Care Plus</strong>
-                                                            <div class="provider-stats">
-                                                                <span>? 4.6 (189 reviews)</span>
-                                                                <span>?? 3.8 km away</span>
-                                                                <span>? Available</span>
-                                                            </div>
-                                                        </div>
+                                                    <div class="booking-date">
+                                                        <small>Booked: @booking.RequestedStartAt</small>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="booking-actions">
-                                                <button class="btn btn-success btn-sm" onclick="assignProvider('bk001')">
-                                                    <i class="fas fa-user-check"></i> Assign Selected Provider
-                                                </button>
-                                                <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('bk001')">
-                                                    <i class="fas fa-eye"></i> View Details
-                                                </button>
-                                                <button class="btn btn-outline-danger btn-sm" onclick="cancelBooking('bk001')">
-                                                    <i class="fas fa-times"></i> Cancel Booking
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <!-- Booking Item 2 -->
-                                    <div class="booking-item">
-                                        <div class="booking-header">
-                                            <div class="booking-info">
-                                                <div class="booking-id">
-                                                    <h6>Booking #BK002</h6>
-                                                    <span class="status-badge status-pending">Pending Assignment</span>
-                                                </div>
-                                                <div class="booking-customer">
-                                                    <img src="~/images/avatar/03.jpg" alt="customer">
-                                                    <div>
-                                                        <h6>Sarah Wilson</h6>
-                                                        <small>+91 9876543211</small>
+                                                <div class="booking-details">
+                                                    <div class="detail-item">
+                                                        <h6>Service</h6>
+                                                        <p>@booking.ServiceName</p>
+                                                        <small>@booking.ServiceName</small>
+                                                    </div>
+                                                    <div class="detail-item">
+                                                        <h6>Scheduled Date & Time</h6>
+                                                        <p>Dec 26, 2023</p>
+                                                        <small>10:00 AM - 2:00 PM</small>
+                                                    </div>
+                                                    <div class="detail-item">
+                                                        <h6>Service Address</h6>
+                                                        <p>@booking.AddressLine1, @booking.AddressLine2</p>
+                                                        <small>@booking.City, @booking.State - @booking.PostalCode</small>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="booking-date">
-                                                <small>Booked: Dec 24, 2023</small>
-                                            </div>
-                                        </div>
 
-                                        <div class="booking-details">
-                                            <div class="detail-item">
-                                                <h6>Service</h6>
-                                                <p>AC Repair & Service</p>
-                                                <small>AC & Appliance Category</small>
-                                            </div>
-                                            <div class="detail-item">
-                                                <h6>Scheduled Date & Time</h6>
-                                                <p>Dec 27, 2023</p>
-                                                <small>2:00 PM - 5:00 PM</small>
-                                            </div>
-                                            <div class="detail-item">
-                                                <h6>Service Address</h6>
-                                                <p>456 Park Avenue, Suburb</p>
-                                                <small>Delhi, Delhi - 110001</small>
-                                            </div>
-                                        </div>
-
-                                        <div class="booking-details">
-                                            <div class="detail-item">
-                                                <h6>Service Amount</h6>
-                                                <p>?799</p>
-                                            </div>
-                                            <div class="detail-item">
-                                                <h6>Payment Status</h6>
-                                                <p><span class="badge badge-success">Paid</span></p>
-                                            </div>
-                                            <div class="detail-item">
-                                                <h6>Special Instructions</h6>
-                                                <p>AC not cooling properly, possible gas leak</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="provider-assignment">
-                                            <h6>Assign Service Provider</h6>
-                                            <div class="available-providers" id="providers-bk002">
-                                                <div class="provider-card" onclick="selectProvider('bk002', 'prov3')">
-                                                    <div class="provider-details">
-                                                        <img src="~/images/avatar/04.jpg" alt="provider">
-                                                        <div>
-                                                            <strong>Cool Tech Services</strong>
-                                                            <div class="provider-stats">
-                                                                <span>? 4.5 (156 reviews)</span>
-                                                                <span>?? 1.2 km away</span>
-                                                                <span>? Available</span>
-                                                            </div>
-                                                        </div>
+                                                <div class="booking-details">
+                                                    <div class="detail-item">
+                                                        <h6>Service Amount</h6>
+                                                        <p>₹@booking.PriceQuoted</p>
+                                                    </div>
+                                                    <div class="detail-item">
+                                                        <h6>Payment Status</h6>
+                                                        <p><span class="badge badge-success">Paid</span></p>
+                                                    </div>
+                                                    <div class="detail-item">
+                                                        <h6>Special Instructions</h6>
+                                                        <p>@booking.Notes</p>
                                                     </div>
                                                 </div>
-                                                <div class="provider-card" onclick="selectProvider('bk002', 'prov4')">
-                                                    <div class="provider-details">
-                                                        <img src="~/images/avatar/01.jpg" alt="provider">
-                                                        <div>
-                                                            <strong>AC Expert Hub</strong>
-                                                            <div class="provider-stats">
-                                                                <span>? 4.7 (198 reviews)</span>
-                                                                <span>?? 2.8 km away</span>
-                                                                <span>? Busy until 6 PM</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="booking-actions">
-                                                <button class="btn btn-success btn-sm" onclick="assignProvider('bk002')">
-                                                    <i class="fas fa-user-check"></i> Assign Selected Provider
-                                                </button>
-                                                <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('bk002')">
-                                                    <i class="fas fa-eye"></i> View Details
-                                                </button>
-                                                <button class="btn btn-outline-danger btn-sm" onclick="cancelBooking('bk002')">
-                                                    <i class="fas fa-times"></i> Cancel Booking
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Assigned Bookings Tab -->
-                            <div class="tab-pane fade" id="assigned-bookings">
-                                <div class="content-header">
-                                    <h4>Assigned Bookings (89)</h4>
-                                    <div class="content-actions">
-                                        <button class="btn btn-outline-secondary btn-sm">
-                                            <i class="fas fa-download"></i> Export
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="assignedBookingsTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Booking ID</th>
-                                                <th>Customer</th>
-                                                <th>Service</th>
-                                                <th>Provider</th>
-                                                <th>Scheduled Date</th>
-                                                <th>Amount</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#BK003</td>
-                                                <td>
-                                                    <div class="customer-info">
-                                                        <img src="~/images/avatar/02.jpg" alt="customer" class="table-avatar">
-                                                        <span>Mike Johnson</span>
-                                                    </div>
-                                                </td>
-                                                <td>Hair Cut & Styling</td>
-                                                <td>Bella Beauty</td>
-                                                <td>Dec 25, 2023<br><small>6:00 PM</small></td>
-                                                <td>?899</td>
-                                                <td><span class="status-badge status-assigned">Assigned</span></td>
-                                                <td>
-                                                    <div class="action-buttons">
-                                                        <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails('BK003')">
-                                                            <i class="fas fa-eye"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-outline-warning" onclick="reassignProvider('BK003')">
-                                                            <i class="fas fa-user-edit"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- Completed Bookings Tab -->
-                            <div class="tab-pane fade" id="completed-bookings">
-                                <div class="content-header">
-                                    <h4>Completed Bookings (44)</h4>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="completedBookingsTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Booking ID</th>
-                                                <th>Customer</th>
-                                                <th>Service</th>
-                                                <th>Provider</th>
-                                                <th>Completed Date</th>
-                                                <th>Amount</th>
-                                                <th>Rating</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#BK005</td>
-                                                <td>
-                                                    <div class="customer-info">
-                                                        <img src="~/images/avatar/01.jpg" alt="customer" class="table-avatar">
-                                                        <span>David Lee</span>
-                                                    </div>
-                                                </td>
-                                                <td>Plumbing Repair</td>
-                                                <td>Fix It Fast</td>
-                                                <td>Dec 22, 2023</td>
-                                                <td>?649</td>
-                                                <td>
-                                                    <div class="rating">
-                                                        <i class="fas fa-star"></i>
-                                                        <span>4.5</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="action-buttons">
-                                                        <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails('BK005')">
-                                                            <i class="fas fa-eye"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-outline-secondary" onclick="generateInvoice('BK005')">
-                                                            <i class="fas fa-file-pdf"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- All Bookings Tab -->
-                            <div class="tab-pane fade" id="all-bookings">
-                                <div class="content-header">
-                                    <h4>All Bookings (156)</h4>
-                                    <div class="content-actions">
-                                        <input type="text" class="form-control form-control-sm" placeholder="Search bookings..." style="width: 200px; display: inline-block;">
-                                        <button class="btn btn-outline-secondary btn-sm">
-                                            <i class="fas fa-download"></i> Export All
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="allBookingsTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Booking ID</th>
-                                                <th>Customer</th>
-                                                <th>Service</th>
-                                                <th>Provider</th>
-                                                <th>Date</th>
-                                                <th>Amount</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#BK001</td>
-                                                <td>John Smith</td>
-                                                <td>Deep House Cleaning</td>
-                                                <td>-</td>
-                                                <td>Dec 26, 2023</td>
-                                                <td>?1,299</td>
-                                                <td><span class="status-badge status-pending">Pending</span></td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails('BK001')">
-                                                        <i class="fas fa-eye"></i>
+                                                <div class="booking-actions">
+                                                    <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('bk001')">
+                                                        <i class="fas fa-eye"></i> View Details
                                                     </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#BK003</td>
-                                                <td>Mike Johnson</td>
-                                                <td>Hair Cut & Styling</td>
-                                                <td>Bella Beauty</td>
-                                                <td>Dec 25, 2023</td>
-                                                <td>?899</td>
-                                                <td><span class="status-badge status-assigned">Assigned</span></td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails('BK003')">
-                                                        <i class="fas fa-eye"></i>
+                                                    <button class="btn btn-outline-danger btn-sm" onclick="cancelBooking('bk001')">
+                                                        <i class="fas fa-times"></i> Cancel Booking
                                                     </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#BK005</td>
-                                                <td>David Lee</td>
-                                                <td>Plumbing Repair</td>
-                                                <td>Fix It Fast</td>
-                                                <td>Dec 22, 2023</td>
-                                                <td>?649</td>
-                                                <td><span class="status-badge status-completed">Completed</span></td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails('BK005')">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                </div>
+                                                <div class="provider-assignment">
+                                                    <h6>Assign Service Provider</h6>
+                                                    <div class="available-providers" id="providers-bk001">
+                                                        @foreach (var provider in Providers)
+                                                        {
+                                                            <div class="provider-card">
+                                                                <div class="provider-details">
+                                                                    <img src="~/images/avatar/01.jpg" alt="provider">
+                                                                    <div>
+                                                                        <strong>@provider.CompanyName</strong>
+                                                                        <div class="provider-stats">
+                                                                            <span>? 4.8 (245 reviews)</span>
+                                                                            <span>?? 2.5 km away</span>
+                                                                            <span>? Available</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ms-auto">
+                                                                        <button class="btn btn-success btn-sm" onclick="selectProvider('@booking.BookingId', '@provider.ProviderId')">
+                                                                            <i class="fas fa-user-check"></i> Assign Provider
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            @if (currentAction == "AssignedBookings")
+                            {
+                                <!-- Assigned Bookings Tab -->
+                                <div class="tab-pane fade show active" id="assigned-bookings">
+                                    <div class="content-header">
+                                        <h4>Assigned Bookings (89)</h4>
+                                        <div class="content-actions">
+                                            <button class="btn btn-outline-secondary btn-sm">
+                                                <i class="fas fa-download"></i> Export
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" id="assignedBookingsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Booking ID</th>
+                                                    <th>Customer</th>
+                                                    <th>Service</th>
+                                                    <th>Provider</th>
+                                                    <th>Scheduled Date</th>
+                                                    <th>Amount</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var booking in Bookings)
+                                                {
+                                                    <tr>
+                                                        <td>@booking.BookingId</td>
+                                                        <td>
+                                                            <div class="customer-info">
+                                                                <img src="~/images/avatar/02.jpg" alt="customer" class="table-avatar">
+                                                                <span>@booking.CustomerName</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>@booking.ServiceName</td>
+                                                        <td>@booking.ProviderName</td>
+                                                        <td>@booking.RequestedStartAt<br><small>6:00 PM</small></td>
+                                                        <td>₹@booking.PriceQuoted</td>
+                                                        <td><span class="status-badge status-@(booking.Status.ToLower())">@booking.Status</span></td>
+                                                        <td>
+                                                            <div class="action-buttons">
+                                                                <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails('BK003')">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </button>
+                                                                <button class="btn btn-sm btn-outline-warning" onclick="reassignProvider('BK003')">
+                                                                    <i class="fas fa-user-edit"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                            @if (currentAction == "CompletedBookings")
+                            {
+                                <!-- Completed Bookings Tab -->
+                                <div class="tab-pane fade show active" id="completed-bookings">
+                                    <div class="content-header">
+                                        <h4>Completed Bookings (44)</h4>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" id="completedBookingsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Booking ID</th>
+                                                    <th>Customer</th>
+                                                    <th>Service</th>
+                                                    <th>Provider</th>
+                                                    <th>Completed Date</th>
+                                                    <th>Amount</th>
+                                                    <th>Rating</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var booking in Bookings)
+                                                {
+                                                    <tr>
+                                                        <td>@booking.BookingId</td>
+                                                        <td>
+                                                            <div class="customer-info">
+                                                                <img src="~/images/avatar/01.jpg" alt="customer" class="table-avatar">
+                                                                <span>@booking.CustomerName</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>@booking.ServiceName</td>
+                                                        <td>@booking.ProviderName</td>
+                                                        <td>@booking.RequestedEndAt</td>
+                                                        <td>₹@booking.PriceQuoted</td>
+                                                        <td>
+                                                            <div class="rating">
+                                                                <i class="fas fa-star"></i>
+                                                                <span>4.5</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="action-buttons">
+                                                                <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails('BK005')">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </button>
+                                                                <button class="btn btn-sm btn-outline-secondary" onclick="generateInvoice('BK005')">
+                                                                    <i class="fas fa-file-pdf"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                            @if (currentAction == "AllBookings")
+                            {
+                                <!-- All Bookings Tab -->
+                                <div class="tab-pane fade show active" id="all-bookings">
+                                    <div class="content-header">
+                                        <h4>All Bookings (156)</h4>
+                                        <div class="content-actions">
+                                            <input type="text" class="form-control form-control-sm" placeholder="Search bookings..." style="width: 200px; display: inline-block;">
+                                            <button class="btn btn-outline-secondary btn-sm">
+                                                <i class="fas fa-download"></i> Export All
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" id="allBookingsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Booking ID</th>
+                                                    <th>Customer</th>
+                                                    <th>Service</th>
+                                                    <th>Provider</th>
+                                                    <th>Date</th>
+                                                    <th>Amount</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var booking in Bookings)
+                                                {
+                                                    <tr>
+                                                        <td>@booking.BookingId</td>
+                                                        <td>@booking.CustomerName</td>
+                                                        <td>@booking.ServiceName</td>
+                                                        <td>@booking.ProviderName</td>
+                                                        <td>@booking.RequestedStartAt</td>
+                                                        <td>₹@booking.PriceQuoted</td>
+                                                        <td><span class="status-badge status-@(booking.Status.ToLower())">@booking.Status</span></td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails('BK001')">
+                                                                <i class="fas fa-eye"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -655,35 +546,35 @@
             ADMIN BOOKINGS MANAGEMENT END
     =======================================-->
     <!--=====================================
-                FOOTER PART START
-    =======================================-->
-    <footer class="footer-part">
-        <div class="container">
-            <div class="footer-end">
-                <div class="footer-end-content">
-                    <p>All Copyrights Reserved &copy; 2021 - Admin Panel - Developed by <a href="#">Mironcoder</a></p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--=====================================
-                FOOTER PART END
-    =======================================-->
-    <!--=====================================
                 JS LINK PART START
     =======================================-->
     <script>
         // Booking Management Functions
         function selectProvider(bookingId, providerId) {
             // Remove selection from all providers for this booking
-            $('#providers-' + bookingId + ' .provider-card').removeClass('selected');
+            // $('#providers-' + bookingId + ' .provider-card').removeClass('selected');
 
-            // Add selection to clicked provider
-            event.currentTarget.classList.add('selected');
+            // // Add selection to clicked provider
+            // event.currentTarget.classList.add('selected');
 
-            // Store selected provider
-            window.selectedProviders = window.selectedProviders || {};
-            window.selectedProviders[bookingId] = providerId;
+            // // Store selected provider
+            // window.selectedProviders = window.selectedProviders || {};
+            // window.selectedProviders[bookingId] = providerId;
+            $.ajax({
+                type: "POST",
+                url: '/Service/AssignProvider',
+                data: { bookingId: bookingId, providerId: providerId },
+                success: function (response) {
+                    if (response.success) {
+                        alert('Provider selected successfully for booking ' + bookingId);
+                    } else {
+                        alert('Error selecting provider: ' + response.message);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while selecting the provider.');
+                }
+            });
         }
 
         function assignProvider(bookingId) {
