@@ -270,13 +270,14 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ServiceSubCategoryViewModel> subCategories = sscvm.GetSubServicesByCategory(categoryId);
             return View(subCategories);
         }
-        public string AssignProvider(int bookingId, int providerId)
+        public JsonResult AssignProvider(int bookingId, int providerId)
         {
             var assignedBy = HttpContext.Session.GetString("userName") ?? "";
             AssignProviderRequestViewModel bookingStatus = new AssignProviderRequestViewModel();
             string notes = "";
             var response = bookingStatus.AssignProvider(bookingId, providerId, assignedBy, notes);
-            return response;
+            var result = JObject.Parse(response);
+            return Json(result);
         }
     }
 }

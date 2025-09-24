@@ -1,8 +1,7 @@
 ﻿@{
     var title = "Admin - Bookings Management";
-    List<ServiceBookingViewModel> Bookings = Model.Bookings;
-    List<ServiceProviderViewModel> Providers = Model.Providers;
-
+    List<ServiceBookingViewModel> Bookings = Model is List<ServiceBookingViewModel> ? Model : Model.Bookings;
+    List<ServiceProviderViewModel> Providers = Model is List<ServiceBookingViewModel> ? new List<ServiceProviderViewModel>() : Model.Providers;
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 }
 <!DOCTYPE html>
@@ -542,6 +541,10 @@
             </div>
         </div>
     </section>
+    <div id="spinner" class="d-none">
+        <img style="height: 100px" src="~/images/spinner.gif" />
+    </div>
+    <div id="toast" class="d-none"></div>
     <!--=====================================
             ADMIN BOOKINGS MANAGEMENT END
     =======================================-->
@@ -566,13 +569,14 @@
                 data: { bookingId: bookingId, providerId: providerId },
                 success: function (response) {
                     if (response.success) {
-                        alert('Provider selected successfully for booking ' + bookingId);
+                        ShowToast('success', 'Service Assigned Successfully');
+                        location.reload();
                     } else {
-                        alert('Error selecting provider: ' + response.message);
+                        ShowToast('failed', 'Opeartion Unsuccessful');
                     }
                 },
                 error: function () {
-                    alert('An error occurred while selecting the provider.');
+                    ShowToast('failed', 'An error occurred while selecting the provider.');
                 }
             });
         }
@@ -621,4 +625,4 @@
                 JS LINK PART END
     =======================================-->
 </body>
-</html>
+</html></html>
