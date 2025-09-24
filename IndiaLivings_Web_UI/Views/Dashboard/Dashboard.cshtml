@@ -501,22 +501,20 @@
 
         <div class="tab-pane active" id="ratings">
             <div class="row">
-                @for(var i = 0; i < Model.Products.Count; i++)
+                @foreach (var product in Model.RatedProducts)
                 {
-                    if (i < 8)
-                    {
                         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
                             <div class="product-card">
                                 <div class="product-media">
                                     <div class="product-img">
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@Model.Products[i].productImageName" width="288" height="205" />
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@product.productImageName" width="288" height="205" />
                                     </div>
                                     <div class="cross-vertical-badge product-badge">
                                         <i class="fas fa-fire"></i>
                                         <span>top niche</span>
                                     </div>
                                     <div class="product-type">
-                                        <span class="flat-badge booking">@Model.Products[i].productAdCategory</span>
+                                    <span class="flat-badge booking">@product.productAdCategory</span>
                                     </div>
                                     @* <ul class="product-action">
                                         <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
@@ -527,22 +525,22 @@
                                 <div class="product-content">
                                     <ol class="breadcrumb product-category">
                                         <li><i class="fas fa-tags"></i></li>
-                                        <li class="breadcrumb-item"><a href="#">@Model.Products[i].productSubCategoryName</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">@Model.Products[i].productName</li>
+                                    <li class="breadcrumb-item"><a href="#">@product.productSubCategoryName</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">@product.productName</li>
                                     </ol>
                                     <h5 class="product-title">
-                                        <a href="#">@Model.Products[i].productDescription</a>
+                                    <a href="#">@product.productDescription</a>
                                     </h5>
                                     <div class="product-meta">
-                                        <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
-                                        <span><i class="fas fa-clock"></i>@Model.Products[i].updatedDate</span>
+                                        <span class="feature-price">₹@product.productPrice.ToString("F2")<small>/@product.productPriceCondition</small></span>
+                                        <span><i class="fas fa-clock"></i>@product.updatedDate</span>
                                     </div>
                                     <div class="product-info">
-                                        <h5 class="product-price">@Model.Products[i].productPrice<span>/per week</span></h5>
-                                        <div class="product-btn">
+                                        <h5 class="product-price">₹@Convert.ToInt32(product.productPrice)<span>/@product.productPriceCondition</span></h5>
+                                        @* <div class="product-btn">
                                             <a href="compare.html" title="Compare" class="fas fa-compress"></a>
                                             <button type="button" title="Wishlist" class="far fa-heart"></button>
-                                        </div>
+                                        </div> *@
                                     </div>
                                 </div>
                             </div>
@@ -661,7 +659,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="center-20">
-                    <a href="User/AdsList" class="btn btn-inline">
+                    <a href="@Url.Action("AdsList", "Dashboard")" class="btn btn-inline">
                         <i class="fas fa-eye"></i>
                         <span>view all ads</span>
                     </a>

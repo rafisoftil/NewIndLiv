@@ -19,6 +19,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ProductViewModel product = new ProductViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             List<ProductViewModel> productsList = product.GetAds(0);
+            List<ProductViewModel> RatedProducts = product.GetTopRatedProducts(8);
             List<ProductViewModel> recommendedList = productsList.Where(product => product.productMembershipID == 2).ToList();
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
             int wishlistCount = product.GetwishlistCount(productOwnerID);
@@ -35,6 +36,7 @@ namespace IndiaLivings_Web_UI.Controllers
             dynamic data = new ExpandoObject();
             data.Categories = categoryList.OrderByDescending(x => x.CategoryCount).ToList();
             data.Products = productsList;
+            data.RatedProducts = RatedProducts;
             data.RecommendedAds = recommendedList;
             data.Cities = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
             return View(data);
