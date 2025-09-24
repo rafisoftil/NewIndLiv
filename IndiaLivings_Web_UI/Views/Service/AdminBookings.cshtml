@@ -329,7 +329,7 @@
                                                     <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('bk001')">
                                                         <i class="fas fa-eye"></i> View Details
                                                     </button>
-                                                    <button class="btn btn-outline-danger btn-sm" onclick="cancelBooking('bk001')">
+                                                    <button class="btn btn-outline-danger btn-sm" onclick="cancelBooking('@booking.BookingId')">
                                                         <i class="fas fa-times"></i> Cancel Booking
                                                     </button>
                                                 </div>
@@ -541,6 +541,25 @@
             </div>
         </div>
     </section>
+    <div class="modal fade" id="CancelBookingModal" tabindex="-1" aria-labelledby="cancelBookingLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                        <input type="hidden" id="CancelBookingId" />
+                        <div class="form-group">
+                            <label for="Reason">Please provide a reason for Cancelling</label>
+                            <textarea id="Reason" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="BookingCancel()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="spinner" class="d-none">
         <img style="height: 100px" src="~/images/spinner.gif" />
     </div>
@@ -580,6 +599,77 @@
                 }
             });
         }
+        
+        
+        function cancelBooking(bookingId) {
+            if(confirm('Are you sure you want to cancel this booking?')) {
+                $('#CancelBookingId').val(bookingId);
+                $('#CancelBookingModal').modal('show');
+            }
+        }
+        function BookingCancel() {
+            var bookingId = $('#CancelBookingId').val();
+            var reason = $('#Reason').val();
+            var errors = [];
+
+            if (!reason) {
+                errors.push('Please enter the reason');
+                $('#Reason').addClass('is-invalid');
+            } else if (reason.length > 250) {
+                errors.push('Reason cannot exceed 250 characters.');
+                $('#Reason').addClass('is-invalid');
+            } else {
+                $('#Reason').removeClass('is-invalid');
+            }
+            if (errors.length > 0) {
+                ShowToast('failed', errors.join('\n'));
+                return false;
+            }
+
+            $.ajax({
+                url: '@Url.Action("CancelBooking", "Service")',
+                type: 'POST',
+                data: {bookingId: bookingId, reason: reason},
+                success: function(response) {
+                    if (response.success) {
+                        ShowToast('success', 'Booking successfully Cancelled');
+                        location.reload();
+                    } else {
+                        ShowToast('failed', 'Booking Cancelling Unsuccessful');
+                    }
+                },
+                error: function() {
+                    ShowToast('failed', 'An error occured while cancelling');
+                }
+            });
+        }
+        // function cancelBooking(bookingId, providerId) {
+        //     // Remove selection from all providers for this booking
+        //     // $('#providers-' + bookingId + ' .provider-card').removeClass('selected');
+
+        //     // // Add selection to clicked provider
+        //     // event.currentTarget.classList.add('selected');
+
+        //     // // Store selected provider
+        //     // window.selectedProviders = window.selectedProviders || {};
+        //     // window.selectedProviders[bookingId] = providerId;
+        //     $.ajax({
+        //         type: "POST",
+        //         url: '/Service/CancelBooking',
+        //         data: { bookingId: bookingId, providerId: providerId },
+        //         success: function (response) {
+        //             if (response.success) {
+        //                 ShowToast('success', 'Booking Cancelled Successfully');
+        //                 location.reload();
+        //             } else {
+        //                 ShowToast('failed', 'Opeartion Unsuccessful');
+        //             }
+        //         },
+        //         error: function () {
+        //             ShowToast('failed', 'An error occurred while selecting the provider.');
+        //         }
+        //     });
+        // }
 
         function assignProvider(bookingId) {
             const selectedProvider = window.selectedProviders && window.selectedProviders[bookingId];
@@ -599,12 +689,12 @@
             // Open booking details modal
         }
 
-        function cancelBooking(bookingId) {
-            if (confirm('Are you sure you want to cancel this booking? This action cannot be undone.')) {
-                alert('Booking cancelled. Customer will be notified and refund will be processed.');
-                // Handle booking cancellation
-            }
-        }
+        // function cancelBooking(bookingId) {
+        //     if (confirm('Are you sure you want to cancel this booking? This action cannot be undone.')) {
+        //         alert('Booking cancelled. Customer will be notified and refund will be processed.');
+        //         // Handle booking cancellation
+        //     }
+        // }
 
         function reassignProvider(bookingId) {
             alert('Opening provider reassignment for booking: ' + bookingId);
@@ -625,4 +715,4 @@
                 JS LINK PART END
     =======================================-->
 </body>
-</html></html>
+</html>
