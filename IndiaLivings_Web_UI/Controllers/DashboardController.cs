@@ -1,6 +1,7 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Dynamic;
 using System.Net.Mail;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -700,7 +701,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns> List of all Ads will be returned</returns>
         /// // Need to be reviewed with Anoop
-        public IActionResult AdsList(int categoryid = 0, int page = 1, int ItemsPerPage = 12)
+        public IActionResult AdsList(int categoryid = 0, int page = 1, int ItemsPerPage = 12, bool featured = false)
         {
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(0);
@@ -714,11 +715,15 @@ namespace IndiaLivings_Web_UI.Controllers
             List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            List<ProductViewModel> recommendedList = products.Where(product => product.productMembershipID == 2).ToList();
+            if (featured)
+            {
+                products = recommendedList;
+            }
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
             ViewBag.ItemsPerPage = ItemsPerPage;
-            List<ProductViewModel> recommendedList = products.Where(product => product.productMembershipID == 2).ToList();
             AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
             {
                 Products = products,
