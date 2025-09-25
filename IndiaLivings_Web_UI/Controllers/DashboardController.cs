@@ -703,7 +703,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns> List of all Ads will be returned</returns>
         /// // Need to be reviewed with Anoop
-        public IActionResult AdsList(int categoryid = 0, int page = 1, int ItemsPerPage = 12, bool featured = false)
+        public IActionResult AdsList(int categoryid = 0, int subcategoryid = 0, int page = 1, int ItemsPerPage = 12, bool featured = false)
         {
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(0);
@@ -712,6 +712,10 @@ namespace IndiaLivings_Web_UI.Controllers
             if (categoryid != 0)
             {
                 products = products.Where(product => product.productCategoryID == categoryid).ToList();
+                if (subcategoryid != 0)
+                {
+                    products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
+                }
             }
             SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
             List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();

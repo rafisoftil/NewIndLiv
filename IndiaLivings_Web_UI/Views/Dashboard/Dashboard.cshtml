@@ -727,7 +727,7 @@
                         <div class="category-card">
                             <div class="category-head">
                                 <img src="@Model.Categories[i].CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" />
-                                <a href="#" class="category-content">
+                                <a href="javascript:void(0);" onclick="navigateToAdsListWithCategory(@Model.Categories[i].CategoryID)" class="category-content">
                                     <h4>@Model.Categories[i].CategoryName</h4>
                                     <p>(@Model.Categories[i].CategoryCount)</p>
                                 </a>
@@ -735,16 +735,14 @@
                             @foreach (var subCategory in Model.Categories[i].subCategories)
                             {
                                 <ul class="category-list">
-                                    <li><a href="#"><h6>@subCategory.subCatergoryName</h6><p>(@subCategory.intSubCategoryCount)</p></a></li>
+                                    <li>
+                                        <a href="javascript:void(0);" onclick="navigateToAdsListWithCategory(@Model.Categories[i].CategoryID, @subCategory.subCategoryID)">
+                                            <h6>@subCategory.subCatergoryName</h6>
+                                            <p>(@subCategory.intSubCategoryCount)</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             }
-                            @* <ul class="category-list">
-                    <li><a href="#"><h6>television</h6><p>(34)</p></a></li>
-                    <li><a href="#"><h6>Generetor</h6><p>(24)</p></a></li>
-                    <li><a href="#"><h6>Washing machine</h6><p>(12)</p></a></li>
-                    <li><a href="#"><h6>air condition</h6><p>(19)</p></a></li>
-                    <li><a href="#"><h6>iron</h6><p>(56)</p></a></li>
-                    </ul> *@
                         </div>
                     </div>
                 }
@@ -918,5 +916,8 @@
     function navigateToAdsListWithCity(cityName) {
         // Navigate to AdsList page with the city parameter
         window.location.href = `/Dashboard/AdsList?strCity=${encodeURIComponent(cityName)}`;
+    }
+    function navigateToAdsListWithCategory(categoryId, subcategoryId = 0) {
+        window.location.href = `/Dashboard/AdsList?categoryid=${categoryId}&subcategoryid=${subcategoryId}`;
     }
 </script>
