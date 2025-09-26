@@ -84,10 +84,10 @@ namespace IndiaLivings_Web_DAL.Helpers
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-            return services; 
+            return services;
         }
 
-        public string UpdateServiceCategory(ServiceModel service)
+        public string UpdateServiceCategory(ServiceCategoryUpdateRequest service)
         {
             string response = string.Empty;
             try
@@ -101,7 +101,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             return response;
         }
 
-        public string DeleteServiceCategory(int categoryId, string username) 
+        public string DeleteServiceCategory(int categoryId, string username)
         {
             string response = string.Empty;
             try

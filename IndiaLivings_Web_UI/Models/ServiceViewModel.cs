@@ -93,7 +93,7 @@ namespace IndiaLivings_Web_UI.Models
             string result = "An error occured";
             try
             {
-                ServiceModel service = new ServiceModel();
+                ServiceCategoryUpdateRequest service = new ServiceCategoryUpdateRequest();
                 service.CategoryId = categoryId;
                 service.Name = name;
                 service.Slug = slug;

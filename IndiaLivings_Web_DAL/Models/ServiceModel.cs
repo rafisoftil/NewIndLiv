@@ -20,6 +20,15 @@ namespace IndiaLivings_Web_DAL.Models
         public string CreatedBy { get; set; } = string.Empty;
         public string UpdatedBy { get; set; } = string.Empty;
     }
+    public class ServiceCategoryUpdateRequest
+    {
+        public int CategoryId { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string? Slug { get; set; }
+        public string? Description { get; set; }
+        public bool IsActive { get; set; } = true;
+        public string? UpdatedBy { get; set; }
+    }
     public class ServiceUpdateRequest
     {
         public int ServiceId { get; set; }
