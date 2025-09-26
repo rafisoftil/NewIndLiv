@@ -12,6 +12,7 @@ namespace IndiaLivings_Web_UI.Models
         public string? CategoryName { get; set; }
         public string? ProviderName { get; set; }
         public decimal? BasePrice { get; set; }
+        public bool status { get; set; } = true;
         public bool IsActive { get; set; }
         public int? DurationMin { get; set; }
         public string? CreatedBy { get; set; }

@@ -228,18 +228,18 @@ namespace IndiaLivings_Web_UI.Controllers
             var response = JObject.Parse(result);
             return Json(response);
         }
-        public JsonResult UpdateServiceSubCategory([FromBody] ServiceSubCategoryViewModel subService)
+        public JsonResult UpdateServiceSubCategory(int ServiceId, int CategoryId, string Name, decimal BasePrice, string Description, bool Status, int DurationMin)
         {
             ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
-            //sscvm.ServiceId = Convert.ToInt32(subService["serviceid"]);
-            //sscvm.CategoryId = Convert.ToInt32(subService["categoryid"]);
-            //sscvm.Name = subService["name"];
-            //sscvm.Description = subService["description"];
-            //sscvm.BasePrice = Convert.ToDecimal(subService["basePrice"]);
-            //sscvm.DurationMin = Convert.ToInt32(subService["durationMin"]);
-            //sscvm.CreatedBy = HttpContext.Session.GetString("userName") ?? "";
-            subService.UpdatedBy = HttpContext.Session.GetString("userName") ?? "";
-            string result = sscvm.UpdateSubCategory(subService);
+            sscvm.ServiceId = ServiceId;
+            sscvm.CategoryId = CategoryId;
+            sscvm.Name = Name;
+            sscvm.Description = Description;
+            sscvm.BasePrice = BasePrice;
+            sscvm.DurationMin = DurationMin;
+            sscvm.CreatedBy = HttpContext.Session.GetString("userName") ?? "";
+            sscvm.UpdatedBy = HttpContext.Session.GetString("userName") ?? "";
+            string result = sscvm.UpdateSubCategory(sscvm);
             var response = JObject.Parse(result);
             return Json(response);
         }

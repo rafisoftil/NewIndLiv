@@ -92,7 +92,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Put_Api($"{BaseApiUrl}/Service/category/updateServiceCategory", service).Trim('\"');
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/updateServiceCategory", service).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -106,7 +106,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Delete_Api($"{BaseApiUrl}/Service/category/deleteServiceCategory/{categoryId}?categoryId={categoryId}&deletedBy={username}").Trim('\"');
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/deleteServiceCategory/{categoryId}?categoryId={categoryId}&deletedBy={username}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -280,7 +280,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Put_Api($"{BaseApiUrl}/Service/category/updateService", subCategory).Trim('\"');
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/updateService", subCategory).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -293,7 +293,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Delete_Api($"{BaseApiUrl}/Service/category/deleteService/{serviceId}?serviceId={serviceId}&deletedBy={username}").Trim('\"');
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/deleteService/{serviceId}?serviceId={serviceId}&deletedBy={username}").Trim('\"');
             }
             catch (Exception ex)
             {
