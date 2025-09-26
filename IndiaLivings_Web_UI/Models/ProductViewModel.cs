@@ -45,6 +45,7 @@ namespace IndiaLivings_Web_UI.Models
         public string ProductSearchText { get; set; } = string.Empty;
         public decimal MinPrice { get; set; } = 0;
         public decimal MaxPrice { get; set; } = 0;
+        public decimal averageRating { get; set; } = 0;
 
         public List<ProductViewModel> GetAllWishlist(int userid)
         {
@@ -263,6 +264,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.createdBy = productDetails.createdBy;
                         product.updatedDate = productDetails.updatedDate;
                         product.updatedBy = productDetails.updatedBy;
+                        product.averageRating = productDetails.averageRating;
                         products.Add(product);
                     }
                 }

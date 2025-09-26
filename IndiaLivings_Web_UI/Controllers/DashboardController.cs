@@ -783,7 +783,7 @@ namespace IndiaLivings_Web_UI.Controllers
 
             return PartialView("_ProductsPartial3", products);
         }
-        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "", int itemsPerPage = 12)
+        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "", int itemsPerPage = 12, string ratings = "")
         {
             ProductViewModel productViewModel = new ProductViewModel();
             List<ProductViewModel> products;
@@ -833,6 +833,12 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 List<string> adtypeList = adtype.Split(',').ToList();
                 products = products.Where(product => adtypeList.Contains(product.productAdCategory.ToLower())).ToList();
+            }
+            if (!string.IsNullOrEmpty(ratings))
+            {
+                //products = products.Where(p => p.averageRating >= ratings);
+                List<string> ratingsList = ratings.Split(',').ToList();
+                products = products.Where(product => ratingsList.Contains(product.averageRating.ToString())).ToList();
             }
 
             if (sort != "")

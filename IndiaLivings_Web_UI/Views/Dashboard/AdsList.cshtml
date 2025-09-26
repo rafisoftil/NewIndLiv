@@ -105,9 +105,9 @@
                                 <ul class="product-widget-list">
                                     <li class="product-widget-item">
                                         <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek4">
+                                            <input type="checkbox" id="rating5" class="rating-filter" onchange="updateRating(5, this.checked)">
                                         </div>
-                                        <label class="product-widget-label" for="chcek4">
+                                        <label class="product-widget-label" for="rating5">
                                             <span class="product-widget-star">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
@@ -120,9 +120,9 @@
                                     </li>
                                     <li class="product-widget-item">
                                         <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek5">
+                                            <input type="checkbox" id="rating4" class="rating-filter" onchange="updateRating(4, this.checked)">
                                         </div>
-                                        <label class="product-widget-label" for="chcek5">
+                                        <label class="product-widget-label" for="rating4">
                                             <span class="product-widget-star">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
@@ -135,9 +135,9 @@
                                     </li>
                                     <li class="product-widget-item">
                                         <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek6">
+                                            <input type="checkbox" id="rating3" class="rating-filter" onchange="updateRating(3, this.checked)">
                                         </div>
-                                        <label class="product-widget-label" for="chcek6">
+                                        <label class="product-widget-label" for="rating3">
                                             <span class="product-widget-star">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
@@ -150,9 +150,9 @@
                                     </li>
                                     <li class="product-widget-item">
                                         <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek7">
+                                            <input type="checkbox" id="rating2" class="rating-filter" onchange="updateRating(2, this.checked)">
                                         </div>
-                                        <label class="product-widget-label" for="chcek7">
+                                        <label class="product-widget-label" for="rating2">
                                             <span class="product-widget-star">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
@@ -165,9 +165,9 @@
                                     </li>
                                     <li class="product-widget-item">
                                         <div class="product-widget-checkbox">
-                                            <input type="checkbox" id="chcek8">
+                                            <input type="checkbox" id="rating1" class="rating-filter" onchange="updateRating(1, this.checked)">
                                         </div>
-                                        <label class="product-widget-label" for="chcek8">
+                                        <label class="product-widget-label" for="rating1">
                                             <span class="product-widget-star">
                                                 <i class="fas fa-star"></i>
                                                 <i class="far fa-star"></i>
@@ -179,7 +179,7 @@
                                         </label>
                                     </li>
                                 </ul>
-                                <button type="submit" class="product-widget-btn">
+                                <button type="submit" class="product-widget-btn" onclick="updateRating('clear')">
                                     <i class="fas fa-broom"></i>
                                     <span>Clear Filter</span>
                                 </button>
@@ -614,6 +614,7 @@
     var itemsPerPage = 12;
     var selectedCities = [];
     var selectedAdTypes = [];
+    var selectedRatings = [];
     let categoryId = 0;
     let subCategoryId = 0;
     var minPrice = null;
@@ -637,11 +638,25 @@
         }
         updateAdList();
     }
-
+    function updateRating(rating, isChecked) {
+        if (rating === 'clear') {
+            selectedRatings = [];
+            document.querySelectorAll('.rating-filter').forEach(btn => {
+                btn.checked = false;
+            });
+        }
+        else if (isChecked) {
+            selectedRatings.push(rating);
+        } else {
+            selectedRatings = selectedRatings.filter(r => r !== rating);
+        }
+        updateAdList();
+    }
 
     function updateAdList() {
         var strCity = selectedCities.join(',');
         var adtype = selectedAdTypes.join(',');
+        var ratings = selectedRatings.join(',');
         var categoryid = categoryId;
         var subcategoryid = subCategoryId;
         var decMinPrice = parseFloat($('#decMinPrice').val());
@@ -650,7 +665,7 @@
         $.ajax({
           url: '/Dashboard/ProductList',
           type: 'GET',
-          data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid, sort: sort, itemsPerPage: itemsPerPage},
+          data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid, ratings: ratings, sort: sort, itemsPerPage: itemsPerPage},
           contentType: 'application/json',
           success: function (data) {
             $('#divPartial').html(data); // Load updated product list
@@ -823,4 +838,23 @@
         window.location.href = '/Dashboard/navSearch' + queryParams;
     }
 
+    function applyFilters() {
+        var categoryid = getUrlParameter('categoryid') || 0;
+        var subcategoryid = getUrlParameter('subcategoryid') || 0;
+        // ... your other filter parameters ...
+
+        $.ajax({
+            url: '/Dashboard/productList',
+            type: 'POST',
+            data: JSON.stringify({
+                categoryid: categoryid,
+                subcategoryid: subcategoryid,
+                // ... other parameters ...
+            }),
+            contentType: 'application/json',
+            success: function (result) {
+                $('#productsContainer').html(result);
+            }
+        });
+    }
 </script>
