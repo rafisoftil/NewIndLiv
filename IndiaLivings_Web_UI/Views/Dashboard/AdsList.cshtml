@@ -723,6 +723,10 @@
         // Get the city parameter from URL
         const urlParams = new URLSearchParams(window.location.search);
         const cityParam = urlParams.get('strCity');
+        categoryId = urlParams.get('categoryid');
+        subCategoryId = urlParams.get('subcategoryid');
+        console.log(categoryId);
+        console.log(subCategoryId);
       
         if (cityParam) {
             // Find and check the corresponding checkbox

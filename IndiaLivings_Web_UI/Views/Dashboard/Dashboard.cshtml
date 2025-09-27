@@ -24,7 +24,7 @@
             {
                 if (@category.CategoryCount > 0)
                 {
-                    <a href="@Url.Action("AdsList", "Dashboard", new { categoryid = category.CategoryID })" class="suggest-card">
+                    <a href="javascript:void(0);" onclick="navigateToAdsListWithCategory(@category.CategoryID)" class="suggest-card">
 
                         <img class="slide-show" src=@category.CategoryImage alt="@category.CategoryName" onerror="this.onerror=null; this.src='/images/default-category.jpg';" />
                         <h6>@category.CategoryName</h6>
@@ -918,6 +918,6 @@
         window.location.href = `/Dashboard/AdsList?strCity=${encodeURIComponent(cityName)}`;
     }
     function navigateToAdsListWithCategory(categoryId, subcategoryId = 0) {
-        window.location.href = `/Dashboard/AdsList?categoryid=${categoryId}&subcategoryid=${subcategoryId}`;
+        window.location.href = `/Dashboard/AdsList?categoryid=${encodeURIComponent(categoryId)}&subcategoryid=${encodeURIComponent(subcategoryId)}`;
     }
 </script>
