@@ -47,6 +47,7 @@ namespace IndiaLivings_Web_DAL.Models
         public int intproductCount { get; set; }
         public decimal MinPrice { get; set; } = 0;
         public decimal MaxPrice { get; set; } = 0;
+        public decimal averageRating { get; set; } = 0;
         public List<AdListFiltersModel> adListFiltersModels { get; set; }
     }
 }

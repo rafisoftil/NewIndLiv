@@ -1,6 +1,7 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Dynamic;
 using System.Net.Mail;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -18,6 +19,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ProductViewModel product = new ProductViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             List<ProductViewModel> productsList = product.GetAds(0);
+            List<ProductViewModel> RatedProducts = product.GetTopRatedProducts(8);
             List<ProductViewModel> recommendedList = productsList.Where(product => product.productMembershipID == 2).ToList();
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
             int wishlistCount = product.GetwishlistCount(productOwnerID);
@@ -34,6 +36,7 @@ namespace IndiaLivings_Web_UI.Controllers
             dynamic data = new ExpandoObject();
             data.Categories = categoryList.OrderByDescending(x => x.CategoryCount).ToList();
             data.Products = productsList;
+            data.RatedProducts = RatedProducts;
             data.RecommendedAds = recommendedList;
             data.Cities = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
             return View(data);
@@ -700,7 +703,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns> List of all Ads will be returned</returns>
         /// // Need to be reviewed with Anoop
-        public IActionResult AdsList(int categoryid = 0, int page = 1, int ItemsPerPage = 12)
+        public IActionResult AdsList(int categoryid = 0, int subcategoryid = 0, int page = 1, int ItemsPerPage = 12, bool featured = false)
         {
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(0);
@@ -709,16 +712,24 @@ namespace IndiaLivings_Web_UI.Controllers
             if (categoryid != 0)
             {
                 products = products.Where(product => product.productCategoryID == categoryid).ToList();
+                if (subcategoryid != 0)
+                {
+                    products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
+                }
             }
             SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
             List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            List<ProductViewModel> recommendedList = products.Where(product => product.productMembershipID == 2).ToList();
+            if (featured)
+            {
+                products = recommendedList;
+            }
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
             ViewBag.ItemsPerPage = ItemsPerPage;
-            List<ProductViewModel> recommendedList = products.Where(product => product.productMembershipID == 2).ToList();
             AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
             {
                 Products = products,
@@ -772,7 +783,7 @@ namespace IndiaLivings_Web_UI.Controllers
 
             return PartialView("_ProductsPartial3", products);
         }
-        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "", int itemsPerPage = 12)
+        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "", int itemsPerPage = 12, string ratings = "")
         {
             ProductViewModel productViewModel = new ProductViewModel();
             List<ProductViewModel> products;
@@ -822,6 +833,12 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 List<string> adtypeList = adtype.Split(',').ToList();
                 products = products.Where(product => adtypeList.Contains(product.productAdCategory.ToLower())).ToList();
+            }
+            if (!string.IsNullOrEmpty(ratings))
+            {
+                //products = products.Where(p => p.averageRating >= ratings);
+                List<string> ratingsList = ratings.Split(',').ToList();
+                products = products.Where(product => ratingsList.Contains(product.averageRating.ToString())).ToList();
             }
 
             if (sort != "")

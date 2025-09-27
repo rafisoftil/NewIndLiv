@@ -1,15 +1,29 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using IndiaLivings_Web_UI.Controllers;
+using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
 namespace IndiaLivings_Web_UI.Hubs
 {
     public class MessageController : Hub
     {
+        private readonly IHubContext<NotificationHub> _notificationHub;
+
+        public MessageController(IHubContext<NotificationHub> notificationHub)
+        {
+            _notificationHub = notificationHub;
+        }
         public async Task SendMessage(string senderId, string receiverId, string message)
         {
-            // Broadcast to specific users (both sender and receiver)
             await Clients.User(senderId).SendAsync("ReceiveMessage", senderId, receiverId, message);
             await Clients.User(receiverId).SendAsync("ReceiveMessage", senderId, receiverId, message);
+
+            await _notificationHub.Clients.User(receiverId).SendAsync("ReceiveNotification", new
+            {
+                type = "message",
+                message = message,
+                data = new { senderId, message },
+                timestamp = System.DateTime.Now
+            });
         }
 
         public override Task OnConnectedAsync()

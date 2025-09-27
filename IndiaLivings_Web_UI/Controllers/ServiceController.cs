@@ -1,7 +1,9 @@
 ﻿using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using System.Dynamic;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
@@ -75,7 +77,30 @@ namespace IndiaLivings_Web_UI.Controllers
         }
         public IActionResult AdminBookings()
         {
-            return View();
+            List<ServiceBookingViewModel> allBookings = new ServiceBookingViewModel().GetAllBookings();
+            List<ServiceBookingViewModel> pendingBookings = allBookings.Where(b => b.Status == "PENDING").ToList();
+            List<ServiceProviderViewModel> providerViewModels = new ServiceProviderViewModel().GetActiveServiceProviders();
+            dynamic data = new ExpandoObject();
+            data.Bookings = pendingBookings;
+            data.Providers = providerViewModels;
+            return View(data);
+        }
+        public IActionResult CompletedBookings()
+        {
+            List<ServiceBookingViewModel> allBookings = new ServiceBookingViewModel().GetAllBookings();
+            List<ServiceBookingViewModel> completedBookings = allBookings.Where(b => b.Status == "COMPLETED").ToList();
+            return View("AdminBookings", completedBookings);
+        }
+        public IActionResult AllBookings()
+        {
+            List<ServiceBookingViewModel> allBookings = new ServiceBookingViewModel().GetAllBookings();
+            return View("AdminBookings", allBookings);
+        }
+        public IActionResult AssignedBookings()
+        {
+            List<ServiceBookingViewModel> allBookings = new ServiceBookingViewModel().GetAllBookings();
+            List<ServiceBookingViewModel> assignedBookings = allBookings.Where(b => b.Status == "ASSIGNED").ToList();
+            return View("AdminBookings", assignedBookings);
         }
         public IActionResult AdminProviders()
         {
@@ -203,18 +228,18 @@ namespace IndiaLivings_Web_UI.Controllers
             var response = JObject.Parse(result);
             return Json(response);
         }
-        public JsonResult UpdateServiceSubCategory([FromBody] ServiceSubCategoryViewModel subService)
+        public JsonResult UpdateServiceSubCategory(int ServiceId, int CategoryId, string Name, decimal BasePrice, string Description, bool Status, int DurationMin)
         {
             ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
-            //sscvm.ServiceId = Convert.ToInt32(subService["serviceid"]);
-            //sscvm.CategoryId = Convert.ToInt32(subService["categoryid"]);
-            //sscvm.Name = subService["name"];
-            //sscvm.Description = subService["description"];
-            //sscvm.BasePrice = Convert.ToDecimal(subService["basePrice"]);
-            //sscvm.DurationMin = Convert.ToInt32(subService["durationMin"]);
-            //sscvm.CreatedBy = HttpContext.Session.GetString("userName") ?? "";
-            subService.UpdatedBy = HttpContext.Session.GetString("userName") ?? "";
-            string result = sscvm.UpdateSubCategory(subService);
+            sscvm.ServiceId = ServiceId;
+            sscvm.CategoryId = CategoryId;
+            sscvm.Name = Name;
+            sscvm.Description = Description;
+            sscvm.BasePrice = BasePrice;
+            sscvm.DurationMin = DurationMin;
+            sscvm.CreatedBy = HttpContext.Session.GetString("userName") ?? "";
+            sscvm.UpdatedBy = HttpContext.Session.GetString("userName") ?? "";
+            string result = sscvm.UpdateSubCategory(sscvm);
             var response = JObject.Parse(result);
             return Json(response);
         }
@@ -244,6 +269,15 @@ namespace IndiaLivings_Web_UI.Controllers
             ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
             List<ServiceSubCategoryViewModel> subCategories = sscvm.GetSubServicesByCategory(categoryId);
             return View(subCategories);
+        }
+        public JsonResult AssignProvider(int bookingId, int providerId)
+        {
+            var assignedBy = HttpContext.Session.GetString("userName") ?? "";
+            AssignProviderRequestViewModel bookingStatus = new AssignProviderRequestViewModel();
+            string notes = "";
+            var response = bookingStatus.AssignProvider(bookingId, providerId, assignedBy, notes);
+            var result = JObject.Parse(response);
+            return Json(result);
         }
     }
 }

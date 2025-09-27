@@ -53,7 +53,7 @@
 <body>
     <div id="notification-toast" class="toast"></div>
     <partial name="~/Views/Shared/_Header.cshtml" />
-    <partial name="~/Views/Shared/_SideBar.cshtml" />    
+    <partial name="~/Views/Shared/_SideBar.cshtml" />
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
@@ -87,9 +87,11 @@
 
     // Handle incoming notifications
     connection.on("ReceiveNotification", function(notification) {
-        showToast(notification.message, notification.type);
         playNotificationSound();
-        updateNotificationList(notification);
+        showToast(notification.message, notification.type);
+        if (typeof updateNotificationList === "function") {
+            updateNotificationList(notification);
+        }
     });
 
     // Show in-page toast

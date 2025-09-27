@@ -6,6 +6,23 @@
 <head>
     <link rel="stylesheet" href="~/css/custom/ad-details.css">
     <link rel="stylesheet" href="~/css/custom/ad-details-left.css">
+    <style>
+        .slider-img-container {
+            width: 730px;
+            height: 519px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* This preserves aspect ratio */
+            max-width: 730px;
+            max-height: 519px;
+        }
+    </style>
 </head>
 <body>
     <!--=====================================
@@ -253,15 +270,15 @@
                             </a>
                         </div>
                         <div class="ad-details-slider-group">
-                            <div class="ad-details-slider slider-arrow">
+                            <div class="ad-details-slider slider-arrow slider-img-container">
                                 <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                     onerror="this.onerror=null; this.src='/images/white-screen.jpg';">
+                                     onerror="this.onerror=null; this.src='/images/no-image.png';" class="slider-img">
                                 <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                     onerror="this.onerror=null; this.src='/images/white-screen.jpg';">
+                                     onerror="this.onerror=null; this.src='/images/no-image.png';" class="slider-img">
                                 <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                     onerror="this.onerror=null; this.src='/images/white-screen.jpg';">
+                                     onerror="this.onerror=null; this.src='/images/no-image.png';" class="slider-img">
                                 <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                     onerror="this.onerror=null; this.src='/images/white-screen.jpg';">
+                                     onerror="this.onerror=null; this.src='/images/no-image.png';" class="slider-img">
 
                             </div>
                             <div class="cross-vertical-badge ad-details-badge">

@@ -84,15 +84,15 @@ namespace IndiaLivings_Web_DAL.Helpers
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-            return services; 
+            return services;
         }
 
-        public string UpdateServiceCategory(ServiceModel service)
+        public string UpdateServiceCategory(ServiceCategoryUpdateRequest service)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Put_Api($"{BaseApiUrl}/Service/category/updateServiceCategory", service).Trim('\"');
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/updateServiceCategory", service).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -101,12 +101,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return response;
         }
 
-        public string DeleteServiceCategory(int categoryId, string username) 
+        public string DeleteServiceCategory(int categoryId, string username)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Delete_Api($"{BaseApiUrl}/Service/category/deleteServiceCategory/{categoryId}?categoryId={categoryId}&deletedBy={username}").Trim('\"');
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/deleteServiceCategory/{categoryId}?categoryId={categoryId}&deletedBy={username}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -146,6 +146,25 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return bookedService;
+        }
+        public List<ServiceBookingModel> GetAllBookings()
+        {
+            List<ServiceBookingModel> myservices = new List<ServiceBookingModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/ServiceBooking/AllBookings");
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    myservices = JsonConvert.DeserializeObject<List<ServiceBookingModel>>(data) ?? new List<ServiceBookingModel>();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return myservices;
         }
         public List<ServiceBookingModel> GetUserBookings(int userId)
         {
@@ -224,6 +243,25 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return providers;
         }
+        public List<ServiceProviderModel> ActiveServiceProviders()
+        {
+            List<ServiceProviderModel> providers = new List<ServiceProviderModel>();
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/ServiceProvider/activeServiceProviders");
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    providers = JsonConvert.DeserializeObject<List<ServiceProviderModel>>(data) ?? new List<ServiceProviderModel>();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return providers;
+        }
         public string CreateServiceSubCategory(ServiceSubCategoryModel subCategory)
         {
             string response = string.Empty;
@@ -242,7 +280,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Put_Api($"{BaseApiUrl}/Service/category/updateService", subCategory).Trim('\"');
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/updateService", subCategory).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -255,7 +293,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Delete_Api($"{BaseApiUrl}/Service/category/deleteService/{serviceId}?serviceId={serviceId}&deletedBy={username}").Trim('\"');
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/deleteService/{serviceId}?serviceId={serviceId}&deletedBy={username}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -333,12 +371,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string AssignProvider()
+        public string AssignProvider(AssignProviderRequestModel assignProvider)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceBooking/assignProvider");
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceBooking/assignProvider", assignProvider);
             }
             catch (Exception ex)
             {

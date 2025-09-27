@@ -623,7 +623,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<NotificationModel> notifications = new List<NotificationModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Users/GetNotificationsByUser?userId={userId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetNotificationsByUser?userId={userId}");
                 notifications = JsonConvert.DeserializeObject<List<NotificationModel>>(response);
             }
             catch (Exception ex)

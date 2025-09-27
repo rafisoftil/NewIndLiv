@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="~/css/vendor/nice-select.min.css">
     <link rel="stylesheet" href="~/css/custom/notification.css">
 </head>
-<body> 
+<body>
     <!--=====================================
               NOTIFICATION PART START
     =======================================-->
@@ -31,7 +31,7 @@
                                 @* <li class="notify-item @(notification.IsRead ? "" : "active") data-id="@notification.Id"> *@
                                 if (notification.NotificationType == "Message")
                                 {
-                                    <li class="notify-item">
+                                    <li class="notify-item" data-userid="@notification.UserId">
                                         <a href="/User/Message?userId=@notification.UserId&username=@notification.UserName" class="notify-link">
                                             <div class="notify-img">
                                                 <img src="@(notification.UserImageData != null ? $"data:image/png;base64,{Convert.ToBase64String(notification.UserImageData)}" : Url.Content("~/images/user.png"))" alt="avatar" onerror="this.src='/images/user.png';">
@@ -69,27 +69,35 @@
     =======================================-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
     <script type="text/javascript">
-        function GoToMessages() {
-            window.location.href = '/User/Message';
-        }
-        window.GoToMessages = GoToMessages;
+        // function GoToMessages() {
+        //     window.location.href = '/User/Message';
+        // }
+        // window.GoToMessages = GoToMessages;
+
 
         function updateNotificationList(notification) {
             const list = document.getElementById('notificationList');
-            const existingItem = list.querySelector(`.notify-item[data-userid="${notification.UserId}"]`);
+            if (!list) return;
 
+            const existingItem = list.querySelector(`.notify-item`);
+            console.log('Existing Item:', existingItem);
             if (existingItem) {
                 existingItem.querySelector('.notify-text').innerText = notification.message;
                 existingItem.querySelector('.notify-time').innerText = "just now";
-
                 list.prepend(existingItem);
             }
             else {
+                const imageSrc = notification.UserImageData
+                    ? `data:image/png;base64,${notification.UserImageData}`  // API should send base64
+                    : '/images/user.png'; // fallback
+
+                const link = notification.link ?? '#';
+
                 const notificationHtml = `
                     <li class="notify-item active" data-userid="${notification.UserId}">
-                        <a href="${notification.link ?? '#'}" class="notify-link">
+                        <a href="${link}" class="notify-link">
                             <div class="notify-img">
-                                <img src="${notification.UserImageData != null ? $"data:image/png;base64,{Convert.ToBase64String(notification.UserImageData)}" : Url.Content("~/images/user.png"))}" alt="avatar" onerror="this.src='/images/user.png';">
+                                <img src="${imageSrc}" alt="avatar" onerror="this.src='/images/user.png';">
                             </div>
                             <div class="notify-content">
                                 <p class="notify-text">${notification.message}</p>
@@ -97,25 +105,10 @@
                             </div>
                         </a>
                     </li>`;
+
                 list.insertAdjacentHTML('afterbegin', notificationHtml);
             }
         }
-        // Add new notification to the list
-        // function addNotificationToList(notification) {
-        //     const notificationHtml = `
-        //         <li class="notify-item active" data-id="${notification.id ?? ''}">
-        //             <a href="${notification.link ?? '#'}" class="notify-link">
-        //                 <div class="notify-img">
-        //                     <img src="${notification.imageUrl ?? '/images/user.png'}" alt="avatar" onerror="this.src='/images/user.png';">
-        //                 </div>
-        //                 <div class="notify-content">
-        //                     <p class="notify-text">${notification.message}</p>
-        //                     <span class="notify-time">just now</span>
-        //                 </div>
-        //             </a>
-        //         </li>`;
-        //     document.getElementById('notificationList').insertAdjacentHTML('afterbegin', notificationHtml);
-        // }
     </script>
 </body>
 </html>

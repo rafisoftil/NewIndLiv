@@ -124,7 +124,7 @@
                                                         <a asp-action="ServiceDetails" asp-controller="Service" asp-route-categoryId="@service.CategoryId">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
-                                                        <button class="ml-3 btn-outline-secondary" onclick="editService(this)"
+                                                        <button class="ml-3 btn-outline-secondary" onclick="editSubService(this)"
                                                                 data-categoryid="@service.CategoryId"
                                                                 data-baseprice="@service.BasePrice"
                                                                 data-name="@service.Name"
@@ -437,7 +437,7 @@
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h4 class="modal-title text-white" id="addCategoryLabel">Edit Service Category</h4>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="updateSubCategory">
@@ -473,7 +473,7 @@
                         <input name="durationMin" id="edit_durationMin" class="form-control" placeholder="Enter Min Duration" required />
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-primary" onclick="updateCategory()">Save Changes</button>
                     </div>
                 </form>
@@ -514,7 +514,7 @@
         // Open service details modal
     }
 
-    function editService(btn) {
+    function editSubService(btn) {
         var serviceid = $(btn).data('serviceid');
         var id = $(btn).data('id');
         var name = $(btn).data('name');
@@ -692,7 +692,15 @@
             url: '/Service/UpdateServiceSubCategory',
             type: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify(payload),
+            data: {
+                ServiceId: $('#edit_serviceid').val(),
+                CategoryId: $('#edit_categoryid').val(),
+                Name: $('#edit_name').val(),
+                BasePrice: parseFloat($('#edit_basePrice').val()),
+                Description: $('#edit_description').val(),
+                Status: $('#edit_status').val() === "true",
+                DurationMin: parseInt($('#edit_durationMin').val(), 10)
+            },
             success: function (response) {
                 if (response.success) {
                     ShowToast('success', 'Category updated successfully!');

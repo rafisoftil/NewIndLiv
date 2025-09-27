@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IndiaLivings_Web_DAL.Helpers
 {
-    public class PaymentHelper:IPaymentRepository
+    public class PaymentHelper
     {
         public int AddInvoice(InvoiceModel IM)
         {
