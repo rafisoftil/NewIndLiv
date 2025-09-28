@@ -300,5 +300,20 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return products;
         }
+        public List<ProductRatingModel> GetProductRatings(int productId)
+        {
+            List<ProductRatingModel> ratings = new List<ProductRatingModel>();
+            try
+            {
+                var ratingsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetProductRatings?productId={productId}");
+                ratings = JsonConvert.DeserializeObject<List<ProductRatingModel>>(ratingsList);
+                return ratings;
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return ratings;
+        }
     }
 }

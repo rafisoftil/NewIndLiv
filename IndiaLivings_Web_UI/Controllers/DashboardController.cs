@@ -694,9 +694,11 @@ namespace IndiaLivings_Web_UI.Controllers
             ProductViewModel productViewModel = new ProductViewModel();
             ProductViewModel product = productViewModel.GetProductById(productId)[0];
             UserViewModel user = userViewModel.GetUsersInfo(username)[0];
+            List<ProductRatingViewModel> ratings = new ProductRatingViewModel().GetProductRatings(productId);
             dynamic data = new ExpandoObject();
             data.Product = product;
             data.User = user;
+            data.Ratings = ratings;
             return View(data);
         }
         /// <summary>
