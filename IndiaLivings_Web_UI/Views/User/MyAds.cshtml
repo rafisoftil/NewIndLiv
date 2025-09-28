@@ -284,7 +284,7 @@
                         @{
                             var isUserLoggedIn = !string.IsNullOrEmpty(Context.Session.GetString("userName"));
                         }
-                        <div class="@(isUserLoggedIn ? "" : "d-none")">
+                        @* <div class="@(isUserLoggedIn ? "" : "d-none")">
                             <div class="card-header">
                                 <h5 class="card-title">Submit your Rating</h5>
                             </div>
@@ -296,7 +296,7 @@
                                 <span class="fa fa-star rating-size" data-value="1" onclick="selectRating(this)"></span>
                             </div>
                             <input type="hidden" id="selectedRating" name="Rating" value="0" />
-                        </div>
+                        </div> *@
                     </div>
                 </div>
                 <div class="modal-footer">
