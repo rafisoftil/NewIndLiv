@@ -19,13 +19,14 @@ namespace IndiaLivings_Web_UI.Controllers
             ProductViewModel product = new ProductViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             List<ProductViewModel> productsList = product.GetAds(0);
-            List<ProductViewModel> RatedProducts = product.GetTopRatedProducts(8);
+            List<ProductViewModel> RatedProducts = productsList.Where(product => product.averageRating != 0).OrderByDescending(x => x.averageRating).ToList();
             List<ProductViewModel> recommendedList = productsList.Where(product => product.productMembershipID == 2).ToList();
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
             int wishlistCount = product.GetwishlistCount(productOwnerID);
             SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
             List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
-
+            List<int> wishlistIds = product.GetAllWishlist(productOwnerID).Select(w => w.productId).ToList();
+            ViewBag.WishlistIds = wishlistIds;
             HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
             if (productOwnerID != 0)
             {
@@ -693,9 +694,11 @@ namespace IndiaLivings_Web_UI.Controllers
             ProductViewModel productViewModel = new ProductViewModel();
             ProductViewModel product = productViewModel.GetProductById(productId)[0];
             UserViewModel user = userViewModel.GetUsersInfo(username)[0];
+            List<ProductRatingViewModel> ratings = new ProductRatingViewModel().GetProductRatings(productId);
             dynamic data = new ExpandoObject();
             data.Product = product;
             data.User = user;
+            data.Ratings = ratings;
             return View(data);
         }
         /// <summary>

@@ -50,4 +50,19 @@ namespace IndiaLivings_Web_DAL.Models
         public decimal averageRating { get; set; } = 0;
         public List<AdListFiltersModel> adListFiltersModels { get; set; }
     }
+    public class ProductRatingModel
+    {
+        public int ratingId { get; set; }
+        public int productId { get; set; }
+        public int userId { get; set; }
+        public int rating { get; set; }
+        public string comment { get; set; }
+        public DateTime createdDate { get; set; } = DateTime.MinValue;
+        public string createdBy { get; set; } = string.Empty;
+        public DateTime updatedDate { get; set; } = DateTime.MinValue;
+        public string updatedBy { get; set; } = string.Empty;
+        public bool IsActive { get; set; }
+        public string userName { get; set; }
+        public string userEmail { get; set; }
+    }
 }
