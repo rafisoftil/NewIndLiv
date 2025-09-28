@@ -1,7 +1,7 @@
-﻿@* @using System.Linq; *@
-@{
+﻿@{
     ViewBag.Title = "Home";
     var recommendedAds = (List<ProductViewModel>)Model.RecommendedAds;
+    List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
 }
 <section class="banner-part">
     <div class="container">
@@ -492,8 +492,8 @@
                 <div class="niche-nav">
                     <ul class="nav nav-tabs">
                         <li><a href="#ratings" class="nav-link active" data-toggle="tab">top ratings</a></li>
-                        <li><a href="#advertiser" class="nav-link" data-toggle="tab">top advertiser</a></li>
-                        <li><a href="#engaged" class="nav-link" data-toggle="tab">top engaged</a></li>
+                        @* <li><a href="#advertiser" class="nav-link" data-toggle="tab">top advertiser</a></li>
+                        <li><a href="#engaged" class="nav-link" data-toggle="tab">top engaged</a></li> *@
                     </ul>
                 </div>
             </div>
@@ -503,54 +503,60 @@
             <div class="row">
                 @foreach (var product in Model.RatedProducts)
                 {
-                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                            <div class="product-card">
-                                <div class="product-media">
-                                    <div class="product-img">
-                                    <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@product.productImageName" width="288" height="205" />
-                                    </div>
-                                    <div class="cross-vertical-badge product-badge">
-                                        <i class="fas fa-fire"></i>
-                                        <span>top niche</span>
-                                    </div>
-                                    <div class="product-type">
-                                    <span class="flat-badge booking">@product.productAdCategory</span>
-                                    </div>
-                                    @* <ul class="product-action">
-                                        <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
-                                        <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
-                                        <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
-                                    </ul> *@
+                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                        <div class="product-card">
+                            <div class="product-media">
+                                <div class="product-img">
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                                         onerror="this.onerror=null; this.src='/images/white-screen.jpg';"
+                                         alt="@product.productImageName" width="288" height="205" />
                                 </div>
-                                <div class="product-content">
-                                    <ol class="breadcrumb product-category">
-                                        <li><i class="fas fa-tags"></i></li>
-                                    <li class="breadcrumb-item"><a href="#">@product.productSubCategoryName</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">@product.productName</li>
-                                    </ol>
-                                    <h5 class="product-title">
-                                    <a href="#">@product.productDescription</a>
-                                    </h5>
-                                    <div class="product-meta">
-                                        <span class="feature-price">₹@product.productPrice.ToString("F2")<small>/@product.productPriceCondition</small></span>
-                                        <span><i class="fas fa-clock"></i>@product.updatedDate</span>
-                                    </div>
-                                    <div class="product-info">
-                                        <h5 class="product-price">₹@Convert.ToInt32(product.productPrice)<span>/@product.productPriceCondition</span></h5>
-                                        @* <div class="product-btn">
-                                            <a href="compare.html" title="Compare" class="fas fa-compress"></a>
-                                            <button type="button" title="Wishlist" class="far fa-heart"></button>
-                                        </div> *@
+                                <div class="cross-vertical-badge product-badge">
+                                    <i class="fas fa-clipboard-check"></i>
+                                    <span>recommend</span>
+                                </div>
+                                <div class="product-type">
+                                    <span class="flat-badge @(product.productAdCategory.ToLower())">@product.productAdCategory</span>
+                                </div>
+                                <ul class="product-action">
+                                    @* <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
+                    <li class="click"><i class="fas fa-mouse"></i><span>134</span></li> *@
+                                    <li class="rating"><i class="fas fa-star"></i><span>@((product.averageRating != 0) ? @product.averageRating + "/5" : "NA")</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-content">
+                                <ol class="breadcrumb product-category">
+                                    <li><i class="fas fa-tags"></i></li>
+                                    <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
+                                </ol>
+                                <h5 class="product-title">
+                                    <a href="#">@product.productName</a>
+                                </h5>
+                                <div class="product-meta">
+                                    <span><i class="fas fa-map-marker-alt"></i>@product.userContactCity</span>
+                                    <span><i class="fas fa-clock"></i>@product.updatedDate.ToString("dd MMM yyyy")</span>
+                                </div>
+                                <div class="product-info">
+                                    <h5 class="product-price">₹@Convert.ToInt32(product.productPrice)<span>/@product.productPriceCondition</span></h5>
+                                    <div class="product-btn">
+                                        <a asp-action="ProductDetails" asp-controller="Dashboard" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Compare" class="fas fa-eye"></a>
+                                        <a href='#' class='fas fa-compress'
+                                           data-toggle='modal' data-target='#productDetailsModal'
+                                           onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
+                                        </a>
+                                        <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
+                                                onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    }
+                    </div>
                 }
             </div>
         </div> <!-- Rating ads -->
 
-        <div class="tab-pane " id="advertiser">
+        @* <div class="tab-pane " id="advertiser">
             <div class="row">
                 @for (var i = 0; i < Model.Products.Count; i++)
                 {
@@ -569,11 +575,11 @@
                                     <div class="product-type">
                                         <span class="flat-badge booking">@Model.Products[i].productAdCategory</span>
                                     </div>
-                                    @* <ul class="product-action">
+                                    <ul class="product-action">
                             <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
                             <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
                             <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
-                            </ul> *@
+                            </ul>
                                 </div>
                                 <div class="product-content">
                                     <ol class="breadcrumb product-category">
@@ -601,9 +607,9 @@
                     }
                 }
             </div>
-        </div> <!-- Advertiser ads -->
+        </div> *@ <!-- Advertiser ads -->
 
-        <div class="tab-pane" id="engaged">
+        @* <div class="tab-pane" id="engaged">
             <div class="row">
                 @for (var i = 0; i < Model.Products.Count; i++)
                 {
@@ -622,11 +628,11 @@
                                     <div class="product-type">
                                         <span class="flat-badge booking">@Model.Products[i].productAdCategory</span>
                                     </div>
-                                    @* <ul class="product-action">
+                                    <ul class="product-action">
                             <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
                             <li class="click"><i class="fas fa-mouse"></i><span>134</span></li>
                             <li class="rating"><i class="fas fa-star"></i><span>4.5/7</span></li>
-                            </ul> *@
+                            </ul>
                                 </div>
                                 <div class="product-content">
                                     <ol class="breadcrumb product-category">
@@ -654,7 +660,7 @@
                     }
                 }
             </div>
-        </div> <!-- Engaged ads -->
+        </div> *@ <!-- Engaged ads -->
 
         <div class="row">
             <div class="col-lg-12">
