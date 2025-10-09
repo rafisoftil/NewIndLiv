@@ -128,11 +128,11 @@
             });
                     // When a search result is clicked
 
-            function loadMessages(userId, UserName) {
+            function loadMessages(ReceiverUserId, UserName) {
                 $.ajax({
                     url: '/User/GetMessagesByUser',
                     type: 'GET',
-                    data: { userId: userId, username: UserName},
+                    data: { ReceiverUserId: ReceiverUserId, username: UserName},
                     success: function (partialViewHtml) {
                         $('#chat-box').html(partialViewHtml);
                         //setTimeout(scrollToBottom, 100); // scroll to bottom after render
@@ -227,11 +227,12 @@
                 // Load chat when user clicked
                 $(document).on("click", ".message-link", function (e) {
                     e.preventDefault();
-                    const userId = $(this).data("user-id");
+                    //const SenderUserId = $(this).data("senderuserid");
+                    const ReceiverUserId = $(this).data("receiveruserid");
                     const username = $(this).data("username");
-                    $("#receiverId").val(userId);
+                    //$("#receiverId").val(userId);
 
-                    $.get("/User/GetMessagesByUser?userId=" + userId + "&username=" + username, function (data) {
+                    $.get("/User/GetMessagesByUser?ReceiverUserId=" + ReceiverUserId + "&username=" + username, function (data) {
                         $("#chat-box").html(data);
                         $(".message-item").removeClass("active");
                         $('.message-link[data-user-id="' + userId + '"]').closest("li").addClass("active");

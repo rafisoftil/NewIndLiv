@@ -511,7 +511,7 @@ namespace IndiaLivings_Web_UI.Controllers
 
             // Load default chat messages
             MessageViewModel msgModel = new MessageViewModel();
-            List<MessageViewModel> defaultMessages = msgModel.GetMessageByUser(ViewBag.DefaultChatUserId ?? 0);
+            List<MessageViewModel> defaultMessages = msgModel.GetMessageByUser(ViewBag.DefaultChatUserId ?? 0, 0);
 
             ViewData["DefaultMessages"] = defaultMessages;
 
@@ -524,11 +524,12 @@ namespace IndiaLivings_Web_UI.Controllers
             response = model.SendMessage(senderUserId, receiverUserId, messageText);
             return response;
         }
-        public IActionResult GetMessagesByUser(int userId, string username="")
+        public IActionResult GetMessagesByUser(int ReceiverUserId, string username="")
         {
-            MessageViewModel messageViewModel = new MessageViewModel();
-            ViewBag.UserID = userId;
-            List<MessageViewModel> messages = messageViewModel.GetMessageByUser(userId);
+            int SenderUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
+;           MessageViewModel messageViewModel = new MessageViewModel();
+            ViewBag.UserID = SenderUserId;
+            List<MessageViewModel> messages = messageViewModel.GetMessageByUser(SenderUserId, ReceiverUserId);
             dynamic data = new ExpandoObject();
             data.Messages = messages;
             if (username != "")

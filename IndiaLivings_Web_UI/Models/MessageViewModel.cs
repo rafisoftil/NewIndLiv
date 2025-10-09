@@ -11,13 +11,13 @@ namespace IndiaLivings_Web_UI.Models
         public string text { get; set; }
         public DateTime Timestamp { get; set; }
 
-        public List<MessageViewModel> GetMessageByUser(int userId)
+        public List<MessageViewModel> GetMessageByUser(int SenderUserId, int ReceiverUserId)
         {
             List<MessageViewModel> messages = new List<MessageViewModel>();
             AuthenticationHelper AH = new AuthenticationHelper();
             try
             {
-                var messageList = AH.GetMessagesByUserId(userId);
+                var messageList = AH.GetMessagesByUserId(SenderUserId, ReceiverUserId);
                 if (messageList != null)
                 {
                     foreach (var message in messageList)
