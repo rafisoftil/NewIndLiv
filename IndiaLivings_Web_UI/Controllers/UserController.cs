@@ -538,6 +538,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 UserViewModel userDetails = UVM.GetUsersInfo(username)[0];
                 data.UserData = userDetails;
             }
+            string read = messageViewModel.MarkMessagesAsRead(ReceiverUserId, SenderUserId);
             return PartialView("_MessagesByUser", data);
         }
         public IActionResult ChatList()

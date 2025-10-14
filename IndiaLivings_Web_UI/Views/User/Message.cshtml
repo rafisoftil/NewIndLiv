@@ -235,7 +235,7 @@
                     $.get("/User/GetMessagesByUser?ReceiverUserId=" + ReceiverUserId + "&username=" + username, function (data) {
                         $("#chat-box").html(data);
                         $(".message-item").removeClass("active");
-                        $('.message-link[data-user-id="' + userId + '"]').closest("li").addClass("active");
+                        //$('.message-link[data-user-id="' + userId + '"]').closest("li").addClass("active");
                     });
                 });
 

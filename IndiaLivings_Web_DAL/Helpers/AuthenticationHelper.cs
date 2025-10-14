@@ -632,5 +632,18 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return notifications;
         }
+        public string MarkMessagesAsRead(int messageId, int receiverUserId) 
+        {
+            string response = "An error occured";
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/MarkMessageAsRead?messageId={messageId}&receiverUserId={receiverUserId}");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }
