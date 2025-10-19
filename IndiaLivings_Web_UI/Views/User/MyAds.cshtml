@@ -123,6 +123,7 @@
                                     </ol>
                                     <h5 class="product-title">
                                         <a href="#">@product.productName</a>
+                                        <a asp-controller="User" asp-action="UpdateProduct" asp-route-productId="@product.productId" class="fas fa-edit"></a>
                                     </h5>
                                     <div class="product-meta">
                                         <span><i class="fas fa-map-marker-alt"></i>@product.userContactCity</span>
@@ -134,7 +135,7 @@
                                             <a asp-action="ProductDetails" asp-controller="Dashboard" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Compare" class="fas fa-eye"></a>
                                             <a href='#' class='fas fa-compress'
                                                data-toggle='modal' data-target='#productDetailsModal'
-                                               onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
+                                               onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)), "@Convert.ToBase64String(product.byteProductImageData)")'>
                                             </a>
                                             <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
                                                     onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
@@ -393,5 +394,43 @@
                 alert('Error in processing request.');
             }
         });
+    }
+
+    function populateModal(product, base64Image) {
+        try {
+            // Image
+            var imgEl = document.getElementById('image-modal');
+            if (base64Image && base64Image.length > 0) {
+                imgEl.src = 'data:image/png;base64,' + base64Image;
+            } else if (product && product.byteProductImageData) {
+                // If byte array was serialized as array of numbers, try to construct base64
+                if (Array.isArray(product.byteProductImageData)) {
+                    var bytes = new Uint8Array(product.byteProductImageData);
+                    var binary = '';
+                    for (var i = 0; i < bytes.byteLength; i++) {
+                        binary += String.fromCharCode(bytes[i]);
+                    }
+                    imgEl.src = 'data:image/png;base64,' + btoa(binary);
+                } else {
+                    imgEl.src = '/images/white-screen.jpg';
+                }
+            } else {
+                imgEl.src = '/images/white-screen.jpg';
+            }
+
+            // Text fields
+            document.getElementById('productDescription-modal').textContent = product.productDescription || '';
+            document.getElementById('productName-modal').textContent = product.productName || '';
+            document.getElementById('productPrice-modal').textContent = (product.productPrice != null) ? ('₹' + parseFloat(product.productPrice).toFixed(2) + (product.productPriceCondition ? (' /' + product.productPriceCondition) : '')) : '';
+            document.getElementById('productQuantity-modal').textContent = product.productQuantity != null ? product.productQuantity : '';
+            document.getElementById('productPublished-modal').textContent = product.createdDate || '';
+            document.getElementById('productCategory-modal').textContent = product.productCategoryName || '';
+            document.getElementById('productOwner-modal').textContent = product.createdBy || '';
+            var pid = document.getElementById('productId-modal');
+            pid.setAttribute('data-product-id', product.productId || '');
+            pid.textContent = '';
+        } catch (ex) {
+            console.error('populateModal error', ex);
+        }
     }
 </script>

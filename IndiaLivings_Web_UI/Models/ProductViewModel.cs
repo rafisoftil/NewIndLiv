@@ -156,7 +156,7 @@ namespace IndiaLivings_Web_UI.Models
         }
 
 
-        public bool CreateNewAdd(ProductViewModel product, IFormFile productImage)
+        public bool CreateNewAdd(ProductViewModel product, List<IFormFile> productImage)
         {
             bool isCreated = false;
             int productId = 0;
@@ -197,11 +197,23 @@ namespace IndiaLivings_Web_UI.Models
                 productId = PH.InsertProduct(PVM);
                 if (PVM.productId > 0)
                 {
-                    isCreated = PH.InserProductImage(PVM.productId, PVM.productImageId, PVM.productImageName, PVM.strProductImageType, PVM.createdBy, productImage);
+                    for (int i = 0; i < productImage.Count; i++)
+                    {
+                        PVM.productImageId = 0;
+                        PVM.productImageName = productImage[i].FileName;
+                        PVM.strProductImageType = Path.GetExtension(productImage[i].FileName)?.TrimStart('.').ToLower();
+                        isCreated = PH.InserProductImage(PVM.productId, PVM.productImageId, PVM.productImageName, PVM.strProductImageType, PVM.createdBy, productImage[i]);
+                    }
                 }
                 else
                 {
-                    isCreated = PH.InserProductImage(productId, PVM.productImageId, PVM.productImageName, PVM.strProductImageType, PVM.createdBy, productImage);
+                    for (int i = 0; i < productImage.Count; i++)
+                    {
+                        PVM.productImageId = 0;
+                        PVM.productImageName = productImage[i].FileName;
+                        PVM.strProductImageType = Path.GetExtension(productImage[i].FileName)?.TrimStart('.').ToLower();
+                        isCreated = PH.InserProductImage(productId, PVM.productImageId, PVM.productImageName, PVM.strProductImageType, PVM.createdBy, productImage[i]);
+                    }
                 }
             }
             catch (Exception ex)
@@ -395,42 +407,71 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
-        public List<ProductViewModel> GetProductById(int productId)
+        public ProductWithImagesViewModel GetProductById(int productId)
         {
-            List<ProductViewModel> products = new List<ProductViewModel>();
+            var productWithImages = new ProductWithImagesViewModel
+            {
+                Product = new ProductViewModel(),
+                ProductImages = new List<ProductImageDetailsViewModel>()
+            };
+
             ProductHelper PH = new ProductHelper();
             try
             {
-                var productList = PH.GetProductById(productId);
-                if (productList != null)
+                // PH.GetProductById returns DAL ProductWithImagesModel (ProductModel + List<ProductImageModel>)
+                var responseModel = PH.GetProductById(productId);
+                if (responseModel != null)
                 {
-                    foreach (var productDetails in productList)
+                    var p = responseModel.Product;
+                    if (p != null)
                     {
-                        ProductViewModel product = new ProductViewModel();
-                        product.productId = productDetails.productId;
-                        product.productName = productDetails.productName;
-                        product.productCondition = productDetails.productCondition;
-                        product.productAdCategory = productDetails.productAdCategory;
-                        product.productCategoryID = productDetails.productCategoryID;
-                        product.productCategoryName = productDetails.productCategoryName;
-                        product.productDescription = productDetails.productDescription;
-                        product.productAdTags = productDetails.productAdTags;
-                        product.productSubCategoryName = productDetails.productSubCategoryName;
-                        product.productsubCategoryID = productDetails.productsubCategoryID;
-                        product.productQuantity = productDetails.productQuantity;
-                        product.productPrice = productDetails.productPrice;
-                        product.productAdminReviewStatus = productDetails.productAdminReviewStatus;
-                        product.productOwner = productDetails.productOwner;
-                        product.userContactCity = productDetails.userContactCity;
-                        product.IsActiveStatus = productDetails.IsActiveStatus;
-                        product.productAdminReview = productDetails.productAdminReview;
-                        product.productPriceCondition = productDetails.productPriceCondition;
-                        product.productImageId = productDetails.productImageId;
-                        product.productImageName = productDetails.productImageName;
-                        product.byteProductImageData = productDetails.byteProductImageData;
-                        product.createdDate = productDetails.createdDate;
-                        product.createdBy = productDetails.createdBy;
-                        products.Add(product);
+                        // Map ProductModel -> ProductViewModel
+                        productWithImages.Product.productId = p.productId;
+                        productWithImages.Product.productName = p.productName ?? string.Empty;
+                        productWithImages.Product.productDescription = p.productDescription ?? string.Empty;
+                        productWithImages.Product.productAdTags = p.productAdTags ?? string.Empty;
+                        productWithImages.Product.productPrice = p.productPrice;
+                        productWithImages.Product.productQuantity = p.productQuantity;
+                        productWithImages.Product.productCondition = p.productCondition;
+                        productWithImages.Product.productCategoryID = p.productCategoryID;
+                        productWithImages.Product.productCategoryName = p.productCategoryName ?? string.Empty;
+                        productWithImages.Product.productsubCategoryID = p.productsubCategoryID;
+                        productWithImages.Product.productSubCategoryName = p.productSubCategoryName ?? string.Empty;
+                        productWithImages.Product.productPriceCondition = p.productPriceCondition ?? string.Empty;
+                        productWithImages.Product.productAdCategory = p.productAdCategory ?? string.Empty;
+                        productWithImages.Product.productSold = p.productSold;
+                        productWithImages.Product.productOwner = p.productOwner;
+                        productWithImages.Product.userContactCity = p.userContactCity ?? string.Empty;
+                        productWithImages.Product.userContactState = p.userContactState ?? string.Empty;
+                        productWithImages.Product.productOwnerName = p.productOwnerName ?? string.Empty;
+                        productWithImages.Product.productMembershipID = p.productMembershipID;
+                        productWithImages.Product.productMembershipName = p.productMembershipName ?? string.Empty;
+                        productWithImages.Product.productAdminReview = p.productAdminReview;
+                        productWithImages.Product.productAdminReviewStatus = p.productAdminReviewStatus ?? string.Empty;
+                        productWithImages.Product.IsActiveStatus = p.IsActiveStatus ?? string.Empty;
+                        productWithImages.Product.IsActive = p.IsActive;
+                        productWithImages.Product.createdDate = p.createdDate;
+                        productWithImages.Product.createdBy = p.createdBy ?? string.Empty;
+                        productWithImages.Product.updatedDate = p.updatedDate;
+                        productWithImages.Product.updatedBy = p.updatedBy ?? string.Empty;
+                        productWithImages.Product.averageRating = p.averageRating;
+                    }
+
+                    // Map images
+                    if (responseModel.ProductImages != null)
+                    {
+                        foreach (var img in responseModel.ProductImages)
+                        {
+                            var imgVm = new ProductImageDetailsViewModel
+                            {
+                                intProductImageID = img.intProductImageID,
+                                intProductID = img.intProductID,
+                                strProductImageName = img.strProductImageName ?? string.Empty,
+                                byteProductImageData = img.byteProductImageData ?? new byte[0],
+                                strProductImageType = img.strProductImageType ?? string.Empty,
+                            };
+                            productWithImages.ProductImages.Add(imgVm);
+                        }
                     }
                 }
             }
@@ -439,8 +480,7 @@ namespace IndiaLivings_Web_UI.Models
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
 
-
-            return products;
+            return productWithImages;
         }
         public List<ProductViewModel> GetTopRatedProducts(int count)
         {
@@ -491,5 +531,10 @@ namespace IndiaLivings_Web_UI.Models
 
             return products;
         }
+    }
+    public class ProductWithImagesViewModel
+    {
+        public ProductViewModel Product { get; set; }
+        public List<ProductImageDetailsViewModel> ProductImages { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@{
     var product = Model.Product;
+    var productImages = Model.ProductImages;
     var user = Model.User;
     var userId = Context.Session.GetInt32("UserId") ?? 0;
     List<ProductRatingViewModel> productRatings = Model.Ratings;
@@ -272,14 +273,11 @@
                         </div>
                         <div class="ad-details-slider-group">
                             <div class="ad-details-slider slider-arrow slider-img-container">
-                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                     onerror="this.onerror=null; this.src='/images/no-image.png';" class="slider-img">
-                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                     onerror="this.onerror=null; this.src='/images/no-image.png';" class="slider-img">
-                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                     onerror="this.onerror=null; this.src='/images/no-image.png';" class="slider-img">
-                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                     onerror="this.onerror=null; this.src='/images/no-image.png';" class="slider-img">
+                                @for (var i = 0; i < productImages.Count; i++)
+                                {
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(productImages[i].byteProductImageData)"
+                                         onerror="this.onerror=null; this.src='/images/no-image.png';" class="slider-img" />
+                                }
 
                             </div>
                             <div class="cross-vertical-badge ad-details-badge">
@@ -288,14 +286,12 @@
                             </div>
                         </div>
                         <div class="ad-thumb-slider">
-                            <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                 onerror="this.onerror=null; this.src='~/images/white-screen.jpg';">
-                            <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                 onerror="this.onerror=null; this.src='~/images/white-screen.jpg';">
-                            <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                 onerror="this.onerror=null; this.src='~/images/white-screen.jpg';">
-                            <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                 onerror="this.onerror=null; this.src='~/images/white-screen.jpg';">
+                            @for (var i = 0; i < productImages.Count; i++)
+                            {
+                                <img src="data:image/png;base64,@Convert.ToBase64String(productImages[i].byteProductImageData)"
+                                     onerror="this.onerror=null; this.src='/images/no-image.png';" class="slider-img" />
+                            }
+
                         </div>
                         <div class="ad-details-action">
                             <button type="button" class="wish" onclick="AddToWishlist('@product.productId', '@product.createdBy')"><i class="fas fa-heart"></i>bookmark</button>
@@ -466,7 +462,7 @@
                             <div class="product-content">
                                 <ol class="breadcrumb product-category">
                                     <li><i class="fas fa-tags"></i></li>
-                                    <li class="breadcrumb-item"><a href="#">Luxury</a></li>
+                                    <li class="breadcrumb-item"><a href="#">Luxury</a>
                                     <li class="breadcrumb-item active" aria-current="page">Duplex House</li>
                                 </ol>
                                 <h5 class="product-title">

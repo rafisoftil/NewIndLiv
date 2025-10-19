@@ -692,13 +692,17 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             UserViewModel userViewModel = new UserViewModel();
             ProductViewModel productViewModel = new ProductViewModel();
-            ProductViewModel product = productViewModel.GetProductById(productId)[0];
-            UserViewModel user = userViewModel.GetUsersInfo(username)[0];
+            // Get product with images from helper
+            var productWithImages = productViewModel.GetProductById(productId);
+            var product = productWithImages?.Product ?? new ProductViewModel();
+            UserViewModel user = userViewModel.GetUsersInfo(username).FirstOrDefault() ?? new UserViewModel();
             List<ProductRatingViewModel> ratings = new ProductRatingViewModel().GetProductRatings(productId);
             dynamic data = new ExpandoObject();
             data.Product = product;
             data.User = user;
             data.Ratings = ratings;
+            // also expose image list if view needs it
+            data.ProductImages = productWithImages?.ProductImages ?? new List<ProductImageDetailsViewModel>();
             return View(data);
         }
         /// <summary>

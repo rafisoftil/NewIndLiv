@@ -46,6 +46,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 data.Ad_Categories = Ad_Categories;
                 data.productConditions = productConditions;
                 data.product = null;
+                data.ProductImages = null;
                 return View(data);
             }
             else
@@ -195,13 +196,14 @@ namespace IndiaLivings_Web_UI.Controllers
             return countries;
         }
         [HttpPost]
-        public ActionResult PostAd(IFormFile productImage, IFormCollection FormData)
+        public ActionResult PostAd(List<IFormFile> productImage, IFormCollection FormData)
         {
             bool isInsert = false;
             byte[] ImageBytes = [];
-            if (productImage != null)
+            if (productImage[0
+                ] != null)
             {
-                ImageBytes = GetByteInfo(productImage);
+                ImageBytes = GetByteInfo(productImage[0]);
             }
             ProductViewModel PVM = new ProductViewModel();
             PVM.productId = Convert.ToInt32(FormData["productId"]);
@@ -219,7 +221,7 @@ namespace IndiaLivings_Web_UI.Controllers
             //PVM.productSubCategoryName = FormData[""];
             PVM.productPriceCondition = FormData["price_Condition"];
             PVM.productAdCategory = FormData["Ad_Category"];
-            PVM.productImageName = productImage != null ? productImage.FileName : "";
+            PVM.productImageName = productImage[0] != null ? productImage[0].FileName : "";
 
             PVM.productAdminReviewStatus = "";
             PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
@@ -488,13 +490,14 @@ namespace IndiaLivings_Web_UI.Controllers
             var Ad_Categories = adConitions.Where(x => x.strAdConditionType.Equals("Ad Category")).ToList();
             var productConditions = adConitions.Where(x => x.strAdConditionType.Equals("Product Condition")).ToList();
             ProductViewModel productViewModel = new ProductViewModel();
-            ProductViewModel product = productViewModel.GetProductById(productId)[0];
+            var productWithImages = productViewModel.GetProductById(productId);
             dynamic data = new ExpandoObject();
             data.Categories = categoryList;
             data.priceConditions = priceConditions;
             data.Ad_Categories = Ad_Categories;
             data.productConditions = productConditions;
-            data.product = product;
+            data.product = productWithImages?.Product ?? new ProductViewModel();
+            data.ProductImages = productWithImages?.ProductImages ?? new List<ProductImageDetailsViewModel>();
             return View("PostAd", data);
         }
         /// <summary>
@@ -716,6 +719,18 @@ namespace IndiaLivings_Web_UI.Controllers
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
