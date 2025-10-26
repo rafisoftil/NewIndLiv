@@ -257,20 +257,20 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public List<ProductModel> GetProductById(int productId)
+        public ProductWithImagesModel GetProductById(int productId)
         {
-            List<ProductModel> products = new List<ProductModel>();
+            ProductWithImagesModel productWithImages = new ProductWithImagesModel();
             try
             {
-                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetProductsById?intProductId={productId}");
-                products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
-                return products;
+                var product = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Product/GetProductsById?intProductId={productId}");
+                productWithImages = JsonConvert.DeserializeObject<ProductWithImagesModel>(product);
+                return productWithImages;
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-            return products;
+            return productWithImages;
         }
         public string AddNotification(int productId, int userId, string notificationType, string message)
         {

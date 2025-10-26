@@ -65,4 +65,9 @@ namespace IndiaLivings_Web_DAL.Models
         public string userName { get; set; }
         public string userEmail { get; set; }
     }
+    public class ProductWithImagesModel
+    {
+        public ProductModel Product { get; set; }
+        public List<ProductImageModel> ProductImages { get; set; }
+    }
 }

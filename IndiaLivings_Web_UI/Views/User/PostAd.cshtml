@@ -1,4 +1,4 @@
-﻿@*
+﻿ @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -65,33 +65,40 @@
                             </div>
                         }
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-8">
                                 <div class="form-group">
                                     <label class="form-label">Product Title<sup style="color: red">*</sup></label>
                                     <input type="text" class="form-control" id="productTitle" name="productName" value="@(Model.product != null ? Model.product.productName : "")" placeholder="Type your product title here" required>
                                     <small id="productNameError" class="text-danger d-none">Product Title is required.</small>
                                 </div>
                             </div>
-                            <div class="form-group col-6">
-                                <label class="form-label">Product Image</label>
-                                <input type="file" id="productImage" name="productImage" class="form-control">
-                                @if (Model.product != null)
-                                {
-                                    <a href="javascript:void(0);" onclick="showImageModal()">Click here to View the existing image</a>
-
-                                    <div id="imageModalOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
-                                        <span onclick="hideImageModal()" style="position:absolute; top:20px; right:30px; font-size:30px; color:white; cursor:pointer;">&times;</span>
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.product.byteProductImageData)" alt="Product Image" style="max-width:90%; max-height:80vh; border:5px solid white; border-radius:10px;" />
-                                    </div>
-                                }
-
-                                <small id="productImageError" class="text-danger d-none">Product Image is required.</small>
-                            </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
                                     <label class="form-label">Product Quantity<sup style="color: red">*</sup></label>
                                     <input type="number" class="form-control" id="productQuantity" name="productQuantity" value="@(Model.product != null ? Model.product.productQuantity : "")" placeholder="Enter your pricing amount" />
                                     <small id="productQuantityError" class="text-danger d-none">Product Quantity is required.</small>
+                                </div>
+                            </div>
+                            <div class="form-group col-12">
+                                <label class="form-label">Product Images (Max 5)</label>
+                                <input type="file" id="productImage" name="productImage" class="form-control d-none" multiple accept="image/*">
+                                <small class="text-muted">You can select up to 5 images. Each image must be less than 5MB.</small>
+                                <small id="productImageError" class="text-danger d-none">Product Image is required.</small>
+                                <div id="imagePreviewContainer" class="d-flex flex-wrap gap-2 mt-2">
+                                    @if (Model.ProductImages != null)
+                                    {
+                                        foreach (var img in Model.ProductImages)
+                                        {
+                                            <div class="img-preview-container existing-image" data-image-id="@img.intProductImageID">
+                                                <img src="data:image/png;base64,@Convert.ToBase64String(img.byteProductImageData)" class="img-preview" alt="Preview">
+                                                <button type="button" class="remove-image" onclick="removeImage(this)">×</button>
+                                                <input type="hidden" name="existingImageIds" value="@img.intProductImageID" />
+                                            </div>
+                                        }
+                                    }
+                                    <div class="add-image-btn" onclick="document.getElementById('productImage').click()">
+                                        <span class="add-image-icon">+</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -430,8 +437,9 @@
                     if (response > 0) {
                         resolve(response); // Continue if valid
                     } else {
-                        ShowToast('failed', 'Please choose a plan to proceed further');
-                        reject('No plan selected');
+                        resolve(response);
+                        // ShowToast('failed', 'Please choose a plan to proceed further');
+                        // reject('No plan selected');
                     }
                 },
                 error: function(xhr) {
@@ -470,28 +478,29 @@
         validateField('AuthorAddress', 'AuthorAddressError');
         validateField('formCheck', 'formCheckError')
 
-        // Validate product image
-        const productImage = document.getElementById('productImage');
+        // Validate product images (both existing and newly selected)
         const productImageError = document.getElementById('productImageError');
-        if (productImage.files.length !== 0 && productImage.files[0].size > 5 * 1024 * 1024) {
-            productImageError.innerText = "Image must be less than 5MB.";
+        const existingImageCount = document.querySelectorAll('.existing-image').length;
+        const totalImageCount = existingImageCount + selectedImages.length;
+        
+        if (totalImageCount === 0) {
+            productImageError.innerText = "Product image is required.";
             productImageError.classList.remove('d-none');
             isValid = false;
+        } else if (totalImageCount > 5) {
+            productImageError.innerText = "You can upload a maximum of 5 images.";
+            productImageError.classList.remove('d-none');
+            isValid = false;
+        } else {
+            let totalSize = selectedImages.reduce((sum, file) => sum + file.size, 0);
+            if (totalSize > 5 * 1024 * 1024) {
+                productImageError.innerText = "Total image size must be less than 5MB.";
+                productImageError.classList.remove('d-none');
+                isValid = false;
+            } else {
+                productImageError.classList.add('d-none');
+            }
         }
-        else {
-            productImageError.classList.add('d-none');
-        }
-        // if (!productImage.files || productImage.files.length === 0) {
-        //     productImageError.innerText = "Product image is required.";
-        //     productImageError.classList.remove('d-none');
-        //     isValid = false;
-        // } else if (productImage.files[0].size > 5 * 1024 * 1024) {
-        //     productImageError.innerText = "Image must be less than 5MB.";
-        //     productImageError.classList.remove('d-none');
-        //     isValid = false;
-        // } else {
-        //     productImageError.classList.add('d-none');
-        // }
 
         // Price Condition radio validation
         const priceConditionSelected = document.querySelector('input[name="price_Condition"]:checked');
@@ -548,6 +557,10 @@
         AdCount().then(function (count){
             const spinner = document.getElementById('spinner');
             let formData = new FormData($('#PostAdForm')[0]);
+            // Add selected images to form data
+            selectedImages.forEach((file) => {
+                formData.append('productImage', file);
+            });
             spinner.classList.remove('d-none');
             $.ajax({
                 url: $('#PostAdForm').attr('action'),
@@ -561,6 +574,12 @@
                     toast.text('Ad posted successfully!');
                     // Optionally reset form or redirect
                     $('#PostAdForm')[0].reset();
+                    $('#imagePreviewContainer').html(`
+                        <div class="add-image-btn" onclick="document.getElementById('productImage').click()">
+                            <span class="add-image-icon">+</span>
+                        </div>
+                    `);
+                    selectedImages = [];
                     toast.removeClass('d-none');
                     setTimeout(() => {
                         toast.addClass('d-none');
@@ -579,7 +598,7 @@
                 }
             });
         }).catch(function (error) {
-        console.log("Ad count check failed: " + error);
+            console.log("Ad count check failed: " + error);
         // Don't proceed to posting form
         });
     // Form is valid: submit via AJAX
@@ -593,4 +612,135 @@
         document.getElementById('imageModalOverlay').style.display = 'none';
     }
 
+    let selectedImages = [];
+
+    function handleImageSelection(input) {
+        const maxImages = 5;
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        const container = document.getElementById('imagePreviewContainer');
+        const errorElement = document.getElementById('productImageError');
+        errorElement.classList.add('d-none');
+        const files = Array.from(input.files);
+        // Check if total images would exceed maximum
+        if (selectedImages.length + files.length > maxImages) {
+            errorElement.textContent = `You can only upload up to ${maxImages} images.`;
+            errorElement.classList.remove('d-none');
+            input.value = '';
+            return;
+        }
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (file.size > maxSize) {
+                errorElement.textContent = `Image ${file.name} exceeds 5MB limit.`;
+                errorElement.classList.remove('d-none');
+                input.value = '';
+                return;
+            }
+            selectedImages.push(file);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const div = document.createElement('div');
+                div.className = 'img-preview-container';
+                div.innerHTML = `
+                    <img src="${e.target.result}" class="img-preview" alt="Preview">
+                    <button type="button" class="remove-image" onclick="removeImage(this)">×</button>
+                `;
+                container.insertBefore(div, container.querySelector('.add-image-btn'));
+                if (selectedImages.length >= maxImages) {
+                    container.querySelector('.add-image-btn').style.display = 'none';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+        input.value = '';
+    }
+
+    function removeImage(button) {
+        const container = document.getElementById('imagePreviewContainer');
+        const previewDiv = button.parentElement;
+        const totalImages = document.querySelectorAll('.img-preview-container').length;
+
+        // Check if this is an existing image
+        if (previewDiv.classList.contains('existing-image')) {
+            // Just remove the preview - the hidden input will still be there for form submission
+            previewDiv.remove();
+        } else {
+            // This is a newly selected image
+            const imgIndex = Array.from(container.querySelectorAll('.img-preview-container:not(.existing-image)')).indexOf(previewDiv);
+            if (imgIndex > -1) {
+                selectedImages.splice(imgIndex, 1);
+            }
+            previewDiv.remove();
+        }
+
+        // Show the add button if we're below 5 total images
+        if (document.querySelectorAll('.img-preview-container').length < 5) {
+            container.querySelector('.add-image-btn').style.display = 'flex';
+        }
+    }
+
+    document.getElementById('productImage').addEventListener('change', function() {
+        handleImageSelection(this);
+    });
 </script>
+
+<style>
+    .img-preview-container {
+        display: inline-flex;
+        margin: 5px;
+        position: relative;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        align-items: center;
+    }
+    .img-preview {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+    .remove-image {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: #ff4444;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 14px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .add-image-btn {
+        width: 120px;
+        height: 120px;
+        border: 2px dashed #ccc;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: #f8f9fa;
+        margin: 5px;
+    }
+    .add-image-btn:hover {
+        border-color: #007bff;
+        background: #e9ecef;
+    }
+    .add-image-icon {
+        font-size: 32px;
+        color: #6c757d;
+    }
+    #imagePreviewContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+        align-items: center;
+    }
+</style>

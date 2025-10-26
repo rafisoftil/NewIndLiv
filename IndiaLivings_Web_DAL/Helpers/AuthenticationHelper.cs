@@ -362,12 +362,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return chatHistory;
         }
-        public List<MessageModel> GetMessagesByUserId(int userId)
+        public List<MessageModel> GetMessagesByUserId(int SenderUserId, int ReceiverUserId)
         {
             List<MessageModel> messages = new List<MessageModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserMessages?userId={userId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserMessages?SenderUserId={SenderUserId}&ReceiverUserId={ReceiverUserId}");
                 messages = JsonConvert.DeserializeObject<List<MessageModel>>(response);
             }
             catch (Exception ex)
@@ -631,6 +631,19 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return notifications;
+        }
+        public string MarkMessagesAsRead(int messageId, int receiverUserId) 
+        {
+            string response = "An error occured";
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/MarkMessageAsRead?messageId={messageId}&receiverUserId={receiverUserId}");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
     }
 }
