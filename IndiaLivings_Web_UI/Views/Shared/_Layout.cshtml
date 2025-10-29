@@ -79,6 +79,7 @@
             const userId = '@Context.Session.GetInt32("UserId")';
             if (!userId) return;
             loadUnreadCount(userId);
+            loadUnreadNotificationCount(userId);
 
             // Create connection to chatHub for messages
             const chatConnection = new signalR.HubConnectionBuilder()
@@ -99,10 +100,30 @@
             function loadUnreadCount(uid) {
                 $.get(`/User/GetUnreadMessageCount?userId=${uid}`, function (msgCount) {
                     console.log("Unread count updated:", msgCount);
-                    $('.fa-envelope').siblings('sup').text(msgCount || 0);
+                    $('.msg-count').text(msgCount || 0);
                 }).fail(err => console.error("Failed to load unread count:", err));
             }
-        
+
+            const notificationCount = new signalR.HubConnectionBuilder()
+                .withUrl("/notificationHub")
+                .withAutomaticReconnect()
+                .build();
+
+            notificationCount.start()
+                .then(() => console.log("Connected to notification hub"))
+                .catch(err => console.error(err));
+
+            notificationCount.on("UpdateUnreadNotificationCount", function (receiverId) {
+                console.log("UpdateUnreadNotificationCount received for user:", receiverId);
+                loadUnreadNotificationCount(userId); // refresh unread notification count
+            });
+
+            function loadUnreadNotificationCount(uid) {
+                $.get(`/User/GetUnreadNotificationCount?userId=${uid}`, function (msgCount) {
+                    console.log("Unread count updated:", msgCount);
+                    $('.notification-count').text(msgCount || 0);
+                }).fail(err => console.error("Failed to load unread count:", err));
+            }
         });
 
         const notificationConnection = new signalR.HubConnectionBuilder()

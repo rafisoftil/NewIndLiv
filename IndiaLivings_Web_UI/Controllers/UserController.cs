@@ -733,6 +733,20 @@ namespace IndiaLivings_Web_UI.Controllers
             }
             return Json(unreadCount);
         }
-
+        [HttpGet]
+        public JsonResult GetUnreadNotificationCount(int userId)
+        {
+            int unreadCount = 0;
+            try
+            {
+                MessageViewModel messageModel = new MessageViewModel();
+                 unreadCount = messageModel.GetUnreadNotificationCount(userId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return Json(unreadCount);
+        }
     }
 }
