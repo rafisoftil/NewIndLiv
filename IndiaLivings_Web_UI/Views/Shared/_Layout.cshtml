@@ -70,52 +70,78 @@
     <script src="~/js/vendor/popper.min.js"></script>
     <script src="~/js/vendor/bootstrap.min.js"></script>
     <script src="~/js/mvc-grid/mvc-grid.js"></script>
+    <script src="~/js/jobnews.pagination.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const userId = '@Context.Session.GetInt32("UserId")';
+            if (!userId) return;
+            loadUnreadCount(userId);
+
+            // Create connection to chatHub for messages
+            const chatConnection = new signalR.HubConnectionBuilder()
+                .withUrl("/chatHub")
+                .withAutomaticReconnect()
+                .build();
+
+            chatConnection.start()
+                .then(() => console.log("Connected to chat hub"))
+                .catch(err => console.error("Chat hub error:", err));
+
+            // Listen for UpdateUnreadCount event
+            chatConnection.on("UpdateUnreadCount", function (receiverId) {
+                console.log("UpdateUnreadCount received for user:", receiverId);
+                loadUnreadCount(userId); // refresh unread message count
+            });
+
+            function loadUnreadCount(uid) {
+                $.get(`/User/GetUnreadMessageCount?userId=${uid}`, function (msgCount) {
+                    console.log("Unread count updated:", msgCount);
+                    $('.fa-envelope').siblings('sup').text(msgCount || 0);
+                }).fail(err => console.error("Failed to load unread count:", err));
+            }
+        
+        });
+
+        const notificationConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/notificationHub")
+            .withAutomaticReconnect()
+            .build();
+
+        notificationConnection.start()
+            .then(() => console.log("Connected to notification hub"))
+            .catch(err => console.error(err));
+
+        notificationConnection.on("ReceiveNotification", function(notification) {
+            playNotificationSound();
+            showToast(notification.message, notification.type);
+            if (typeof updateNotificationList === "function") {
+                updateNotificationList(notification);
+            }
+        });
+
+        function showToast(message, type) {
+            const toast = document.getElementById("notification-toast");
+            toast.className = `toast toast-${type || "info"}`;
+            toast.textContent = message;
+            toast.style.display = "block";
+            setTimeout(() => toast.style.display = "none", 5000);
+        }
+
+        function playNotificationSound() {
+            let audio = document.getElementById("notificationSound");
+            if (!audio) {
+                audio = document.createElement("audio");
+                audio.id = "notificationSound";
+                audio.src = "/sounds/noti.mp3";
+                audio.preload = "auto";
+                document.body.appendChild(audio);
+            }
+            audio.currentTime = 0;
+            audio.play().catch(err => console.log("Audio play failed:", err));
+        }
+    </script>
 </body>
 </html>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
-<script>
-    const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/notificationHub")
-        .withAutomaticReconnect()
-        .build();
-
-    connection.start()
-        .then(() => console.log("Connected to notification hub"))
-        .catch(err => console.error(err));
-
-    // Handle incoming notifications
-    connection.on("ReceiveNotification", function(notification) {
-        playNotificationSound();
-        showToast(notification.message, notification.type);
-        if (typeof updateNotificationList === "function") {
-            updateNotificationList(notification);
-        }
-    });
-
-    // Show in-page toast
-    function showToast(message, type) {
-        const toast = document.getElementById("notification-toast");
-        toast.className = `toast toast-${type || "info"}`;
-        toast.textContent = message;
-        toast.style.display = "block";
-        setTimeout(() => toast.style.display = "none", 5000);
-    }
-
-    // Play sound (preloaded to avoid decoding issues)
-    function playNotificationSound() {
-        let audio = document.getElementById("notificationSound");
-        if (!audio) {
-            // Create once if not exists
-            audio = document.createElement("audio");
-            audio.id = "notificationSound";
-            audio.src = "/sounds/noti.mp3"; // file must exist in wwwroot/sounds/
-            audio.preload = "auto";
-            document.body.appendChild(audio);
-        }
-        audio.currentTime = 0; // restart
-        audio.play().catch(err => console.log("Audio play failed:", err));
-    }
-</script>
-
