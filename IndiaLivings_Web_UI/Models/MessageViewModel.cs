@@ -71,5 +71,33 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
+        public int GetUnreadMessageCount(int receiverUserId)
+        {
+            int unreadCount = 0;
+            AuthenticationHelper AH = new AuthenticationHelper();
+            try
+            {
+                unreadCount = AH.GetUnreadMessageCount(receiverUserId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return unreadCount;
+        }
+        public int GetUnreadNotificationCount(int userId)
+        {
+            int unreadCount = 0;
+            AuthenticationHelper AH = new AuthenticationHelper();
+            try
+            {
+                unreadCount = AH.GetUnreadNotificationCount(userId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return unreadCount;
+        }
     }
 }

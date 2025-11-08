@@ -49,6 +49,8 @@ namespace IndiaLivings_Web_UI.Controllers
             JobNewsViewModel jobNews = new JobNewsViewModel();
             List<JobNewsViewModel> jobList = jobNews.GetAllJobNews(pageNumber, pageSize, categoryId, publishedOnly, activeOnly);
             ViewBag.PageNumber = pageNumber;
+            ViewBag.PageSize = pageSize;
+            ViewBag.Count = jobList.Count();
             return View(jobList);
         }
         public IActionResult GetJobNewsByID(int jobId)

@@ -527,11 +527,11 @@ namespace IndiaLivings_Web_UI.Controllers
             response = model.SendMessage(senderUserId, receiverUserId, messageText);
             return response;
         }
-        public IActionResult GetMessagesByUser(int ReceiverUserId, string username="")
+        public IActionResult GetMessagesByUser(int ReceiverUserId, string username = "")
         {
             int SenderUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
-;           MessageViewModel messageViewModel = new MessageViewModel();
-            ViewBag.UserID = SenderUserId;
+            MessageViewModel messageViewModel = new MessageViewModel();
+            ViewBag.UserID = ReceiverUserId;
             List<MessageViewModel> messages = messageViewModel.GetMessageByUser(SenderUserId, ReceiverUserId);
             dynamic data = new ExpandoObject();
             data.Messages = messages;
@@ -710,6 +710,7 @@ namespace IndiaLivings_Web_UI.Controllers
             List<JobNewsViewModel> jobList = new List<JobNewsViewModel>();
             return View(jobList.ToList());
         }
+
         public IActionResult Notification()
         {
             NotificationViewModel notificationModel = new NotificationViewModel();
@@ -717,22 +718,35 @@ namespace IndiaLivings_Web_UI.Controllers
             List<NotificationViewModel> notifications = notificationModel.GetUserNotifications(userId);
             return View(notifications);
         }
+        [HttpGet]
+        public JsonResult GetUnreadMessageCount(int userId)
+        {
+            int unreadCount = 0;
+            try
+            {
+                MessageViewModel messageModel = new MessageViewModel();
+                unreadCount = messageModel.GetUnreadMessageCount(userId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return Json(unreadCount);
+        }
+        [HttpGet]
+        public JsonResult GetUnreadNotificationCount(int userId)
+        {
+            int unreadCount = 0;
+            try
+            {
+                MessageViewModel messageModel = new MessageViewModel();
+                 unreadCount = messageModel.GetUnreadNotificationCount(userId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return Json(unreadCount);
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

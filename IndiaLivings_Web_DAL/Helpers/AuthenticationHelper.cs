@@ -645,5 +645,33 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
+        public int GetUnreadMessageCount(int userId)
+        {
+            int count = 0;
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUnreadMessageCount?userId={userId}");
+                count = int.Parse(response);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return count;
+        }
+        public int GetUnreadNotificationCount(int userId)
+        {
+            int count = 0;
+            try
+            {
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUnreadNotificationCount?userId={userId}");
+                count = int.Parse(response);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return count;
+        }
     }
 }
