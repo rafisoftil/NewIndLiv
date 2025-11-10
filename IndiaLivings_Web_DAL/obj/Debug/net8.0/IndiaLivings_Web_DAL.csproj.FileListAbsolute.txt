@@ -10,3 +10,16 @@ C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\De
 C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Debug\net8.0\refint\IndiaLivings_Web_DAL.dll
 C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Debug\net8.0\IndiaLivings_Web_DAL.pdb
 C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_DAL\obj\Debug\net8.0\ref\IndiaLivings_Web_DAL.dll
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\bin\Debug\net8.0\IndiaLivings_Web_DAL.deps.json
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\bin\Debug\net8.0\IndiaLivings_Web_DAL.dll
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\bin\Debug\net8.0\IndiaLivings_Web_DAL.pdb
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\obj\Debug\net8.0\IndiaLivings_Web_DAL.csproj.AssemblyReference.cache
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\obj\Debug\net8.0\IndiaLivings_Web_DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\obj\Debug\net8.0\IndiaLivings_Web_DAL.AssemblyInfoInputs.cache
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\obj\Debug\net8.0\IndiaLivings_Web_DAL.AssemblyInfo.cs
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\obj\Debug\net8.0\IndiaLivings_Web_DAL.csproj.CoreCompileInputs.cache
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\obj\Debug\net8.0\IndiaLivings_Web_DAL.sourcelink.json
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\obj\Debug\net8.0\IndiaLivings_Web_DAL.dll
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\obj\Debug\net8.0\refint\IndiaLivings_Web_DAL.dll
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\obj\Debug\net8.0\IndiaLivings_Web_DAL.pdb
+C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_DAL\obj\Debug\net8.0\ref\IndiaLivings_Web_DAL.dll
