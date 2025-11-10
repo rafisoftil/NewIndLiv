@@ -688,7 +688,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Product Details
         /// </summary>
         /// <returns>Products and its user details</returns>
-        public IActionResult ProductDetails(int productId, string username)
+        public IActionResult ProductDetails(int productId, string username, int notificatonId = 0)
         {
             UserViewModel userViewModel = new UserViewModel();
             ProductViewModel productViewModel = new ProductViewModel();
@@ -703,6 +703,11 @@ namespace IndiaLivings_Web_UI.Controllers
             data.Ratings = ratings;
             // also expose image list if view needs it
             data.ProductImages = productWithImages?.ProductImages ?? new List<ProductImageDetailsViewModel>();
+            NotificationViewModel NVM = new NotificationViewModel();
+            if (notificatonId != 0)
+            {
+                var message = NVM.MarkProductNotificationAsRead(notificatonId, 0);
+            }
             return View(data);
         }
         /// <summary>

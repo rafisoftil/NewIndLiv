@@ -315,5 +315,18 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return ratings;
         }
+        public string MarkProductNotificationAsRead(int notificationId, int userId)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/MarkProductNotificationAsRead?notificationId={notificationId}&userId={userId}");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }

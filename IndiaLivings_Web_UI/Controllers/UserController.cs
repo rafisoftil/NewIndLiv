@@ -740,13 +740,28 @@ namespace IndiaLivings_Web_UI.Controllers
             try
             {
                 MessageViewModel messageModel = new MessageViewModel();
-                 unreadCount = messageModel.GetUnreadNotificationCount(userId);
+                unreadCount = messageModel.GetUnreadNotificationCount(userId);
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return Json(unreadCount);
+        }
+        [HttpGet]
+        public string MarkProductNotificationAsRead(int notificationId, int userId)
+        {
+            string message = string.Empty;
+            try
+            {
+                NotificationViewModel NVM = new NotificationViewModel();
+                message = NVM.MarkProductNotificationAsRead(notificationId, userId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return message;
         }
     }
 }

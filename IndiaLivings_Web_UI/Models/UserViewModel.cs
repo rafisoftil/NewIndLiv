@@ -46,6 +46,7 @@ namespace IndiaLivings_Web_UI.Models
         public byte[] byteUserImageData { get; set; } = [];
         public string   strUserImageType { get; set; } = string.Empty;
         public string userCompany {get;set;}=string.Empty;
+        public int UnreadCount { get; set; } = 0;
         public List<UserAddressViewModel> userAddressInfo { get; set; } = [];
         public string messageText { get; set; } = string.Empty;
 
@@ -423,6 +424,7 @@ namespace IndiaLivings_Web_UI.Models
                         user.userMobile = chat.userMobile;
                         user.byteUserImageData = chat.byteUserImageData;
                         user.messageText = chat.MessageText;
+                        user.UnreadCount = chat.UnreadCount;
                         chatHistory.Add(user);
                     }
                 }
