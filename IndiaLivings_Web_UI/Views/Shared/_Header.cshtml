@@ -46,41 +46,42 @@
                 </div>
             </form>
             
-            @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
-            {
+            
                 <div class="header-right">
-                    <ul class="header-list">
-                        <li class="header-item">
-                            <a href="~/User/Bookmark" class="header-widget">
-                                <i class="fas fa-heart"></i>
-                                <sup>@Context.Session.GetInt32("wishlistCount")</sup>
-                            </a>
-                        </li>
-                        <li class="header-item">
-                            <a href="~/service/ServicesList" class="header-widget">
-                                <i class="fas fa-tools"></i>
-                                @* <span>Services</span> *@
-                            </a>
-                        </li>
-                        <li class="header-item">
-                            <button type="button" class="header-widget">
-                                <i class="fas fa-envelope"></i>
-                                <sup class="msg-count">0</sup>
-                            </button>
-                        </li>
-                        <li class="header-item">
-                            <button type="button" class="header-widget">
-                                <i class="fas fa-bell"></i>
-                                <sup class="notification-count">0</sup>
-                            </button>
-                        </li>
-                    </ul>
+                    @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
+                    {
+                        <ul class="header-list">
+                            <li class="header-item">
+                                <a href="~/User/Bookmark" class="header-widget">
+                                    <i class="fas fa-heart"></i>
+                                    <sup>@Context.Session.GetInt32("wishlistCount")</sup>
+                                </a>
+                            </li>
+                            <li class="header-item">
+                                <a href="~/service/ServicesList" class="header-widget">
+                                    <i class="fas fa-tools"></i>
+                                    @* <span>Services</span> *@
+                                </a>
+                            </li>
+                            <li class="header-item">
+                                <button type="button" class="header-widget">
+                                    <i class="fas fa-envelope"></i>
+                                    <sup class="msg-count">0</sup>
+                                </button>
+                            </li>
+                            <li class="header-item">
+                                <button type="button" class="header-widget">
+                                    <i class="fas fa-bell"></i>
+                                    <sup class="notification-count">0</sup>
+                                </button>
+                            </li>
+                        </ul>
+                    }
                     <a asp-controller="User" asp-action="PostAd" class="btn btn-inline post-btn">
                         <i class="fas fa-plus-circle"></i>
                         <span>post your ad</span>
                     </a>
                 </div>
-            }
         </div>
     </div>
 </header>
