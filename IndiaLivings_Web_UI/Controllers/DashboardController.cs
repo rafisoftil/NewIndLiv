@@ -19,7 +19,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ProductViewModel product = new ProductViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             List<ProductViewModel> productsList = product.GetAds(0);
-            List<ProductViewModel> RatedProducts = productsList.Where(product => product.averageRating != 0).OrderByDescending(x => x.averageRating).ToList();
+            List<ProductViewModel> RatedProducts = productsList.Where(product => product.averageRating >= 4).OrderByDescending(x => x.averageRating).ToList();
             List<ProductViewModel> recommendedList = productsList.Where(product => product.productMembershipID == 2).ToList();
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
             int wishlistCount = product.GetwishlistCount(productOwnerID);
