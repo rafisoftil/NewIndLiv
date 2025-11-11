@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IndiaLivings_Web_DAL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fbdac5a56b6d9adb6b8428bebc7945b84ffb7b8c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("IndiaLivings_Web_DAL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IndiaLivings_Web_DAL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

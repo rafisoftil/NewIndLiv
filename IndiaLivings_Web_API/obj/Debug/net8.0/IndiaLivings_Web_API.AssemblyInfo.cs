@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IndiaLivings_Web_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+49f317b05244515f38fc6c61079c35514a63a1f2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("IndiaLivings_Web_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IndiaLivings_Web_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

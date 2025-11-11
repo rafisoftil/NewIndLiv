@@ -9,305 +9,55 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = IndiaLivings_Web_UI
 build_property.RootNamespace = IndiaLivings_Web_UI
-build_property.ProjectDir = C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_UI\
+build_property.ProjectDir = C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Anoop\Source\Repos\IndLiv_2510\IndiaLivings_Web_UI
+build_property.MSBuildProjectDirectory = C:\Users\DoveSquare\source\repos\Sarada\IndiaLivings\IndiaLivings_Web_UI
 build_property._RazorSourceGeneratorDebug = 
-build_property.EffectiveAnalysisLevelStyle = 8.0
-build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/AdsList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEFkc0xpc3QuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/BlogDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEJsb2dEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/Categories.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXENhdGVnb3JpZXMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/CategoryList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXENhdGVnb3J5TGlzdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/Cities.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXENpdGllcy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/Dashboard.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/Dashboard/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/ForgotPassword.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEZvcmdvdFBhc3N3b3JkLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/GetRoles.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEdldFJvbGVzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/Login.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/Dashboard/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXExvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/ManageAds.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXE1hbmFnZUFkcy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/ManageBlogs.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXE1hbmFnZUJsb2dzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/ManageUsers.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXE1hbmFnZVVzZXJzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/Membership.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXE1lbWJlcnNoaXAuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/ProductDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXFByb2R1Y3REZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/ReviewAds.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXFJldmlld0Fkcy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/ReviewBlogs.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXFJldmlld0Jsb2dzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Dashboard/termsAndConditions.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXHRlcm1zQW5kQ29uZGl0aW9ucy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Home/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFcnJvci5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Home/Index.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Home/Privacy.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/JobNews/CreateJob.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iTmV3c1xDcmVhdGVKb2IuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/JobNews/JobDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iTmV3c1xKb2JEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/JobNews/JobInfo.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iTmV3c1xKb2JJbmZvLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Payment/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudFxJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/AdminBookings.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxBZG1pbkJvb2tpbmdzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/AdminProviders.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxBZG1pblByb3ZpZGVycy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/AdminServices.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxBZG1pblNlcnZpY2VzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/AdminSubServices.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxBZG1pblN1YlNlcnZpY2VzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/MyServices.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxNeVNlcnZpY2VzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/ServiceBookings.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxTZXJ2aWNlQm9va2luZ3MuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/ServiceDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxTZXJ2aWNlRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/ServiceInfo.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxTZXJ2aWNlSW5mby5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/ServiceProviderDashboard.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxTZXJ2aWNlUHJvdmlkZXJEYXNoYm9hcmQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/ServiceProviders.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxTZXJ2aWNlUHJvdmlkZXJzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/Services.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxTZXJ2aWNlcy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/ServicesList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxTZXJ2aWNlc0xpc3QuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Service/ServicesSubCategory.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZVxTZXJ2aWNlc1N1YkNhdGVnb3J5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/Error.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/MvcGrid/_Grid.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE12Y0dyaWRcX0dyaWQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/MvcGrid/_Pager.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE12Y0dyaWRcX1BhZ2VyLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_AdminSideBarContent.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pblNpZGVCYXJDb250ZW50LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_ChatList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DaGF0TGlzdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_Footer.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/Shared/_Footer.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_Header.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/Shared/_Header.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9IZWFkZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_JobByID.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Kb2JCeUlELmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_MessagesByUser.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9NZXNzYWdlc0J5VXNlci5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_ProductsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Qcm9kdWN0c1BhcnRpYWwuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_ProductsPartial2.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Qcm9kdWN0c1BhcnRpYWwyLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_ProductsPartial3.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Qcm9kdWN0c1BhcnRpYWwzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_ProfileCard.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Qcm9maWxlQ2FyZC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_SideBar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TaWRlQmFyLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_UserCard.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Vc2VyQ2FyZC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_UserSideBarContent.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Vc2VyU2lkZUJhckNvbnRlbnQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/BlogDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxCbG9nRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/BlogList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxCbG9nTGlzdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/BlogPost.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxCbG9nUG9zdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/BlogsByUser.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxCbG9nc0J5VXNlci5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/Bookmark.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxCb29rbWFyay5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/Dashboard.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxEYXNoYm9hcmQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/JobInfo.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxKb2JJbmZvLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/Message.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxNZXNzYWdlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/MyAds.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxNeUFkcy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/Notification.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxOb3RpZmljYXRpb24uY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/Payment.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxQYXltZW50LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/PostAd.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxQb3N0QWQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/ProcessPayment1.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxQcm9jZXNzUGF5bWVudDEuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/Profile.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxQcm9maWxlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/Settings.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxTZXR0aW5ncy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/User/_UserAddressInfo.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxfVXNlckFkZHJlc3NJbmZvLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/_ViewImports.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/_ViewStart.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anoop/Source/Repos/IndLiv_2510/IndiaLivings_Web_UI/Views/Shared/_Layout.cshtml]
+[C:/Users/DoveSquare/source/repos/Sarada/IndiaLivings/IndiaLivings_Web_UI/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-f0lupvpael
