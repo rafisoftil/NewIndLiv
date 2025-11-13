@@ -33,7 +33,7 @@
                 <div class="header-search">
                     <button type="button" title="Search Submit" onclick="ProductsSearch()"><i class="fas fa-search"></i></button>
                     <input type="text" onfocus="opennavdrop()" class="option-btn" id="productName" placeholder="Search for a Product...">
-                    <button type="button" title="Search Option" class="option-btn" onclick="opennavdrop()"><i class="fas fa-sliders-h"></i></button>
+                    <button type="button" title="Search Option" id="optionbtn" class="option-btn" onclick="opennavdrop()"><i class="fas fa-sliders-h"></i></button>
                 </div>
                 <div class="header-option">
                     <div class="option-grid">
@@ -86,7 +86,7 @@
     </div>
 </header>
 <script>
-  
+
     function ProductsSearch() {
         var selectedCity = $('#cityDropdown option:selected').text();
         var selectedState = $('#stateDropdown option:selected').text();
