@@ -262,7 +262,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             ProductWithImagesModel productWithImages = new ProductWithImagesModel();
             try
             {
-                var product = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Product/GetProductsById?intProductId={productId}");
+                var product = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetProductsById?intProductId={productId}");
                 productWithImages = JsonConvert.DeserializeObject<ProductWithImagesModel>(product);
                 return productWithImages;
             }
