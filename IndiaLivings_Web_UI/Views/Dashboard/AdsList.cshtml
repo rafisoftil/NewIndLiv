@@ -2,6 +2,32 @@
 @{
     ViewBag.Title = "Ads List";
 }
+<style>
+    .accordion {
+        /* background-color: #eee; */
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+    }
+
+        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+        /* .active, .accordion:hover {
+            background-color: #ccc;
+        } */
+
+    /* Style the accordion panel. Note: hidden by default */
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        display: none;
+        overflow: hidden;
+    }
+</style>
 <!--=====================================
                       SINGLE BANNER PART START
             =======================================-->
@@ -33,8 +59,9 @@
                 <div class="row">
                     <div class="col-md-6 col-lg-12">
                         <div class="product-widget">
-                            <div class="row align-items-center justify-content-between mb-2">
-                                <div class="col-6">
+                            <div class="row align-items-center justify-content-between mb-2 accordion">
+                                <h6 class="product-widget-title">Filter by Price</h6>
+                               @*  <div class="col-6">
                                     <h6 class="product-widget-title">Filter by Price</h6>
                                 </div>
                                 <div class="col-6 text-end">
@@ -44,10 +71,18 @@
                                         <option value="asc">Min-Max</option>
                                         <option value="desc">Max-Min</option>
                                     </select>
-                                </div>
+                                </div> *@
                             </div>
 
                             <form class="product-widget-form" asp-controller="Dashboard" asp-action="productsList" method="get">
+                                <div class="product-widget-group">
+                                    <label class="filter-label mb-1">Sort by:</label>
+                                    <select class="form-select form-select-sm w-auto d-inline-block" onchange="sortByPrice(this.value)">
+                                        <option value="" selected>Sort</option>
+                                        <option value="asc">Min-Max</option>
+                                        <option value="desc">Max-Min</option>
+                                    </select>
+                                </div>
                                 <div class="product-widget-group">
                                     <input type="text" id="decMinPrice" placeholder="min - 00">
                                     <input type="text" id="decMaxPrice" placeholder="max - 1B">
@@ -66,7 +101,7 @@
                     </div>
                     <div class="col-md-6 col-lg-12">
                         <div class="product-widget">
-                            <h6 class="product-widget-title">Filter by type</h6>
+                            <h6 class="product-widget-title accordion">Filter by type</h6>
                             <form class="product-widget-form">
                                 <ul class="product-widget-list">
                                     <li class="product-widget-item">
@@ -100,7 +135,7 @@
                     </div>
                     <div class="col-md-6 col-lg-12">
                         <div class="product-widget">
-                            <h6 class="product-widget-title">Filter by rating</h6>
+                            <h6 class="product-widget-title accordion">Filter by rating</h6>
                             <form class="product-widget-form">
                                 <ul class="product-widget-list">
                                     <li class="product-widget-item">
@@ -188,7 +223,7 @@
                     </div>
                     <div class="col-md-6 col-lg-12">
                         <div class="product-widget">
-                            <h6 class="product-widget-title">Filter by Cities</h6>
+                            <h6 class="product-widget-title accordion">Filter by Cities</h6>
                             <form class="product-widget-form">
                                 <div class="product-widget-search">
                                     <input type="text" id="citySearchInput" onkeyup="filterCities()" placeholder="Search">
@@ -316,7 +351,7 @@
                     </div> *@
                     <div class="col-md-6 col-lg-12">
                         <div class="product-widget">
-                            <h6 class="product-widget-title">filter by category</h6>
+                            <h6 class="product-widget-title accordion">filter by category</h6>
                             <form class="product-widget-form">
                                 <div class="product-widget-search">
                                     <input type="text" placeholder="search" id="categorySearch" onkeyup="filterCategories()">
@@ -816,6 +851,24 @@
             contentType: 'application/json',
             success: function (result) {
                 $('#productsContainer').html(result);
+            }
+        });
+    }
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            /* Toggle between adding and removing the "active" class,
+            to highlight the button that controls the panel */
+            this.classList.toggle("active");
+
+            /* Toggle between hiding and showing the active panel */
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
             }
         });
     }
