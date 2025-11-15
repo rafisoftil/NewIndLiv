@@ -461,6 +461,32 @@ namespace IndiaLivings_Web_UI.Controllers
 
         }
         /// <summary>
+        /// Product Details
+        /// </summary>
+        /// <returns>Products and its user details</returns>
+        public IActionResult ProductDetails(int productId, string username, int notificatonId = 0)
+        {
+            UserViewModel userViewModel = new UserViewModel();
+            ProductViewModel productViewModel = new ProductViewModel();
+            // Get product with images from helper
+            var productWithImages = productViewModel.GetProductById(productId);
+            var product = productWithImages?.Product ?? new ProductViewModel();
+            UserViewModel user = userViewModel.GetUsersInfo(username).FirstOrDefault() ?? new UserViewModel();
+            List<ProductRatingViewModel> ratings = new ProductRatingViewModel().GetProductRatings(productId);
+            dynamic data = new ExpandoObject();
+            data.Product = product;
+            data.User = user;
+            data.Ratings = ratings;
+            // also expose image list if view needs it
+            data.ProductImages = productWithImages?.ProductImages ?? new List<ProductImageDetailsViewModel>();
+            NotificationViewModel NVM = new NotificationViewModel();
+            if (notificatonId != 0)
+            {
+                var message = NVM.MarkProductNotificationAsRead(notificatonId, 0);
+            }
+            return View(data);
+        }
+        /// <summary>
         /// Add Rating for Product
         /// </summary>
         /// <param name="productId"></param>
@@ -740,13 +766,28 @@ namespace IndiaLivings_Web_UI.Controllers
             try
             {
                 MessageViewModel messageModel = new MessageViewModel();
-                 unreadCount = messageModel.GetUnreadNotificationCount(userId);
+                unreadCount = messageModel.GetUnreadNotificationCount(userId);
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return Json(unreadCount);
+        }
+        [HttpGet]
+        public string MarkProductNotificationAsRead(int notificationId, int userId)
+        {
+            string message = string.Empty;
+            try
+            {
+                NotificationViewModel NVM = new NotificationViewModel();
+                message = NVM.MarkProductNotificationAsRead(notificationId, userId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return message;
         }
     }
 }

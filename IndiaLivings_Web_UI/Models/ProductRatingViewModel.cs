@@ -38,6 +38,8 @@ namespace IndiaLivings_Web_UI.Models
                         rating.userName = ratingDetails.userName;
                         rating.userEmail = ratingDetails.userEmail;
                         rating.createdDate = ratingDetails.createdDate;
+                        rating.createdBy = ratingDetails.createdBy;
+                        rating.updatedBy = ratingDetails.updatedBy;
                         ratings.Add(rating);
                     }
                 }

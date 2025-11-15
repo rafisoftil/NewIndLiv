@@ -540,7 +540,7 @@
                                 <div class="product-info">
                                     <h5 class="product-price">₹@Convert.ToInt32(product.productPrice)<span>/@product.productPriceCondition</span></h5>
                                     <div class="product-btn">
-                                        <a asp-action="ProductDetails" asp-controller="Dashboard" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Compare" class="fas fa-eye"></a>
+                                        <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Contact Seller" class="fas fa-eye"></a>
                                         <a href='#' class='fas fa-compress'
                                            data-toggle='modal' data-target='#productDetailsModal'
                                            onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
@@ -773,7 +773,7 @@
                 <div class="section-center-heading">
                     <h2>Do you have something to advertise?</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur.</p>
-                    <a href="@Url.Action("PostAd", "User")" class="btn btn-outline">
+                    <a href="@Url.Action("PostAd", "User")" style="position:relative; z-index:1000; pointer-events:auto;" class="btn btn-outline">
                         <i class="fas fa-plus-circle"></i>
                         <span>post your ad</span>
                     </a>

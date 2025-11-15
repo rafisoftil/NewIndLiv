@@ -19,7 +19,7 @@ namespace IndiaLivings_Web_UI.Controllers
             ProductViewModel product = new ProductViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             List<ProductViewModel> productsList = product.GetAds(0);
-            List<ProductViewModel> RatedProducts = productsList.Where(product => product.averageRating != 0).OrderByDescending(x => x.averageRating).ToList();
+            List<ProductViewModel> RatedProducts = productsList.Where(product => product.averageRating >= 4).OrderByDescending(x => x.averageRating).ToList();
             List<ProductViewModel> recommendedList = productsList.Where(product => product.productMembershipID == 2).ToList();
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
             int wishlistCount = product.GetwishlistCount(productOwnerID);
@@ -683,27 +683,6 @@ namespace IndiaLivings_Web_UI.Controllers
                 RecommendedAds = recommendedList
             };
             return View("AdsList", adListFilters);
-        }
-        /// <summary>
-        /// Product Details
-        /// </summary>
-        /// <returns>Products and its user details</returns>
-        public IActionResult ProductDetails(int productId, string username)
-        {
-            UserViewModel userViewModel = new UserViewModel();
-            ProductViewModel productViewModel = new ProductViewModel();
-            // Get product with images from helper
-            var productWithImages = productViewModel.GetProductById(productId);
-            var product = productWithImages?.Product ?? new ProductViewModel();
-            UserViewModel user = userViewModel.GetUsersInfo(username).FirstOrDefault() ?? new UserViewModel();
-            List<ProductRatingViewModel> ratings = new ProductRatingViewModel().GetProductRatings(productId);
-            dynamic data = new ExpandoObject();
-            data.Product = product;
-            data.User = user;
-            data.Ratings = ratings;
-            // also expose image list if view needs it
-            data.ProductImages = productWithImages?.ProductImages ?? new List<ProductImageDetailsViewModel>();
-            return View(data);
         }
         /// <summary>
         /// Ads List

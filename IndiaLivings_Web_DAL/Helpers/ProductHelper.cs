@@ -262,7 +262,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             ProductWithImagesModel productWithImages = new ProductWithImagesModel();
             try
             {
-                var product = ServiceAPI.Get_async_Api($"https://localhost:7158/api/Product/GetProductsById?intProductId={productId}");
+                var product = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetProductsById?intProductId={productId}");
                 productWithImages = JsonConvert.DeserializeObject<ProductWithImagesModel>(product);
                 return productWithImages;
             }
@@ -314,6 +314,19 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return ratings;
+        }
+        public string MarkProductNotificationAsRead(int notificationId, int userId)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/MarkProductNotificationAsRead?notificationId={notificationId}&userId={userId}");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
     }
 }

@@ -52,6 +52,7 @@ namespace IndiaLivings_Web_DAL.Models
         public string userCountry { get; set; } = string.Empty;
         public string userPinCode { get; set; } = string.Empty;
         public string userCompany { get; set; } = string.Empty;
+        public int UnreadCount { get; set; } = 0;
 
         public List<UserAddressModel> userAddressInfo { get; set; } = [];
         public string MessageText { get; set; } = string.Empty;

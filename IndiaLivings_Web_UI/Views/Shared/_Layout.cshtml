@@ -70,11 +70,24 @@
     <script src="~/js/vendor/popper.min.js"></script>
     <script src="~/js/vendor/bootstrap.min.js"></script>
     <script src="~/js/mvc-grid/mvc-grid.js"></script>
-    <script src="~/js/jobnews.pagination.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
     <script>
+        $(document).on('click', function (event) {
+            const $target = $(event.target);
+
+            if ($('.header-search').hasClass('active')) {
+                if (!$target.closest('.header-form').length) {
+                    $('#optionbtn').trigger('click');
+                }
+            }
+        });
+        $(window).on('scroll', function () {
+            if ($('.header-search').hasClass('active')) {
+                $('#optionbtn').trigger('click');;
+            }
+        });
         $(document).ready(function () {
             const userId = '@Context.Session.GetInt32("UserId")';
             if (!userId) return;

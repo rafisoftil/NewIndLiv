@@ -10,6 +10,10 @@
                     <h6>@(string.IsNullOrEmpty(user.userFirstName) ? user.username : user.userFirstName)</h6>
                     <p>@user.messageText</p>
                 </div>
+                @if (user.UnreadCount > 0)
+                {
+                    <span class="message-count">@user.UnreadCount</span>
+                }
             </a>
         </li>
     }

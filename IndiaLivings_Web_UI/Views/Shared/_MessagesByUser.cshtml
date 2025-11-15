@@ -13,7 +13,7 @@
         : "/images/user.png";
     // Find the latest read message sent by the current user
     var latestReadMsgId = ((IEnumerable<MessageViewModel>)Model.Messages)
-        .Where(m => m.SenderId != currentUserId.ToString() && m.IsRead)
+        .Where(m => m.SenderId == currentUserId.ToString() && m.IsRead)
         .OrderByDescending(m => m.Timestamp)
         .FirstOrDefault()?.Id;
 }
@@ -50,6 +50,10 @@
                 bool isMine = msg.SenderId == currentUserId.ToString();
                 <li class="inbox-chat-item @(isMine ? "my-chat" : "")">
                     <div class="inbox-chat-img">
+                        @if (isMine && msg.IsRead && msg.Id == latestReadMsgId)
+                        {
+                            <img src="~/eye-icon.png" alt="Read" title="Read" style="width:16px;height:16px;vertical-align:middle;margin-left:4px;" />
+                        }
                         <img src="@(isMine 
                                     ? ((Context.Session.GetObject<byte[]>("UserImage") != null && Context.Session.GetObject<byte[]>("UserImage").Length > 0) 
                                         ? $"data:image/png;base64,{Convert.ToBase64String(Context.Session.GetObject<byte[]>("UserImage"))}" 
@@ -61,10 +65,6 @@
                     <div class="inbox-chat-content">
                         <div class="inbox-chat-text">
                             <p>@msg.text</p>
-                            @if (!isMine && msg.IsRead && msg.Id == latestReadMsgId)
-                            {
-                                <img src="~/eye-icon.png" alt="Read" title="Read" style="width:16px;height:16px;vertical-align:middle;margin-left:4px;" />
-                            }
                             <div class="inbox-chat-action">
                                 <a onclick="DeleteMessage('@msg.Id', '@(isMine? msg.SenderId: msg.ReceiverId)', '@msg.ReceiverId', '@receiverUser.username')" title="Remove" class="fas fa-trash-alt"></a>
                                 <a href="#" title="Forward" class="fas fa-forward"></a>

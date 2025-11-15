@@ -6,6 +6,7 @@ namespace IndiaLivings_Web_UI.Models
 {
     public class NotificationViewModel
     {
+        public int NotificationId { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string UserFirstName { get; set; }
@@ -15,6 +16,7 @@ namespace IndiaLivings_Web_UI.Models
         public int SenderUserId { get; set; }
         public string LastMessage { get; set; }
         public DateTime LastMessageTime { get; set; }
+        public int IsRead { get; set; }
         public int UnreadCount { get; set; }
         public string NotificationType { get; set; }
         public int ProductId { get; set; }
@@ -69,6 +71,7 @@ namespace IndiaLivings_Web_UI.Models
                 {
                     NotificationViewModel nvm = new NotificationViewModel
                     {
+                        NotificationId = note.NotificationId,
                         UserId = note.UserId,
                         UserName = note.UserName,
                         UserFirstName = note.UserFirstName,
@@ -78,6 +81,7 @@ namespace IndiaLivings_Web_UI.Models
                         SenderUserId = note.SenderUserId,
                         LastMessage = note.LastMessage,
                         LastMessageTime = note.LastMessageTime,
+                        IsRead = note.IsRead,
                         UnreadCount = note.UnreadCount,
                         NotificationType = note.NotificationType,
                         ProductId = note.ProductId
@@ -90,6 +94,20 @@ namespace IndiaLivings_Web_UI.Models
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return NVM;
+        }
+        public string MarkProductNotificationAsRead(int notificationId, int userId)
+        {
+            ProductHelper PH = new ProductHelper();
+            string result = string.Empty;
+            try
+            {
+                result = PH.MarkProductNotificationAsRead(notificationId, userId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return result;
         }
     }
 }
