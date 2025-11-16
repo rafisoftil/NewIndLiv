@@ -56,7 +56,7 @@
                     {
                         <div class="feature-card">
                             <a href="#" class="feature-img">
-                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="feature" width="565" height="401" />
+                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="feature" width="565" height="401" />
                             </a>
                             <div class="cross-inline-badge feature-badge">
                                 <span>featured</span>
@@ -83,7 +83,7 @@
                 <div class="feature-thumb-slider">
                     @foreach (var product in recommendedAds)
                     {
-                        <div class="feature-thumb"><img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="feature" width="142" height="101" /></div>
+                        <div class="feature-thumb"><img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="feature" width="142" height="101" /></div>
                     }
                 </div>
             </div>
@@ -508,7 +508,7 @@
                             <div class="product-media">
                                 <div class="product-img">
                                     <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
-                                         onerror="this.onerror=null; this.src='/images/white-screen.jpg';"
+                                         onerror="this.onerror=null; this.src='/images/no-image.png';"
                                          alt="@product.productImageName" width="288" height="205" />
                                 </div>
                                 <div class="cross-vertical-badge product-badge">
@@ -566,7 +566,7 @@
                             <div class="product-card">
                                 <div class="product-media">
                                     <div class="product-img">
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@Model.Products[i].productImageName" width="288" height="205" />
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="@Model.Products[i].productImageName" width="288" height="205" />
                                     </div>
                                     <div class="cross-vertical-badge product-badge">
                                         <i class="fas fa-fire"></i>
@@ -619,7 +619,7 @@
                             <div class="product-card">
                                 <div class="product-media">
                                     <div class="product-img">
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@Model.Products[i].productImageName" width="288" height="205" />
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="@Model.Products[i].productImageName" width="288" height="205" />
                                     </div>
                                     <div class="cross-vertical-badge product-badge">
                                         <i class="fas fa-fire"></i>
@@ -732,7 +732,7 @@
                     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
                         <div class="category-card">
                             <div class="category-head">
-                                <img src="@Model.Categories[i].CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" />
+                                <img src="@Model.Categories[i].CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/no-image.png';" />
                                 <a href="javascript:void(0);" onclick="navigateToAdsListWithCategory(@Model.Categories[i].CategoryID)" class="category-content">
                                     <h4>@Model.Categories[i].CategoryName</h4>
                                     <p>(@Model.Categories[i].CategoryCount)</p>

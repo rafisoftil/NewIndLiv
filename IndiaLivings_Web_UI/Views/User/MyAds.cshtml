@@ -100,7 +100,7 @@
                             <div class="product-card">
                                 <div class="product-media">
                                     <div class="product-img">
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="@product.productImageName" width="288" height="205" />
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="@product.productImageName" width="288" height="205" />
                                     </div>
                                     <div class="cross-vertical-badge product-badge">
                                         <i class="fas fa-fire"></i>
@@ -412,10 +412,10 @@
                     }
                     imgEl.src = 'data:image/png;base64,' + btoa(binary);
                 } else {
-                    imgEl.src = '/images/white-screen.jpg';
+                    imgEl.src = '/images/no-image.png';
                 }
             } else {
-                imgEl.src = '/images/white-screen.jpg';
+                imgEl.src = '/images/no-image.png';
             }
 
             // Text fields
