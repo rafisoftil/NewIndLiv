@@ -84,8 +84,8 @@
                                     </select>
                                 </div>
                                 <div class="product-widget-group">
-                                    <input type="text" id="decMinPrice" placeholder="min - 00">
-                                    <input type="text" id="decMaxPrice" placeholder="max - 1B">
+                                    <input type="text" id="decMinPrice" placeholder="min - 00" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <input type="text" id="decMaxPrice" placeholder="max - 1B" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                 </div>
                                 <button type="button" class="product-widget-btn" onclick="updatePriceRange()">
                                     <i class="fas fa-search"></i>
