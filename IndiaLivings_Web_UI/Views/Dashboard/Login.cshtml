@@ -37,10 +37,10 @@ Layout = null;
             <div class="user-form-category-btn">
                 <ul class="nav nav-tabs">
                     <li>
-                        <a href="#login-tab" aria-controls="login-tab" class="nav-link active" role="tab" data-toggle="tab">Sign in</a>
+                        <a href="#login-tab" aria-controls="login-tab" class="nav-link active" id="login-tab-link" role="tab" data-toggle="tab">Sign in</a>
                     </li>
                     <li>
-                        <a href="#register-tab" aria-controls="register-tab" class="nav-link" role="tab" data-toggle="tab">Sign up</a>
+                        <a href="#register-tab" aria-controls="register-tab" class="nav-link" id="register-tab-link" role="tab" data-toggle="tab">Sign up</a>
                     </li>
                 </ul>
             </div>
@@ -252,19 +252,11 @@ Layout = null;
     });
 
     function sign_in_tab() {
-         $('.nav-link').removeClass('active');
-         $('.tab-pane').removeClass('active');
-
-         $('#sign-in').addClass('active');
-         $('#login-tab').addClass('active');
+         $('#login-tab-link').trigger('click');
     }
 
      function sign_up_tab() {
-         $('.nav-link').removeClass('active');
-         $('.tab-pane').removeClass('active');
-
-         $('#sign-up').addClass('active');
-         $('#register-tab').addClass('active !important');
+         $('#register-tab-link').trigger('click');
      }
 
     // Login the User
