@@ -288,7 +288,7 @@
                             <li>
                                 <div class="adpost-plan-content">
                                     <div class="d-inline-flex">
-                                        <input type="radio" name="planSelection" id="freePlan" value="0" selected />
+                                        <input type="radio" name="planSelection" id="freePlan" value="0" @(ViewBag.Membership == 1 ? "checked" : "" ) />
                                         <h6 style="padding-top:10px;padding-left:10px">Free Plan - <span>Submit 5 Ad Listings</span></h6>
                                     </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>
@@ -298,7 +298,7 @@
                             <li>
                                 <div class="adpost-plan-content">
                                     <div class="d-inline-flex">
-                                        <input type="radio" name="planSelection" id="standardPlan" value="23" />
+                                        <input type="radio" name="planSelection" id="standardPlan" value="23" @(ViewBag.Membership == 2 ? "checked" : "" )/>
                                         <h6 style="padding-top:10px;padding-left:10px">Standerd Plan - <span>Submit 10 Ad Listings</span></h6>
                                     </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>
@@ -310,7 +310,7 @@
                             <li>
                                 <div class="adpost-plan-content">
                                     <div class="d-inline-flex">
-                                        <input type="radio" name="planSelection" id="premiumPlan" value="43" />
+                                        <input type="radio" name="planSelection" id="premiumPlan" value="43" @(ViewBag.Membership == 3 ? "checked" : "" )/>
                                         <h6 style="padding-top:10px;padding-left:10px">Premium Plan - <span>Unlimited Ad Listings</span></h6>
                                     </div>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Delectus minus Eaque corporis accusantium incidunt officiis deleniti.</p>

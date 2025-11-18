@@ -37,6 +37,10 @@ namespace IndiaLivings_Web_UI.Controllers
                 AdConditionViewModel adCondition = new AdConditionViewModel();
                 List<AdConditionViewModel> adConitions = new List<AdConditionViewModel>();
                 adConitions = adCondition.GetAllAdConditionsTypeName("");
+                int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+                MembershipViewModel membershipModel = new MembershipViewModel();
+                MembershipViewModel membership = membershipModel.GetMembershipDetails(productOwner)[0];
+                ViewBag.Membership = membership.intMembershipID;
                 var priceConditions = adConitions.Where(x => x.strAdConditionType.Equals("Price Condition")).ToList();
                 var Ad_Categories = adConitions.Where(x => x.strAdConditionType.Equals("Ad Category")).ToList();
                 var productConditions = adConitions.Where(x => x.strAdConditionType.Equals("Product Condition")).ToList();
@@ -494,7 +498,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <returns>Status message</returns>
         public JsonResult AddRating(int userId, int productId, int rating, string comments)
         {
-            string createdBy = HttpContext.Session.GetString("UserFullName") ?? string.Empty;
+            string createdBy = HttpContext.Session.GetString("UserFullName") ?? HttpContext.Session.GetString("userName");
             ProductViewModel productViewModel = new ProductViewModel();
             string message = productViewModel.AddRating(productId, userId, rating, comments, createdBy);
             string notification = new ProductHelper().AddNotification(productId, userId, "Rating", comments);
