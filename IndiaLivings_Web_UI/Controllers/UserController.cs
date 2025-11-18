@@ -148,7 +148,7 @@ namespace IndiaLivings_Web_UI.Controllers
             MembershipViewModel membershipModel = new MembershipViewModel();
             List<MembershipViewModel> membership = new List<MembershipViewModel>();
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            membership = membershipModel.GetMembershipDetails(70);
+            membership = membershipModel.GetMembershipDetails(userId);
             ProfileViewModel profileModel = new ProfileViewModel()
             {
                 Users = users,
