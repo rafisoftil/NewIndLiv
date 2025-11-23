@@ -92,6 +92,38 @@
     </div>
 </div>
 <script>
+    function AddToWishlist(button, productID, createdBy) {
+        const loggedUserId = '@Context.Session.GetInt32("UserId")';
+
+        if (!loggedUserId || loggedUserId === "null") {
+            window.location.href = "/Dashboard/Login";
+            return;
+        }
+
+        var isInWishlist = button.classList.contains("fas");
+        if (isInWishlist) {
+            button.classList.replace("fas", "far");
+        }
+        else {
+            button.classList.replace("far", "fas");
+        }
+        $.ajax({
+            url: '/User/UpdateBookmarks',
+            type: 'POST',
+            data: { productID: productID, createdBy: createdBy, status: isInWishlist ? 0 : 1 },
+            success: function (response) {
+                if (response.statusCode != 200) {
+                    alert('Error in processing request.');
+                }
+                else {
+                    UpdateWishlistCount();
+                }
+            },
+            error: function () {
+                alert('Error in processing request.');
+            }
+        });
+    }
     let totalPages = @Math.Ceiling((double)modelCount / itemsPerPage);
     let currentPage = @currentPage;
     const visiblePages = 5;

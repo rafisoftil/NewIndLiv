@@ -9,6 +9,10 @@ namespace IndiaLivings_Web_UI.Controllers
 {
     public class DashboardController : Controller
     {
+        public IActionResult ErrorPage()
+        {
+            return View();
+        }
         /// <summary>
         /// Landing Page
         /// </summary>
@@ -750,6 +754,10 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.Count = products.Count();
             ViewBag.CurrentPage = page;
             ViewBag.ItemsPerPage = itemsPerPage;
+            ProductViewModel productModel = new ProductViewModel();
+            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            ViewBag.WishlistIds = wishlistIds;
 
             return PartialView("_ProductsPartial", products);
         }

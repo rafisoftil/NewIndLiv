@@ -588,7 +588,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     function AddToWishlist(button, productID, createdBy) {
+        const loggedUserId = '@Context.Session.GetInt32("UserId")';
+
+        if (!loggedUserId || loggedUserId === "null") {
+            window.location.href = "/Dashboard/Login";
+            return;
+        }
+
         var isInWishlist = button.classList.contains("fas");
+
         $.ajax({
             url: '/User/UpdateBookmarks',
             type: 'POST',
@@ -597,12 +605,26 @@
                 if (response.statusCode != 200) {
                     alert('Error in processing request.');
                 }
+                else {
+                    UpdateWishlistCount();
+                }
             },
             error: function () {
                 alert('Error in processing request.');
             }
         });
     }
+
+    function UpdateWishlistCount() {
+        $.ajax({
+            url: '/User/GetWishlistCount',
+            type: 'GET',
+            success: function (response) {
+                $('.wishlist-count').text(response.count);
+            }
+        });
+    }
+
 
     var itemsPerPage = 12;
     var selectedCities = [];
