@@ -3,6 +3,7 @@ using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
+using System.Reflection;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
@@ -100,8 +101,26 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.Count = wishlist.Count();
             return View(wishlist);
         }
+        /// <summary>
+        /// Users WishList Page
+        /// </summary>
+        /// <returns> List of all wishlists will be reurned</returns>
+        public IActionResult GetWishlistCount()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
+            if (userId == 0)
+            {
+                return Json(new { count = 0 });
+            }
 
+            ProductViewModel productModel = new ProductViewModel();
+            int wishlistCount = productModel.GetwishlistCount(userId);
+
+            HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
+
+            return Json(new { count = wishlistCount });
+        }
         /// <summary>
         /// Update Wishlist Page
         /// </summary>

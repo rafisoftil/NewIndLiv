@@ -45,8 +45,6 @@
                     </div>
                 </div>
             </form>
-            
-            
                 <div class="header-right">
                     @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
                     {
@@ -54,7 +52,7 @@
                             <li class="header-item">
                                 <a href="~/User/Bookmark" class="header-widget">
                                     <i class="fas fa-heart"></i>
-                                    <sup>@Context.Session.GetInt32("wishlistCount")</sup>
+                                    <sup class="wishlist-count">@Context.Session.GetInt32("wishlistCount")</sup>
                                 </a>
                             </li>
                             <li class="header-item">
