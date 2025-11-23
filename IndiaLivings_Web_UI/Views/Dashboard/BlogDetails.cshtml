@@ -92,7 +92,7 @@
                             var hasImage = Model.featuredImage != null && Model.featuredImage.Length > 0;
                             var imageSrc = hasImage
                             ? $"data:image/png;base64,{Convert.ToBase64String(Model.featuredImage)}"
-                            : Url.Content("~/images/white-screen.jpg");
+                            : Url.Content("~/images/no-image.png");
                         }
                         <img src="@imageSrc" alt="blog" />
                     </div>

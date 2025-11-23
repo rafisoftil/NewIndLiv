@@ -28,11 +28,11 @@
                                 <option value="read">read notification</option>
                                 <option value="unread">unread notification</option>
                             </select>
-                            <div class="notify-action">
+                            @* <div class="notify-action">
                                 <a href="#" title="Delete All" class="fas fa-trash-alt" id="deleteAllNotifications"></a>
                                 <a onclick="GoToMessages()" title="Mark All As Read" class="fas fa-envelope-open" id="markAllAsRead"></a>
                                 <a href="#" title="Notification Setting" class="fas fa-cog"></a>
-                            </div>
+                            </div> *@
                         </div>
                         <ul class="notify-list notify-scroll" id="notificationList">
                             @foreach (var notification in Model)

@@ -238,7 +238,7 @@
                                             var hasImage = blog.featuredImage != null && blog.featuredImage.Length > 0;
                                             var imageSrc = hasImage
                                             ? $"data:image/png;base64,{Convert.ToBase64String(blog.featuredImage)}"
-                                            : Url.Content("~/images/white-screen.jpg");
+                                            : Url.Content("~/images/no-image.png");
                                         }
                                         <img src="@imageSrc" alt="blog" width="348" height="209" />
                                         <div class="blog-overlay">

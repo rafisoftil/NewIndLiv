@@ -84,8 +84,8 @@
                                     </select>
                                 </div>
                                 <div class="product-widget-group">
-                                    <input type="text" id="decMinPrice" placeholder="min - 00">
-                                    <input type="text" id="decMaxPrice" placeholder="max - 1B">
+                                    <input type="text" id="decMinPrice" placeholder="min - 00" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <input type="text" id="decMaxPrice" placeholder="max - 1B" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                 </div>
                                 <button type="button" class="product-widget-btn" onclick="updatePriceRange()">
                                     <i class="fas fa-search"></i>
@@ -420,7 +420,7 @@
                             {
                                 <div class="feature-card">
                                     <a href="#" class="feature-img">
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/white-screen.jpg';" alt="feature" width="565" height="401" />
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="feature" width="565" height="401" />
                                     </a>
                                     <div class="cross-inline-badge feature-badge">
                                         <span>featured</span>
