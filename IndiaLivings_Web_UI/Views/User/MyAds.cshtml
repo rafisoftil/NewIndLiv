@@ -388,12 +388,7 @@
         }
 
         var isInWishlist = button.classList.contains("fas");
-        if (isInWishlist) {
-            button.classList.replace("fas", "far");
-        }
-        else {
-            button.classList.replace("far", "fas");
-        }
+
         $.ajax({
             url: '/User/UpdateBookmarks',
             type: 'POST',
