@@ -407,6 +407,16 @@
         });
     }
 
+    function UpdateWishlistCount() {
+        $.ajax({
+            url: '/User/GetWishlistCount',
+            type: 'GET',
+            success: function (response) {
+                $('.wishlist-count').text(response.count);
+            }
+        });
+    }
+
     function populateModal(product, base64Image) {
         try {
             // Image

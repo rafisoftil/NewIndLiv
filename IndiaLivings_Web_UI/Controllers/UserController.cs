@@ -223,8 +223,7 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             bool isInsert = false;
             byte[] ImageBytes = [];
-            if (productImage[0
-                ] != null)
+            if (productImage.Count > 0)
             {
                 ImageBytes = GetByteInfo(productImage[0]);
             }
@@ -244,7 +243,7 @@ namespace IndiaLivings_Web_UI.Controllers
             //PVM.productSubCategoryName = FormData[""];
             PVM.productPriceCondition = FormData["price_Condition"];
             PVM.productAdCategory = FormData["Ad_Category"];
-            PVM.productImageName = productImage[0] != null ? productImage[0].FileName : "";
+            PVM.productImageName = productImage.Count > 0 ? productImage[0].FileName : "";
 
             PVM.productAdminReviewStatus = "";
             PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
@@ -254,7 +253,7 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.productOwnerName = HttpContext.Session.GetString("userName");
             //PVM.productMembershipID = FormData[""];
             //PVM.productMembershipName = FormData[""];
-            PVM.productAdminReview = true;
+            PVM.productAdminReview = false;
             PVM.createdDate = DateTime.Now;
             PVM.createdBy = HttpContext.Session.GetString("userName").ToString();
             PVM.updatedDate = DateTime.Now;
@@ -811,6 +810,16 @@ namespace IndiaLivings_Web_UI.Controllers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return message;
+        }
+        [HttpGet]
+        public IActionResult UserImage(string userName)
+        {
+            var userDetails = new UserViewModel().GetUsersInfo(userName).FirstOrDefault();
+
+            if (userDetails?.byteUserImageData != null)
+                return File(userDetails.byteUserImageData, "image/jpeg");
+
+            return File("/images/user.png", "image/png");
         }
     }
 }

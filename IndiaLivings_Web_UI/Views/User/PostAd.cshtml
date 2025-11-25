@@ -1,4 +1,4 @@
-﻿ @*
+﻿﻿ @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -483,11 +483,7 @@
         const existingImageCount = document.querySelectorAll('.existing-image').length;
         const totalImageCount = existingImageCount + selectedImages.length;
         
-        if (totalImageCount === 0) {
-            productImageError.innerText = "Product image is required.";
-            productImageError.classList.remove('d-none');
-            isValid = false;
-        } else if (totalImageCount > 5) {
+        if (totalImageCount > 5) {
             productImageError.innerText = "You can upload a maximum of 5 images.";
             productImageError.classList.remove('d-none');
             isValid = false;
