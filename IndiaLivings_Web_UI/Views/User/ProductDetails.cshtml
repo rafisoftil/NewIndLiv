@@ -327,11 +327,11 @@
                             </li>
                             <li>
                                 <h6>category:</h6>
-                                <p>property</p>
+                                <p>@product.productCategoryName</p>
                             </li>
                             <li>
                                 <h6>condition:</h6>
-                                <p>used</p>
+                                <p>@(product.productCondition == 1 ? "New" : "Used")</p>
                             </li>
                             <li>
                                 <h6>price type:</h6>
@@ -355,7 +355,7 @@
                     <!-- REVIEWS CARD -->
                     <div class="common-card" id="review">
                         <div class="card-header">
-                            <h5 class="card-title">reviews (2)</h5>
+                            <h5 class="card-title">reviews (@productRatings.Count)</h5>
                         </div>
                         <div class="ad-details-review">
                             <ul class="review-list">
@@ -366,7 +366,7 @@
                                             <div class="review-head">
                                                 <div class="review-profile">
                                                     <a href="#" class="review-avatar">
-                                                        <img src="~/images/avatar/03.jpg" alt="review">
+                                                        <img src="@Url.Action("UserImage", "User", new { userName = rating.userName })" onerror="this.onerror=null;this.src='../images/user.png';" />
                                                     </a>
                                                     <div class="review-meta">
                                                         <h6>
@@ -820,7 +820,7 @@
             url: '/User/AddRating',
             type: 'POST',
             //data: { productId: '@product.productId', rating: rating, name: name, email: email, quote: quote, description: description },
-            data: { userId: '@user.userID', productId: '@product.productId', rating: rating, comments: description},
+            data: { productId: '@product.productId', rating: rating, comments: description},
             success: function (response) {
                 $('#spinner').addClass('d-none');
                 if (response.status === "Rating added/updated successfully.") {

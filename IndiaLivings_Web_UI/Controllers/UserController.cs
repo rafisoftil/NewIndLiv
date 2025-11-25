@@ -514,8 +514,9 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <param name="productId"></param>
         /// <param name="rating"></param>
         /// <returns>Status message</returns>
-        public JsonResult AddRating(int userId, int productId, int rating, string comments)
+        public JsonResult AddRating(int productId, int rating, string comments)
         {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             string createdBy = HttpContext.Session.GetString("UserFullName") ?? HttpContext.Session.GetString("userName");
             ProductViewModel productViewModel = new ProductViewModel();
             string message = productViewModel.AddRating(productId, userId, rating, comments, createdBy);
