@@ -134,6 +134,22 @@ namespace IndiaLivings_Web_DAL.Helpers
             return products;
         }
 
+        public List<ProductModel> GetAllAdsByUser(int userid)
+        {
+            List<ProductModel> products = new List<ProductModel>();
+            try
+            {
+                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetAllAdsByUser?userId={userid}");
+                products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return products;
+        }
+
         public int InsertProduct(ProductModel product)
         {
             int insertedId = 0;

@@ -26,7 +26,7 @@
 <section class="dash-header-part">
     <div class="container">
         <div class="dash-header-card">
-            <partial name="~/Views/Shared/_ProfileCard.cshtml" />
+            <partial id="profileCard" name="~/Views/Shared/_ProfileCard.cshtml" />
 
             <div class="row">
                 <div class="col-lg-12">
@@ -581,6 +581,7 @@
                         toast.addClass('d-none');
                     }, 3000);
                     spinner.classList.add('d-none');
+                    $("#profileCard").load(location.href + "#profileCard");
                 },
                 error: function (xhr) {
                     toast.removeClass('toast_success');
