@@ -78,17 +78,17 @@
     </div>
     <div class="col-lg-7">
         <div class="dash-header-right">
-            <div class="dash-focus dash-list">
+            <div class="dash-focus dash-book">
                 <h2>@Context.Session.GetInt32("listingAds")</h2>
                 <p>listing ads</p>
             </div>
-            <div class="dash-focus dash-book">
-                <h2>0</h2>
-                <p>total follower</p>
+            <div class="dash-focus dash-list">
+                <h2>@Context.Session.GetInt32("pendingAds")</h2>
+                <p>Ads InReview</p>
             </div>
             <div class="dash-focus dash-rev">
-                <h2>0</h2>
-                <p>total review</p>
+                <h2>@Context.Session.GetInt32("remainingAds")</h2>
+                <p>Ads Remaining</p>
             </div>
         </div>
     </div>

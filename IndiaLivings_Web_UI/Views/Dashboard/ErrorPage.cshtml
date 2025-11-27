@@ -1,0 +1,74 @@
+﻿@{
+    Layout = null;  /* error pages should load without full layout */
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .error-container {
+            max-width: 500px;
+            padding: 20px;
+        }
+
+            .error-container img {
+                width: 260px;
+                margin-bottom: 20px;
+            }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+
+        a {
+            background: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            a:hover {
+                background: #0056b3;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="error-container">
+        <!-- your custom image -->
+        <img src="~/images/broken-robot.png" alt="Error">
+
+        <h1>Something went wrong</h1>
+        <p>@ViewBag.ErrorMessage ?? "Please try again later."</p>
+
+        <a href="/Dashboard/Dashboard">Go Home</a>
+    </div>
+
+</body>
+</html>

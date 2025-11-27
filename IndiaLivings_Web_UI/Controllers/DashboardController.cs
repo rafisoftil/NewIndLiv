@@ -1,5 +1,6 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Dynamic;
@@ -34,9 +35,16 @@ namespace IndiaLivings_Web_UI.Controllers
             HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
             if (productOwnerID != 0)
             {
-                List<ProductViewModel> products = product.GetAds(productOwnerID);
-                int productsCount = products.Count();
-                HttpContext.Session.SetInt32("listingAds", productsCount);
+                //List<ProductViewModel> products = product.GetAds(productOwnerID);
+                //int productsCount = products.Count();
+                //HttpContext.Session.SetInt32("listingAds", productsCount);
+                AdsByMembershipViewModel adsRem = new AdsByMembershipViewModel();
+                int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+                List<AdsByMembershipViewModel> adData = adsRem.GetUserAdsRemaining(userId);
+                HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
+                HttpContext.Session.SetInt32("remainingAds", adData[0].userTotalAdsRemaining);
+                HttpContext.Session.SetInt32("pendingAds", adData[0].userMembershipAds-adData[0].userTotalAdsRemaining);
+                ViewBag.AdsRemaining = adData[0].userTotalAdsRemaining;
             }
             dynamic data = new ExpandoObject();
             data.Categories = categoryList.OrderByDescending(x => x.CategoryCount).ToList();

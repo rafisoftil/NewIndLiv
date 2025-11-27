@@ -148,10 +148,10 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <returns> Ads created by User </returns>
         public IActionResult MyAds(int page = 1)
         {
-            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             ProductViewModel productModel = new ProductViewModel();
-            List<ProductViewModel> products = productModel.GetAds(productOwner);
-            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+            List<ProductViewModel> products = productModel.GetAllAds(userId);
+            List<int> wishlistIds = productModel.GetAllWishlist(userId).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
@@ -223,8 +223,7 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             bool isInsert = false;
             byte[] ImageBytes = [];
-            if (productImage[0
-                ] != null)
+            if (productImage.Count > 0)
             {
                 ImageBytes = GetByteInfo(productImage[0]);
             }
@@ -244,7 +243,7 @@ namespace IndiaLivings_Web_UI.Controllers
             //PVM.productSubCategoryName = FormData[""];
             PVM.productPriceCondition = FormData["price_Condition"];
             PVM.productAdCategory = FormData["Ad_Category"];
-            PVM.productImageName = productImage[0] != null ? productImage[0].FileName : "";
+            PVM.productImageName = productImage.Count > 0 ? productImage[0].FileName : "";
 
             PVM.productAdminReviewStatus = "";
             PVM.productImagePath = "";//  [];//productImage.OpenReadStream();
@@ -254,7 +253,7 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.productOwnerName = HttpContext.Session.GetString("userName");
             //PVM.productMembershipID = FormData[""];
             //PVM.productMembershipName = FormData[""];
-            PVM.productAdminReview = true;
+            PVM.productAdminReview = false;
             PVM.createdDate = DateTime.Now;
             PVM.createdBy = HttpContext.Session.GetString("userName").ToString();
             PVM.updatedDate = DateTime.Now;
@@ -262,7 +261,12 @@ namespace IndiaLivings_Web_UI.Controllers
             PVM.userContactCity = HttpContext.Session.GetString("City").ToString();
             PVM.userContactState = HttpContext.Session.GetString("State").ToString();
             isInsert = PVM.CreateNewAdd(PVM, productImage);
-
+            AdsByMembershipViewModel adsRem = new AdsByMembershipViewModel();
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<AdsByMembershipViewModel> adData = adsRem.GetUserAdsRemaining(userId);
+            HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
+            HttpContext.Session.SetInt32("remainingAds", adData[0].userTotalAdsRemaining);
+            HttpContext.Session.SetInt32("pendingAds", adData[0].userMembershipAds - adData[0].userTotalAdsRemaining);
 
             return RedirectToAction("PostAd");
         }
@@ -515,8 +519,9 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <param name="productId"></param>
         /// <param name="rating"></param>
         /// <returns>Status message</returns>
-        public JsonResult AddRating(int userId, int productId, int rating, string comments)
+        public JsonResult AddRating(int productId, int rating, string comments)
         {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             string createdBy = HttpContext.Session.GetString("UserFullName") ?? HttpContext.Session.GetString("userName");
             ProductViewModel productViewModel = new ProductViewModel();
             string message = productViewModel.AddRating(productId, userId, rating, comments, createdBy);
@@ -811,6 +816,16 @@ namespace IndiaLivings_Web_UI.Controllers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return message;
+        }
+        [HttpGet]
+        public IActionResult UserImage(string userName)
+        {
+            var userDetails = new UserViewModel().GetUsersInfo(userName).FirstOrDefault();
+
+            if (userDetails?.byteUserImageData != null)
+                return File(userDetails.byteUserImageData, "image/jpeg");
+
+            return File("/images/user.png", "image/png");
         }
     }
 }
