@@ -581,7 +581,7 @@
                             toast.addClass('d-none');
                         }, 3000);
                         spinner.classList.add('d-none');
-                        $("#profileCard").load(location.href + "#profileCard");
+                        location.reload();
                     },
                     error: function (xhr) {
                         toast.removeClass('toast_success');
