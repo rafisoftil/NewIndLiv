@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace IndiaLivings_Web_DAL.Helpers
 {
@@ -23,6 +24,22 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return invoiceId;
+        }
+
+        public List<InvoiceModel> GetInvoiceByUser(int userid)
+        {
+            List<InvoiceModel> IM = new List<InvoiceModel>();
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Invoices/GetInvoiceByUser?UserID    =" + userid);
+                IM = JsonConvert.DeserializeObject<List<InvoiceModel>>(response);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return IM;
         }
     }
 }

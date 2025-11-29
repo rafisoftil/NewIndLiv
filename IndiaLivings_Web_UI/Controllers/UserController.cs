@@ -264,9 +264,12 @@ namespace IndiaLivings_Web_UI.Controllers
             AdsByMembershipViewModel adsRem = new AdsByMembershipViewModel();
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<AdsByMembershipViewModel> adData = adsRem.GetUserAdsRemaining(userId);
-            HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
-            HttpContext.Session.SetInt32("remainingAds", adData[0].userTotalAdsRemaining);
-            HttpContext.Session.SetInt32("pendingAds", adData[0].userMembershipAds - adData[0].userTotalAdsRemaining);
+            if (adData.Count > 0)
+            {
+                HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
+                HttpContext.Session.SetInt32("remainingAds", adData[0].userTotalAdsRemaining);
+                HttpContext.Session.SetInt32("pendingAds", adData[0].userMembershipAds - adData[0].userTotalAdsRemaining);
+            }
 
             return RedirectToAction("PostAd");
         }
@@ -826,6 +829,14 @@ namespace IndiaLivings_Web_UI.Controllers
                 return File(userDetails.byteUserImageData, "image/jpeg");
 
             return File("/images/user.png", "image/png");
+        }
+        public IActionResult PlanDetails()
+        {
+            MembershipViewModel membershipModel = new MembershipViewModel();
+            List<MembershipViewModel> membership = new List<MembershipViewModel>();
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            membership = membershipModel.GetMembershipDetails(userId);
+            return View(membership);
         }
     }
 }
