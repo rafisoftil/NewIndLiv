@@ -19,8 +19,9 @@
                 col.Add(Model => Model.strMembershipName).Titled("Plan").Css("text-center");
                 col.Add(Model => Model.intMembershipAdListing).Titled("Ads Limit").Css("text-center");
                 col.Add(Model => Model.decMembershipPrice).Titled("Price").Css("text-center");
-                col.Add(Model => Model.UpdatedDate).Titled("Last Updated").Css("text-center");
+                col.Add(Model => Model.CreatedDate).Titled("Start Date").Css("text-center");
                 col.Add(Model => Model.IsActive).Titled("Status").RenderedAs(model => model.IsActive == true ? "Active" : "In-Active").Css("text-center");
+                col.Add().Encoded(false).Titled("Invoice").Css("text-center").RenderedAs(model => $"<button class='invoice-eye' data-id='{model.intMembershipUserID}' title='View Invoice'><i class='fa fa-eye'></i></button>");
             })
             @* .Sortable().Filterable() *@
             .Empty("No data Found")
@@ -34,7 +35,27 @@
             })
             )
     </div>
+    <div id="invoiceDetailsContainer" style="display:none; margin-top:20px;">
+    </div>
+
 </div>
 <script>
     document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+
+    $(document).on("click", ".invoice-eye", function () {
+        let membershipId = $(this).data("id");
+
+        $.ajax({
+            url: '@Url.Action("GetInvoiceByUser", "User")',
+            type: 'GET',
+            //data: { id: membershipId },
+
+            success: function (response) {
+                $("#invoiceDetailsContainer").html(response);
+                $("#invoiceDetailsContainer").slideDown();
+
+                document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+            }
+        });
+    });
 </script>

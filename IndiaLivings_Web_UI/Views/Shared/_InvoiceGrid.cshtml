@@ -1,0 +1,23 @@
+﻿@model IEnumerable<IndiaLivings_Web_UI.Models.InvoiceViewModel>
+@using NonFactors.Mvc.Grid
+
+<div class="card p-3">
+    <h5>Invoice Details</h5>
+
+    @(
+        Html.Grid(Model).Build(columns =>
+        {
+            columns.Add(m => m.intInvoiceID).Titled("Invoice ID").Css("text-center");
+            columns.Add(m => m.invoiceNumber).Titled("Number").Css("text-center");
+            columns.Add(m => m.invoiceTotal).Titled("Amount").Css("text-center");
+            columns.Add(m => m.createdDate).Titled("Date").Css("text-center");
+            columns.Add(m => m.Status).Titled("Status").Css("text-center");
+        })
+        .Empty("No invoice found")
+        .Pageable(p =>
+        {
+            p.PageSizes = new Dictionary<int, string> { { 0, "All" }, { 5, "5" }, { 10, "10" } };
+            p.RowsPerPage = 5;
+        })
+        )
+</div>

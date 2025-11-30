@@ -838,5 +838,18 @@ namespace IndiaLivings_Web_UI.Controllers
             membership = membershipModel.GetMembershipDetails(userId);
             return View(membership);
         }
+        /// <summary>
+        /// Get Invoice By User
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public IActionResult GetInvoiceByUser()
+        {
+            PaymentHelper paymentHelper = new PaymentHelper();
+            List<InvoiceModel> invoices = new List<InvoiceModel>();
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            invoices = paymentHelper.GetInvoiceByUser(userId);
+            return View(invoices);
+        }
     }
 }
