@@ -41,10 +41,13 @@ namespace IndiaLivings_Web_UI.Controllers
                 AdsByMembershipViewModel adsRem = new AdsByMembershipViewModel();
                 int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
                 List<AdsByMembershipViewModel> adData = adsRem.GetUserAdsRemaining(userId);
-                HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
-                HttpContext.Session.SetInt32("remainingAds", adData[0].userTotalAdsRemaining);
-                HttpContext.Session.SetInt32("pendingAds", adData[0].userMembershipAds-adData[0].userTotalAdsRemaining);
-                ViewBag.AdsRemaining = adData[0].userTotalAdsRemaining;
+                if (adData.Count > 0)
+                {
+                    HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
+                    HttpContext.Session.SetInt32("remainingAds", adData[0].userTotalAdsRemaining);
+                    HttpContext.Session.SetInt32("pendingAds", adData[0].userMembershipAds - adData[0].userTotalAdsRemaining);
+                    ViewBag.AdsRemaining = adData[0].userTotalAdsRemaining;
+                }
             }
             dynamic data = new ExpandoObject();
             data.Categories = categoryList.OrderByDescending(x => x.CategoryCount).ToList();
