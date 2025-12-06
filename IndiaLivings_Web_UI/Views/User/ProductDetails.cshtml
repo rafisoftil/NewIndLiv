@@ -370,7 +370,7 @@
                                                     </a>
                                                     <div class="review-meta">
                                                         <h6>
-                                                            <a href="#">@rating.createdBy</a>
+                                                            <a href="#">@(rating.updatedBy != string.Empty ? rating.updatedBy : rating.createdBy)</a>
                                                             <span>@(rating.updatedDate > rating.createdDate ? rating.updatedDate.ToString("dd MMM yyyy") : rating.createdDate.ToString("dd MMM yyyy"))</span>
                                                         </h6>
                                                         <ul>

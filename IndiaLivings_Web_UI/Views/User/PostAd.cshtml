@@ -482,7 +482,7 @@
         const productImageError = document.getElementById('productImageError');
         const existingImageCount = document.querySelectorAll('.existing-image').length;
         const totalImageCount = existingImageCount + selectedImages.length;
-        
+
         if (totalImageCount > 5) {
             productImageError.innerText = "You can upload a maximum of 5 images.";
             productImageError.classList.remove('d-none');
@@ -548,52 +548,63 @@
             }, 3000);
             return;
         }
-        //AdCount();
 
         AdCount().then(function (count){
-            const spinner = document.getElementById('spinner');
-            let formData = new FormData($('#PostAdForm')[0]);
-            // Add selected images to form data
-            selectedImages.forEach((file) => {
-                formData.append('productImage', file);
-            });
-            spinner.classList.remove('d-none');
-            $.ajax({
-                url: $('#PostAdForm').attr('action'),
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    toast.removeClass('toast_failed');
-                    toast.addClass('toast_success');
-                    toast.text('Ad posted successfully!');
-                    // Optionally reset form or redirect
-                    $('#PostAdForm')[0].reset();
-                    $('#imagePreviewContainer').html(`
-                        <div class="add-image-btn" onclick="document.getElementById('productImage').click()">
-                            <span class="add-image-icon">+</span>
-                        </div>
-                    `);
-                    selectedImages = [];
-                    toast.removeClass('d-none');
-                    setTimeout(() => {
-                        toast.addClass('d-none');
-                    }, 3000);
-                    spinner.classList.add('d-none');
-                    $("#profileCard").load(location.href + "#profileCard");
-                },
-                error: function (xhr) {
-                    toast.removeClass('toast_success');
-                    toast.addClass('toast_failed');
-                    toast.text('An error occurred while posting your ad.');
-                    toast.removeClass('d-none');
-                    setTimeout(() => {
-                        toast.addClass('d-none');
-                    }, 3000);
-                    spinner.classList.add('d-none');
-                }
-            });
+            if (count > 0) {
+                const spinner = document.getElementById('spinner');
+                let formData = new FormData($('#PostAdForm')[0]);
+                // Add selected images to form data
+                selectedImages.forEach((file) => {
+                    formData.append('productImage', file);
+                });
+                spinner.classList.remove('d-none');
+                $.ajax({
+                    url: $('#PostAdForm').attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        toast.removeClass('toast_failed');
+                        toast.addClass('toast_success');
+                        toast.text('Ad posted successfully!');
+                        // Optionally reset form or redirect
+                        $('#PostAdForm')[0].reset();
+                        $('#imagePreviewContainer').html(`
+                            <div class="add-image-btn" onclick="document.getElementById('productImage').click()">
+                                <span class="add-image-icon">+</span>
+                            </div>
+                        `);
+                        selectedImages = [];
+                        toast.removeClass('d-none');
+                        setTimeout(() => {
+                            toast.addClass('d-none');
+                        }, 3000);
+                        spinner.classList.add('d-none');
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                        toast.removeClass('toast_success');
+                        toast.addClass('toast_failed');
+                        toast.text('An error occurred while posting your ad.');
+                        toast.removeClass('d-none');
+                        setTimeout(() => {
+                            toast.addClass('d-none');
+                        }, 3000);
+                        spinner.classList.add('d-none');
+                    }
+                });
+            } 
+            else {
+                toast.removeClass('toast_success');
+                toast.addClass('toast_failed');
+                toast.text('Please choose a plan to proceed further');
+                toast.removeClass('d-none');
+                setTimeout(() => {
+                    toast.addClass('d-none');
+                }, 3000);
+                return; // Don't proceed to posting form
+            }
         }).catch(function (error) {
             console.log("Ad count check failed: " + error);
         // Don't proceed to posting form
@@ -725,10 +736,10 @@
         background: #f8f9fa;
         margin: 5px;
     }
-    .add-image-btn:hover {
-        border-color: #007bff;
-        background: #e9ecef;
-    }
+        .add-image-btn:hover {
+            border-color: #007bff;
+            background: #e9ecef;
+        }
     .add-image-icon {
         font-size: 32px;
         color: #6c757d;

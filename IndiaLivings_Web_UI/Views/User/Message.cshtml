@@ -68,6 +68,8 @@
     @section Scripts {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
         <script>
+            var spinnerHtml =  '<div class="chat-loading d-flex justify-content-center align-items-center" style="min-height:220px; padding:30px; margin-top:180px">' +
+            '<img src="@Url.Content("/images/spinner.gif")" style="height:80px" alt="Loading...">' + '</div>';
             $(document).ready(function () {
                 $("#searchUser").on("keypress", function (event) {
                     const query = $(this).val().trim();
@@ -87,6 +89,7 @@
                         $("#suggestionList").hide().empty();
                     }
                 });
+            });
 
                 // $(document).on("click", ".suggestion-item", function () {
                 //     const username = $(this).data("username");
@@ -108,7 +111,8 @@
                 // Check if the user is already in the sidebar
                 if ($('.message-link[data-username="' + username + '"]').length !== 0) {
                     $('.message-link[data-username="' + username + '"]').trigger("click");
-                } else {   
+                } else {
+                    $('#chat-box').html(spinnerHtml);
                     $.get("/User/GetUserChatListItem", { username: username }, function (html) {
                         $(".message-list").prepend(html);
 
@@ -125,10 +129,10 @@
                     });
                 }
             });
-            });
                     // When a search result is clicked
 
             function loadMessages(ReceiverUserId, UserName) {
+                $('#chat-box').html(spinnerHtml);
                 $.ajax({
                     url: '/User/GetMessagesByUser',
                     type: 'GET',
@@ -138,7 +142,8 @@
                         //setTimeout(scrollToBottom, 100); // scroll to bottom after render
                     },
                     error: function () {
-                        alert("Failed to load messages.");
+                        //alert("Failed to load messages.");
+                        $('#chat-box').html('<div class="alert alert-danger">Failed to load messages.</div>');
                     }
                 });
             }
@@ -223,6 +228,7 @@
                         }
                     });
                 });
+            });
 
                 // Load chat when user clicked
                 $(document).on("click", ".message-link", function (e) {
@@ -232,20 +238,29 @@
                     const username = $(this).data("username");
                     //$("#receiverId").val(userId);
 
-                    $.get("/User/GetMessagesByUser?ReceiverUserId=" + ReceiverUserId + "&username=" + username, function (data) {
-                        $("#chat-box").html(data);
-                        $(".message-item").removeClass("active");
-                        //$('.message-link[data-user-id="' + userId + '"]').closest("li").addClass("active");
+                    $('#chat-box').html(spinnerHtml);
+                    $(".message-item").removeClass("active");
+                    $(this).closest("li").addClass("active");
+
+                    $.ajax({
+                        url: '/User/GetMessagesByUser',
+                        type: 'GET',
+                        data: { ReceiverUserId: ReceiverUserId, username: username },
+                        success: function (data) {
+                            $("#chat-box").html(data);
+                            setTimeout(scrollToBottom, 100);
+                        },
+                        error: function () {
+                            $("#chat-box").html('<div class="alert alert-danger">Failed to load messages.</div>');
+                        }
                     });
                 });
-
                 const scrollToBottom = () => {
                     const list = document.getElementById("chatMessageList");
                     if (list) {
                         list.scrollTop = list.scrollHeight;
                     }
                 };
-            });
         </script>
     }
 </body>

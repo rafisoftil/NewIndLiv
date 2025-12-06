@@ -121,9 +121,7 @@
                                     <th></th>
                                     <th>ID</th>
                                     <th>Service Name</th>
-                                    <th>Provider</th>
-                                    <th>Category</th>
-                                    <th>Rating</th>
+                                    <th>Description</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -142,29 +140,9 @@
                                         </button>
                                     </td>
                                     <td>@serial</td>
-                                    <td>
-                                        <div class="service-info">
-                                            @* <img src="~/images/product/01.jpg" alt="service" class="table-service-img" onerror="this.style.display='none';" /> *@
-                                            <div>
-                                                <h6>@service.Name</h6>
-                                                <small class="text-muted">@service.Category</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="provider-info">
-                                            @* <img src="~/images/avatar/01.jpg" alt="provider" class="table-avatar" /> *@
-                                            <span>@service.ProviderName</span> 
-                                        </div>
-                                    </td>
                                     <td><span class="category-tag">@service.Name</span></td>
-                                    <td>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <span>4.8 (245)</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="status-badge active">@service.IsActive</span></td>
+                                    <td><span>@service.Description</span></td>
+                                    <td><span class="status-badge active">@(service.IsActive ? "Active" : "InActive")</span></td>
                                     <td>
                                         <div class="action-buttons">
                                             <button class="btn-outline-secondary"
