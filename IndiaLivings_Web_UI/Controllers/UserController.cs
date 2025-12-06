@@ -843,13 +843,239 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <param name="productId"></param>
         /// <returns></returns>
-        public IActionResult GetInvoiceByUser()
+        public IActionResult GetInvoiceByUser(int id)
         {
-            PaymentHelper paymentHelper = new PaymentHelper();
-            List<InvoiceModel> invoices = new List<InvoiceModel>();
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            invoices = paymentHelper.GetInvoiceByUser(userId);
-            return View(invoices);
+            InvoiceViewModel invoiceModel = new InvoiceViewModel();
+            List<InvoiceViewModel> invoices = invoiceModel.InvoiceListByUser(id);
+            return PartialView("_InvoiceGrid", invoices);
+        }
+        /// <summary>
+        /// Categories
+        /// </summary>
+        /// <returns>List of Categories and Subcategories</returns>
+        public IActionResult Categories()
+        {
+            CategoryViewModel categoryModel = new CategoryViewModel();
+            List<CategoryViewModel> categoriesList = categoryModel.GetCategoryCount();
+            return View(categoriesList);
+        }
+        [HttpPost]
+        public IActionResult Add_Category(string strCategoryName, IFormFile strCategoryImage, string strCreatedBy)
+        {
+            //if (string.IsNullOrEmpty(strCategoryImage))
+            //    strCategoryImage = "emptypath";
+            string imagePath = "emptypath";
+            if (strCategoryImage != null)
+            {
+                if (strCategoryImage == null || strCategoryImage.Length <= 1 * 1024 * 1024)
+                {
+                    // Validate file type
+                    string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
+                    string fileExtension = Path.GetExtension(strCategoryImage.FileName)?.ToLower();
+
+                    if (allowedExtensions.Contains(fileExtension))
+                    {
+                        // Generate a unique file name
+                        string fileName = strCategoryName + ".jpg";
+                        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/category", fileName);
+
+                        // Ensure directory exists
+                        string directoryPath = Path.GetDirectoryName(filePath);
+                        if (!Directory.Exists(directoryPath))
+                        {
+                            Directory.CreateDirectory(directoryPath);
+                        }
+
+                        // Save the file
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            strCategoryImage.CopyTo(stream);
+                        }
+
+                        // Set the image path for saving to the database
+                        imagePath = $"wwwroot/images/category/{fileName}";
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Invalid file type. Only .jpg, .jpeg, .png, .gif are allowed.";
+                        TempData["MessageType"] = "error";
+                        return RedirectToAction("Categories");
+                    }
+                }
+                else
+                {
+                    TempData["Message"] = "File size exceeds 1 MB.";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction("Categories");
+                }
+            }
+            CategoryViewModel categoryController = new CategoryViewModel();
+            var result = categoryController.AddCategory(strCategoryName, imagePath, strCreatedBy);
+            if (result.Contains("Success"))
+            {
+                TempData["Message"] = "Category Updated successfully!";
+                TempData["MessageType"] = "success";
+            }
+            else
+            {
+                TempData["Message"] = $"Error: {"Error occurred. Please try again later"}";
+                TempData["MessageType"] = "error";
+            }
+            return RedirectToAction("Categories");
+        }
+        [HttpPost]
+        public IActionResult Edit_Category(int intCategoryID, string strCategoryName, IFormFile strCategoryImage, string imagePath, string CreatedBy)
+        {
+            if (strCategoryImage != null)
+            {
+                if (strCategoryImage.Length <= 1 * 1024 * 1024)
+                {
+                    // Validate file type
+                    string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
+                    string fileExtension = Path.GetExtension(strCategoryImage.FileName)?.ToLower();
+
+                    if (allowedExtensions.Contains(fileExtension))
+                    {
+                        // Generate a unique file name
+                        string fileName = strCategoryName + ".jpg";//fileExtension;
+                        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/category", fileName);
+
+                        // Ensure directory exists
+                        string directoryPath = Path.GetDirectoryName(filePath);
+
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            try
+                            {
+                                System.IO.File.Delete(filePath);
+                            }
+                            catch (Exception ex)
+                            {
+                                TempData["Message"] = "Error while deleting the existing image: " + ex.Message;
+                                TempData["MessageType"] = "error";
+                                return RedirectToAction("CategoryViewPage");
+                            }
+                        }
+                        // Save the file
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            strCategoryImage.CopyTo(stream);
+                        }
+
+                        // Set the image path for saving to the database
+                        imagePath = $"wwwroot/images/category/{fileName}";
+                    }
+                }
+                else
+                {
+                    TempData["Message"] = "File size exceeds 1 MB.";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction("Categories");
+                }
+            }
+            else
+            {
+                // Handle the case where strCategoryImage is null
+                string fileName = strCategoryName + ".jpg";  // Default to .jpg extension
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/category", fileName);
+                System.IO.File.Move(imagePath, filePath);
+
+                // Ensure directory exists
+                string directoryPath = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                // Set the image path (no new file will be created, just the path is assigned)
+                imagePath = $"wwwroot/images/category/{fileName}";
+            }
+            //imagePath = $"wwwroot/images/category/{strCategoryName}";
+            CategoryViewModel categoryController = new CategoryViewModel();
+            var categories = categoryController.updateCategory(intCategoryID, strCategoryName, imagePath, CreatedBy);
+            if (categories.Contains("Success"))
+            {
+                TempData["Message"] = "Category Updated successfully!";
+                TempData["MessageType"] = "success";
+            }
+            else
+            {
+                TempData["Message"] = $"Error: {categories ?? "Unknown error occurred."}";
+                TempData["MessageType"] = "error";
+            }
+            return RedirectToAction("Categories");
+        }
+        [HttpPost]
+        public IActionResult Delete_Category(int intCategoryID, string strUpdatedBy)
+        {
+            CategoryViewModel categoryController = new CategoryViewModel();
+            var categories = categoryController.DeleteCategory(intCategoryID, strUpdatedBy);
+            if (categories == "Category Deleted Success.")
+            {
+                if (categories == "Category Deleted Success.")
+                {
+                    TempData["Message"] = "Category Deleted successfully!";
+                    TempData["MessageType"] = "success";
+                }
+                else
+                {
+                    TempData["Message"] = $"Error: {categories ?? "Unknown error occurred."}";
+                    TempData["MessageType"] = "error";
+                }
+            }
+            return RedirectToAction("Categories");
+        }
+        public IActionResult AddSubCategory(string CategoryName, int CategoryId)
+        {
+            string CreatedBy = Convert.ToString(HttpContext.Session.GetInt32("UserId"));
+            SubCategoryViewModel SubCategoryController = new SubCategoryViewModel();
+            var result = SubCategoryController.insertSubCategory(CategoryName, CategoryId, CreatedBy);
+            if (result.Contains("added"))
+            {
+
+                TempData["Message"] = "SubCategory added successfully!";
+                TempData["MessageType"] = "success";
+            }
+            else
+            {
+                TempData["Message"] = "Unexpected response from the API.";
+                TempData["MessageType"] = "error";
+            }
+            return RedirectToAction("Categories");
+        }
+        public IActionResult UpdateSubCategory(int subCategoryID, string SubCategoryName, int categoryId)
+        {
+            string CreatedBy = Convert.ToString(HttpContext.Session.GetInt32("UserId"));
+            SubCategoryViewModel SubCategoryController = new SubCategoryViewModel();
+            var categories = SubCategoryController.updateSubCategory(subCategoryID, SubCategoryName, categoryId, CreatedBy);
+            if (categories.Contains("update"))
+            {
+                TempData["Message"] = "SubCategory added successfully!";
+                TempData["MessageType"] = "success";
+            }
+            else
+            {
+                TempData["Message"] = "Unexpected response from the API.";
+                TempData["MessageType"] = "error";
+            }
+            return RedirectToAction("Categories");
+        }
+        public IActionResult DeleteSubCategory(int subCategoryID)
+        {
+            string strUpdatedBy = Convert.ToString(HttpContext.Session.GetInt32("UserId"));
+            SubCategoryViewModel SubCategoryController = new SubCategoryViewModel();
+            var result = SubCategoryController.DeleteSubCategory(subCategoryID, strUpdatedBy);
+            if (result.Contains("delete"))
+            {
+                TempData["Message"] = "SubCategory added successfully!";
+                TempData["MessageType"] = "success";
+            }
+            else
+            {
+                TempData["Message"] = "Unexpected response from the API.";
+                TempData["MessageType"] = "error";
+            }
+            return RedirectToAction("Categories");
         }
     }
 }

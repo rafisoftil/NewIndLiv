@@ -1,0 +1,680 @@
+﻿@model IEnumerable<CategoryViewModel>
+
+@{
+    ViewBag.Title = "Categories";
+}
+
+<!-- CSS (Bootstrap 4 + FontAwesome) -->
+@* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css" integrity="" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous" /> *@
+
+<style>
+    /* Page & card */
+    .page-card {
+        max-width: 1100px;
+        margin: 20px auto 80px;
+    }
+
+    .card-header-custom {
+        background: linear-gradient(90deg,#0d6efd,#3b82f6);
+        color: #fff;
+        border-bottom: 0;
+    }
+
+    /* Table */
+    .category-table thead th {
+        vertical-align: middle;
+        border-top: 0;
+    }
+
+    .category-table tbody tr {
+        background: #fff;
+    }
+
+    /* Image */
+    .cat-thumb {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #e6e6e6;
+    }
+
+    /* Action icons compact */
+    .action-btn {
+        width: 36px;
+        height: 36px;
+        padding: 6px 8px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #dde3eb;
+        background: #fff;
+        color: #495057;
+        transition: all .12s ease-in-out;
+    }
+
+        .action-btn:hover {
+            background: #f1f5f9;
+            color: #0d6efd;
+            transform: translateY(-1px);
+        }
+
+        .action-btn + .action-btn {
+            margin-left: 6px;
+        }
+
+    /* Toggle arrow */
+    .toggle-btn {
+        width: 36px;
+        height: 36px;
+        padding: 6px;
+        margin-right: 10px;
+        border-radius: 50%;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+    }
+
+        .toggle-btn i {
+            transition: transform .18s ease;
+        }
+
+    .toggle-open .toggle-btn i {
+        transform: rotate(90deg);
+    }
+
+    /* Subcategory row (collapsible) */
+    .subcat-row {
+        background: #f8fafc;
+    }
+
+    .subcat-box {
+        padding: 12px;
+        border-radius: 6px;
+        background: #fff;
+    }
+
+    .subcat-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 10px;
+        border-bottom: 1px solid #eef2f6;
+    }
+
+        .subcat-item:last-child {
+            border-bottom: 0;
+        }
+
+    .badge-status {
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 6px;
+        color: #fff;
+    }
+
+    .badge-active {
+        background: #28a745;
+    }
+
+    .badge-inactive {
+        background: #dc3545;
+    }
+
+    /* /* Responsive tweaks */
+</style>
+
+<!-- PAGE HEADER / BREADCRUMB (Keep your original banner) -->
+<section class="single-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="single-content">
+                    <h2>Categories</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Categories</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="page-card">
+
+    <div class="card shadow-sm">
+        <div class="card-header d-flex align-items-center justify-content-between card-header-custom p-3">
+            <div>
+                <h4 class="mb-0">Category List</h4>
+                <small class="text-light">Manage categories and their subcategories</small>
+            </div>
+
+            <div>
+                <button class="btn btn-light btn-sm" data-toggle="modal" data-target="#addCategoryModal">
+                    <i class="fas fa-plus mr-1"></i> Add New Category
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table category-table mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th style="width:72px;"></th>
+                            <th>Category</th>
+                            <th style="width:140px;">Image</th>
+                            @* <th style="width:120px;">Status</th> *@
+                            <th style="width:120px;" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var category in Model)
+                        {
+                            <tr>
+                                <!-- Toggle -->
+                                <td class="align-middle">
+                                    <div class="d-flex align-items-center">
+                                        <button type="button" class="toggle-btn" onclick="toggleSubcategories(@category.CategoryID)" id="toggleBtn_@category.CategoryID" aria-expanded="false" title="Show subcategories">
+                                            <i class="fas fa-chevron-right" id="arrowIcon_@category.CategoryID"></i>
+                                        </button>
+                                    </div>
+                                </td>
+
+                                <!-- Category Name & small meta -->
+                                <td class="align-middle">
+                                    <div class="d-flex align-items-center">
+                                        <div class="ml-0">
+                                            <div class="cat-name font-weight-bold">@category.CategoryName</div>
+                                            @* <div class="text-muted small">ID: @category.CategoryID</div> *@
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- Image -->
+                                <td class="align-middle">
+                                    <img style="width: 100px;" id="categoryImg_@category.CategoryID" object-fit: cover;" src="~/images/category/@{
+                                                            @category.CategoryName
+                                }
+.jpg" onerror="this.src='/images/no-image.png';" />
+                            </td>
+
+                            <!-- Status -->
+                            @* <td class="align-middle">
+                                    <span class="badge-status @(category.IsActive ? "badge-active" : "badge-inactive")">
+                                        @(category.IsActive ? "Active" : "Inactive")
+                                    </span>
+                                </td> *@
+
+                            <!-- Actions (compact icons) -->
+                            <td class="align-middle text-center">
+                                <!-- Use data-* attributes to pass values to modals -->
+                                <button class="action-btn" data-toggle="modal" data-target="#editModal"
+                                        data-id="@category.CategoryID"
+                                        data-name="@category.CategoryName"
+                                        data-active="@(category.IsActive ? "true" : "false")"
+                                        data-imagepath="@category.CategoryImage"
+                                        title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+
+                                <button class="action-btn" data-toggle="modal" data-target="#deleteModal"
+                                        data-id="@category.CategoryID"
+                                        data-name="@category.CategoryName"
+                                        title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Collapsible Subcategory Row -->
+                        <tr id="subRow_@category.CategoryID" class="subcat-row" style="display:none;">
+                            <td></td>
+                            <td colspan="4">
+                                <div class="subcat-box">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <h6 class="mb-0"><i class="fas fa-list mr-2"></i> Subcategories</h6>
+
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="openAddSubModal(@category.CategoryID, '@category.CategoryName')">
+                                                <i class="fas fa-plus"></i> Add Subcategory
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        @if (category.subCategories != null && category.subCategories.Any())
+                                        {
+                                            foreach (var sub in category.subCategories)
+                                            {
+                                                <div class="subcat-item">
+                                                    <div>
+                                                        <strong>@sub.subCatergoryName</strong>
+                                                        @* <div class="text-muted small">ID: @sub.subCategoryID</div> *@
+                                                    </div>
+
+                                                    <div class="d-flex align-items-center">
+                                                        @* <span class="mr-3">
+                                                                <span class="badge-status @(sub.IsActive ? "badge-active" : "badge-inactive")">@((sub.IsActive) ? "Active" : "Inactive")</span>
+                                                            </span> *@
+
+                                                        <div class="text-right">
+                                                            <button class="action-btn" title="Edit Subcategory" onclick="editSubCategory('@sub.subCategoryID', '@sub.subCatergoryName', '@sub.intCategoryID')">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button class="action-btn" title="Delete Subcategory" onclick="deleteSubCategory('@sub.subCategoryID', '@sub.subCatergoryName')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="text-muted">No subcategories found for this category.</div>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                                                }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @* <div class="card-footer text-right">
+            <a href="@Url.Action("Dashboard", "Dashboard")" class="btn btn-outline-secondary">CANCEL</a>
+        </div> *@
+    </div>
+</div>
+@if (TempData["Message"] != null)
+{
+    if (TempData["MessageType"] == "success")
+    {
+        <div id="tempMessage" class="toast_success">
+            @TempData["Message"]
+        </div>
+    }
+    else
+    {
+        <div id="tempMessage" class="toast_failed">
+            @TempData["Message"]
+        </div>
+    }
+}
+
+<!-- ===========================
+     MODALS
+     =========================== -->
+<!-- Add Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form asp-action="Add_Category" asp-controller="User" method="post" enctype="multipart/form-data" id="addCategoryForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCategoryLabel">Add Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" name="strCreatedBy" value="@Context.Session.GetInt32("UserId")" />
+
+                    <div class="form-group">
+                        <label for="strCategoryName">Category Name</label>
+                        <input type="text" class="form-control" id="strCategoryName" name="strCategoryName" required />
+                        <small class="form-text text-muted">Only letters recommended; image file name should match CategoryImage if you intend to upload one.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="strCategoryImage">Category Image</label>
+                        <input type="file" class="form-control-file" id="strCategoryImage" name="strCategoryImage" />
+                        <small class="form-text text-muted">Image file. Leave empty to use default.</small>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Preview</label><br />
+                        <img id="categoryPreview" src="/images/no-image.png"
+                             class="img-thumbnail mt-2"
+                             style="width:120px; height:120px; object-fit:cover; display:none;" />
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Category Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form asp-action="Edit_Category" asp-controller="User" method="post" enctype="multipart/form-data" id="editCategoryForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCategoryLabel">Edit Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="editCategoryId" name="intCategoryID" />
+                    <input type="hidden" id="editImagePath" name="imagePath" />
+
+                    <div class="form-group">
+                        <label for="editCategoryName">Category Name</label>
+                        <input type="text" class="form-control" id="editCategoryName" name="strCategoryName" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Existing Image</label>
+                        <div class="mb-2">
+                            <img id="existingImagePreview" src="/images/no-image.png" alt="Preview" style="width:120px; height:120px; object-fit:cover;" />
+                        </div>
+                        <label for="editCategoryImage">Change Image</label>
+                        <input type="file" class="form-control-file" id="editCategoryImage" name="strCategoryImage" />
+                        <small class="form-text text-muted">Leave blank to keep existing image.</small>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Preview</label><br />
+                        <img id="categoryPreviewImage" src="/images/no-image.png"
+                             class="img-thumbnail mt-2"
+                             style="width:120px; height:120px; object-fit:cover; display:none;" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editCategoryStatus">Status</label>
+                        <select class="form-control" id="editCategoryStatus" name="IsActive">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </div>
+
+                    <input type="hidden" name="strUpdatedBy" value="@Context.Session.GetString("UserId")" />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Category Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form asp-action="Delete_Category" asp-controller="User" method="post" id="deleteCategoryForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCategoryLabel">Delete Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="deleteCategoryId" name="intCategoryID" />
+                    <p>Are you sure you want to delete this category?</p>
+                    <p class="text-muted" id="deleteCategoryNamePreview"></p>
+                    <input type="hidden" name="strUpdatedBy" value="@Context.Session.GetString("UserId")" />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- (Optional) Add Subcategory Modal - simple example -->
+<div class="modal fade" id="addSubModal" tabindex="-1" role="dialog" aria-labelledby="addSubLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form asp-action="AddSubCategory" asp-controller="User" method="post" id="addSubForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSubLabel">Add Subcategory</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="parentCategoryId" name="CategoryId" />
+                    <div class="form-group">
+                        <label for="subName">Subcategory Name</label>
+                        <input type="text" class="form-control" id="subName" name="CategoryName" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subStatus">Status</label>
+                        <select class="form-control" id="subStatus" name="IsActive">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Subcategory</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- EDIT SUBCATEGORY MODAL -->
+<div class="modal fade" id="editSubcategoryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form asp-action="UpdateSubCategory" asp-controller="User" id="editSubcategoryForm" method="post" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Subcategory</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- hidden -->
+                    <input type="hidden" id="EditSubCategoryID" name="SubCategoryID" />
+                    <input type="hidden" id="EditParentCategoryID" name="categoryId" />
+
+                    @* <div class="form-group">
+                        <label>Parent Category</label>
+                        <select class="form-control" id="EditCategoryID" name="categoryId">
+                            <option value="">Select Category</option>
+                        </select>
+                    </div> *@
+
+                    <div class="form-group">
+                        <label>Subcategory Name</label>
+                        <input type="text" id="EditSubCategoryName" name="SubCategoryName" class="form-control" />
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- DELETE SUBCATEGORY MODAL -->
+<div class="modal fade" id="deleteSubCategoryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form id="deleteSubcategoryForm" asp-action="DeleteSubCategory" asp-controller="User" method="post">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Delete Subcategory</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="delSubCategoryID" name="subCategoryID" />
+                    <p class="mb-0">Are you sure you want to delete this subcategory?</p>
+                    <p id="DeleteSubCategoryName" class="font-weight-bold text-danger"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- JS (jQuery + Bootstrap 4) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.bundle.min.js" integrity="" crossorigin="anonymous"></script>
+
+<script>
+    // Hide message after 3 seconds
+    setTimeout(function () {
+        var msg = document.getElementById("tempMessage");
+        if (msg) {
+            msg.style.transition = "opacity 0.5s ease";
+            msg.style.opacity = "0";
+
+            // Remove from layout after fade-out
+            setTimeout(() => msg.remove(), 500);
+        }
+    }, 3000);
+    document.getElementById("strCategoryImage").addEventListener("change", function (event) {
+        const preview = document.getElementById("categoryPreview");
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            }
+
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "/images/no-image.png";
+            preview.style.display = "none";
+        }
+    });
+
+    document.getElementById("editCategoryImage").addEventListener("change", function (event) {
+        const preview = document.getElementById("categoryPreviewImage");
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            }
+
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "/images/no-image.png";
+            preview.style.display = "none";
+        }
+    });
+
+</script>
+
+<script>
+    // Smooth toggle (uses jQuery)
+    function toggleSubcategories(categoryId) {
+        var subRow = $('#subRow_' + categoryId);
+        var btn = $('#toggleBtn_' + categoryId);
+        var arrow = $('#arrowIcon_' + categoryId);
+
+        if (subRow.is(':visible')) {
+            subRow.slideUp(160);
+            btn.removeClass('toggle-open');
+            arrow.css({ transform: 'rotate(0deg)' });
+            btn.attr('aria-expanded', 'false');
+        } else {
+            subRow.slideDown(180);
+            btn.addClass('toggle-open');
+            arrow.css({ transform: 'rotate(90deg)' });
+            btn.attr('aria-expanded', 'true');
+        }
+    }
+
+    // Populate Edit Modal when it's about to be shown (use data- attributes)
+    $('#editModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var id = button.data('id');
+        var name = button.data('name');
+        var active = button.data('active') === 'true';
+        var imagePath = button.data('imagepath');
+
+        var modal = $(this);
+        modal.find('#editCategoryId').val(id);
+        modal.find('#editCategoryName').val(name);
+        modal.find('#editCategoryStatus').val(active ? "true" : "false");
+        modal.find('#editImagePath').val(imagePath || '');
+
+        var preview = modal.find('#existingImagePreview');
+        if (imagePath && imagePath.trim() !== "") {
+            preview.attr('src', '/images/category/' + name + '.jpg');
+        } else {
+            preview.attr('src', '/images/no-image.png');
+        }
+    });
+
+    // Populate Delete Modal
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var name = button.data('name')
+
+        var modal = $(this)
+        modal.find('#deleteCategoryId').val(id)
+        modal.find('#deleteCategoryNamePreview').text(name)
+    });
+
+    // Simple helper to open Add Subcategory modal with parent id
+    function openAddSubModal(categoryId, categoryName) {
+        $('#addSubModal').modal('show');
+        $('#parentCategoryId').val(categoryId);
+        $('#addSubLabel').text('Add Subcategory to "' + categoryName + '"');
+    }
+
+    // Placeholder functions — wire these to real actions or modal opens as needed:
+    function editSubCategory(subcategoryId, name, categoryId) {
+        $('#editSubcategoryModal').modal('show');
+        $('#EditSubCategoryID').val(subcategoryId);
+        $('#EditSubCategoryName').val(name);
+        $('#EditParentCategoryID').val(categoryId);
+    }
+    function deleteSubCategory(id, name) {
+        $('#deleteSubCategoryModal').modal('show');
+        $('#delSubCategoryID').val(id);
+        $('#DeleteSubCategoryName').text(name);
+    }
+</script>
