@@ -46,9 +46,11 @@ namespace IndiaLivings_Web_UI.Models
                 paymentRequest.Address = "";
 
                 IVM.userID = loggedInUser.HasValue ? loggedInUser.Value : 0;
+                IVM.invoiceNumber = paymentId;
                 IVM.invoiceTotal = requestedAmout;
                 IVM.InvoiceType = invoiceType.ToLower() == "membership" ? InvoiceTypes.MEMBERSHIP : InvoiceTypes.OTHERS;
                 IVM.createdDate = DateTime.Now;
+                IVM.dueDate = DateTime.Now.AddDays(365);
                 IVM.Status = InvoiceStatus.PENDING;
                 isInsert = PH.AddInvoice(IVM);
 
