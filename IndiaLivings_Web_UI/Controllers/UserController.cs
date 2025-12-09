@@ -860,11 +860,10 @@ namespace IndiaLivings_Web_UI.Controllers
             return View(categoriesList);
         }
         [HttpPost]
-        public IActionResult Add_Category(string strCategoryName, IFormFile strCategoryImage, string strCreatedBy)
+        public IActionResult Add_Category(string strCategoryName, IFormFile strCategoryImage)
         {
-            //if (string.IsNullOrEmpty(strCategoryImage))
-            //    strCategoryImage = "emptypath";
-            string imagePath = "emptypath";
+            string strCreatedBy = Convert.ToString(HttpContext.Session.GetInt32("UserId"));
+            string image = "no-image.jpg";
             if (strCategoryImage != null)
             {
                 if (strCategoryImage == null || strCategoryImage.Length <= 1 * 1024 * 1024)
@@ -893,7 +892,7 @@ namespace IndiaLivings_Web_UI.Controllers
                         }
 
                         // Set the image path for saving to the database
-                        imagePath = $"wwwroot/images/category/{fileName}";
+                        image = fileName;
                     }
                     else
                     {
@@ -910,10 +909,10 @@ namespace IndiaLivings_Web_UI.Controllers
                 }
             }
             CategoryViewModel categoryController = new CategoryViewModel();
-            var result = categoryController.AddCategory(strCategoryName, imagePath, strCreatedBy);
-            if (result.Contains("Success"))
+            var result = categoryController.AddCategory(strCategoryName, image, strCreatedBy);
+            if (result.Contains("Added"))
             {
-                TempData["Message"] = "Category Updated successfully!";
+                TempData["Message"] = "Category Added successfully!";
                 TempData["MessageType"] = "success";
             }
             else
@@ -924,8 +923,10 @@ namespace IndiaLivings_Web_UI.Controllers
             return RedirectToAction("Categories");
         }
         [HttpPost]
-        public IActionResult Edit_Category(int intCategoryID, string strCategoryName, IFormFile strCategoryImage, string imagePath, string CreatedBy)
+        public IActionResult Edit_Category(int intCategoryID, string strCategoryName, IFormFile strCategoryImage)
         {
+            string CreatedBy = Convert.ToString(HttpContext.Session.GetInt32("UserId"));
+            string image = "no-image.jpg";
             if (strCategoryImage != null)
             {
                 if (strCategoryImage.Length <= 1 * 1024 * 1024)
@@ -963,7 +964,7 @@ namespace IndiaLivings_Web_UI.Controllers
                         }
 
                         // Set the image path for saving to the database
-                        imagePath = $"wwwroot/images/category/{fileName}";
+                        image = fileName;
                     }
                 }
                 else
@@ -978,7 +979,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 // Handle the case where strCategoryImage is null
                 string fileName = strCategoryName + ".jpg";  // Default to .jpg extension
                 string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/category", fileName);
-                System.IO.File.Move(imagePath, filePath);
+                //System.IO.File.Move(imagePath, filePath);
 
                 // Ensure directory exists
                 string directoryPath = Path.GetDirectoryName(filePath);
@@ -988,11 +989,12 @@ namespace IndiaLivings_Web_UI.Controllers
                 }
 
                 // Set the image path (no new file will be created, just the path is assigned)
-                imagePath = $"wwwroot/images/category/{fileName}";
+                //imagePath = $"wwwroot/images/category/{fileName}";
+                //imagePath = "no-image.jpg";
             }
             //imagePath = $"wwwroot/images/category/{strCategoryName}";
             CategoryViewModel categoryController = new CategoryViewModel();
-            var categories = categoryController.updateCategory(intCategoryID, strCategoryName, imagePath, CreatedBy);
+            var categories = categoryController.updateCategory(intCategoryID, strCategoryName, image, CreatedBy);
             if (categories.Contains("Success"))
             {
                 TempData["Message"] = "Category Updated successfully!";
@@ -1006,22 +1008,20 @@ namespace IndiaLivings_Web_UI.Controllers
             return RedirectToAction("Categories");
         }
         [HttpPost]
-        public IActionResult Delete_Category(int intCategoryID, string strUpdatedBy)
+        public IActionResult Delete_Category(int intCategoryID)
         {
+            string strUpdatedBy = Convert.ToString(HttpContext.Session.GetInt32("UserId"));
             CategoryViewModel categoryController = new CategoryViewModel();
             var categories = categoryController.DeleteCategory(intCategoryID, strUpdatedBy);
-            if (categories == "Category Deleted Success.")
+            if (categories.Contains("Success"))
             {
-                if (categories == "Category Deleted Success.")
-                {
-                    TempData["Message"] = "Category Deleted successfully!";
-                    TempData["MessageType"] = "success";
-                }
-                else
-                {
-                    TempData["Message"] = $"Error: {categories ?? "Unknown error occurred."}";
-                    TempData["MessageType"] = "error";
-                }
+                TempData["Message"] = "Category Deleted successfully!";
+                TempData["MessageType"] = "success";               
+            }
+            else
+            {
+                TempData["Message"] = $"Error: {categories ?? "Unknown error occurred."}";
+                TempData["MessageType"] = "error";
             }
             return RedirectToAction("Categories");
         }
@@ -1030,7 +1030,7 @@ namespace IndiaLivings_Web_UI.Controllers
             string CreatedBy = Convert.ToString(HttpContext.Session.GetInt32("UserId"));
             SubCategoryViewModel SubCategoryController = new SubCategoryViewModel();
             var result = SubCategoryController.insertSubCategory(CategoryName, CategoryId, CreatedBy);
-            if (result.Contains("added"))
+            if (result.Contains("Added"))
             {
 
                 TempData["Message"] = "SubCategory added successfully!";
@@ -1048,7 +1048,7 @@ namespace IndiaLivings_Web_UI.Controllers
             string CreatedBy = Convert.ToString(HttpContext.Session.GetInt32("UserId"));
             SubCategoryViewModel SubCategoryController = new SubCategoryViewModel();
             var categories = SubCategoryController.updateSubCategory(subCategoryID, SubCategoryName, categoryId, CreatedBy);
-            if (categories.Contains("update"))
+            if (categories.Contains("Success"))
             {
                 TempData["Message"] = "SubCategory added successfully!";
                 TempData["MessageType"] = "success";
@@ -1065,9 +1065,9 @@ namespace IndiaLivings_Web_UI.Controllers
             string strUpdatedBy = Convert.ToString(HttpContext.Session.GetInt32("UserId"));
             SubCategoryViewModel SubCategoryController = new SubCategoryViewModel();
             var result = SubCategoryController.DeleteSubCategory(subCategoryID, strUpdatedBy);
-            if (result.Contains("delete"))
+            if (result.Contains("Success"))
             {
-                TempData["Message"] = "SubCategory added successfully!";
+                TempData["Message"] = "SubCategory Deleted successfully!";
                 TempData["MessageType"] = "success";
             }
             else

@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Categories";
+    var message = TempData["Message"]?.ToString();
+    var messageType = TempData["MessageType"]?.ToString();
 }
 
 <!-- CSS (Bootstrap 4 + FontAwesome) -->
@@ -293,18 +295,18 @@
         </div> *@
     </div>
 </div>
-@if (TempData["Message"] != null)
+@if (message != null)
 {
-    if (TempData["MessageType"] == "success")
+    if (messageType == "success")
     {
         <div id="tempMessage" class="toast_success">
-            @TempData["Message"]
+            @message
         </div>
     }
     else
     {
         <div id="tempMessage" class="toast_failed">
-            @TempData["Message"]
+            @message
         </div>
     }
 }

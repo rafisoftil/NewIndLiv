@@ -23,12 +23,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string UpdateCategory(int categoryId, string name, string image, string createdBy)
+        public string UpdateCategory(int categoryId, string name, string image, string updatedBy)
         {
             string response = String.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Category/addCategory?intCategoryID={categoryId}&strCategoryName={name}&imagePath={image}&strCreatedBy={createdBy}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Category/updateCategory?intCategoryID={categoryId}&strCategoryName={name}&strCategoryImage={image}&strUpdatedBy={updatedBy}");
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = String.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Category/addCategory?intCategoryID={categoryId}&strUpdatedBy={updatedBy}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Category/deleteCategory?intCategoryID={categoryId}&strUpdatedBy={updatedBy}");
             }
             catch (Exception ex)
             {
