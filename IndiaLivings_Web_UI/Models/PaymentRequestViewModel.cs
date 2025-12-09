@@ -64,6 +64,35 @@ namespace IndiaLivings_Web_UI.Models
             return paymentRequest;
         }
 
+        public int ProcessUpdateRequest(int requestedAmout, string orderId, string ApiKey, string SecretKey, int? loggedInUser, string? invoiceType)
+        {
+            HttpContext context = null;
+            PaymentRequestViewModel paymentRequest = new PaymentRequestViewModel();
+            Random randomObj = new Random();
+            InvoiceModel IVM = new InvoiceModel();
+            PaymentHelper PH = new PaymentHelper();
+            int isInsert = 0;
+            try
+            {
+                IVM.userID = loggedInUser.HasValue ? loggedInUser.Value : 0;
+                IVM.invoiceNumber = orderId;
+                IVM.invoiceTotal = requestedAmout/100;
+                IVM.InvoiceType = invoiceType.ToLower() == "membership" ? InvoiceTypes.MEMBERSHIP : InvoiceTypes.OTHERS;
+                IVM.createdDate = DateTime.Now;
+                IVM.dueDate = DateTime.Now.AddDays(365);
+                IVM.Status = InvoiceStatus.SUCCESS;
+                isInsert = PH.UpdateInvoice(IVM);
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return isInsert;
+        }
+
         public string CompleteRequest(string rzpId,string rzpRqstId,string ApiKey, string SecurityKey)
         {
             try

@@ -446,13 +446,24 @@ namespace IndiaLivings_Web_UI.Controllers
         {
             var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
             //IHttpContextAccessor httpContextAccessor=null;
-            string paymentCaptured = string.Empty;
+            //string paymentCaptured = string.Empty;
+            var loggedInUser = HttpContext.Session.GetInt32("UserId");
             string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
             string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
             PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
-            paymentCaptured = paymentRequestViewModel.CompleteRequest(formData["rzp_paymentid"], formData["rzp_orderid"], ApiKey, SecretKey);
-            //if (paymentCaptured == "captured")
-            //    return View("success");
+            //paymentCaptured = paymentRequestViewModel.CompleteRequest(formData["rzp_paymentid"], formData["rzp_orderid"], ApiKey, SecretKey);
+            Razorpay.Api.RazorpayClient client = new Razorpay.Api.RazorpayClient(ApiKey, SecretKey);
+            Razorpay.Api.Payment payment = client.Payment.Fetch(formData["rzp_paymentid"]);
+            // This code is for capture the payment
+            Dictionary<string, object> options = new Dictionary<string, object>();
+            options.Add("amount", payment.Attributes["amount"]);
+            Razorpay.Api.Payment paymentCaptured = payment.Capture(options);
+            int amt = (int)paymentCaptured.Attributes["amount"];
+            string orderid = (string)formData["rzp_orderid"];
+            int updateStatus = 0;
+            if (paymentCaptured.Attributes["status"] == "captured")
+                updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Membership");
+                //return View("success");
             //else
             //    return View("failed");
             return RedirectToAction("PostAd");

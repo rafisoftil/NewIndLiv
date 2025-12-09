@@ -26,6 +26,21 @@ namespace IndiaLivings_Web_DAL.Helpers
             return invoiceId;
         }
 
+        public int UpdateInvoice(InvoiceModel IM)
+        {
+            string response = string.Empty;
+            int invoiceId = 0;
+            try
+            {
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Invoices/updateInvoice", IM).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return invoiceId;
+        }
+
         public List<InvoiceModel> GetInvoiceByUser(int userid)
         {
             List<InvoiceModel> IM = new List<InvoiceModel>();
