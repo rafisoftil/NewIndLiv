@@ -308,6 +308,19 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return memDetails;
         }
+        public string AddUserMembership(int MembershipId, int userId, string createdBy)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/AddUserMembership?UserMembershipID={MembershipId}&UserID={userId}&createdBy={createdBy}").Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
         public string UpdateMembership(int intMembershipID, string strMembershipName, int intMembershipAdsLimit, double decMembershipPrice, string strMembershipDescription, string strUpdatedBy)
         {
             string response = string.Empty;

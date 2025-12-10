@@ -78,6 +78,20 @@ namespace IndiaLivings_Web_UI.Models
             }
             return memDetails;
         }
+        public string AddUserMembership(int MembershipId, int userId, string createdBy)
+        {
+            AuthenticationHelper AH = new AuthenticationHelper();
+            string response = "Membership insertion Unsuccessful";
+            try
+            {
+                response = AH.AddUserMembership(MembershipId, userId, createdBy);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
         public string UpdateMembership(int intMembershipID, string strMembershipName, int intMembershipAdsLimit, double decMembershipPrice, string strMembershipDescription, string strUpdatedBy)
         {
             AuthenticationHelper AH = new AuthenticationHelper();

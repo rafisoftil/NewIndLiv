@@ -447,7 +447,7 @@ namespace IndiaLivings_Web_UI.Controllers
             var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
             //IHttpContextAccessor httpContextAccessor=null;
             //string paymentCaptured = string.Empty;
-            var loggedInUser = HttpContext.Session.GetInt32("UserId");
+            int loggedInUser = HttpContext.Session.GetInt32("UserId") ?? 0;
             string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
             string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
             PaymentRequestViewModel paymentRequestViewModel = new PaymentRequestViewModel();
@@ -461,12 +461,21 @@ namespace IndiaLivings_Web_UI.Controllers
             int amt = (int)paymentCaptured.Attributes["amount"];
             string orderid = (string)formData["rzp_orderid"];
             int updateStatus = 0;
+            MembershipViewModel userViewModel = new MembershipViewModel();
             if (paymentCaptured.Attributes["status"] == "captured")
                 updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Membership");
+                if (amt == 2300)
+                {
+                    var response = userViewModel.AddUserMembership(1, loggedInUser, Convert.ToString(loggedInUser));
+                }
+                else if (amt == 4300)
+                {
+                    var response = userViewModel.AddUserMembership(2, loggedInUser, Convert.ToString(loggedInUser));
+                }
                 //return View("success");
-            //else
-            //    return View("failed");
-            return RedirectToAction("PostAd");
+                //else
+                //    return View("failed");
+                return RedirectToAction("PostAd");
         }
         public IActionResult Payment()
         {
