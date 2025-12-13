@@ -463,19 +463,24 @@ namespace IndiaLivings_Web_UI.Controllers
             int updateStatus = 0;
             MembershipViewModel userViewModel = new MembershipViewModel();
             if (paymentCaptured.Attributes["status"] == "captured")
-                updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Membership");
+                
                 if (amt == 2300)
                 {
+                    updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Membership");
                     var response = userViewModel.AddUserMembership(1, loggedInUser, Convert.ToString(loggedInUser));
+                    return RedirectToAction("PostAd");
                 }
                 else if (amt == 4300)
                 {
+                    updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Membership");
                     var response = userViewModel.AddUserMembership(2, loggedInUser, Convert.ToString(loggedInUser));
+                    return RedirectToAction("PostAd");
                 }
-                //return View("success");
-                //else
-                //    return View("failed");
-                return RedirectToAction("PostAd");
+            //return View("success");
+            //else
+            //    return View("failed");
+            updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Service");
+            return RedirectToAction("Services");
         }
         public IActionResult Payment()
         {

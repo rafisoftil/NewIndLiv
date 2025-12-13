@@ -17,6 +17,7 @@ namespace IndiaLivings_Web_DAL.Models
     }
     public enum InvoiceTypes
     {
+        SERVICE,
         PRODUCT,
         MEMBERSHIP,
         OTHERS,

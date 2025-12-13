@@ -48,17 +48,15 @@ namespace IndiaLivings_Web_UI.Models
                 IVM.userID = loggedInUser.HasValue ? loggedInUser.Value : 0;
                 IVM.invoiceNumber = paymentId;
                 IVM.invoiceTotal = requestedAmout;
-                IVM.InvoiceType = invoiceType.ToLower() == "membership" ? InvoiceTypes.MEMBERSHIP : InvoiceTypes.OTHERS;
+                IVM.InvoiceType = invoiceType.ToLower() == "membership" ? InvoiceTypes.MEMBERSHIP : invoiceType.ToLower() == "service" ? InvoiceTypes.SERVICE : InvoiceTypes.OTHERS;
                 IVM.createdDate = DateTime.Now;
                 IVM.dueDate = DateTime.Now.AddDays(365);
                 IVM.Status = InvoiceStatus.PENDING;
                 isInsert = PH.AddInvoice(IVM);
-
-
             }
             catch (Exception ex)
             {
-
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
 
             return paymentRequest;
@@ -77,17 +75,15 @@ namespace IndiaLivings_Web_UI.Models
                 IVM.userID = loggedInUser.HasValue ? loggedInUser.Value : 0;
                 IVM.invoiceNumber = orderId;
                 IVM.invoiceTotal = requestedAmout/100;
-                IVM.InvoiceType = invoiceType.ToLower() == "membership" ? InvoiceTypes.MEMBERSHIP : InvoiceTypes.OTHERS;
+                IVM.InvoiceType = invoiceType.ToLower() == "membership" ? InvoiceTypes.MEMBERSHIP : invoiceType.ToLower() == "service" ? InvoiceTypes.SERVICE : InvoiceTypes.OTHERS;
                 IVM.createdDate = DateTime.Now;
                 IVM.dueDate = DateTime.Now.AddDays(365);
                 IVM.Status = InvoiceStatus.SUCCESS;
                 isInsert = PH.UpdateInvoice(IVM);
-
-
             }
             catch (Exception ex)
             {
-
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
 
             return isInsert;
