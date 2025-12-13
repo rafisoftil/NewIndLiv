@@ -47,7 +47,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Invoices/GetInvoiceByUser?UserID    =" + userid);
+                response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Invoices/GetInvoiceByUser?UserID=" + userid);
                 IM = JsonConvert.DeserializeObject<List<InvoiceModel>>(response);
             }
             catch (Exception ex)

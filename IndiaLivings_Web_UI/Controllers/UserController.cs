@@ -858,6 +858,13 @@ namespace IndiaLivings_Web_UI.Controllers
             membership = membershipModel.GetMembershipDetails(userId);
             return View(membership);
         }
+        public IActionResult Invoice()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            InvoiceViewModel invoiceModel = new InvoiceViewModel();
+            List<InvoiceViewModel> invoices = invoiceModel.InvoiceListByUser(userId);
+            return View(invoices);
+        }
         /// <summary>
         /// Get Invoice By User
         /// </summary>
