@@ -412,7 +412,7 @@ namespace IndiaLivings_Web_UI.Controllers
 
         [HttpPost]
         public IActionResult ProcessPayment(IFormCollection formData)
-        {
+         {
             int Amount = 0;
             var loggedInUser = HttpContext.Session.GetInt32("UserId");
             if (loggedInUser == 0)
@@ -463,7 +463,7 @@ namespace IndiaLivings_Web_UI.Controllers
             int updateStatus = 0;
             MembershipViewModel userViewModel = new MembershipViewModel();
             if (paymentCaptured.Attributes["status"] == "captured")
-                
+            {
                 if (amt == 2300)
                 {
                     updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Membership");
@@ -476,11 +476,14 @@ namespace IndiaLivings_Web_UI.Controllers
                     var response = userViewModel.AddUserMembership(2, loggedInUser, Convert.ToString(loggedInUser));
                     return RedirectToAction("PostAd");
                 }
-            //return View("success");
-            //else
-            //    return View("failed");
-            updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Service");
-            return RedirectToAction("Services");
+                else
+                {
+                    updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Service");
+                    TempData["BookingStatus"] = "Service Booked Successfully";
+                    return RedirectToAction("ServicesList", "Service");
+                }
+            }
+            return RedirectToAction("Home");
         }
         public IActionResult Payment()
         {

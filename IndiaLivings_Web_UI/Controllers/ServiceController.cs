@@ -31,6 +31,7 @@ namespace IndiaLivings_Web_UI.Controllers
         }
         public IActionResult ServicesList()
         {
+            TempData.Keep("BookingStatus");
             ServiceViewModel svm = new ServiceViewModel();
             List<ServiceViewModel> categories = svm.getAllCategories();
             return View(categories);
@@ -46,6 +47,7 @@ namespace IndiaLivings_Web_UI.Controllers
         }
         public IActionResult MyServices()
         {
+            ViewBag.Service = "MyServices";
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
             List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
@@ -53,27 +55,30 @@ namespace IndiaLivings_Web_UI.Controllers
         }
         public IActionResult UpcomingServices()
         {
+            ViewBag.Service = "Upcoming";
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
             List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
-            List<ServiceBookingViewModel> upcomingServices = myservices.Where(s => s.Status == "Scheduled" || s.Status == "InProgress").ToList();
-            return View("MyServices", upcomingServices);
+            //List<ServiceBookingViewModel> upcomingServices = myservices.Where(s => s.Status == "Scheduled" || s.Status == "InProgress" || s.Status == "PENDING" || s.Status == "ASSIGNED").ToList();
+            return View("MyServices", myservices);
         }
         public IActionResult CompletedServices()
         {
+            ViewBag.Service = "Completed";
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
             List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
-            List<ServiceBookingViewModel> completedServices = myservices.Where(s => s.Status == "Completed").ToList();
-            return View("MyServices", completedServices);
+            //List<ServiceBookingViewModel> completedServices = myservices.Where(s => s.Status == "COMPLETED").ToList();
+            return View("MyServices", myservices);
         }
         public IActionResult CancelledServices()
         {
+            ViewBag.Cancelled = "Cancelled";
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
             List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
-            List<ServiceBookingViewModel> cancelledServices = myservices.Where(s => s.Status == "Cancelled").ToList();
-            return View("MyServices", cancelledServices);
+            //List<ServiceBookingViewModel> cancelledServices = myservices.Where(s => s.Status == "CANCELLED").ToList();
+            return View("MyServices", myservices);
         }
         public IActionResult AdminBookings()
         {

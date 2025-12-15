@@ -72,6 +72,15 @@ namespace IndiaLivings_Web_UI.Models
             int isInsert = 0;
             try
             {
+                string TransactionId = randomObj.Next(10000000, 100000000).ToString();
+                Razorpay.Api.RazorpayClient client = new Razorpay.Api.RazorpayClient(ApiKey, SecretKey);
+                Dictionary<string, object> options = new Dictionary<string, object>();
+                options.Add("amount", requestedAmout * 100);
+                options.Add("receipt", TransactionId);
+                options.Add("currency", "INR");
+                options.Add("payment_capture", 0);
+                Razorpay.Api.Order Response = client.Order.Create(options);
+
                 IVM.userID = loggedInUser.HasValue ? loggedInUser.Value : 0;
                 IVM.invoiceNumber = orderId;
                 IVM.invoiceTotal = requestedAmout/100;

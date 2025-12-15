@@ -264,6 +264,7 @@
         </div>
     </div>
 </div>
+
 <div id="spinner" class="d-none">
     <img style="height: 100px" src="~/images/spinner.gif" />
 </div>
@@ -303,6 +304,135 @@
     }
 </script>
 <script>
+    function AddNewSubCategoryService() {
+        // Manual validation in JavaScript
+        var categoryid = $('#add_categoryid').val().trim();
+        var name = $('#add_name').val().trim();
+        var basePrice = $('#add_basePrice').val().trim();
+        var description = $('#add_description').val().trim();
+        var durationMin = $('#add_durationMin').val().trim();
+        var errors = [];
+
+        if (!name) {
+            errors.push('Category Name is required.');
+            $('#add_name').addClass('is-invalid');
+        } else if (name.length > 100) {
+            errors.push('Category Name cannot exceed 100 characters.');
+            $('#add_name').addClass('is-invalid');
+        } else {
+            $('#add_name').removeClass('is-invalid');
+        }
+
+        if (!basePrice) {
+            errors.push('basePrice is required.');
+            $('#add_basePrice').addClass('is-invalid');
+        } else if (basePrice.length > 120) {
+            errors.push('basePrice cannot exceed 120 characters.');
+            $('#add_basePrice').addClass('is-invalid');
+        } else {
+            $('#add_basePrice').removeClass('is-invalid');
+        }
+
+        if (!description) {
+            errors.push('Description is required.');
+            $('#add_description').addClass('is-invalid');
+        } else if (description.length > 512) {
+            errors.push('Description cannot exceed 512 characters.');
+            $('#add_description').addClass('is-invalid');
+        } else {
+            $('#add_description').removeClass('is-invalid');
+        }
+
+        if (errors.length > 0) {
+            ShowToast('failed', errors.join('\n'));
+            return false;
+        }
+
+        if (!durationMin) {
+            errors.push('durationMin is required.');
+            $('#add_durationMin').addClass('is-invalid');
+        } else if (durationMin.length > 256) {
+            errors.push('durationMin cannot exceed 256 characters.');
+            $('#add_durationMin').addClass('is-invalid');
+        } else {
+            $('#add_durationMin').removeClass('is-invalid');
+        }
+
+            $.ajax({
+                url: '/Service/CreateServiceSubCategory',
+                type: 'POST',
+                data: {categoryid: categoryid, name: name, basePrice: basePrice, description: description, durationMin: durationMin },
+                success: function (response) {
+                    if (response.success) {
+                        ShowToast('success', 'Service added successfully!');
+                        location.reload();
+                    } else {
+                        ShowToast('Failed', 'Error adding Service');
+                    }
+                },
+                error: function () {
+                    ShowToast('Failed', 'Error adding category');
+                }
+            });
+            $('#AddCategoryModal').modal('hide');
+    }
+
+    function editSubService(btn) {
+        var serviceid = $(btn).data('serviceid');
+        var id = $(btn).data('categoryid');
+        var name = $(btn).data('name');
+        var baseprice = $(btn).data('baseprice');
+        var description = $(btn).data('description');
+        var status = $(btn).data('status');
+        var minduration = $(btn).data('duration');
+        // Fill modal fields
+        $('#EditCategoryModal').modal('show');
+        $('#edit_serviceid').val(serviceid);
+        $('#edit_categoryid').val(id);
+        $('#edit_name').val(name);
+        $('#edit_basePrice').val(baseprice);
+        $('#edit_description').val(description);
+        $('#edit_status').val(String(status).toLowerCase());
+        $('#edit_durationMin').val(minduration);
+        $('#EditCategoryModal').data('category-id', id);
+    }
+
+    function updateSubCategory() {
+        var payload = {
+            ServiceId: $('#edit_serviceid').val(),
+            CategoryId: $('#edit_categoryid').val(),
+            Name: $('#edit_name').val(),
+            BasePrice: parseFloat($('#edit_basePrice').val()),
+            Description: $('#edit_description').val(),
+            Status: $('#edit_status').val() === "true",
+            DurationMin: parseInt($('#edit_durationMin').val(), 10)
+        };
+        console.log(payload);
+        $.ajax({
+            url: '/Service/UpdateServiceSubCategory',
+            type: 'POST',
+            data: { ServiceId: $('#edit_serviceid').val(),
+            CategoryId: $('#edit_categoryid').val(),
+            Name: $('#edit_name').val(),
+            BasePrice: parseFloat($('#edit_basePrice').val()),
+            Description: $('#edit_description').val(),
+            Status: $('#edit_status').val() === "true",
+            DurationMin: parseInt($('#edit_durationMin').val(), 10)
+        },
+            success: function (response) {
+                if (response.success) {
+                    ShowToast('success', 'Category updated successfully!');
+                    location.reload();
+                } else {
+                    ShowToast('failed', 'Error updating category');
+                }
+            },
+            error: function () {
+                alert('Error updating category.');
+            }
+        });
+        $('#EditCategoryModal').modal('hide');
+    }
     // Admin Functions
     function addNewService() {
         alert('Opening Add New Service Modal');
@@ -555,6 +685,31 @@
                 alert('Error deleting category.');
             }
         });
+    }
+    function deleteSubcategoryModal(serviceid, servicename) {
+        $('#subservice-name').text(servicename);
+        $('#deletesubcategory-id').val(serviceid);
+        $('#DeleteSubservicesModal').modal('show');
+    }
+    function deleteSubcategory() {
+       var serviceid = $('#deletesubcategory-id').val();
+       $('#DeleteSubservicesModal').modal('hide');
+       $.ajax({
+           url: '/Service/DeleteServiceSubCategory',
+           type: 'POST',
+           data: {serviceId: serviceid},
+           success: function (response) {
+               if (response.success) {
+                    ShowToast('success', 'Category deleted successfully!');
+                    location.reload();
+                } else {
+                    ShowToast('failed', 'Error deleting category');
+                }
+            },
+            error: function () {
+                alert('Error deleting category.');
+           }
+       })
     }
     // function viewService(categoryId) 
     // {

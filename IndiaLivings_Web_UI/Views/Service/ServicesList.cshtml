@@ -1,4 +1,7 @@
 ﻿@model List<ServiceViewModel>
+@{
+    var message = TempData["BookingStatus"]?.ToString();
+}
 <!DOCTYPE html>
 <html lang="en">
 <body>
@@ -40,20 +43,23 @@
                 @{
                     foreach (var cat in Model)
                     {
-                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                            <div class="service-category-card">
-                                <a href="ServicesSubCategory?categoryId=@cat.CategoryId">
-                                    <div class="service-category-icon">
-                                        <i class="fas fa-@cat.Image"></i>
-                                    </div>
-                                    <div class="service-category-content">
-                                        <h4>@cat.Name</h4>
-                                        <p>@cat.Description</p>
-                                        <span class="service-count">@cat.ServiceCount+ services</span>
-                                    </div>
-                                </a>
+                        if (cat.ServiceCount > 0)
+                        {
+                            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                <div class="service-category-card">
+                                    <a href="ServicesSubCategory?categoryId=@cat.CategoryId">
+                                        <div class="service-category-icon">
+                                            <i class="fas fa-@cat.Image"></i>
+                                        </div>
+                                        <div class="service-category-content">
+                                            <h4>@cat.Name</h4>
+                                            <p>@cat.Description</p>
+                                            <span class="service-count">@cat.ServiceCount+ services</span>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
                 }
             </div>
@@ -395,5 +401,11 @@
     <!--=====================================
                 HOW IT WORKS PART END
     =======================================-->
+    @if (TempData["BookingStatus"] != null)
+    {
+        <div id="tempMessage" class="toast-message success">
+            @TempData["BookingStatus"]
+        </div>
+    }
 </body>
 </html>

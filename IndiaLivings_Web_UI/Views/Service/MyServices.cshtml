@@ -4,7 +4,7 @@
     var upcomingCount = Model.Count(b => b.StatusName == "Pending");
     var completedCount = Model.Count(b => b.StatusName == "Completed");
     var cancelledCount = Model.Count(b => b.StatusName == "Cancelled");
-    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    //var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 }
 <!--=====================================
             SINGLE BANNER PART START
@@ -70,7 +70,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="dash-count-card">
                         <div class="dash-count-text">
-                            <h4>?18,540</h4>
+                            <h4>₹18,540</h4>
                             <p>Total Spent</p>
                         </div>
                         <div class="dash-count-icon">
@@ -97,16 +97,16 @@
                     <div class="services-filter">
                         <ul class="nav nav-tabs" id="servicesTabs">
                             <li class="nav-item">
-                                <a class="nav-link @(currentAction == "MyServices" ? "active" : "")" asp-controller="Service" asp-action="MyServices">All Services</a>
+                                <a class="nav-link @(ViewBag.Service == "MyServices" ? "active" : "")" asp-controller="Service" asp-action="MyServices">All Services</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link @(currentAction == "UpcomingServices" ? "active" : "")" asp-controller="Service" asp-action="UpcomingServices">Upcoming</a>
+                                <a class="nav-link @(ViewBag.Service == "UpcomingServices" ? "active" : "")" asp-controller="Service" asp-action="UpcomingServices">Upcoming</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link @(currentAction == "CompletedServices" ? "active" : "")" asp-controller="Service" asp-action="CompletedServices">Completed</a>
+                                <a class="nav-link @(ViewBag.Service == "CompletedServices" ? "active" : "")" asp-controller="Service" asp-action="CompletedServices">Completed</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link @(currentAction == "CancelledServices" ? "active" : "")" asp-controller="Service" asp-action="CancelledServices">Cancelled</a>
+                                <a class="nav-link @(ViewBag.Service == "CancelledServices" ? "active" : "")" asp-controller="Service" asp-action="CancelledServices">Cancelled</a>
                             </li>
                         </ul>
                     </div>
@@ -123,9 +123,9 @@
                                         </div>
                                         <div class="booking-content">
                                             <div class="service-info">
-                                                <div class="service-image">
+                                                @* <div class="service-image">
                                                     <img src="~/images/product/01.jpg" alt="service" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;background-color:#f8f9fa;color:#6c757d;&quot;><i class=&quot;fas fa-home&quot; style=&quot;font-size:24px;margin-bottom:5px;&quot;></i><span>Cleaning</span></div>';">
-                                                </div>
+                                                </div> *@
                                                 <div class="service-details">
                                                     <h4>@booking.ServiceName</h4>
                                                     <p class="provider-name">
@@ -134,23 +134,23 @@
                                                     </p>
                                                     <p class="booking-date">
                                                         <i class="fas fa-calendar"></i>
-                                                        Dec 25, 2023 - Morning (8:00 AM - 12:00 PM)
+                                                        @booking.RequestedStartAt.ToString("MMM dd, yyyy h:mm tt") - @booking.RequestedEndAt.ToString("h:mm tt")
                                                     </p>
                                                     <p class="booking-address">
                                                         <i class="fas fa-map-marker-alt"></i>
-                                                        @booking.AddressLine1
+                                                        @(booking.AddressLine1 != null ? booking.AddressLine1 + "," + booking.City : booking.City)
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="booking-meta">
                                                 <div class="booking-price">
-                                                    <span class="price">?@booking.PriceQuoted</span>
+                                                    <span class="price">₹@booking.PriceQuoted</span>
                                                     <small>Total Amount</small>
                                                 </div>
                                                 <div class="booking-actions">
-                                                    <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('@booking.BookingId')">
+                                                    @* <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('@booking.BookingId')">
                                                         <i class="fas fa-eye"></i> View Details
-                                                    </button>
+                                                    </button> *@
                                                     <button class="btn btn-outline-danger btn-sm" data-bookingId="@booking.BookingId" onclick="cancelBooking('@booking.BookingId')">
                                                         <i class="fas fa-times"></i> Cancel
                                                     </button>
@@ -297,6 +297,7 @@
         alert('Rescheduling booking: ' + bookingId);
         // Open reschedule modal
     }
+
 </script>
 <!--=====================================
             JS LINK PART END

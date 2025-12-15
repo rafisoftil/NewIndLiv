@@ -17,8 +17,8 @@ namespace IndiaLivings_Web_DAL.Models
         public string? CustomerEmail { get; set; }
         public int ServiceId { get; set; }
         public string? ServiceName { get; set; }
-        public DateTime? RequestedStartAt { get; set; }
-        public DateTime? RequestedEndAt { get; set; }
+        public DateTime RequestedStartAt { get; set; }
+        public DateTime RequestedEndAt { get; set; }
         public string? AddressLine1 { get; set; }
         public string? AddressLine2 { get; set; }
         public string? City { get; set; }

@@ -14,8 +14,8 @@ namespace IndiaLivings_Web_UI.Models
         public string? CustomerEmail { get; set; }
         public int ServiceId { get; set; }
         public string? ServiceName { get; set; }
-        public DateTime? RequestedStartAt { get; set; }
-        public DateTime? RequestedEndAt { get; set; }
+        public DateTime RequestedStartAt { get; set; }
+        public DateTime RequestedEndAt { get; set; }
         public string? AddressLine1 { get; set; }
         public string? AddressLine2 { get; set; }
         public string? City { get; set; }
@@ -105,10 +105,18 @@ namespace IndiaLivings_Web_UI.Models
                 {
                     ServiceBookingViewModel booking = new ServiceBookingViewModel();
                     booking.BookingId = ser.BookingId;
+                    booking.Status = ser.Status;
+                    booking.StatusName = ser.StatusName;
+                    booking.ServiceId = ser.ServiceId;
                     booking.ServiceName = ser.ServiceName;
                     booking.ProviderName = ser.ProviderName;
                     booking.AddressLine1 = ser.AddressLine1;
+                    booking.PriceQuoted = ser.PriceQuoted;
+                    booking.Currency = ser.Currency;
+                    booking.City = ser.City;
+                    booking.State = ser.State;
                     booking.RequestedStartAt = ser.RequestedStartAt;
+                    booking.RequestedEndAt = ser.RequestedEndAt;
                     myservices.Add(booking);
                 }
             }

@@ -60,9 +60,6 @@
                         <li class="navbar-item">
                             <a class="navbar-link" asp-controller="Service" asp-action="ServicesList">Services List</a>
                         </li>
-                        <li class="navbar-item">
-                            <a class="navbar-link" asp-controller="Service" asp-action="ServiceInfo">Service Provider Dashboard</a>
-                        </li>
                        @*  <li class="navbar-item">
                             <a class="navbar-link" asp-controller="Service" asp-action="ServiceInfo">Service Provider Dashboard</a>
                         </li> *@
@@ -87,6 +84,11 @@
                     <a class="navbar-link" asp-controller="User" asp-action="Notification">
                         <span>Notification</span>
                         <span class="notification-count">0</span>
+                    </a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-link" asp-controller="User" asp-action="PlanDetails">
+                        <span>Plan Details</span>
                     </a>
                 </li>
                 <li class="navbar-item">
