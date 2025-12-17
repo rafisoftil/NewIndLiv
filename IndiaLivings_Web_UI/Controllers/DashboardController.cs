@@ -26,6 +26,7 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> productsList = product.GetAds(0);
             List<ProductViewModel> RatedProducts = productsList.Where(product => product.averageRating >= 4).OrderByDescending(x => x.averageRating).ToList();
             List<ProductViewModel> recommendedList = productsList.Where(product => product.productMembershipID == 2).ToList();
+            List<ProductViewModel> trendingAds = new ProductViewModel().GetRecommendedAds(6, 4, true);
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
             int wishlistCount = product.GetwishlistCount(productOwnerID);
             SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
@@ -54,6 +55,7 @@ namespace IndiaLivings_Web_UI.Controllers
             data.Products = productsList;
             data.RatedProducts = RatedProducts;
             data.RecommendedAds = recommendedList;
+            data.trendingAds = trendingAds;
             data.Cities = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
             return View(data);
         }
