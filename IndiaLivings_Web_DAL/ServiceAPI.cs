@@ -20,6 +20,37 @@ namespace IndiaLivings_Web_DAL
             {
                 ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
             };
+            string responseBody = string.Empty;
+            using (HttpClient client = new HttpClient(handler))
+            {
+                HttpResponseMessage response = new HttpResponseMessage();// await client.GetAsync(url);
+                try
+                {
+                    // Make the GET request asynchronously and return the response as a string.
+                    response = client.GetAsync(url).Result;
+                    response.EnsureSuccessStatusCode(); // Throws an exception for HTTP error codes.
+
+                    // Read the response content as a string.
+                    responseBody = response.Content.ReadAsStringAsync().Result;
+                    //res=JsonConvert.DeserializeObject(responseBody);
+                    //return response;
+                }
+                catch (Exception ex)
+                {
+                    // Log error or handle the exception appropriately.
+                    ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                    //return string.Empty; // Return an empty string in case of failure.
+                }
+                return responseBody;
+            }
+        }
+
+        public static async Task<string> GetAsyncApi(string url)
+        {
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
+            };
             string responseBody=string.Empty;
             using (HttpClient client = new HttpClient(handler))
             {
@@ -27,11 +58,11 @@ namespace IndiaLivings_Web_DAL
                 try
                 {
                     // Make the GET request asynchronously and return the response as a string.
-                    response= client.GetAsync(url).Result;
+                    response= await client.GetAsync(url);
                     response.EnsureSuccessStatusCode(); // Throws an exception for HTTP error codes.
 
                     // Read the response content as a string.
-                    responseBody = response.Content.ReadAsStringAsync().Result;
+                    responseBody = await response.Content.ReadAsStringAsync();
                      //res=JsonConvert.DeserializeObject(responseBody);
                     //return response;
                 }
@@ -44,6 +75,44 @@ namespace IndiaLivings_Web_DAL
                 return responseBody;
             }
         }
+
+        public static async Task<string> PostApiAsync(string apiUrl, object clsObject = null)
+        {
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback =
+                    (message, cert, chain, sslPolicyErrors) => true
+            };
+
+            try
+            {
+                using (var client = new HttpClient(handler))
+                {
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    client.Timeout = TimeSpan.FromSeconds(30);
+
+                    string jsonPostData = JsonConvert.SerializeObject(clsObject);
+                    using var content = new StringContent(jsonPostData, Encoding.UTF8, "application/json");
+
+                    var response = await client.PostAsync(apiUrl, content);
+                    var responseBody = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                        return responseBody;
+
+                    return $"Error: {response.StatusCode}, {responseBody}";
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                return string.Empty;
+            }
+        }
+
 
         public static string Post_Api(string apiUrl, object clsObject = null)
         {

@@ -293,7 +293,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/deleteService/{serviceId}?serviceId={serviceId}&deletedBy={username}").Trim('\"');
+                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/deleteSubcategory?subCategoryID={serviceId}&strUpdatedBy={username}").Trim('\"');
             }
             catch (Exception ex)
             {

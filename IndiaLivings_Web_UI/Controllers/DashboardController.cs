@@ -18,7 +18,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Landing Page
         /// </summary>
         /// <returns>Initially, this page will be the loaded</returns>
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
             CategoryViewModel category = new CategoryViewModel();
             ProductViewModel product = new ProductViewModel();
@@ -26,7 +26,7 @@ namespace IndiaLivings_Web_UI.Controllers
             List<ProductViewModel> productsList = product.GetAds(0);
             List<ProductViewModel> RatedProducts = productsList.Where(product => product.averageRating >= 4).OrderByDescending(x => x.averageRating).ToList();
             List<ProductViewModel> recommendedList = productsList.Where(product => product.productMembershipID == 2).ToList();
-            List<ProductViewModel> trendingAds = new ProductViewModel().GetRecommendedAds(6, 4, true);
+            List<ProductViewModel> trendingAds = await new ProductViewModel().GetRecommendedAds(6, 4, true);
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
             int wishlistCount = product.GetwishlistCount(productOwnerID);
             SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
@@ -274,6 +274,91 @@ namespace IndiaLivings_Web_UI.Controllers
             return Json(new { success = true, message = message });
         }
 
+        public async Task<IActionResult> SendSubscribeEmail(string email)
+        {
+
+            var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            string senderEmail = configuration["EmailSender:Email"]; // Replace with your email
+            string senderPassword = configuration["EmailSender:Password"]; // Replace with your email password
+            string smtpHost = configuration["EmailSender:smtp"]; // Gmail SMTP host
+            int smtpPort = Convert.ToInt32(configuration["EmailSender:port"]); // TLS port for Gmail
+            string token = Guid.NewGuid().ToString();
+            string message = "Subscribe link is not sent";
+
+            EmailSubscriptionViewModel sub = new EmailSubscriptionViewModel
+            {
+                Email = email,
+                FullName = "",
+                Token = token
+            };
+            await new EmailSubscriptionViewModel().Subscribe(sub);
+            try
+            {
+                string resetLink = Url.Action("VerifySubscription", "Dashboard", new { token = token }, Request.Scheme);
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress(senderEmail),
+                    Subject = "Your link for Password Reset",
+                    IsBodyHtml = true,
+                    Body = $@"
+                        <!DOCTYPE html>
+                        <html>
+                        <body style='font-family: Arial, sans-serif; background-color:#f4f6f8; padding:20px;'>
+
+                            <div style='max-width:600px; margin:auto; background:#ffffff; padding:30px; border-radius:6px;'>
+
+                                <h2 style='color:#333;'>Confirm Your Subscription</h2>
+
+                                <p style='font-size:14px; color:#555;'>
+                                    Thank you for subscribing! Please confirm your email address by clicking the button below.
+                                </p>
+
+                                <div style='text-align:center; margin:30px 0;'>
+                                    <a href='{resetLink}'
+                                       style='background-color:#007bff;
+                                              color:#ffffff;
+                                              padding:14px 28px;
+                                              font-size:16px;
+                                              text-decoration:none;
+                                              border-radius:5px;
+                                              display:inline-block;'>
+                                        Confirm Subscription
+                                    </a>
+                                </div>
+
+                                <p style='font-size:12px; color:#888;'>
+                                    If you did not subscribe, you can safely ignore this email.
+                                </p>
+
+                            </div>
+
+                        </body>
+                        </html>"
+                };
+                mailMessage.To.Add(email);
+
+                using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
+                {
+                    smtpClient.Credentials = new System.Net.NetworkCredential(senderEmail, senderPassword);
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Send(mailMessage);
+                    message = $"Subscribe link sent successfully to {email}";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error sending email: " + ex.Message);
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return Json(new { success = true, message = message });
+        
+        }
+        [Route("Dashboard/VerifySubscription/{token}")]
+        public async Task<string> VerifySubscription(string token)
+        {
+            var response = await new EmailSubscriptionViewModel().VerifySubscription(token);
+            return response;
+        }
         /// <summary>
         /// Reset Password Path
         /// </summary>
@@ -902,6 +987,25 @@ namespace IndiaLivings_Web_UI.Controllers
             List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
             var citiesList = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
             return View(citiesList);
+        }
+        [Route("Dashboard/Subscribe/{token}")]
+        public async Task<string> Subscribe(string Email)
+        {
+            string response = string.Empty;
+            EmailSubscriptionViewModel sub = new EmailSubscriptionViewModel
+            {
+                Email = Email,
+                FullName = ""
+            };
+            try
+            {
+                response = await sub.Subscribe(sub);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
     }
 }

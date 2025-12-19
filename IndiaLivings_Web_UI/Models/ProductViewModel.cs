@@ -578,44 +578,45 @@ namespace IndiaLivings_Web_UI.Models
 
             return products;
         }
-        public List<ProductViewModel> GetRecommendedAds(int topCount, int minRating, bool recommended)
+        public async Task<List<ProductViewModel>> GetRecommendedAds(int topCount, int minRating, bool recommended)
         {
             List<ProductViewModel> products = new List<ProductViewModel>();
-            ProductHelper PH = new ProductHelper();
             try
             {
-                var productList = PH.GetRecommendedAds(topCount, minRating, recommended);
+                var productList = await ProductHelper.GetRecommendedAds(topCount, minRating, recommended);
+
                 if (productList != null)
                 {
                     foreach (var productDetails in productList)
                     {
-                        ProductViewModel product = new ProductViewModel();
-                        product.productId = productDetails.productId;
-                        product.productName = productDetails.productName;
-                        product.productDescription = productDetails.productDescription;
-                        product.productAdTags = productDetails.productAdTags;
-                        product.productPrice = productDetails.productPrice;
-                        product.productQuantity = productDetails.productQuantity;
-                        product.productCondition = productDetails.productCondition;
-                        product.productCategoryID = productDetails.productCategoryID;
-                        product.productCategoryName = productDetails.productCategoryName;
-                        product.productsubCategoryID = productDetails.productsubCategoryID;
-                        product.productSubCategoryName = productDetails.productSubCategoryName;
-                        product.productPriceCondition = productDetails.productPriceCondition;
-                        product.productAdCategory = productDetails.productAdCategory;
-                        product.productOwner = productDetails.productOwner;
-                        product.userContactCity = productDetails.userContactCity;
-                        product.productOwnerName = productDetails.productOwnerName;
-                        product.productMembershipID = productDetails.productMembershipID;
-                        product.productMembershipName = productDetails.productMembershipName;
-                        product.productAdminReview = productDetails.productAdminReview;
-                        product.byteProductImageData = productDetails.byteProductImageData;
-                        product.IsActive = productDetails.IsActive;
-                        product.createdDate = productDetails.createdDate;
-                        product.createdBy = productDetails.createdBy;
-                        product.updatedDate = productDetails.updatedDate;
-                        product.updatedBy = productDetails.updatedBy;
-                        products.Add(product);
+                        products.Add(new ProductViewModel
+                        {
+                            productId = productDetails.productId,
+                            productName = productDetails.productName,
+                            productDescription = productDetails.productDescription,
+                            productAdTags = productDetails.productAdTags,
+                            productPrice = productDetails.productPrice,
+                            productQuantity = productDetails.productQuantity,
+                            productCondition = productDetails.productCondition,
+                            productCategoryID = productDetails.productCategoryID,
+                            productCategoryName = productDetails.productCategoryName,
+                            productsubCategoryID = productDetails.productsubCategoryID,
+                            productSubCategoryName = productDetails.productSubCategoryName,
+                            productPriceCondition = productDetails.productPriceCondition,
+                            productAdCategory = productDetails.productAdCategory,
+                            productOwner = productDetails.productOwner,
+                            userContactCity = productDetails.userContactCity,
+                            productOwnerName = productDetails.productOwnerName,
+                            productMembershipID = productDetails.productMembershipID,
+                            productMembershipName = productDetails.productMembershipName,
+                            productAdminReview = productDetails.productAdminReview,
+                            byteProductImageData = productDetails.byteProductImageData,
+                            IsActive = productDetails.IsActive,
+                            createdDate = productDetails.createdDate,
+                            createdBy = productDetails.createdBy,
+                            updatedDate = productDetails.updatedDate,
+                            updatedBy = productDetails.updatedBy
+                        });
                     }
                 }
             }
@@ -623,6 +624,7 @@ namespace IndiaLivings_Web_UI.Models
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
+
             return products;
         }
     }

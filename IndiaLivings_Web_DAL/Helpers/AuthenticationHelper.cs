@@ -686,5 +686,31 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return count;
         }
+        public static async Task<string> Subscribe(EmailSubscriptionModel subscription)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = await ServiceAPI.PostApiAsync("https://api.indialivings.com/api/EmailSubscription/Subscribe", subscription);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public static async Task<string> VerifySubscription(string token)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/EmailSubscription/VerifyEmail?token={token}");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }

@@ -344,19 +344,18 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public List<ProductModel> GetRecommendedAds(int topCount, int minRating, bool recommended)
+        public static async Task<List<ProductModel>> GetRecommendedAds(int topCount, int minRating, bool recommended)
         {
-            List<ProductModel> products = new List<ProductModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetTopRatedAndRecommendedAds?topCount={topCount}&minRating={minRating}&includeRecommended={recommended}");
-                products = JsonConvert.DeserializeObject<List<ProductModel>>(response);
+                var response = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/Product/GetTopRatedAndRecommendedAds?topCount={topCount}&minRating={minRating}&includeRecommended={recommended}");
+                return JsonConvert.DeserializeObject<List<ProductModel>>(response) ?? new List<ProductModel>();
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                return new List<ProductModel>();
             }
-            return products;
         }
     }
 }

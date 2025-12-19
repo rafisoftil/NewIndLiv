@@ -8,9 +8,10 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <form class="news-form">
-                    <input type="text" placeholder="Enter Your Email Address">
-                    <button class="btn btn-inline">
+                <form class="news-form" id="newsForm">
+                    <input type="text" id="subscriptionEmail" placeholder="Enter Your Email Address" oninput="hideEmailError()">
+                    <small id="emailError" style="display: none; color: red"></small>
+                    <button type="submit" class="btn btn-inline">
                         <i class="fas fa-envelope"></i>
                         <span>Subscribe</span>
                     </button>
@@ -115,4 +116,128 @@
             </div>
         </div>
     </div>
+    <div id="toast" class="d-none"></div>
 </footer>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#newsForm").on("submit", function (e) {
+            e.preventDefault();
+
+            var regex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            var email = $("#subscriptionEmail").val();
+            emailError = document.getElementById('emailError');
+
+            if (email == "") {
+                emailError.textContent = "Please enter your mail";
+                emailError.style.display = "block";
+            }
+            else if(!regex.test(email)) {
+                emailError.textContent = "Please enter a valid email";
+                emailError.style.display = "block";
+            }
+            else {
+                emailError.style.display = "none";
+                // const spinner = document.getElementById('spinner');
+                // spinner.classList.remove('d-none');
+
+                // $.ajax({
+                // url: '@Url.Action("verifyUserName", "Dashboard")',
+                // type: 'POST',
+                // data: { userName: email }, // Convert email to JSON
+                // success: function (response) {
+
+                //     spinner.classList.add('d-none');
+
+                //     if (response.isExist) {
+                //         // Properly hide the modal
+                //         //$("#forgotPasswordModal").modal("hide");
+
+                //         // Remove the modal backdrop manually (fix for blur effect)
+                //         //$(".modal-backdrop").remove();
+                //         sendEmail();
+
+                //     } else {
+                //             emailError.textContent = "Please enter your registered Email id";
+                //             emailError.style.display = "block";
+                //     }
+                // },
+                // error: function () {
+                //     spinner.classList.add('d-none');
+                // }
+            //});
+            sendSubscribeEmail();
+
+            }
+            // $.ajax({
+            //     url: '@Url.Action("SendSubscribeEmail", "Dashboard")',
+            //     type: 'POST',
+            //     data: email, // Convert email to JSON
+            //     success: function (response) {
+            //         spinner.classList.add('d-none');
+
+            //         if (response.success) {
+            //             // Properly hide the modal
+            //             $("#forgotPasswordModal").modal("hide");
+
+            //             // Remove the modal backdrop manually (fix for blur effect)
+            //             $(".modal-backdrop").remove();
+
+            //             // Success message
+            //             setTimeout(() => {
+            //                 alert(response.message);
+            //             }, 1000);
+            //             } else {
+            //                 alert(response.message);
+            //             }
+            //     },
+            //     error: function () {
+            //         spinner.classList.add('d-none');
+            //         alert("Error sending Email.");
+            //     }
+            // });
+        });
+    });
+
+    function sendSubscribeEmail() {
+
+            var UserData = {
+                email: $("#subscriptionEmail").val()
+            };
+            //const spinner = document.getElementById('spinner');
+
+            //spinner.classList.remove('d-none');
+            // Send a POST request to the SendEmail action on the server
+            $.ajax({
+                url: '@Url.Action("SendSubscribeEmail", "Dashboard")',
+                type: 'POST',
+                data: UserData, // Convert email to JSON
+                success: function (response) {
+                    spinner.classList.add('d-none');
+
+                    if (response.success) {
+                        // Properly hide the modal
+                        $("#forgotPasswordModal").modal("hide");
+
+                        // Remove the modal backdrop manually (fix for blur effect)
+                        $(".modal-backdrop").remove();
+
+                        // Success message
+                        setTimeout(() => {
+                            alert(response.message);
+                        }, 1000);
+                        } else {
+                            alert(response.message);
+                        }
+                },
+                error: function () {
+                    spinner.classList.add('d-none');
+                    alert("Error sending Email.");
+                }
+            });
+        };
+
+    function hideEmailError(){
+        $("#emailError").hide();
+    }
+</script>
