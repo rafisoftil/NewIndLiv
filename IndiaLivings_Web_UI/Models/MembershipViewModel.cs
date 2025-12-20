@@ -1,6 +1,7 @@
 ﻿using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace IndiaLivings_Web_UI.Models
 {
@@ -120,5 +121,65 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
+    }
+
+    public class MembershipUpgradePreviewViewModel
+    {
+        public int intUserID { get; set; }
+        public int intCurrentMembershipID { get; set; }
+        public string strCurrentMembershipName { get; set; } = string.Empty;
+        public int intCurrentMembershipAds { get; set; }
+        public int intCurrentAdsPosted { get; set; }
+        public int intCurrentAdsRemaining { get; set; }
+        public int intNewMembershipID { get; set; }
+        public string strNewMembershipName { get; set; } = string.Empty;
+        public int intNewMembershipAds { get; set; }
+        public decimal decNewMembershipPrice { get; set; }
+        public int intTotalAdsAfterUpgrade { get; set; }
+        public string strUpgradeMessage { get; set; } = string.Empty;
+
+        public async Task<MembershipUpgradePreviewViewModel> GetMembershipUpgradePreviewViewModels(int userId, int newMembershipId)
+        {
+            MembershipUpgradePreviewViewModel memUpgradeDetails = new MembershipUpgradePreviewViewModel();
+            
+            try
+            {
+                MembershipUpgradePreviewModel memUpgradeDetail = await AuthenticationHelper.GetMembershipUpgradePreview(userId, newMembershipId);
+                if (memUpgradeDetail != null)
+                {
+                    memUpgradeDetails.intUserID = memUpgradeDetail.intUserID;
+                    memUpgradeDetails.intCurrentMembershipID = memUpgradeDetail.intCurrentMembershipID;
+                    memUpgradeDetails.strCurrentMembershipName = memUpgradeDetail.strCurrentMembershipName;
+                    memUpgradeDetails.intCurrentMembershipAds = memUpgradeDetail.intCurrentMembershipAds;
+                    memUpgradeDetails.intCurrentAdsPosted = memUpgradeDetail.intCurrentAdsPosted;
+                    memUpgradeDetails.intCurrentAdsRemaining = memUpgradeDetail.intCurrentAdsRemaining;
+                    memUpgradeDetails.intNewMembershipID = memUpgradeDetail.intNewMembershipID;
+                    memUpgradeDetails.strNewMembershipName = memUpgradeDetail.strNewMembershipName;
+                    memUpgradeDetails.intNewMembershipAds = memUpgradeDetail.intNewMembershipAds;
+                    memUpgradeDetails.decNewMembershipPrice = memUpgradeDetail.decNewMembershipPrice;
+                    memUpgradeDetails.intTotalAdsAfterUpgrade = memUpgradeDetail.intTotalAdsAfterUpgrade;
+                    memUpgradeDetails.strUpgradeMessage = memUpgradeDetail.strUpgradeMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return memUpgradeDetails;
+        }
+
+        public async Task<string> UpgradeMembership(int userId, int currentMembership, int newMembershipId, string updatedBy)
+        {
+            string response = "Membership Upgrade Unsuccessful";
+            try
+            {
+                response = await AuthenticationHelper.UpgradeUserMembership(userId, currentMembership, newMembershipId, updatedBy);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }   
     }
 }

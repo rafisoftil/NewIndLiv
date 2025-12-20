@@ -283,7 +283,7 @@
                     <div class="adpost-title">
                         <h3>Plan Information</h3>
                     </div>
-                    <form method="post" asp-action="ProcessPayment" asp-controller="User">
+                    <form method="post" id="takeMembership" asp-action="ProcessPayment" asp-controller="User">
                         <ul class="adpost-plan-list">
                             <li>
                                 <div class="adpost-plan-content">
@@ -378,6 +378,60 @@
         </div>
     </div>
 </section>
+<!-- Upgrade Membership Modal -->
+<div class="modal fade" id="upgradeMembershipModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Upgrade Membership</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row text-center">
+
+                    <!-- Current Membership -->
+                    <div class="col-md-6 border-end">
+                        <h6 class="text-muted">Current Membership</h6>
+                        <h4 id="currentName" class="text-primary"></h4>
+
+                        <p class="mb-1">Total Ads: <strong id="currentAds"></strong></p>
+                        <p class="mb-1">Ads Posted: <strong id="currentPosted"></strong></p>
+                        <p>Remaining Ads: <strong class="text-danger" id="currentRemaining"></strong></p>
+                    </div>
+
+                    <!-- New Membership -->
+                    <div class="col-md-6">
+                        <h6 class="text-muted">New Membership</h6>
+                        <h4 id="newName" class="text-success"></h4>
+
+                        <p class="mb-1">Total Ads: <strong id="newAds"></strong></p>
+                        <p class="mb-1">Price: <strong>₹ <span id="newPrice"></span></strong></p>
+                        <p class="text-success">Ads After Upgrade: <strong id="totalAfterUpgrade"></strong></p>
+                    </div>
+
+                </div>
+
+                <!-- Upgrade Message -->
+                <div class="alert alert-info mt-4 text-center" id="upgradeMessage"></div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" id="confirmUpgradeBtn" onclick="confirmUpgradeBtn()">
+                    Upgrade Now
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div id="spinner" class="d-none">
     <img style="height: 100px" src="~/images/spinner.gif" />
 </div>
@@ -690,6 +744,66 @@
     document.getElementById('productImage').addEventListener('change', function() {
         handleImageSelection(this);
     });
+
+    $(document).ready(function(){
+        $('#takeMembership').on("submit", function(e) {
+            //e.preventDefault();
+            const spinner = document.getElementById('spinner');
+            spinner.classList.remove('d-none');
+            const selectedPlanAmount = $("input[name='planSelection']:checked").val();
+            const newMembershipId = getMembershipIdFromAmount(selectedPlanAmount);
+                $.ajax({
+                    url: "/User/GetMembershipPreview",
+                    type: "GET",
+                    data: { membershipId: newMembershipId },
+                    success: function (res) {
+                        spinner.classList.add('d-none');
+                        showUpgradeModal(res);
+                    }
+                });
+
+        })
+    });
+
+    function showUpgradeModal(data) {
+
+        // Current membership
+        $("#currentName").text(data.strCurrentMembershipName);
+        $("#currentAds").text(data.intCurrentMembershipAds);
+        $("#currentPosted").text(data.intCurrentAdsPosted);
+        $("#currentRemaining").text(data.intCurrentAdsRemaining);
+
+        // New membership
+        $("#newName").text(data.strNewMembershipName);
+        $("#newAds").text(data.intNewMembershipAds);
+        $("#newPrice").text(data.decNewMembershipPrice);
+        $("#totalAfterUpgrade").text(data.intTotalAdsAfterUpgrade);
+
+        // Message
+        $("#upgradeMessage").text(data.strUpgradeMessage);
+
+        // Store upgrade info
+        $("#confirmUpgradeBtn").data("newMembershipId", data.intNewMembershipID);
+
+        // Show modal
+        $("#upgradeMembershipModal").modal("show");
+    }
+
+    function getMembershipIdFromAmount(amount) {
+        switch (parseInt(amount)) {
+            case 0: return 1;   // Free
+            case 23: return 2;  // Standard
+            case 43: return 3;  // Premium
+            default: return 0;
+        }
+    }
+
+
+    function confirmUpgradeBtn() {
+        $("#upgradeMembershipModal").modal("hide");
+        $('#takeMembership').trigger('submit');
+    }
+
 </script>
 
 <style>

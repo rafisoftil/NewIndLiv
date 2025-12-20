@@ -1,6 +1,7 @@
 using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.Reflection;
@@ -41,6 +42,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
                 MembershipViewModel membershipModel = new MembershipViewModel();
                 MembershipViewModel membership = membershipModel.GetMembershipDetails(productOwner)[0];
+                HttpContext.Session.SetInt32("CurrentMembershipID", membership.intMembershipID);
                 ViewBag.Membership = membership.intMembershipID;
                 var priceConditions = adConitions.Where(x => x.strAdConditionType.Equals("Price Condition")).ToList();
                 var Ad_Categories = adConitions.Where(x => x.strAdConditionType.Equals("Ad Category")).ToList();
@@ -442,7 +444,7 @@ namespace IndiaLivings_Web_UI.Controllers
         private readonly IHttpContextAccessor httpContextAccessor;
 
         [HttpPost]
-        public IActionResult CompleteRequest(IFormCollection formData)
+        public async Task<IActionResult> CompleteRequest(IFormCollection formData)
         {
             var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
             //IHttpContextAccessor httpContextAccessor=null;
@@ -461,19 +463,23 @@ namespace IndiaLivings_Web_UI.Controllers
             int amt = (int)paymentCaptured.Attributes["amount"];
             string orderid = (string)formData["rzp_orderid"];
             int updateStatus = 0;
-            MembershipViewModel userViewModel = new MembershipViewModel();
+            //MembershipViewModel userViewModel = new MembershipViewModel();
+            MembershipUpgradePreviewViewModel userViewModel = new MembershipUpgradePreviewViewModel();
+            int currentMembership = HttpContext.Session.GetInt32("CurrentMembershipID") ?? 0;
             if (paymentCaptured.Attributes["status"] == "captured")
             {
                 if (amt == 2300)
                 {
                     updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Membership");
-                    var response = userViewModel.AddUserMembership(1, loggedInUser, Convert.ToString(loggedInUser));
+                    var response = await userViewModel.UpgradeMembership(loggedInUser, currentMembership, 2, Convert.ToString(loggedInUser));
+                    //var response = userViewModel.AddUserMembership(1, loggedInUser, Convert.ToString(loggedInUser));
                     return RedirectToAction("PostAd");
                 }
                 else if (amt == 4300)
                 {
                     updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Membership");
-                    var response = userViewModel.AddUserMembership(2, loggedInUser, Convert.ToString(loggedInUser));
+                    var response = await userViewModel.UpgradeMembership(loggedInUser, currentMembership, 3, Convert.ToString(loggedInUser));
+                    //var response = userViewModel.AddUserMembership(2, loggedInUser, Convert.ToString(loggedInUser));
                     return RedirectToAction("PostAd");
                 }
                 else
@@ -1111,6 +1117,20 @@ namespace IndiaLivings_Web_UI.Controllers
                 TempData["MessageType"] = "error";
             }
             return RedirectToAction("Categories");
+        }
+        public async Task<MembershipUpgradePreviewViewModel> GetMembershipPreview(int membershipId)
+        {
+            int userid = HttpContext.Session.GetInt32("UserId") ?? 0;
+            MembershipUpgradePreviewViewModel membershipPreview = new MembershipUpgradePreviewViewModel();
+            try
+            {
+                membershipPreview = await new MembershipUpgradePreviewViewModel().GetMembershipUpgradePreviewViewModels(userid, membershipId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return membershipPreview;
         }
     }
 }

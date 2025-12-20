@@ -645,7 +645,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return notifications;
         }
-        public string MarkMessagesAsRead(int messageId, int receiverUserId) 
+        public string MarkMessagesAsRead(int messageId, int receiverUserId)
         {
             string response = "An error occured";
             try
@@ -738,6 +738,33 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return companySetup;
+        }
+        public static async Task<MembershipUpgradePreviewModel> GetMembershipUpgradePreview(int userid, int membershipid)
+        {
+            MembershipUpgradePreviewModel response = new MembershipUpgradePreviewModel();
+            try
+            {
+                var result = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/Membership/GetMembershipUpgradePreview?intUserID={userid}&intNewMembershipID={membershipid}");
+                response = JsonConvert.DeserializeObject<MembershipUpgradePreviewModel>(result);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public static async Task<string> UpgradeUserMembership(int userid, int currentMembership, int membershipid, string updatedby)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = await ServiceAPI.PostApiAsync($"https://api.indialivings.com/api/Membership/UpgradeUserMembership?intUserID={userid}&intCurrentMembershipID={currentMembership}&intNewMembershipID={membershipid}&strUpdatedBy={updatedby}");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
         }
     }
 }

@@ -21,4 +21,20 @@ namespace IndiaLivings_Web_DAL.Models
         public string UpdatedBy { get; set; }
 
     }
+
+    public class MembershipUpgradePreviewModel
+    {
+        public int intUserID { get; set; }
+        public int intCurrentMembershipID { get; set; }
+        public string strCurrentMembershipName { get; set; } = string.Empty;
+        public int intCurrentMembershipAds { get; set; }
+        public int intCurrentAdsPosted { get; set; }
+        public int intCurrentAdsRemaining { get; set; }
+        public int intNewMembershipID { get; set; }
+        public string strNewMembershipName { get; set; } = string.Empty;
+        public int intNewMembershipAds { get; set; }
+        public decimal decNewMembershipPrice { get; set; }
+        public int intTotalAdsAfterUpgrade { get; set; }
+        public string strUpgradeMessage { get; set; } = string.Empty;
+    }
 }
