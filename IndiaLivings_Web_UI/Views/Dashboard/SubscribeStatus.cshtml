@@ -1,0 +1,34 @@
+﻿@model string
+@{
+    Layout = null;
+}
+
+<div style="max-width:600px; margin:60px auto; text-align:center; font-family:Arial;">
+
+    @if (Model == "subscribed")
+    {
+        <h2 style="color:green;">✅ Subscription Confirmed</h2>
+        <p>You are now subscribed.</p>
+    }
+    else if (Model == "already")
+    {
+        <h2>ℹ️ Already Subscribed</h2>
+        <p>Your email was already confirmed earlier.</p>
+    }
+    else if (Model == "unsubscribed")
+    {
+        <h2 style="color:#d9534f;">❌ Unsubscribed</h2>
+        <p>You will no longer receive emails.</p>
+    }
+    else if (Model == "already_unsubscribed")
+    {
+        <h2>ℹ️ Already Unsubscribed</h2>
+        <p>You were already unsubscribed.</p>
+    }
+    else
+    {
+        <h2 style="color:#d9534f;">❌ Invalid or Expired Link</h2>
+        <p>Please subscribe again.</p>
+    }
+
+</div>

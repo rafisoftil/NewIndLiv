@@ -25,15 +25,15 @@
                     <ul class="footer-address">
                         <li>
                             <i class="fas fa-map-marker-alt"></i>
-                            <p>1420 West Jalkuri Fatullah, <span>Narayanganj, BD</span></p>
+                            <p>@Context.Session.GetString("CompanyAddress") <span>@Context.Session.GetString("CompanyCity"), @Context.Session.GetString("CompanyState"), @Context.Session.GetString("CompanyCountry")</span></p>
                         </li>
                         <li>
                             <i class="fas fa-envelope"></i>
-                            <p>support@classicads.com <span>info@classicads.com</span></p>
+                            <p>@Context.Session.GetString("CompanyEmail") <span></span></p>
                         </li>
                         <li>
                             <i class="fas fa-phone-alt"></i>
-                            <p>+8801838288389 <span>+8801941101915</span></p>
+                            <p>@Context.Session.GetString("CompanyPhone") <span></span></p>
                         </li>
                     </ul>
                 </div>
@@ -54,10 +54,10 @@
                 <div class="footer-content">
                     <h3>Information</h3>
                     <ul class="footer-widget">
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="/Dashboard/AboutUs">About Us</a></li>
                         @* <li><a href="#">Delivery System</a></li>
                         <li><a href="#">Secure Payment</a></li> *@
-                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="/Dashboard/ContactUs">Contact Us</a></li>
                         @* <li><a href="#">Sitemap</a></li> *@
                     </ul>
                 </div>

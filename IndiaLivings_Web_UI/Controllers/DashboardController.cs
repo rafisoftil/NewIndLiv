@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Dynamic;
 using System.Net.Mail;
+using System.Reflection.Metadata;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace IndiaLivings_Web_UI.Controllers
 {
@@ -31,6 +32,7 @@ namespace IndiaLivings_Web_UI.Controllers
             int wishlistCount = product.GetwishlistCount(productOwnerID);
             SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
             List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
+            CompanySetupViewModel companySetup = await new CompanySetupViewModel().GetCompanySetupById(1);
             List<int> wishlistIds = product.GetAllWishlist(productOwnerID).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
             HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
@@ -57,6 +59,17 @@ namespace IndiaLivings_Web_UI.Controllers
             data.RecommendedAds = recommendedList;
             data.trendingAds = trendingAds;
             data.Cities = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
+            data.CompanySetup = companySetup;
+            HttpContext.Session.SetString("CompanyName", companySetup.companyName);
+            HttpContext.Session.SetString("CompanyEmail", companySetup.email);
+            HttpContext.Session.SetString("CompanyPhone", companySetup.phone);
+            HttpContext.Session.SetString("CompanyAddress", companySetup.address);
+            HttpContext.Session.SetString("CompanyCity", companySetup.city);
+            HttpContext.Session.SetString("CompanyState", companySetup.state);
+            HttpContext.Session.SetString("CompanyCountry", companySetup.country);
+            HttpContext.Session.SetString("CompanyWebsite", companySetup.website);
+            HttpContext.Session.SetString("AboutUs", companySetup.aboutUs);
+            HttpContext.Session.SetString("ContactUs", companySetup.contactUs);
             return View(data);
         }
 
@@ -291,10 +304,11 @@ namespace IndiaLivings_Web_UI.Controllers
                 FullName = "",
                 Token = token
             };
-            await new EmailSubscriptionViewModel().Subscribe(sub);
+            string response = await new EmailSubscriptionViewModel().Subscribe(sub);
             try
             {
                 string resetLink = Url.Action("VerifySubscription", "Dashboard", new { token = token }, Request.Scheme);
+                string unsubscribeLink = Url.Action("Unsubscribe", "Dashboard", new { token = token }, Request.Scheme);
                 var mailMessage = new MailMessage
                 {
                     From = new MailAddress(senderEmail),
@@ -330,6 +344,17 @@ namespace IndiaLivings_Web_UI.Controllers
                                     If you did not subscribe, you can safely ignore this email.
                                 </p>
 
+                                <hr style='margin:30px 0; border:none; border-top:1px solid #eee;' />
+
+                                <p style='font-size:12px; color:#999; text-align:center;'>
+                                    No longer want to receive these emails?
+                                    <br />
+                                    <a href='{unsubscribeLink}'
+                                       style='color:#007bff; text-decoration:none;'>
+                                        Unsubscribe
+                                    </a>
+                                </p>
+
                             </div>
 
                         </body>
@@ -351,13 +376,33 @@ namespace IndiaLivings_Web_UI.Controllers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return Json(new { success = true, message = message });
-        
         }
+        public IActionResult SubscribeStatus(string state)
+        {
+            return View(model: state);
+        }
+
         [Route("Dashboard/VerifySubscription/{token}")]
-        public async Task<string> VerifySubscription(string token)
+        public async Task<IActionResult> VerifySubscription(string token)
         {
             var response = await new EmailSubscriptionViewModel().VerifySubscription(token);
-            return response;
+            var message = "An issue occured. Please Subscribe again";
+            if (response.Contains("Email verified successfully"))
+            {
+                message = "subscribed";
+            }
+            return RedirectToAction("SubscribeStatus", new { state = message });
+        }
+        [Route("Dashboard/Unsubscribe/{token}")]
+        public async Task<IActionResult> Unsubscribe(string token)
+        {
+            var response = await new EmailSubscriptionViewModel().Unsubscribe(token);
+            var message = "An issue occured. Please try again";
+            if (response.Contains("successfully unsubscribed"))
+            {
+                message = "unsubscribed";
+            }
+            return RedirectToAction("SubscribeStatus", new { state = message });
         }
         /// <summary>
         /// Reset Password Path
@@ -1006,6 +1051,14 @@ namespace IndiaLivings_Web_UI.Controllers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return response;
+        }
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+        public IActionResult ContactUs()
+        {
+            return View();
         }
     }
 }

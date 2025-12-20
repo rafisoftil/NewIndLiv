@@ -43,5 +43,18 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
+        public async Task<string> Unsubscribe(string token)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = await AuthenticationHelper.Unsubscribe(token);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }

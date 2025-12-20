@@ -712,5 +712,32 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
+        public static async Task<string> Unsubscribe(string token)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/EmailSubscription/Unsubscribe?token={token}");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public static async Task<CompanySetupModel> GetCompanySetupById(int companyId)
+        {
+            CompanySetupModel companySetup = null;
+            try
+            {
+                var response = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/CompanySetup/GetCompanySetupById?companyId={companyId}");
+                companySetup = JsonConvert.DeserializeObject<CompanySetupModel>(response);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return companySetup;
+        }
     }
 }
