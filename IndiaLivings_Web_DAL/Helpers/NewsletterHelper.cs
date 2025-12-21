@@ -1,0 +1,98 @@
+﻿using IndiaLivings_Web_DAL.Models;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IndiaLivings_Web_DAL.Helpers
+{
+    public class NewsletterHelper
+    {
+        public static async Task<string> CreateNewsletter(NewsletterModel newsletter)
+        {
+            string response = "An error occured";
+            try
+            {
+                var result = await ServiceAPI.PostApiAsync("https://localhost:7158/api/EmailSubscription/CreateNewsletter", newsletter);
+                //response = JsonConvert.DeserializeObject<string>(result);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public static async Task<string> UpdateNewsletter(NewsletterModel newsletter)
+        {
+            string response = "An error occured";
+            try
+            {
+                var result = await ServiceAPI.PostApiAsync("https://api.indialivings.com/api/EmailSubscription/UpdateNewsletter", newsletter);
+                response = JsonConvert.DeserializeObject<string>(result);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public static async Task<string> DeleteNewsletter(int newsletterId, string updatedBy)
+        {
+            string response = "An error occured";
+            try
+            {
+                var result = await ServiceAPI.PostApiAsync($"https://api.indialivings.com/api/EmailSubscription/DeleteNewsletter?newsletterId={newsletterId}&updatedBy={updatedBy}");
+                response = JsonConvert.DeserializeObject<string>(result);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public static async Task<List<NewsletterModel>> GetAllNewsletters()
+        {
+            List<NewsletterModel> newsletter = new List<NewsletterModel>();
+            try
+            {
+                var result = await ServiceAPI.GetAsyncApi("https://api.indialivings.com/api/EmailSubscription/GetAllNewsletters");
+                newsletter = JsonConvert.DeserializeObject<List<NewsletterModel>>(result);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return newsletter;
+        }
+        public static async Task<NewsletterModel> GetNewsletterById(int newsletterId)
+        {
+            NewsletterModel newsletter = new NewsletterModel();
+            try
+            {
+                var result = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/EmailSubscription/GetNewsletter/{newsletterId}?newsletterId={newsletterId}");
+                newsletter = JsonConvert.DeserializeObject<NewsletterModel>(result);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return newsletter;
+        }
+        public static async Task<string> SendNewsletter(SendNewsletterRequestModel sendNewsletter)
+        {
+            string response = "An error occured";
+            try
+            {
+                var result = await ServiceAPI.PostApiAsync("https://api.indialivings.com/api/EmailSubscription/SendNewsletter", sendNewsletter);
+                response = JsonConvert.DeserializeObject<string>(result);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+    }
+}

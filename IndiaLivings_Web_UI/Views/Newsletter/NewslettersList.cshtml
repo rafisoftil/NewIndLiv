@@ -1,0 +1,85 @@
+﻿@model IEnumerable<IndiaLivings_Web_UI.Models.NewsletterViewModel>
+@using NonFactors.Mvc.Grid
+@{
+    ViewBag.Title = "Newsletter";
+    <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
+    <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
+}
+
+<div class="container">
+    <h4 class="m-2">Newsletters</h4>
+    <div class="container-fluid">
+        @(
+                Html.Grid(Model).Build(col =>
+                {
+                  @* col.Add().RenderedAs((model, row) => row + 1).Titled("#").Width("1%").Css("text-center") *@;
+                  @* col.Add(Model => Model.RoleID).Titled("RoleID"); *@
+                  @* col.Add().RenderedAs((model, row) => row + 1).Titled("#").Css("text-center"); *@
+                    col.Add(Model => Model.NewsletterID)
+                    .Titled("Newsletter ID").Css("text-center")
+                    .RenderedAs(model => $"<span class='editable' data-field='intMembershipID'>{model.NewsletterID}</span>").Css("text-center")
+                    .Encoded(false);
+                    col.Add(Model => Model.Subject)
+                    .Titled("Title").Css("text-center")
+                    .RenderedAs(model => $"<span class='editable' data-field='strMembershipName'>{model.Subject}</span>").Css("text-center")
+                    .Encoded(false);
+                    col.Add(Model => Model.SenderName)
+                    .Titled("Sender").Css("text-center")
+                    .RenderedAs(model => $"<span class='editable' data-field='strMembershipDescription'>{model.SenderName}</span>").Css("text-center")
+                    .Encoded(false);
+                    col.Add(Model => Model.SenderEmail)
+                    .Titled("Sender Email").Css("text-center")
+                    .RenderedAs(model => $"<span class='editable' data-field='intMembershipAdListing'>{model.SenderEmail}</span>").Css("text-center")
+                    .Encoded(false);
+                    col.Add(Model => Model.ScheduledDate)
+                    .Titled("Schedule").Css("text-center")
+                    .RenderedAs(model => $"<span class='editable' data-field='decMembershipPrice'>{model.ScheduledDate}</span>").Css("text-center")
+                    .Encoded(false);
+                    col.Add(Model => Model.Status)
+                    .Titled("Status").Css("text-center")
+                    .RenderedAs(model => $"<span class='editable' data-field='UpdatedDate'>{model.Status}</span>").Css("text-center")
+                    .Encoded(false);
+                    col.Add(Model => Model.CreatedDate)
+                    .Titled("Created on").Css("text-center")
+                    .RenderedAs(model => $"<span class='editable' data-field='UpdatedBy'>{model.CreatedDate}</span>").Css("text-center")
+                    .Encoded(false);
+                    col.Add(Model => Model.IsActive)
+                    .Titled("IsActive")
+                    .RenderedAs(model => $"<span class='editable' data-field='Status'>{(model.IsActive ? "Active" : "In-Active")}</span>").Css("text-center")
+                    .Encoded(false);
+                    col.Add().Encoded(false).RenderedAs((model) =>
+                    $"<button class='edit-btn' onclick='EditNewsletter({model.NewsletterID})'>" +
+                    "<i class='fa fa-edit'></i></button>" +
+                    $"  <button class='save-btn d-none' onclick='saveChanges(this)'>" +
+                    "<i class='fa fa-save'></i></button>" +
+                    $"  <button class='mem-btn' onclick='DeleteMembership({model.NewsletterID})'>" +
+                    "<i class='fa fa-trash'></i></button>"
+                    ).Titled("Actions").Css("text-center");
+                })
+                .Sortable().Filterable()
+                .Empty("No data Found")
+                .Pageable(pager =>
+                {
+                    pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
+                    pager.ShowPageSizes = false;
+                    pager.PagesToDisplay = 3;
+                                              @* pager.CurrentPage = 1; *@
+                    pager.RowsPerPage = 10;
+                })
+                )
+    </div>
+</div>
+<div id="spinner" class="d-none">
+    <img style="height: 100px" src="~/images/spinner.gif" />
+</div>
+<div id="toast" class="d-none"></div>
+
+<script src="~/js/mvc-grid/mvc-grid.js"></script>
+
+<script>
+    document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+
+    function EditNewsletter(newsletterid) {
+        window.location.href = '/Newsletter/NewsletterDetails?newsletterId=' + newsletterid;
+    }
+</script>

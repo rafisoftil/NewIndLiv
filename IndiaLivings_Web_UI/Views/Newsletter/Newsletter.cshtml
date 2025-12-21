@@ -1,0 +1,399 @@
+﻿@model NewsletterViewModel
+@{
+    ViewBag.Title = "Create Newsletter";
+}
+
+<style>
+    body {
+        background: #f4f6f9;
+    }
+
+    .newsletter-wrapper {
+        max-width: 900px;
+        margin: 40px auto;
+    }
+
+    .newsletter-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+        padding: 35px 40px;
+    }
+
+    .newsletter-title {
+        font-size: 26px;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .newsletter-subtitle {
+        font-size: 14px;
+        color: #6c757d;
+        margin-top: 4px;
+        margin-bottom: 28px;
+    }
+
+    .form-section {
+        margin-bottom: 30px;
+    }
+
+    .form-section h6 {
+        font-size: 13px;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 14px;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 11px 14px;
+        font-size: 14px;
+    }
+
+    .form-control:focus {
+        box-shadow: 0 0 0 .15rem rgba(90, 140, 255, .18);
+        border-color: #5a8cff;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+    }
+
+    .sender-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .ui-error {
+        color: #e55353;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .soft-invalid {
+        border-color: #f1aeb5 !important;
+        background: #fff5f5;
+    }
+
+    .soft-valid {
+        border-color: #b6e2c1 !important;
+        background: #f6fffa;
+    }
+
+    .action-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .btn-soft-primary {
+        background: linear-gradient(135deg, #5f9cff, #4a8bff);
+        border: none;
+        color: #fff;
+        padding: 10px 26px;
+        border-radius: 30px;
+        font-size: 14px;
+        box-shadow: 0 6px 18px rgba(74,139,255,.35);
+    }
+
+    .btn-soft-primary:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+    }
+
+    .status-text {
+        font-size: 14px;
+        margin-top: 12px;
+    }
+</style>
+
+<div class="newsletter-wrapper">
+    <div class="newsletter-card">
+
+        <div>
+            <div class="newsletter-title">Create Newsletter</div>
+            <div class="newsletter-subtitle">
+                Craft a calm and effective email campaign
+            </div>
+        </div>
+
+        <form id="newsletterForm">
+
+            <!-- Newsletter -->
+            <div class="form-section">
+                <h6>Newsletter Details</h6>
+
+                <input type="text" id="Subject" class="form-control"
+                       placeholder="Newsletter subject line" value="@(Model!=null ? Model.Subject : "")"/>
+                <small class="ui-error" id="errSubject"></small>
+            </div>
+
+            <!-- Sender -->
+            <div class="form-section">
+                <h6>Sender Information</h6>
+
+                <div class="sender-grid">
+                    <div>
+                        <input type="text" id="SenderName" class="form-control"
+                               placeholder="Sender name" value="@(Model!=null ? Model.SenderName : "")"/>
+                        <small class="ui-error" id="errSenderName"></small>
+                    </div>
+
+                    <div>
+                        <input type="email" id="SenderEmail" class="form-control"
+                               placeholder="Sender email address" value="@(Model!=null ? Model.SenderEmail : "")" />
+                        <small class="ui-error" id="errSenderEmail"></small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="form-section">
+                <h6>Email Content</h6>
+
+                <textarea id="HtmlBody" class="form-control" rows="6"
+                          placeholder="Write your HTML email content here...">@(Model!=null ? Model.HtmlBody : "")</textarea>
+                <small class="ui-error" id="errHtmlBody"></small>
+
+                <textarea id="PlainTextBody" class="form-control mt-3" rows="4"
+                          placeholder="Plain text fallback content (optional)">@(Model!=null ? Model.PlainTextBody : "")</textarea>
+            </div>
+
+            <!-- Schedule -->
+            <div class="form-section">
+                <h6>Schedule</h6>
+
+                <input type="datetime-local" id="ScheduledDate" class="form-control" @(Model!=null ? Model.ScheduledDate : "") />
+            </div>
+
+            <!-- Footer -->
+            <div class="action-bar">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="IsActive" checked>
+                    <label class="form-check-label">
+                        Newsletter is active
+                    </label>
+                </div>
+                <button type="button" id="btnSave"
+                        class="btn-soft-primary" onclick="openPreview()">
+                    Preview Newsletter
+                </button>
+                <button type="button" id="btnSave"
+                        class="btn-soft-primary" onclick="saveNewsletter()">
+                    Save Newsletter
+                </button>
+            </div>
+
+        </form>
+
+        <div class="status-text" id="resultMessage"></div>
+
+    </div>
+</div>
+<div class="modal fade" id="previewModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content" style="border-radius:16px">
+
+            <!-- Header -->
+            <div class="modal-header border-0 px-4 pt-4">
+                <div>
+                    <h5 class="modal-title mb-0">Newsletter Preview</h5>
+                    <small class="text-muted">Review before publishing</small>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body px-4">
+
+                <!-- Preview -->
+                <div class="mb-4"
+                     style="background:#ffffff;
+                            padding:30px;
+                            border-radius:14px;
+                            box-shadow:0 8px 20px rgba(0,0,0,.06)">
+                    <div id="newsletterPreview"></div>
+                </div>
+
+                <!-- Send Section -->
+                <div class="p-4"
+                     style="background:#f8f9fa;
+                            border-radius:14px;
+                            border:1px solid #e9ecef">
+
+                    <h6 class="mb-2">Send Newsletter</h6>
+                    <small class="text-muted d-block mb-3">
+                        Enter comma-separated email addresses
+                    </small>
+
+                    <textarea id="sendEmails"
+                              class="form-control"
+                              rows="3"
+                              placeholder="example@gmail.com, user@domain.com"
+                              style="border-radius:10px"></textarea>
+
+                    <small class="ui-error" id="errEmails"></small>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer border-0 px-4 pb-4">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button type="button"
+                        id="btnPublish"
+                        class="btn-soft-primary"
+                        onclick="PublishNewsletter()">
+                    Publish Newsletter
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function PublishNewsletter() {
+        var newsletterId = '@Model.NewsletterID';
+        var emails = $('#sendEmails').val();
+        $.ajax({
+            url: '/Newsletter/PublishNewsletter',
+            type: 'POST',
+            data: {
+                newsletterId: newsletterId,
+                emails: emails
+            },
+            success: function (response) {
+                alert('Newsletter published successfully!');
+                location.reload();
+            },
+            error: function () {
+                alert('Error publishing newsletter.');
+            }
+        });
+    }
+    function openPreview() {
+
+        if (!validateForm()) {
+            return;
+        }
+
+        const subject = $('#Subject').val();
+        const htmlBody = $('#HtmlBody').val();
+        const senderName = $('#SenderName').val();
+        const senderEmail = $('#SenderEmail').val();
+
+        const previewHtml = `
+            <div style="font-family:Arial, sans-serif">
+                <p style="font-size:13px;color:#6c757d">
+                    <strong>From:</strong> ${senderName} &lt;${senderEmail}&gt;
+                </p>
+
+                <h2 style="margin-top:10px">${subject}</h2>
+                <hr/>
+
+                ${htmlBody}
+            </div>
+        `;
+
+        $('#newsletterPreview').html(previewHtml);
+
+        new bootstrap.Modal(document.getElementById('previewModal')).show();
+    }
+    function isValidEmail(email) {
+        return /^\S+@@\S+\.\S+$/.test(email);
+    }
+
+    function setValidation(inputId, errorId, isValid, message) {
+        const input = $('#' + inputId);
+        const error = $('#' + errorId);
+
+        if (!isValid) {
+            input.addClass('soft-invalid').removeClass('soft-valid');
+            error.text(message);
+        } else {
+            input.removeClass('soft-invalid').addClass('soft-valid');
+            error.text('');
+        }
+        return isValid;
+    }
+
+    function validateForm() {
+        let valid = true;
+
+        valid &= setValidation(
+            'Subject', 'errSubject',
+            $('#Subject').val().trim() !== '',
+            'Subject is required'
+        );
+
+        valid &= setValidation(
+            'SenderName', 'errSenderName',
+            $('#SenderName').val().trim() !== '',
+            'Sender name is required'
+        );
+
+        valid &= setValidation(
+            'SenderEmail', 'errSenderEmail',
+            $('#SenderEmail').val().trim() !== '' &&
+            isValidEmail($('#SenderEmail').val()),
+            'Enter a valid email address'
+        );
+
+        valid &= setValidation(
+            'HtmlBody', 'errHtmlBody',
+            $('#HtmlBody').val().trim() !== '',
+            'Email content cannot be empty'
+        );
+
+        //$('#btnSave').prop('disabled', !valid);
+        return !!valid;
+    }
+
+    $('#newsletterForm input, #newsletterForm textarea')
+        .on('input blur', validateForm);
+
+    function saveNewsletter() {
+        if (!validateForm()) return;
+
+        $('#btnSave').prop('disabled', true).text('Saving...');
+
+        var payload = {
+            Subject: $('#Subject').val(),
+            HtmlBody: $('#HtmlBody').val(),
+            PlainTextBody: $('#PlainTextBody').val(),
+            SenderName: $('#SenderName').val(),
+            SenderEmail: $('#SenderEmail').val(),
+            ScheduledDate: $('#ScheduledDate').val() || null,
+            IsActive: $('#IsActive').is(':checked')
+        };
+
+        $.ajax({
+            url: '/Newsletter/PostNewsletter',
+            type: 'POST',
+            data: payload,
+            success: function (response) {
+                $('#resultMessage').text(response).css('color', 'green');
+            },
+            error: function () {
+                $('#resultMessage').text('Something went wrong').css('color', 'red');
+            },
+            complete: function () {
+                $('#btnSave').prop('disabled', false).text('Save Newsletter');
+            }
+        });
+    }
+
+</script>

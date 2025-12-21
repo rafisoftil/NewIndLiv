@@ -104,6 +104,16 @@
                         <li><a class="dropdown-link" asp-controller="Service" asp-action="AdminProviders">Service Providers</a></li>
                     </ul>
                 </li>
+                <li class="navbar-item navbar-dropdown">
+                    <a class="navbar-link" href="#">
+                        <span>Newsletter</span>
+                        <i class="fas fa-greater-than"></i>
+                    </a>
+                    <ul class="dropdown-list">
+                        <li><a class="dropdown-link" asp-controller="Newsletter" asp-action="Newsletter">Create Newsletter</a></li>
+                        <li><a class="dropdown-link" asp-controller="Newsletter" asp-action="NewslettersList">Newsletters List</a></li>
+                    </ul>
+                </li>
                 <li class="navbar-item">
                     <a class="navbar-link" asp-controller="Dashboard" asp-action="Logout">Logout</a>
                 </li>
