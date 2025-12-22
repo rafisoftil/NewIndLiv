@@ -1,6 +1,9 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
@@ -8,20 +11,23 @@ namespace IndiaLivings_Web_UI.Controllers
     {
         public async Task<IActionResult> Newsletter()
         {
-            return View();
+            NewsletterViewModel newsletterViewModel = null;
+            return View(newsletterViewModel);
         }
-        public async Task<string> PostNewsletter(NewsletterViewModel newsletter)
+        public async Task<JsonResult> PostNewsletter(NewsletterViewModel newsletter)
         {
-            string response = "An error occured";
             try
             {
-                response = await new NewsletterViewModel().PostNewsletter(newsletter);
+                var response = await new NewsletterViewModel().PostNewsletter(newsletter);
+                var message = JObject.Parse(response)["message"]?.ToString();
+                var newsletterId = JObject.Parse(response)["NewsletterID"]?.ToObject<int>() ?? 0;
+                return Json(new { message = message, newsletterId = newsletterId });
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                return Json(new { message = "An error occured while saving newsletter", newsletterId = 0 });
             }
-            return response;
         }
         public async Task<IActionResult> NewslettersList()
         {
@@ -49,20 +55,26 @@ namespace IndiaLivings_Web_UI.Controllers
             }
             return View("Newsletter", newsletter);
         }
-        public async Task<string> DeleteNewsletter(int newsletterId, string updatedBy)
+        public async Task<JsonResult> DeleteNewsletter(int newsletterId)
         {
-            string response = "An error occured";
+            string updatedBy = HttpContext.Session.GetString("UserName") ?? "Unknown";
             try
             {
-                response = await new NewsletterViewModel().DeleteNewsletter(newsletterId, updatedBy);
+                var response = await new NewsletterViewModel().DeleteNewsletter(newsletterId, updatedBy);
+                var message = JObject.Parse(response)["message"]?.ToString();
+                return Json(new { message = message });
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                return Json(new
+                {
+                    message = "An error ocuured. Please try again after sometime"
+                });
             }
-            return response;
+            
         }
-        public async Task<string> PublishNewsletter(int newsletterId, string emails, bool sendToAll=false)
+        public async Task<JsonResult> PublishNewsletter(int newsletterId, string emails, bool sendToAll = false)
         {
             string response = "An error occured";
             try
@@ -74,12 +86,16 @@ namespace IndiaLivings_Web_UI.Controllers
                     SpecificEmails = string.IsNullOrEmpty(emails) ? new List<string>() : emails.Split(',').ToList()
                 };
                 response = await new SendNewsletterRequestViewModel().SendNewsletter(sendRequest);
+                return Json(JObject.Parse(response));
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                return Json(new
+                {
+                    message = "An error ocuured. Please try again after sometime"
+                });
             }
-            return response;
         }
     }
 }

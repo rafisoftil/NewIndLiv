@@ -52,7 +52,7 @@
                     "<i class='fa fa-edit'></i></button>" +
                     $"  <button class='save-btn d-none' onclick='saveChanges(this)'>" +
                     "<i class='fa fa-save'></i></button>" +
-                    $"  <button class='mem-btn' onclick='DeleteMembership({model.NewsletterID})'>" +
+                    $"  <button class='mem-btn' onclick='DeleteNewsletter({model.NewsletterID})'>" +
                     "<i class='fa fa-trash'></i></button>"
                     ).Titled("Actions").Css("text-center");
                 })
@@ -81,5 +81,24 @@
 
     function EditNewsletter(newsletterid) {
         window.location.href = '/Newsletter/NewsletterDetails?newsletterId=' + newsletterid;
+    }
+
+    function DeleteNewsletter(newsletterid) {
+        $('#spinner').removeClass('d-none');
+        $.ajax({
+            type: 'POST',
+            url: '/Newsletter/DeleteNewsletter',
+            data: {newsletterId: newsletterid},
+            success: function(response) {
+                if (response.message.includes("Newsletter deleted successfully")) {
+                    location.reload();
+                    ShowToast("success", "Newsletter Deleted Successfully");
+                }
+                else {
+                    ShowToast("Failed", "Error while deleting Newsletter");
+                }
+                $('#spinner').addClass('d-none');
+            }
+        })
     }
 </script>

@@ -1,6 +1,7 @@
 ﻿@model NewsletterViewModel
 @{
     ViewBag.Title = "Create Newsletter";
+    var model = Model ?? new NewsletterViewModel();
 }
 
 <style>
@@ -129,7 +130,7 @@
                 <h6>Newsletter Details</h6>
 
                 <input type="text" id="Subject" class="form-control"
-                       placeholder="Newsletter subject line" value="@(Model!=null ? Model.Subject : "")"/>
+                       placeholder="Newsletter subject line" value="@(model!=null ? model.Subject : "")"/>
                 <small class="ui-error" id="errSubject"></small>
             </div>
 
@@ -140,13 +141,13 @@
                 <div class="sender-grid">
                     <div>
                         <input type="text" id="SenderName" class="form-control"
-                               placeholder="Sender name" value="@(Model!=null ? Model.SenderName : "")"/>
+                               placeholder="Sender name" value="@(model!=null ? model.SenderName : "")"/>
                         <small class="ui-error" id="errSenderName"></small>
                     </div>
 
                     <div>
                         <input type="email" id="SenderEmail" class="form-control"
-                               placeholder="Sender email address" value="@(Model!=null ? Model.SenderEmail : "")" />
+                               placeholder="Sender email address" value="@(model!=null ? model.SenderEmail : "")" />
                         <small class="ui-error" id="errSenderEmail"></small>
                     </div>
                 </div>
@@ -157,18 +158,18 @@
                 <h6>Email Content</h6>
 
                 <textarea id="HtmlBody" class="form-control" rows="6"
-                          placeholder="Write your HTML email content here...">@(Model!=null ? Model.HtmlBody : "")</textarea>
+                          placeholder="Write your HTML email content here...">@(model!=null ? model.HtmlBody : "")</textarea>
                 <small class="ui-error" id="errHtmlBody"></small>
 
                 <textarea id="PlainTextBody" class="form-control mt-3" rows="4"
-                          placeholder="Plain text fallback content (optional)">@(Model!=null ? Model.PlainTextBody : "")</textarea>
+                          placeholder="Plain text fallback content (optional)">@(model!=null ? model.PlainTextBody : "")</textarea>
             </div>
 
             <!-- Schedule -->
             <div class="form-section">
                 <h6>Schedule</h6>
 
-                <input type="datetime-local" id="ScheduledDate" class="form-control" @(Model!=null ? Model.ScheduledDate : "") />
+                <input type="datetime-local" id="ScheduledDate" class="form-control" value="@(model?.ScheduledDate?.ToString("yyyy-MM-ddTHH:mm") ?? "")" />
             </div>
 
             <!-- Footer -->
@@ -179,14 +180,21 @@
                         Newsletter is active
                     </label>
                 </div>
-                <button type="button" id="btnSave"
-                        class="btn-soft-primary" onclick="openPreview()">
-                    Preview Newsletter
-                </button>
-                <button type="button" id="btnSave"
-                        class="btn-soft-primary" onclick="saveNewsletter()">
-                    Save Newsletter
-                </button>
+                @if (model?.NewsletterID != 0)
+                {
+                    <button type="button" id="btnPreview"
+                            class="btn-soft-primary" onclick="openPreview()">
+                        Preview Newsletter
+                    </button>
+                }
+                else
+                {
+                    <button type="button" id="btnSave"
+                            class="btn-soft-primary" onclick="saveNewsletter()">
+                        Save Newsletter
+                    </button>
+                }
+
             </div>
 
         </form>
@@ -227,18 +235,27 @@
                             border:1px solid #e9ecef">
 
                     <h6 class="mb-2">Send Newsletter</h6>
-                    <small class="text-muted d-block mb-3">
-                        Enter comma-separated email addresses
-                    </small>
 
+                    <!-- Send to all -->
+                    <div class="form-check mb-3">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="sendToAll">
+                        <label class="form-check-label">
+                            Send to all subscribers
+                        </label>
+                    </div>
+
+                    <!-- Emails -->
                     <textarea id="sendEmails"
                               class="form-control"
                               rows="3"
-                              placeholder="example@gmail.com, user@domain.com"
+                              placeholder="Type comma separated emails ex: example@gmail.com, user@domain.com"
                               style="border-radius:10px"></textarea>
 
                     <small class="ui-error" id="errEmails"></small>
                 </div>
+
 
             </div>
 
@@ -259,31 +276,94 @@
         </div>
     </div>
 </div>
-
+<div id="spinner" class="d-none">
+    <img style="height: 100px" src="~/images/spinner.gif" />
+</div>
+<div id="toast" class="d-none"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+    $('#sendToAll').on('change', function () {
+        if ($(this).is(':checked')) {
+            $('#sendEmails')
+                .val('')
+                .prop('disabled', true)
+                .removeClass('soft-invalid soft-valid');
+            $('#errEmails').text('');
+        } else {
+            $('#sendEmails').prop('disabled', false);
+        }
+    });
+
+    function validateEmails(emails) {
+        const emailArray = emails.split(',').map(e => e.trim());
+
+        if (emailArray.length === 0) return false;
+
+        const emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+
+        for (let email of emailArray) {
+            if (!emailRegex.test(email)) {
+                return false;
+            }
+        } 
+        return true;
+    }
+
     function PublishNewsletter() {
-        var newsletterId = '@Model.NewsletterID';
-        var emails = $('#sendEmails').val();
+        alert('@(model?.NewsletterID)');
+        const sendToAll = $('#sendToAll').is(':checked');
+        const emails = $('#sendEmails').val().trim();
+        const newsletterId = '@(model?.NewsletterID ?? 0)';
+
+        // Reset UI
+        $('#errEmails').text('');
+        $('#sendEmails').removeClass('soft-invalid soft-valid');
+
+        // ❌ Nothing selected
+        if (!sendToAll && emails === '') {
+            $('#errEmails').text('Select "Send to all" or enter email addresses');
+            $('#sendEmails').addClass('soft-invalid');
+            return;
+        }
+
+        // ❌ Both selected
+        if (sendToAll && emails !== '') {
+            $('#errEmails').text('Choose only one option');
+            $('#sendEmails').addClass('soft-invalid');
+            return;
+        }
+
+        // ❌ Validate emails
+        if (!sendToAll && !validateEmails(emails)) {
+            $('#errEmails').text('Enter valid comma-separated email addresses');
+            $('#sendEmails').addClass('soft-invalid');
+            return;
+        }
+
+        // ✅ Payload
+        const payload = {
+            newsletterId: newsletterId,
+            sendToAll: sendToAll,
+            emails: sendToAll ? null : emails
+        };
+
         $.ajax({
             url: '/Newsletter/PublishNewsletter',
             type: 'POST',
-            data: {
-                newsletterId: newsletterId,
-                emails: emails
-            },
+            data: payload,
             success: function (response) {
-                alert('Newsletter published successfully!');
+                alert(response);
                 location.reload();
             },
             error: function () {
-                alert('Error publishing newsletter.');
+                alert('Error publishing newsletter');
             }
         });
     }
+
     function openPreview() {
 
         if (!validateForm()) {
@@ -379,16 +459,25 @@
             ScheduledDate: $('#ScheduledDate').val() || null,
             IsActive: $('#IsActive').is(':checked')
         };
-
+        $('#spinner').removeClass('d-none');
         $.ajax({
             url: '/Newsletter/PostNewsletter',
             type: 'POST',
             data: payload,
-            success: function (response) {
-                $('#resultMessage').text(response).css('color', 'green');
+            success: function (response.newsletterId > 0) {
+                if(response.newsletterId > 0) {
+                    $('#resultMessage').text(response).css('color', 'green');
+                    window.location.href = '/Newsletter/NewsletterDetails?newsletterId=' + newsletterid;
+                    ShowToast("success", "Newsletter Created Successfully");
+                }
+                else {
+                    ShowToast("failed", "An error occured");
+                }
+                
             },
             error: function () {
                 $('#resultMessage').text('Something went wrong').css('color', 'red');
+                ShowToast("success", "Newsletter Deleted Successfully");
             },
             complete: function () {
                 $('#btnSave').prop('disabled', false).text('Save Newsletter');
