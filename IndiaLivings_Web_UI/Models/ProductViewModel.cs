@@ -315,6 +315,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.productOwner = productDetails.productOwner;
                         product.userContactCity = productDetails.userContactCity;
                         product.IsActiveStatus = productDetails.IsActiveStatus;
+                        product.IsActive = productDetails.IsActive;
                         product.productAdminReview = productDetails.productAdminReview;
                         product.productPriceCondition = productDetails.productPriceCondition;
                         product.byteProductImageData = productDetails.byteProductImageData;
