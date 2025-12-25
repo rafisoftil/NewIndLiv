@@ -28,7 +28,7 @@ namespace IndiaLivings_Web_UI.Models
         public string? Currency { get; set; } = "INR";
         public string? Notes { get; set; } = string.Empty;
         public string? ProviderName { get; set; }
-        public string BookService(ServiceBookingViewModel booking)
+        public static async Task<string> BookService(ServiceBookingViewModel booking)
         {
             string response = "An error occured";
             ServiceHelper SH = new ServiceHelper();
@@ -53,7 +53,7 @@ namespace IndiaLivings_Web_UI.Models
                 serviceBooking.PriceQuoted = booking.PriceQuoted;
                 serviceBooking.Currency = booking.Currency;
                 serviceBooking.Notes = booking.Notes;
-                response =  SH.BookService(serviceBooking);
+                response = await ServiceHelper.BookService(serviceBooking);
             }
             catch (Exception ex)
             {
@@ -61,11 +61,10 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
-        public List<ServiceBookingViewModel> GetAllBookings()
+        public static async Task<List<ServiceBookingViewModel>> GetAllBookings()
         {
             List<ServiceBookingViewModel> myservices = new List<ServiceBookingViewModel>();
-            ServiceHelper SH = new ServiceHelper();
-            List<ServiceBookingModel> services = SH.GetAllBookings();
+            List<ServiceBookingModel> services = await ServiceHelper.GetAllBookings();
             try
             {
                 foreach (var ser in services)
@@ -94,11 +93,10 @@ namespace IndiaLivings_Web_UI.Models
             }
             return myservices;
         }
-        public List<ServiceBookingViewModel> GetBookingsByUser(int userId)
+        public async Task<List<ServiceBookingViewModel>> GetBookingsByUser(int userId)
         {
             List<ServiceBookingViewModel> myservices = new List<ServiceBookingViewModel>();
-            ServiceHelper SH = new ServiceHelper();
-            List<ServiceBookingModel> services = SH.GetUserBookings(userId);
+            List<ServiceBookingModel> services = await ServiceHelper.GetUserBookings(userId);
             try
             {
                 foreach (var ser in services)
@@ -126,13 +124,12 @@ namespace IndiaLivings_Web_UI.Models
             }
             return myservices;
         }
-        public string CancelBooking(int bookingId, string reason, string cancelledBy)
+        public async Task<string> CancelBooking(int bookingId, string reason, string cancelledBy)
         {
             string response = "An error occured";
             try
             {
-                ServiceHelper SH = new ServiceHelper();
-                response = SH.CancelBooking(bookingId, reason, cancelledBy);
+                response = await ServiceHelper.CancelBooking(bookingId, reason, cancelledBy);
             }
             catch (Exception ex)
             {
@@ -148,12 +145,11 @@ namespace IndiaLivings_Web_UI.Models
         public string? AssignedByUserId { get; set; }
         public string? Notes { get; set; }
 
-        public string AssignProvider(int bookingId, int providerId, string assignedBy, string notes)
+        public async Task<string> AssignProvider(int bookingId, int providerId, string assignedBy, string notes)
         {
             string response = "An error occured";
             try
             {
-                ServiceHelper SH = new ServiceHelper();
                 AssignProviderRequestModel assignProviderRequest = new AssignProviderRequestModel()
                 {
                     BookingId = bookingId,
@@ -161,7 +157,7 @@ namespace IndiaLivings_Web_UI.Models
                     AssignedByUserId = assignedBy,
                     Notes = notes
                 };
-                response = SH.AssignProvider(assignProviderRequest);
+                response = await ServiceHelper.AssignProvider(assignProviderRequest);
             }
             catch (Exception ex)
             {

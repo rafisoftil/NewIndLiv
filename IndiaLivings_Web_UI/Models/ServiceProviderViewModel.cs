@@ -26,7 +26,7 @@ namespace IndiaLivings_Web_UI.Models
         public bool IsVerified { get; set; } = false;
         public bool IsActive { get; set; } = true;
 
-        public string CreateServiceProvider(ServiceProviderViewModel provider)
+        public async Task<string> CreateServiceProvider(ServiceProviderViewModel provider)
         {
             string response = string.Empty;
             try
@@ -54,7 +54,7 @@ namespace IndiaLivings_Web_UI.Models
                     IsVerified = this.IsVerified,
                     IsActive = this.IsActive
                 };
-                response = new ServiceHelper().CreateServiceProvider(serviceProvider);
+                response = await ServiceHelper.CreateServiceProvider(serviceProvider);
             }
             catch (Exception ex)
             {
@@ -62,7 +62,7 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
-        public string UpdateServiceProvider(ServiceProviderViewModel provider)
+        public async Task<string> UpdateServiceProvider(ServiceProviderViewModel provider)
         {
             string response = string.Empty;
             try
@@ -89,7 +89,7 @@ namespace IndiaLivings_Web_UI.Models
                     IsVerified = this.IsVerified,
                     IsActive = this.IsActive
                 };
-                response = new ServiceHelper().UpdateServiceProvider(serviceProvider);
+                response = await ServiceHelper.UpdateServiceProvider(serviceProvider);
             }
             catch (Exception ex)
             {
@@ -97,13 +97,12 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
-        public List<ServiceProviderViewModel> GetAllServiceProviders()
+        public async Task<List<ServiceProviderViewModel>> GetAllServiceProviders()
         {
             List<ServiceProviderViewModel> providers = new List<ServiceProviderViewModel>();
             try
             {
-                var serviceHelper = new ServiceHelper();
-                var serviceProviders = serviceHelper.ServiceProviders();
+                var serviceProviders = await ServiceHelper.ServiceProviders();
                 providers = serviceProviders.Select(sp => new ServiceProviderViewModel
                 {
                     UserId = sp.UserId,
@@ -134,13 +133,12 @@ namespace IndiaLivings_Web_UI.Models
             }
             return providers;
         }
-        public List<ServiceProviderViewModel> GetActiveServiceProviders()
+        public async Task<List<ServiceProviderViewModel>> GetActiveServiceProviders()
         {
             List<ServiceProviderViewModel> providers = new List<ServiceProviderViewModel>();
             try
             {
-                var serviceHelper = new ServiceHelper();
-                var serviceProviders = serviceHelper.ActiveServiceProviders();
+                var serviceProviders = await ServiceHelper.ActiveServiceProviders();
                 providers = serviceProviders.Select(sp => new ServiceProviderViewModel
                 {
                     UserId = sp.UserId,

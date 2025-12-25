@@ -13,12 +13,12 @@ namespace IndiaLivings_Web_DAL.Helpers
     {
         private const string BaseApiUrl = "https://api.indialivings.com/api";
 
-        public string CreateServiceCategory(ServiceModel service)
+        public static async Task<string> CreateServiceCategory(ServiceModel service)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/createServiceCategory", service).Trim('\"');
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/createServiceCategory", service);
             }
             catch (Exception ex)
             {
@@ -27,12 +27,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return response;
         }
 
-        public List<ServicesSubCategoriesModel> GetServiceSubCategories(int categoryId)
+        public static async Task<List<ServicesSubCategoriesModel>> GetServiceSubCategories(int categoryId)
         {
             List<ServicesSubCategoriesModel> subCategories = new List<ServicesSubCategoriesModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/Service/category/getActiveServicesByCategory/{categoryId}");
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getActiveServicesByCategory/{categoryId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -47,12 +47,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return subCategories;
         }
 
-        public List<ServiceModel> GetActiveServiceCategories()
+        public static async Task<List<ServiceModel>> GetActiveServiceCategories()
         {
             List<ServiceModel> services = new List<ServiceModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/Service/categories/getActiveServiceCategories");
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/categories/getActiveServiceCategories");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -67,12 +67,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return services;
         }
 
-        public List<ServiceModel> GetAllServices()
+        public static async Task<List<ServiceModel>> GetAllServices()
         {
             List<ServiceModel> services = new List<ServiceModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/Service/category/getAllServiceCategories");
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getAllServiceCategories");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -87,12 +87,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return services;
         }
 
-        public string UpdateServiceCategory(ServiceCategoryUpdateRequest service)
+        public static async Task<string> UpdateServiceCategory(ServiceCategoryUpdateRequest service)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/updateServiceCategory", service).Trim('\"');
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/updateServiceCategory", service);
             }
             catch (Exception ex)
             {
@@ -101,12 +101,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return response;
         }
 
-        public string DeleteServiceCategory(int categoryId, string username)
+        public static async Task<string> DeleteServiceCategory(int categoryId, string username)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/deleteServiceCategory/{categoryId}?categoryId={categoryId}&deletedBy={username}").Trim('\"');
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/deleteServiceCategory/{categoryId}?categoryId={categoryId}&deletedBy={username}");
             }
             catch (Exception ex)
             {
@@ -115,12 +115,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return response;
         }
 
-        public ServiceModel ViewServiceSubCategory(int categoryId)
+        public static async Task<ServiceModel> ViewServiceSubCategory(int categoryId)
         {
             ServiceModel category = new ServiceModel();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/Service/category/getServiceCategoryById/{categoryId}").Trim('\"');
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getServiceCategoryById/{categoryId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -134,12 +134,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return category;
         }
-        public string BookService(ServiceBookingModel booking)
+        public static async Task<string> BookService(ServiceBookingModel booking)
         {
             string bookedService = string.Empty;
             try
             {
-                bookedService = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceBooking/CreateBooking", booking);
+                bookedService = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceBooking/CreateBooking", booking);
             }
             catch (Exception ex)
             {
@@ -147,12 +147,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return bookedService;
         }
-        public List<ServiceBookingModel> GetAllBookings()
+        public static async Task<List<ServiceBookingModel>> GetAllBookings()
         {
             List<ServiceBookingModel> myservices = new List<ServiceBookingModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://localhost:7158/api/ServiceBooking/AllBookings");
+                var response = await ServiceAPI.GetAsyncApi($"https://localhost:7158/api/ServiceBooking/AllBookings");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -166,12 +166,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return myservices;
         }
-        public List<ServiceBookingModel> GetUserBookings(int userId)
+        public static async Task<List<ServiceBookingModel>> GetUserBookings(int userId)
         {
             List<ServiceBookingModel> myservices = new List<ServiceBookingModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/ServiceBooking/bookingsByUser/{userId}");
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/ServiceBooking/bookingsByUser/{userId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -185,12 +185,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return myservices;
         }
-        public string CancelBooking(int bookingId, string reason, string cancelledBy)
+        public static async Task<string> CancelBooking(int bookingId, string reason, string cancelledBy)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceBooking/cancelBooking/{bookingId}?bookingId={bookingId}&reason={reason}&cancelledBy={cancelledBy}");
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceBooking/cancelBooking/{bookingId}?bookingId={bookingId}&reason={reason}&cancelledBy={cancelledBy}");
             }
             catch (Exception ex)
             {
@@ -198,12 +198,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string CreateServiceProvider(ServiceProviderModel provider)
+        public static async Task<string> CreateServiceProvider(ServiceProviderModel provider)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceProvider/createServiceProvider", provider).Trim('\"');
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceProvider/createServiceProvider", provider);
             }
             catch (Exception ex)
             {
@@ -211,12 +211,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string UpdateServiceProvider(ServiceProviderModel provider)
+        public static async Task<string> UpdateServiceProvider(ServiceProviderModel provider)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceProvider/updateServiceProvider", provider).Trim('\"');
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceProvider/updateServiceProvider", provider);
             }
             catch (Exception ex)
             {
@@ -224,12 +224,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public List<ServiceProviderModel> ServiceProviders()
+        public static async Task<List<ServiceProviderModel>> ServiceProviders()
         {
             List<ServiceProviderModel> providers = new List<ServiceProviderModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/ServiceProvider/ServiceProviders");
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/ServiceProvider/ServiceProviders");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -243,12 +243,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return providers;
         }
-        public List<ServiceProviderModel> ActiveServiceProviders()
+        public static async Task<List<ServiceProviderModel>> ActiveServiceProviders()
         {
             List<ServiceProviderModel> providers = new List<ServiceProviderModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/ServiceProvider/activeServiceProviders");
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/ServiceProvider/activeServiceProviders");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -262,12 +262,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return providers;
         }
-        public string CreateServiceSubCategory(ServiceSubCategoryModel subCategory)
+        public static async Task<string> CreateServiceSubCategory(ServiceSubCategoryModel subCategory)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/createCategoryService", subCategory).Trim('\"');
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/createCategoryService", subCategory);
             }
             catch (Exception ex)
             {
@@ -275,12 +275,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string UpdateServiceSubCategory(ServiceUpdateRequest subCategory)
+        public static async Task<string> UpdateServiceSubCategory(ServiceUpdateRequest subCategory)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/updateService", subCategory).Trim('\"');
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/updateService", subCategory);
             }
             catch (Exception ex)
             {
@@ -288,25 +288,25 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string DeleteServiceSubCategory(int serviceId, string username)
+        public static async Task<string> DeleteServiceSubCategory(int serviceId, string username)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/Service/category/deleteSubcategory?subCategoryID={serviceId}&strUpdatedBy={username}").Trim('\"');
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/deleteService/{serviceId}?serviceId={serviceId}&serviceId={username}");
             }
             catch (Exception ex)
             {
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return response;
-        }
-        public List<ServiceSubCategoryModel> GetAllServiceSubCategories()
+          }
+        public static async Task<List<ServiceSubCategoryModel>> GetAllServiceSubCategories()
         {
             List<ServiceSubCategoryModel> subCategory = new List<ServiceSubCategoryModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/Service/category/getAllServices").Trim('\"');
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getAllServices");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -320,12 +320,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return subCategory;
         }
-        public ServiceSubCategoryModel GetServiceSubCategoryById(int serviceId)
+        public static async Task<ServiceSubCategoryModel> GetServiceSubCategoryById(int serviceId)
         {
             ServiceSubCategoryModel subCategory = new ServiceSubCategoryModel();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/Service/category/getServiceById/{serviceId}").Trim('\"');
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getServiceById/{serviceId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -339,12 +339,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return subCategory;
         }
-        public List<ServiceSubCategoryModel> GetSubServiceByCategory(int categoryId)
+        public static async Task<List<ServiceSubCategoryModel>> GetSubServiceByCategory(int categoryId)
         {
             List<ServiceSubCategoryModel> subCategory = new List<ServiceSubCategoryModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"{BaseApiUrl}/Service/category/getServicesByCategory/{categoryId}").Trim('\"');
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getServicesByCategory/{categoryId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -358,12 +358,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return subCategory;
         }
-        public string ApproveOrRejectBooking(int bookingId, string status, string remarks, string approvedBy)
+        public static async Task<string> ApproveOrRejectBooking(int bookingId, string status, string remarks, string approvedBy)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceBooking/approveOrRejectBooking/{bookingId}?bookingId={bookingId}&status={status}&remarks={remarks}&approvedBy={approvedBy}");
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceBooking/approveOrRejectBooking/{bookingId}?bookingId={bookingId}&status={status}&remarks={remarks}&approvedBy={approvedBy}");
             }
             catch (Exception ex)
             {
@@ -371,12 +371,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return response;
         }
-        public string AssignProvider(AssignProviderRequestModel assignProvider)
+        public static async Task<string> AssignProvider(AssignProviderRequestModel assignProvider)
         {
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"{BaseApiUrl}/ServiceBooking/assignProvider", assignProvider);
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceBooking/assignProvider", assignProvider);
             }
             catch (Exception ex)
             {

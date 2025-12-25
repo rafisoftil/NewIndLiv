@@ -9,138 +9,138 @@ namespace IndiaLivings_Web_UI.Controllers
 {
     public class ServiceController : Controller
     {
-        public IActionResult Services()
+        public async Task<IActionResult> Services()
         {
             ServiceViewModel svm = new ServiceViewModel();
-            List<ServiceViewModel> categories = svm.getAllCategories();
+            List<ServiceViewModel> categories = await svm.getAllCategories();
             return View(categories);
         }
-        public IActionResult AdminServices()
+        public async Task<IActionResult> AdminServices()
         {
             return View();
         }
-        public IActionResult ServiceDetails(int categoryId)
+        public async Task<IActionResult> ServiceDetails(int categoryId)
         {
             ServiceViewModel svm = new ServiceViewModel();
-            ServiceViewModel categories = svm.ViewServiceCategory(categoryId);
+            ServiceViewModel categories = await svm.ViewServiceCategory(categoryId);
             return View(categories);
         }
-        public IActionResult ServiceInfo()
+        public async Task<IActionResult> ServiceInfo()
         {
             return View();
         }
-        public IActionResult ServicesList()
+        public async Task<IActionResult> ServicesList()
         {
             TempData.Keep("BookingStatus");
             ServiceViewModel svm = new ServiceViewModel();
-            List<ServiceViewModel> categories = svm.getAllCategories();
+            List<ServiceViewModel> categories = await svm.getAllCategories();
             return View(categories);
         }
-        public IActionResult ServicesSubCategory(int categoryId)
+        public async Task<IActionResult> ServicesSubCategory(int categoryId)
         {
             ViewBag.State = HttpContext.Session.GetString("State");
             ViewBag.City = HttpContext.Session.GetString("City");
             ViewBag.Country = HttpContext.Session.GetString("Country");
             ServicesSubCategoriesViewModel sscvm = new ServicesSubCategoriesViewModel();
-            List<ServicesSubCategoriesViewModel> subCategories = sscvm.GetAllActiveSubCategoriesByCategoryId(categoryId);
+            List<ServicesSubCategoriesViewModel> subCategories = await sscvm.GetAllActiveSubCategoriesByCategoryId(categoryId);
             return View(subCategories);
         }
-        public IActionResult MyServices()
+        public async Task<IActionResult> MyServices()
         {
             ViewBag.Service = "MyServices";
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
-            List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
+            List<ServiceBookingViewModel> myservices = await booking.GetBookingsByUser(userId);
             return View(myservices);
         }
-        public IActionResult UpcomingServices()
+        public async Task<IActionResult> UpcomingServices()
         {
             ViewBag.Service = "Upcoming";
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
-            List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
+            List<ServiceBookingViewModel> myservices = await booking.GetBookingsByUser(userId);
             //List<ServiceBookingViewModel> upcomingServices = myservices.Where(s => s.Status == "Scheduled" || s.Status == "InProgress" || s.Status == "PENDING" || s.Status == "ASSIGNED").ToList();
             return View("MyServices", myservices);
         }
-        public IActionResult CompletedServices()
+        public async Task<IActionResult> CompletedServices()
         {
             ViewBag.Service = "Completed";
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
-            List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
+            List<ServiceBookingViewModel> myservices = await booking.GetBookingsByUser(userId);
             //List<ServiceBookingViewModel> completedServices = myservices.Where(s => s.Status == "COMPLETED").ToList();
             return View("MyServices", myservices);
         }
-        public IActionResult CancelledServices()
+        public async Task<IActionResult> CancelledServices()
         {
             ViewBag.Cancelled = "Cancelled";
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             ServiceBookingViewModel booking = new ServiceBookingViewModel();
-            List<ServiceBookingViewModel> myservices = booking.GetBookingsByUser(userId);
+            List<ServiceBookingViewModel> myservices = await booking.GetBookingsByUser(userId);
             //List<ServiceBookingViewModel> cancelledServices = myservices.Where(s => s.Status == "CANCELLED").ToList();
             return View("MyServices", myservices);
         }
-        public IActionResult AdminBookings()
+        public async Task<IActionResult> AdminBookings()
         {
-            List<ServiceBookingViewModel> allBookings = new ServiceBookingViewModel().GetAllBookings();
+            List<ServiceBookingViewModel> allBookings = await ServiceBookingViewModel.GetAllBookings();
             List<ServiceBookingViewModel> pendingBookings = allBookings.Where(b => b.Status == "PENDING").ToList();
-            List<ServiceProviderViewModel> providerViewModels = new ServiceProviderViewModel().GetActiveServiceProviders();
+            List<ServiceProviderViewModel> providerViewModels = await new ServiceProviderViewModel().GetActiveServiceProviders();
             dynamic data = new ExpandoObject();
             data.Bookings = pendingBookings;
             data.Providers = providerViewModels;
             return View(data);
         }
-        public IActionResult CompletedBookings()
+        public async Task<IActionResult> CompletedBookings()
         {
-            List<ServiceBookingViewModel> allBookings = new ServiceBookingViewModel().GetAllBookings();
+            List<ServiceBookingViewModel> allBookings = await ServiceBookingViewModel.GetAllBookings();
             List<ServiceBookingViewModel> completedBookings = allBookings.Where(b => b.Status == "COMPLETED").ToList();
             return View("AdminBookings", completedBookings);
         }
-        public IActionResult AllBookings()
+        public async Task<IActionResult> AllBookings()
         {
-            List<ServiceBookingViewModel> allBookings = new ServiceBookingViewModel().GetAllBookings();
+            List<ServiceBookingViewModel> allBookings = await ServiceBookingViewModel.GetAllBookings();
             return View("AdminBookings", allBookings);
         }
-        public IActionResult AssignedBookings()
+        public async Task<IActionResult> AssignedBookings()
         {
-            List<ServiceBookingViewModel> allBookings = new ServiceBookingViewModel().GetAllBookings();
+            List<ServiceBookingViewModel> allBookings = await ServiceBookingViewModel.GetAllBookings();
             List<ServiceBookingViewModel> assignedBookings = allBookings.Where(b => b.Status == "ASSIGNED").ToList();
             return View("AdminBookings", assignedBookings);
         }
-        public IActionResult AdminProviders()
+        public async Task<IActionResult> AdminProviders()
         {
-            List<ServiceProviderViewModel> providers = new ServiceProviderViewModel().GetAllServiceProviders();
+            List<ServiceProviderViewModel> providers = await new ServiceProviderViewModel().GetAllServiceProviders();
             return View(providers);
         }
-        public JsonResult AddServiceCategory(string name, string slug, string description, string image)
+        public async Task<JsonResult> AddServiceCategory(string name, string slug, string description, string image)
         {
             var username = HttpContext.Session.GetString("userName") ?? "";
             ServiceViewModel svm = new ServiceViewModel();
-            string result = svm.CreateServiceCategory(name, slug, description, image, username);
+            string result = await svm.CreateServiceCategory(name, slug, description, image, username);
             var response = JObject.Parse(result);
             return Json(response);
         }
-        public JsonResult UpdateServiceCategory(int categoryId, string name, string slug, string description, bool isActive)
+        public async Task<JsonResult> UpdateServiceCategory(int categoryId, string name, string slug, string description, bool isActive)
         {
             var username = HttpContext.Session.GetString("userName") ?? "";
             ServiceViewModel svm = new ServiceViewModel();
-            string result = svm.UpdateServiceCategory(categoryId, name, slug, description, isActive, username);
+            string result = await svm.UpdateServiceCategory(categoryId, name, slug, description, isActive, username);
             var response = JObject.Parse(result);
             return Json(response);
         }
-        public JsonResult DeleteServiceCategory(int categoryId)
+        public async Task<JsonResult> DeleteServiceCategory(int categoryId)
         {
             var username = HttpContext.Session.GetString("userName") ?? "";
             ServiceViewModel svm = new ServiceViewModel();
-            var result = svm.DeleteServiceCategory(categoryId, username);
+            var result = await svm.DeleteServiceCategory(categoryId, username);
             var response = JObject.Parse(result);
             return Json(response);
         }
-        public IActionResult ServiceBookings()
+        public async Task<IActionResult> ServiceBookings()
         {
             return View();
         }
-        public JsonResult CreateBooking(int serviceId, decimal price, DateTime date, string country, string state, string city, string address, string notes)
+        public async Task<JsonResult> CreateBooking(int serviceId, decimal price, DateTime date, string country, string state, string city, string address, string notes)
         {
             ServiceBookingViewModel sbvm = new ServiceBookingViewModel();
             sbvm.CustomerUserId = Convert.ToString(HttpContext.Session.GetInt32("UserId")) ?? "";
@@ -161,15 +161,15 @@ namespace IndiaLivings_Web_UI.Controllers
             sbvm.PriceQuoted = price;
             sbvm.Notes = notes;
 
-            string result = sbvm.BookService(sbvm);
+            string result = await ServiceBookingViewModel.BookService(sbvm);
             var response = JObject.Parse(result);
             return Json(response);
         }
-        public JsonResult CancelBooking(int bookingId, string reason)
+        public async Task<JsonResult> CancelBooking(int bookingId, string reason)
         {
             string cancelledBy = HttpContext.Session.GetString("userName") ?? "";
             ServiceBookingViewModel bookingStatus = new ServiceBookingViewModel();
-            var response = bookingStatus.CancelBooking(bookingId, reason, cancelledBy);
+            var response = await bookingStatus.CancelBooking(bookingId, reason, cancelledBy);
             var result = JObject.Parse(response);
             return Json(result);
         }
@@ -183,7 +183,7 @@ namespace IndiaLivings_Web_UI.Controllers
             }
             return bytes;
         }
-        public JsonResult CreateServiceProvider(IFormFile ProviderImage, IFormCollection ServiceProvider)
+        public async Task<JsonResult> CreateServiceProvider(IFormFile ProviderImage, IFormCollection ServiceProvider)
         {
             ServiceProviderViewModel spvm = new ServiceProviderViewModel();
             spvm.UserId = Convert.ToString(HttpContext.Session.GetInt32("UserId")) ?? "";
@@ -211,16 +211,16 @@ namespace IndiaLivings_Web_UI.Controllers
             string result = "";
             if (Convert.ToInt32(ServiceProvider["ProviderCode"]) > 0)
             {
-                result = spvm.UpdateServiceProvider(spvm);
+                result = await spvm.UpdateServiceProvider(spvm);
             }
             else
             {
-                result = spvm.CreateServiceProvider(spvm);
+                result = await spvm.CreateServiceProvider(spvm);
             }
             var response = JObject.Parse(result);
             return Json(response);
         }
-        public JsonResult CreateServiceSubCategory(int categoryid, string name, decimal basePrice, string description, int durationMin)
+        public async Task<JsonResult> CreateServiceSubCategory(int categoryid, string name, decimal basePrice, string description, int durationMin)
         {
             ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
             sscvm.CategoryId = categoryid;
@@ -229,11 +229,11 @@ namespace IndiaLivings_Web_UI.Controllers
             sscvm.BasePrice = basePrice;
             sscvm.DurationMin = durationMin;
             sscvm.CreatedBy = HttpContext.Session.GetString("userName") ?? "";
-            string result = sscvm.CreateSubCategory(sscvm);
+            string result = await sscvm.CreateSubCategory(sscvm);
             var response = JObject.Parse(result);
             return Json(response);
         }
-        public JsonResult UpdateServiceSubCategory(int ServiceId, int CategoryId, string Name, decimal BasePrice, string Description, bool Status, int DurationMin)
+        public async Task<JsonResult> UpdateServiceSubCategory(int ServiceId, int CategoryId, string Name, decimal BasePrice, string Description, bool Status, int DurationMin)
         {
             ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
             sscvm.ServiceId = ServiceId;
@@ -244,43 +244,43 @@ namespace IndiaLivings_Web_UI.Controllers
             sscvm.DurationMin = DurationMin;
             sscvm.CreatedBy = HttpContext.Session.GetString("userName") ?? "";
             sscvm.UpdatedBy = HttpContext.Session.GetString("userName") ?? "";
-            string result = sscvm.UpdateSubCategory(sscvm);
+            string result = await sscvm.UpdateSubCategory(sscvm);
             var response = JObject.Parse(result);
             return Json(response);
         }
-        public JsonResult DeleteServiceSubCategory(int serviceId)
+        public async Task<JsonResult> DeleteServiceSubCategory(int serviceId)
         {
             var username = HttpContext.Session.GetString("userName") ?? "";
             ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
-            var result = sscvm.DeleteSubCategory(serviceId, username);
+            var result = await sscvm.DeleteSubCategory(serviceId, username);
             var response = JObject.Parse(result);
             return Json(response);
         }
-        //public IActionResult AdminSubServices()
+        //public async Task<IActionResult> AdminSubServices()
         //{
         //    ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
         //    List<ServiceSubCategoryViewModel> subCategories = sscvm.GetAllSubCategories();
         //    return View(subCategories);
         //}
-        public IActionResult GetServiceSubCategoryById(int serviceId)
+        public async Task<IActionResult> GetServiceSubCategoryById(int serviceId)
         {
             ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
-            ServiceSubCategoryViewModel subCategory = sscvm.GetSubCategoryById(serviceId);
+            ServiceSubCategoryViewModel subCategory = await sscvm.GetSubCategoryById(serviceId);
             return View(subCategory);
         }
-        public IActionResult AdminSubServices(int categoryId)
+        public async Task<IActionResult> AdminSubServices(int categoryId)
         {
             ViewBag.CategoryId = categoryId;
             ServiceSubCategoryViewModel sscvm = new ServiceSubCategoryViewModel();
-            List<ServiceSubCategoryViewModel> subCategories = sscvm.GetSubServicesByCategory(categoryId);
+            List<ServiceSubCategoryViewModel> subCategories = await sscvm.GetSubServicesByCategory(categoryId);
             return View(subCategories);
         }
-        public JsonResult AssignProvider(int bookingId, int providerId)
+        public async Task<JsonResult> AssignProvider(int bookingId, int providerId)
         {
             var assignedBy = HttpContext.Session.GetString("userName") ?? "";
             AssignProviderRequestViewModel bookingStatus = new AssignProviderRequestViewModel();
             string notes = "";
-            var response = bookingStatus.AssignProvider(bookingId, providerId, assignedBy, notes);
+            var response = await bookingStatus.AssignProvider(bookingId, providerId, assignedBy, notes);
             var result = JObject.Parse(response);
             return Json(result);
         }

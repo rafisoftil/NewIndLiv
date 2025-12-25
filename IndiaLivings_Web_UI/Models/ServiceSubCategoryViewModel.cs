@@ -17,12 +17,11 @@ namespace IndiaLivings_Web_UI.Models
         public int? DurationMin { get; set; }
         public string? CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
-        public string CreateSubCategory(ServiceSubCategoryViewModel subCategory)
+        public async Task<string> CreateSubCategory(ServiceSubCategoryViewModel subCategory)
         {
             string result = "An error occured";
             try
             {
-                ServiceHelper SH = new ServiceHelper();
                 ServiceSubCategoryModel subCat = new ServiceSubCategoryModel()
                 {
                     CategoryId = subCategory.CategoryId,
@@ -32,7 +31,7 @@ namespace IndiaLivings_Web_UI.Models
                     DurationMin = subCategory.DurationMin,
                     CreatedBy = subCategory.CreatedBy
                 };
-                result = SH.CreateServiceSubCategory(subCat);
+                result = await ServiceHelper.CreateServiceSubCategory(subCat);
             }
             catch (Exception ex)
             {
@@ -40,12 +39,11 @@ namespace IndiaLivings_Web_UI.Models
             }
             return result;
         }
-        public string UpdateSubCategory(ServiceSubCategoryViewModel subCategory)
+        public async Task<string> UpdateSubCategory(ServiceSubCategoryViewModel subCategory)
         {
             string result = "An error occured";
             try
             {
-                ServiceHelper SH = new ServiceHelper();
                 ServiceUpdateRequest subCat = new ServiceUpdateRequest()
                 {
                     CategoryId = subCategory.CategoryId,
@@ -56,7 +54,7 @@ namespace IndiaLivings_Web_UI.Models
                     DurationMin = subCategory.DurationMin,
                     UpdatedBy = subCategory.UpdatedBy
                 };
-                result = SH.UpdateServiceSubCategory(subCat);
+                result = await ServiceHelper.UpdateServiceSubCategory(subCat);
             }
             catch (Exception ex)
             {
@@ -64,13 +62,12 @@ namespace IndiaLivings_Web_UI.Models
             }
             return result;
         }
-        public string DeleteSubCategory(int serviceId, string username)
+        public async Task<string> DeleteSubCategory(int serviceId, string username)
         {
             string result = "An error occured";
             try
             {
-                ServiceHelper SH = new ServiceHelper();
-                result = SH.DeleteServiceSubCategory(serviceId, username);
+                result = await ServiceHelper.DeleteServiceSubCategory(serviceId, username);
             }
             catch (Exception ex)
             {
@@ -78,13 +75,12 @@ namespace IndiaLivings_Web_UI.Models
             }
             return result;
         }
-        public List<ServiceSubCategoryViewModel> GetAllSubCategories()
+        public async Task<List<ServiceSubCategoryViewModel>> GetAllSubCategories()
         {
             List<ServiceSubCategoryViewModel> subCategorieslst = new List<ServiceSubCategoryViewModel>();
             try
             {
-                ServiceHelper SH = new ServiceHelper();
-                List<ServiceSubCategoryModel> subCategories = SH.GetAllServiceSubCategories();
+                List<ServiceSubCategoryModel> subCategories = await ServiceHelper.GetAllServiceSubCategories();
                 foreach (var subCat in subCategories)
                 {
                     ServiceSubCategoryViewModel serviceSubCategoryViewModel = new ServiceSubCategoryViewModel();
@@ -105,13 +101,12 @@ namespace IndiaLivings_Web_UI.Models
             }
             return subCategorieslst;
         }
-        public ServiceSubCategoryViewModel GetSubCategoryById(int serviceId)
+        public async Task<ServiceSubCategoryViewModel> GetSubCategoryById(int serviceId)
         {
             ServiceSubCategoryViewModel serviceSubCategoryViewModel = new ServiceSubCategoryViewModel();
             try
             {
-                ServiceHelper SH = new ServiceHelper();
-                ServiceSubCategoryModel subCat = SH.GetServiceSubCategoryById(serviceId);
+                ServiceSubCategoryModel subCat = await ServiceHelper.GetServiceSubCategoryById(serviceId);
                 if (subCat != null)
                 {
                     serviceSubCategoryViewModel.CategoryId = subCat.CategoryId;
@@ -128,13 +123,12 @@ namespace IndiaLivings_Web_UI.Models
             }
             return serviceSubCategoryViewModel;
         }
-        public List<ServiceSubCategoryViewModel> GetSubServicesByCategory(int categoryId)
+        public async Task<List<ServiceSubCategoryViewModel>> GetSubServicesByCategory(int categoryId)
         {
             List<ServiceSubCategoryViewModel> subCategorieslst = new List<ServiceSubCategoryViewModel>();
             try
             {
-                ServiceHelper SH = new ServiceHelper();
-                List<ServiceSubCategoryModel> subCategories = SH.GetSubServiceByCategory(categoryId);
+                List<ServiceSubCategoryModel> subCategories = await ServiceHelper.GetSubServiceByCategory(categoryId);
                 foreach (var subCat in subCategories)
                 {
                     ServiceSubCategoryViewModel serviceSubCategoryViewModel = new ServiceSubCategoryViewModel();

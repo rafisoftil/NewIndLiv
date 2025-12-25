@@ -447,7 +447,6 @@
 
     function saveNewsletter() {
         if (!validateForm()) return;
-
         $('#btnSave').prop('disabled', true).text('Saving...');
 
         var payload = {
@@ -464,7 +463,7 @@
             url: '/Newsletter/PostNewsletter',
             type: 'POST',
             data: payload,
-            success: function (response.newsletterId > 0) {
+            success: function (response) {
                 if(response.newsletterId > 0) {
                     $('#resultMessage').text(response).css('color', 'green');
                     window.location.href = '/Newsletter/NewsletterDetails?newsletterId=' + newsletterid;

@@ -397,42 +397,6 @@
         $('#EditCategoryModal').data('category-id', id);
     }
 
-    function updateSubCategory() {
-        var payload = {
-            ServiceId: $('#edit_serviceid').val(),
-            CategoryId: $('#edit_categoryid').val(),
-            Name: $('#edit_name').val(),
-            BasePrice: parseFloat($('#edit_basePrice').val()),
-            Description: $('#edit_description').val(),
-            Status: $('#edit_status').val() === "true",
-            DurationMin: parseInt($('#edit_durationMin').val(), 10)
-        };
-        console.log(payload);
-        $.ajax({
-            url: '/Service/UpdateServiceSubCategory',
-            type: 'POST',
-            data: { ServiceId: $('#edit_serviceid').val(),
-            CategoryId: $('#edit_categoryid').val(),
-            Name: $('#edit_name').val(),
-            BasePrice: parseFloat($('#edit_basePrice').val()),
-            Description: $('#edit_description').val(),
-            Status: $('#edit_status').val() === "true",
-            DurationMin: parseInt($('#edit_durationMin').val(), 10)
-        },
-            success: function (response) {
-                if (response.success) {
-                    ShowToast('success', 'Category updated successfully!');
-                    location.reload();
-                } else {
-                    ShowToast('failed', 'Error updating category');
-                }
-            },
-            error: function () {
-                alert('Error updating category.');
-            }
-        });
-        $('#EditCategoryModal').modal('hide');
-    }
     // Admin Functions
     function addNewService() {
         alert('Opening Add New Service Modal');

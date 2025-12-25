@@ -23,11 +23,10 @@ namespace IndiaLivings_Web_UI.Models
         public double? Rating { get; set; }
         public int? RatingCount { get; set; }
 
-        public List<ServiceViewModel> getActiveCategories()
+        public async Task<List<ServiceViewModel>> getActiveCategories()
         {
             List<ServiceViewModel> lstCategories = new List<ServiceViewModel>();
-            ServiceHelper SH = new ServiceHelper();
-            List<ServiceModel> categories = SH.GetActiveServiceCategories();
+            List<ServiceModel> categories = await ServiceHelper.GetActiveServiceCategories();
             foreach(var category in categories)
             {
                 ServiceViewModel services = new ServiceViewModel();
@@ -44,11 +43,10 @@ namespace IndiaLivings_Web_UI.Models
             }
             return lstCategories;
         }
-        public List<ServiceViewModel> getAllCategories()
+        public async Task<List<ServiceViewModel>> getAllCategories()
         {
             List<ServiceViewModel> lstCategories = new List<ServiceViewModel>();
-            ServiceHelper SH = new ServiceHelper();
-            List<ServiceModel> categories = SH.GetAllServices();
+            List<ServiceModel> categories = await ServiceHelper.GetAllServices();
             foreach (var category in categories)
             {
                 ServiceViewModel services = new ServiceViewModel();
@@ -67,9 +65,8 @@ namespace IndiaLivings_Web_UI.Models
             return lstCategories;
         }
 
-        public string CreateServiceCategory(string name, string slug, string description, string image, string username)
+        public async Task<string> CreateServiceCategory(string name, string slug, string description, string image, string username)
         {
-            ServiceHelper SH = new ServiceHelper();
             string result = "An error occured";
             try
             {
@@ -79,7 +76,7 @@ namespace IndiaLivings_Web_UI.Models
                 service.Description = description;
                 service.Image = string.Empty;
                 service.CreatedBy = username;
-                result = SH.CreateServiceCategory(service);
+                result = await ServiceHelper.CreateServiceCategory(service);
             }
             catch (Exception ex)
             {
@@ -87,9 +84,8 @@ namespace IndiaLivings_Web_UI.Models
             }            
             return result;
         }
-        public string UpdateServiceCategory(int categoryId, string name, string slug, string description, bool isActive, string username)
+        public async Task<string> UpdateServiceCategory(int categoryId, string name, string slug, string description, bool isActive, string username)
         {
-            ServiceHelper SH = new ServiceHelper();
             string result = "An error occured";
             try
             {
@@ -100,7 +96,7 @@ namespace IndiaLivings_Web_UI.Models
                 service.Description = description;
                 service.IsActive = isActive;
                 service.UpdatedBy = username;
-                result = SH.UpdateServiceCategory(service);
+                result = await ServiceHelper.UpdateServiceCategory(service);
             }
             catch (Exception ex)
             {
@@ -108,13 +104,12 @@ namespace IndiaLivings_Web_UI.Models
             }
             return result;
         }
-        public string DeleteServiceCategory(int categoryId, string username)
+        public async Task<string> DeleteServiceCategory(int categoryId, string username)
         {
-            ServiceHelper SH = new ServiceHelper();
             string result = "An error occured";
             try
             {
-                result = SH.DeleteServiceCategory(categoryId, username);
+                result = await ServiceHelper.DeleteServiceCategory(categoryId, username);
             }
             catch (Exception ex)
             {
@@ -122,13 +117,12 @@ namespace IndiaLivings_Web_UI.Models
             }
             return result;
         }
-        public ServiceViewModel ViewServiceCategory(int categoryId)
+        public async Task<ServiceViewModel> ViewServiceCategory(int categoryId)
         {
             ServiceViewModel service = new ServiceViewModel();
-            ServiceHelper SH = new ServiceHelper();
             try
             {
-                ServiceModel category = SH.ViewServiceSubCategory(categoryId);
+                ServiceModel category = await ServiceHelper.ViewServiceSubCategory(categoryId);
                 service.CategoryId = category.CategoryId;
                 service.Name = category.Name;
                 service.Slug = category.Slug;

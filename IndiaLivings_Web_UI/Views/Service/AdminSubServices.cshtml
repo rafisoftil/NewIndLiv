@@ -708,11 +708,9 @@
             Status: $('#edit_status').val() === "true",
             DurationMin: parseInt($('#edit_durationMin').val(), 10)
         };
-        console.log(payload);
         $.ajax({
             url: '/Service/UpdateServiceSubCategory',
             type: 'PUT',
-            contentType: 'application/json',
             data: payload,
             success: function (response) {
                 if (response.success) {

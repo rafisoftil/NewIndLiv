@@ -18,11 +18,10 @@ namespace IndiaLivings_Web_UI.Models
         public DateTime UpdatedAt { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
 
-        public List<ServicesSubCategoriesViewModel> GetAllActiveSubCategoriesByCategoryId(int categoryId)
+        public async Task<List<ServicesSubCategoriesViewModel>> GetAllActiveSubCategoriesByCategoryId(int categoryId)
         {
             List<ServicesSubCategoriesViewModel> lstSubCategories = new List<ServicesSubCategoriesViewModel>();
-            ServiceHelper SH = new ServiceHelper();
-            List<ServicesSubCategoriesModel> subCategories = SH.GetServiceSubCategories(categoryId);
+            List<ServicesSubCategoriesModel> subCategories = await ServiceHelper.GetServiceSubCategories(categoryId);
             foreach (var subCategory in subCategories)
             {
                 ServicesSubCategoriesViewModel servicesSubCategories = new ServicesSubCategoriesViewModel();
