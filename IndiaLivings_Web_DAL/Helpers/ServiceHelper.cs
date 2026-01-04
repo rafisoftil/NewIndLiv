@@ -147,17 +147,17 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return bookedService;
         }
-        public static async Task<List<ServiceBookingModel>> GetAllBookings()
+        public static async Task<List<UserBookingResponseModel>> GetAllBookings()
         {
-            List<ServiceBookingModel> myservices = new List<ServiceBookingModel>();
+            List<UserBookingResponseModel> myservices = new List<UserBookingResponseModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"https://localhost:7158/api/ServiceBooking/AllBookings");
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/ServiceBooking/AllBookings");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
                 {
-                    myservices = JsonConvert.DeserializeObject<List<ServiceBookingModel>>(data) ?? new List<ServiceBookingModel>();
+                    myservices = JsonConvert.DeserializeObject<List<UserBookingResponseModel>>(data) ?? new List<UserBookingResponseModel>();
                 }
             }
             catch (Exception ex)
@@ -358,12 +358,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return subCategory;
         }
-        public static async Task<string> ApproveOrRejectBooking(int bookingId, string status, string remarks, string approvedBy)
+        public static async Task<string> ApproveOrRejectBooking(ApproveRejectRequestModel req)
         {
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceBooking/approveOrRejectBooking/{bookingId}?bookingId={bookingId}&status={status}&remarks={remarks}&approvedBy={approvedBy}");
+                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceBooking/approveOrReject", req);
             }
             catch (Exception ex)
             {
@@ -383,6 +383,25 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return response;
+        }
+        public static async Task<List<AssignedServicesToProviderModel>> GetBookingsAssignedByProvider(string UserId)
+        {
+            List<AssignedServicesToProviderModel> bookings = new List<AssignedServicesToProviderModel>();
+            try
+            {
+                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/ServiceBooking/GetAssignedBookings?UserId={UserId}");
+                var json = JObject.Parse(response);
+                var data = json["data"]?.ToString();
+                if (!string.IsNullOrEmpty(data))
+                {
+                    bookings = JsonConvert.DeserializeObject<List<AssignedServicesToProviderModel>>(data) ?? new List<AssignedServicesToProviderModel>();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return bookings;
         }
     }
 }

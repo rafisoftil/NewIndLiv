@@ -20,7 +20,7 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 var response = await new NewsletterViewModel().PostNewsletter(newsletter);
                 var message = JObject.Parse(response)["message"]?.ToString();
-                var newsletterId = JObject.Parse(response)["NewsletterID"]?.ToObject<int>() ?? 0;
+                var newsletterId = JObject.Parse(response)["newsletterID"]?.ToObject<int>() ?? 0;
                 return Json(new { message = message, newsletterId = newsletterId });
             }
             catch (Exception ex)

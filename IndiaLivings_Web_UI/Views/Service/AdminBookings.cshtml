@@ -1,8 +1,10 @@
 ﻿@{
     var title = "Admin - Bookings Management";
-    List<ServiceBookingViewModel> Bookings = Model is List<ServiceBookingViewModel> ? Model : Model.Bookings;
-    List<ServiceProviderViewModel> Providers = Model is List<ServiceBookingViewModel> ? new List<ServiceProviderViewModel>() : Model.Providers;
-    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    List<UserBookingResponseViewModel> Bookings = Model is List<UserBookingResponseViewModel> ? Model : Model.Bookings;
+    List<ServiceProviderViewModel> Providers = Model is List<ServiceProviderViewModel> ? new List<ServiceProviderViewModel>() : Model.Providers;
+    List<UserBookingResponseViewModel> PendingBookings = Bookings.Where(b => b.Status == "PENDING").ToList();
+    List<UserBookingResponseViewModel> AssignedBookings = Bookings.Where(b => b.Status == "ASSIGNED").ToList();
+    List<UserBookingResponseViewModel> CompletedBookings = Bookings.Where(b => b.Status == "ASSIGNED").ToList();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -187,7 +189,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="admin-stat-card">
                         <div class="stat-content">
-                            <h4>156</h4>
+                            <h4>@Bookings.Count()</h4>
                             <p>Total Bookings</p>
                         </div>
                         <div class="stat-icon">
@@ -198,7 +200,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="admin-stat-card">
                         <div class="stat-content">
-                            <h4>23</h4>
+                            <h4>@PendingBookings.Count()</h4>
                             <p>Pending Assignment</p>
                         </div>
                         <div class="stat-icon">
@@ -209,7 +211,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="admin-stat-card">
                         <div class="stat-content">
-                            <h4>89</h4>
+                            <h4>@AssignedBookings.Count()</h4>
                             <p>Active Bookings</p>
                         </div>
                         <div class="stat-icon">
@@ -238,23 +240,21 @@
                         <div class="admin-tabs">
                             <ul class="nav nav-tabs" id="bookingsTabs">
                                 <li class="nav-item">
-                                    <a class="nav-link @(currentAction == "AdminBookings" ? "active" : "")" asp-action="AdminBookings" asp-controller="Service">Pending Assignment</a>
+                                    <a class="nav-link" data-toggle="tab" id="pending-tab" href="#pending-bookings">Pending Assignment</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link @(currentAction == "AssignedBookings" ? "active" : "")" asp-action="AssignedBookings" asp-controller="Service">Assigned</a>
+                                    <a class="nav-link" data-toggle="tab" id="assigned-tab" href="#assigned-bookings">Assigned Bookings</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link @(currentAction == "CompletedBookings" ? "active" : "")" asp-action="CompletedBookings" asp-controller="Service">Completed</a>
+                                    <a class="nav-link" data-toggle="tab" id="completed-tab" href="#completed-bookings">Completed</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link @(currentAction == "AllBookings" ? "active" : "")" asp-action="AllBookings" asp-controller="Service">All Bookings</a>
+                                    <a class="nav-link" data-toggle="tab" id="all-tab" href="#all-bookings">All Bookings</a>
                                 </li>
                             </ul>
                         </div>
 
-                        <div class="tab-content" id="bookingsTabContent">
-                            @if (currentAction == "AdminBookings")
-                            {
+                        <div class="tab-content" id="bookingsTabContent"> 
                                 <div class="tab-pane fade show active" id="pending-bookings">
                                     <div class="content-header">
                                         <h4>Pending Assignment (23)</h4>
@@ -270,9 +270,8 @@
                                     </div>
                                     <div class="bookings-list">
                                         <!-- Pending Assignment Tab -->
-                                        @foreach (var booking in Bookings)
+                                        @foreach (var booking in PendingBookings)
                                         {
-                                            <!-- Booking Item 1 -->
                                             <div class="booking-item">
                                                 <div class="booking-header">
                                                     <div class="booking-info">
@@ -283,8 +282,8 @@
                                                         <div class="booking-customer">
                                                             <img src="~/images/avatar/01.jpg" alt="customer">
                                                             <div>
-                                                                <h6>@booking.CustomerName</h6>
-                                                                <small>+91 @booking.CustomerPhone</small>
+                                                                <h6>@* @booking.CustomerName *@</h6>
+                                                                <small>+91 @* @booking.CustomerPhone *@</small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -306,8 +305,8 @@
                                                     </div>
                                                     <div class="detail-item">
                                                         <h6>Service Address</h6>
-                                                        <p>@booking.AddressLine1, @booking.AddressLine2</p>
-                                                        <small>@booking.City, @booking.State - @booking.PostalCode</small>
+                                                        @* <p>@booking.AddressLine1, @booking.AddressLine2</p> *@
+                                                        <small>@booking.City, @booking.State @* - @booking.PostalCode *@</small>
                                                     </div>
                                                 </div>
 
@@ -322,7 +321,7 @@
                                                     </div>
                                                     <div class="detail-item">
                                                         <h6>Special Instructions</h6>
-                                                        <p>@booking.Notes</p>
+                                                        <p>@* @booking.Notes *@</p>
                                                     </div>
                                                 </div>
                                                 <div class="booking-actions">
@@ -344,9 +343,13 @@
                                                                     <div>
                                                                         <strong>@provider.CompanyName</strong>
                                                                         <div class="provider-stats">
-                                                                            <span>? 4.8 (245 reviews)</span>
-                                                                            <span>?? 2.5 km away</span>
-                                                                            <span>? Available</span>
+                                                                            <span>@provider.ContactName</span>
+                                                                            @* <span>? 4.8 (245 reviews)</span> *@
+                                                                            @* <span>?? 2.5 km away</span>
+                                                                            <span>? Available</span> *@
+                                                                            <span>@provider.AddressLine1, @provider.AddressLine2, @provider.City, @provider.State, @provider.PostalCode</span>
+                                                                            <span>@provider.Email</span>
+                                                                            <span>@provider.Phone</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="ms-auto">
@@ -361,13 +364,12 @@
                                                 </div>
                                             </div>
                                         }
+                                    
                                     </div>
                                 </div>
-                            }
-                            @if (currentAction == "AssignedBookings")
-                            {
+                           
                                 <!-- Assigned Bookings Tab -->
-                                <div class="tab-pane fade show active" id="assigned-bookings">
+                                <div class="tab-pane fade" id="assigned-bookings">
                                     <div class="content-header">
                                         <h4>Assigned Bookings (89)</h4>
                                         <div class="content-actions">
@@ -392,14 +394,14 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (var booking in Bookings)
+                                            @foreach (var booking in AssignedBookings)
                                                 {
                                                     <tr>
                                                         <td>@booking.BookingId</td>
                                                         <td>
                                                             <div class="customer-info">
                                                                 <img src="~/images/avatar/02.jpg" alt="customer" class="table-avatar">
-                                                                <span>@booking.CustomerName</span>
+                                                                <span>@* @booking.CustomerName *@</span>
                                                             </div>
                                                         </td>
                                                         <td>@booking.ServiceName</td>
@@ -423,11 +425,8 @@
                                         </table>
                                     </div>
                                 </div>
-                            }
-                            @if (currentAction == "CompletedBookings")
-                            {
                                 <!-- Completed Bookings Tab -->
-                                <div class="tab-pane fade show active" id="completed-bookings">
+                                <div class="tab-pane fade" id="completed-bookings">
                                     <div class="content-header">
                                         <h4>Completed Bookings (44)</h4>
                                     </div>
@@ -447,14 +446,14 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (var booking in Bookings)
+                                                @foreach (var booking in CompletedBookings)
                                                 {
                                                     <tr>
                                                         <td>@booking.BookingId</td>
                                                         <td>
                                                             <div class="customer-info">
                                                                 <img src="~/images/avatar/01.jpg" alt="customer" class="table-avatar">
-                                                                <span>@booking.CustomerName</span>
+                                                                <span>@* @booking.CustomerName *@</span>
                                                             </div>
                                                         </td>
                                                         <td>@booking.ServiceName</td>
@@ -483,11 +482,7 @@
                                         </table>
                                     </div>
                                 </div>
-                            }
-                            @if (currentAction == "AllBookings")
-                            {
-                                <!-- All Bookings Tab -->
-                                <div class="tab-pane fade show active" id="all-bookings">
+                                <div class="tab-pane fade" id="all-bookings">
                                     <div class="content-header">
                                         <h4>All Bookings (156)</h4>
                                         <div class="content-actions">
@@ -517,7 +512,7 @@
                                                 {
                                                     <tr>
                                                         <td>@booking.BookingId</td>
-                                                        <td>@booking.CustomerName</td>
+                                                        <td>@booking.ProviderName</td>
                                                         <td>@booking.ServiceName</td>
                                                         <td>@booking.ProviderName</td>
                                                         <td>@booking.RequestedStartAt</td>
@@ -534,7 +529,6 @@
                                         </table>
                                     </div>
                                 </div>
-                            }
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string result = "An error occured";
             try
             {
-                result = await ServiceAPI.PostApiAsync("https://localhost:7158/api/EmailSubscription/CreateNewsletter", newsletter);
+                result = await ServiceAPI.PostApiAsync("https://api.indialivings.com/api/EmailSubscription/CreateNewsletter", newsletter);
                 //response = JsonConvert.DeserializeObject<string>(result);
             }
             catch (Exception ex)

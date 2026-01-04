@@ -695,33 +695,57 @@
         });
     });
 
+    $('#bookingForm').on('submit', function (e) {
+         //e.preventDefault();
+
+         CreateBooking();
+
+         // var formData = new FormData(this);
+
+         //    $.ajax({
+         //        url: '/User/ServiceProcessPayment',
+         //        type: 'POST',
+         //        data: formData,
+         //        processData: false,
+         //        contentType: false,
+         //        success: function (res) {
+         //            if (res.redirect) {
+         //                window.location.href = res.redirect;
+         //            }
+         //        }
+         //    });
+    });
+
+
     function CreateBooking() {
-        $.ajax({
-            url: '@Url.Action("CreateBooking", "Service")',
-            type: 'POST',
-            data: {
-                serviceId: $('#bookingServiceId').val(),
-                date: $('#bookingDate').val(),
-                slot: $('#bookingSlot').val(),
-                address: $('#bookingAddress').val(),
+        var bookingData = {
+                ServiceId: $('#bookingServiceId').val(),
+                RequestedStartAt: $('#bookingDate').val(),
+                RequestedEndAt: $('#bookingDate').val(),
+                //slot: $('#bookingSlot').val(),
+                AddressLine1: $('#bookingAddress').val(),
                 country: $('#countriesDropdown option:selected').text(),
-                state: $('#statesDropdown option:selected').text(),
-                city: $('#citiesDropdown option:selected').text(),
-                pincode: $('#pincode').val(),
-                price: $('#bookingPrice').val(),
-                notes: $('#bookingNotes').val()
-            },
-            success: function(response) {
-                if (response.success) {
-                    ShowToast('success', 'Booking created successfully!');
-                    window.location.href = '@Url.Action("MyServices", "Service")';
-                } else {
-                    ShowToast('failed', 'Error creating booking');
-                }
-            },
-            error: function() {
-                ShowToast('failed', 'An error occurred while creating the booking.');
-            }
+                State: $('#statesDropdown option:selected').text(),
+                City: $('#citiesDropdown option:selected').text(),
+                PostalCode: $('#pincode').val(),
+                PriceQuoted: $('#bookingPrice').val(),
+                Notes: $('#bookingNotes').val()
+            };
+        $.ajax({
+            url: '@Url.Action("SaveBookingToSession", "Service")',
+            type: 'POST',
+            data: bookingData,
+            // success: function(response) {
+            //     if (response.success) {
+            //         ShowToast('success', 'Booking created successfully!');
+            //         window.location.href = '@Url.Action("MyServices", "Service")';
+            //     } else {
+            //         ShowToast('failed', 'Error creating booking');
+            //     }
+            // },
+            // error: function() {
+            //     ShowToast('failed', 'An error occurred while creating the booking.');
+            // }
         });
     }
     </script>

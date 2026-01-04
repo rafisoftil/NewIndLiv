@@ -3,6 +3,7 @@ using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Dynamic;
 using System.Reflection;
 
@@ -485,6 +486,15 @@ namespace IndiaLivings_Web_UI.Controllers
                 else
                 {
                     updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Service");
+                    var json = HttpContext.Session.GetString("PendingBooking");
+
+                    var booking =
+                        JsonConvert.DeserializeObject<ServiceBookingViewModel>(json);
+
+                    // NOW create booking + invoice
+                    ServiceBookingViewModel.BookService(booking);
+
+                    HttpContext.Session.Remove("PendingBooking");
                     TempData["BookingStatus"] = "Service Booked Successfully";
                     return RedirectToAction("ServicesList", "Service");
                 }

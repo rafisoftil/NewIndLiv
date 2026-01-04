@@ -1,5 +1,7 @@
 ﻿using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
+using System.Text.Json.Serialization;
+using static IndiaLivings_Web_UI.Models.AssignedServicesToProviderViewModel;
 
 namespace IndiaLivings_Web_UI.Models
 {
@@ -61,29 +63,33 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
-        public static async Task<List<ServiceBookingViewModel>> GetAllBookings()
+
+        public async Task<List<UserBookingResponseViewModel>> GetAllBookings()
         {
-            List<ServiceBookingViewModel> myservices = new List<ServiceBookingViewModel>();
-            List<ServiceBookingModel> services = await ServiceHelper.GetAllBookings();
+            List<UserBookingResponseViewModel> myservices = new List<UserBookingResponseViewModel>();
+            List<UserBookingResponseModel> services = await ServiceHelper.GetAllBookings();
             try
             {
                 foreach (var ser in services)
                 {
-                    ServiceBookingViewModel booking = new ServiceBookingViewModel();
+                    UserBookingResponseViewModel booking = new UserBookingResponseViewModel();
                     booking.BookingId = ser.BookingId;
+                    booking.Status = ser.Status;
                     booking.StatusName = ser.StatusName;
-                    booking.CustomerName = ser.CustomerName; 
+                    booking.ServiceId = ser.ServiceId;
                     booking.ServiceName = ser.ServiceName;
-                    booking.ProviderName = ser.ProviderName;
-                    booking.AddressLine1 = ser.AddressLine1;
-                    booking.AddressLine2 = ser.AddressLine2;
+                    booking.RequestedStartAt = ser.RequestedStartAt;
+                    booking.RequestedEndAt = ser.RequestedEndAt;
+                    booking.PriceQuoted = ser.PriceQuoted;
+                    booking.Currency = ser.Currency;
                     booking.City = ser.City;
                     booking.State = ser.State;
-                    booking.PostalCode = ser.PostalCode;
-                    booking.Country = ser.Country;
-                    booking.RequestedStartAt = ser.RequestedStartAt;
-                    booking.PriceQuoted = ser.PriceQuoted;
-                    booking.Status = ser.Status;
+                    booking.CreatedAt = ser.CreatedAt;
+                    booking.UpdatedAt = ser.UpdatedAt;
+                    booking.ProviderName = ser.ProviderName;
+                    booking.AssignmentStatus = ser.AssignmentStatus;
+                    booking.AssignedAt = ser.AssignedAt;
+                    booking.AcceptedAt = ser.AcceptedAt;
                     myservices.Add(booking);
                 }
             }
@@ -137,6 +143,26 @@ namespace IndiaLivings_Web_UI.Models
             }
             return response;
         }
+        public async Task<string> ApproveOrRejectBooking(int bookingId, string status, string remarks, string approvedBy)
+        {
+            ApproveRejectRequestModel req = new ApproveRejectRequestModel
+            {
+                BookingId = bookingId,
+                Action = status == "APPROVED" ? ApproveRejectAction.APPROVED : ApproveRejectAction.REJECTED,
+                Reason = remarks,
+                ActionByUserId = approvedBy
+            };
+            string response = "An error occured";
+            try
+            {
+                response = await ServiceHelper.ApproveOrRejectBooking(req);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
     public class AssignProviderRequestViewModel
     {
@@ -166,4 +192,149 @@ namespace IndiaLivings_Web_UI.Models
             return response;
         }
     }
+    public class UserBookingResponseViewModel
+    {
+        public long BookingId { get; set; }
+        public string Status { get; set; } = string.Empty;
+        public string? StatusName { get; set; }
+        public int ServiceId { get; set; }
+        public string? ServiceName { get; set; }
+        public DateTime? RequestedStartAt { get; set; }
+        public DateTime? RequestedEndAt { get; set; }
+        public decimal? PriceQuoted { get; set; }
+        public string? Currency { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string? ProviderName { get; set; }
+        public string? AssignmentStatus { get; set; }
+        public DateTime? AssignedAt { get; set; }
+        public DateTime? AcceptedAt { get; set; }
+
+        public async Task<List<UserBookingResponseViewModel>> GetAllBookings()
+        {
+            List<UserBookingResponseViewModel> myservices = new List<UserBookingResponseViewModel>();
+            List<UserBookingResponseModel> services = await ServiceHelper.GetAllBookings();
+            try
+            {
+                foreach (var ser in services)
+                {
+                    UserBookingResponseViewModel booking = new UserBookingResponseViewModel();
+                    booking.BookingId = ser.BookingId;
+                    booking.Status = ser.Status;
+                    booking.StatusName = ser.StatusName;
+                    booking.ServiceId = ser.ServiceId;
+                    booking.ServiceName = ser.ServiceName;
+                    booking.RequestedStartAt = ser.RequestedStartAt;
+                    booking.RequestedEndAt = ser.RequestedEndAt;
+                    booking.PriceQuoted = ser.PriceQuoted;
+                    booking.Currency = ser.Currency;
+                    booking.City = ser.City;
+                    booking.State = ser.State;
+                    booking.CreatedAt = ser.CreatedAt;
+                    booking.UpdatedAt = ser.UpdatedAt;
+                    booking.ProviderName = ser.ProviderName;
+                    booking.AssignmentStatus = ser.AssignmentStatus;
+                    booking.AssignedAt = ser.AssignedAt;
+                    booking.AcceptedAt = ser.AcceptedAt; 
+                    myservices.Add(booking);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return myservices;
+        }
+    }
+    public class AssignedServicesToProviderViewModel
+    {
+        public int AssignmentId { get; set; }
+        public long BookingId { get; set; }
+        public string? ProviderId { get; set; }
+        public string? AssignedByUserId { get; set; }
+        public DateTime? AssignedAt { get; set; }
+        public DateTime? AcceptedAt { get; set; }
+        public DateTime? DeclinedAt { get; set; }
+        public string? Status { get; set; }
+        public string? Notes { get; set; }
+        public string? CustomerUserId { get; set; }
+        public string? CustomerName { get; set; }
+        public string? CustomerPhone { get; set; }
+        public string? CustomerEmail { get; set; }
+        public int ServiceId { get; set; }
+        public DateTime? RequestedStartAt { get; set; }
+        public DateTime? RequestedEndAt { get; set; }
+        public string? AddressLine1 { get; set; }
+        public string? AddressLine2 { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? PostalCode { get; set; }
+        public string? Country { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public string? ServiceName { get; set; }
+        public string? ServiceDescription { get; set; }
+        public decimal? BasePrice { get; set; }
+        public int CategoryId { get; set; }
+        public string? ServiceCategoryName { get; set; }
+        public string? ServiceCategoryDescription { get; set; }
+
+        public async Task<List<AssignedServicesToProviderViewModel>> GetAssignedServices(string UserId)
+        {
+            List<AssignedServicesToProviderViewModel> myservices = new List<AssignedServicesToProviderViewModel>();
+            List<AssignedServicesToProviderModel> services = await ServiceHelper.GetBookingsAssignedByProvider(UserId);
+            try
+            {
+                foreach (var ser in services)
+                {
+                    AssignedServicesToProviderViewModel booking = new AssignedServicesToProviderViewModel();
+                    booking.AssignmentId = ser.AssignmentId;
+                    booking.BookingId = ser.BookingId;
+                    booking.ProviderId = ser.ProviderId;
+                    booking.AssignedByUserId = ser.AssignedByUserId;
+                    booking.AssignedAt = ser.AssignedAt;
+                    booking.AcceptedAt = ser.AcceptedAt;
+                    booking.DeclinedAt = ser.DeclinedAt;
+                    booking.Status = ser.Status;
+                    booking.Notes = ser.Notes;
+                    booking.CustomerUserId = ser.CustomerUserId;
+                    booking.CustomerName = ser.CustomerName;
+                    booking.CustomerPhone = ser.CustomerPhone;
+                    booking.CustomerEmail = ser.CustomerEmail;
+                    booking.ServiceId = ser.ServiceId;
+                    booking.RequestedStartAt = ser.RequestedStartAt;
+                    booking.RequestedEndAt = ser.RequestedEndAt;
+                    booking.AddressLine1 = ser.AddressLine1;
+                    booking.AddressLine2 = ser.AddressLine2;
+                    booking.City = ser.City;
+                    booking.State = ser.State;
+                    booking.PostalCode = ser.PostalCode;
+                    booking.Country = ser.Country;
+                    booking.CreatedAt = ser.CreatedAt;
+                    booking.UpdatedAt = ser.UpdatedAt;
+                    booking.ServiceName = ser.ServiceName;
+                    booking.ServiceDescription = ser.ServiceDescription;
+                    booking.BasePrice = ser.BasePrice;
+                    booking.CategoryId = ser.CategoryId;
+                    booking.ServiceCategoryName = ser.ServiceCategoryName;
+                    myservices.Add(booking);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return myservices;
+        }
+        public class ApproveRejectRequestViewModel
+        {
+            public long BookingId { get; set; }
+            [JsonConverter(typeof(JsonStringEnumConverter))]
+            public ApproveRejectAction Action { get; set; }
+            public string? Reason { get; set; }
+            public string? ActionByUserId { get; set; }
+        }
+    } 
 }

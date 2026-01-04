@@ -747,11 +747,15 @@
 
     $(document).ready(function(){
         $('#takeMembership').on("submit", function(e) {
-            //e.preventDefault();
-            const spinner = document.getElementById('spinner');
-            spinner.classList.remove('d-none');
-            const selectedPlanAmount = $("input[name='planSelection']:checked").val();
-            const newMembershipId = getMembershipIdFromAmount(selectedPlanAmount);
+            e.preventDefault();
+            if ($('#freePlan').is(':checked')) {
+                alert('Please choose a valid plan');
+            }
+            else {
+                const spinner = document.getElementById('spinner');
+                spinner.classList.remove('d-none');
+                const selectedPlanAmount = $("input[name='planSelection']:checked").val();
+                const newMembershipId = getMembershipIdFromAmount(selectedPlanAmount);
                 $.ajax({
                     url: "/User/GetMembershipPreview",
                     type: "GET",
@@ -761,7 +765,7 @@
                         showUpgradeModal(res);
                     }
                 });
-
+            }
         })
     });
 
@@ -801,7 +805,25 @@
 
     function confirmUpgradeBtn() {
         $("#upgradeMembershipModal").modal("hide");
-        $('#takeMembership').trigger('submit');
+        var form = document.getElementById('PostAdForm');
+        var formData = new FormData(form);
+        
+        $.ajax({
+            url: '/User/ProcessPayment',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            cache: false,
+
+            success: function (res) {
+                window.location.href = '/User/PostAd';
+            },
+            error: function (err) {
+                console.error(err);
+                alert('Something went wrong');
+            }
+        });
     }
 
 </script>

@@ -408,4 +408,38 @@
         </div>
     }
 </body>
+
 </html>
+<script>
+    CreateBooking();
+    function CreateBooking() {
+        alert($('#bookingServiceId').val());
+        $.ajax({
+            url: '@Url.Action("CreateBooking", "Service")',
+            type: 'POST',
+            data: {
+                serviceId: $('#bookingServiceId').val(),
+                date: $('#bookingDate').val(),
+                slot: $('#bookingSlot').val(),
+                address: $('#bookingAddress').val(),
+                country: $('#countriesDropdown option:selected').text(),
+                state: $('#statesDropdown option:selected').text(),
+                city: $('#citiesDropdown option:selected').text(),
+                pincode: $('#pincode').val(),
+                price: $('#bookingPrice').val(),
+                notes: $('#bookingNotes').val()
+            },
+            success: function(response) {
+                if (response.success) {
+                    ShowToast('success', 'Booking created successfully!');
+                    window.location.href = '@Url.Action("MyServices", "Service")';
+                } else {
+                    ShowToast('failed', 'Error creating booking');
+                }
+            },
+            error: function() {
+                ShowToast('failed', 'An error occurred while creating the booking.');
+            }
+        });
+    }
+</script>
