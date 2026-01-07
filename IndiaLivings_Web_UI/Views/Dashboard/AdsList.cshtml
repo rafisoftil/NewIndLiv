@@ -84,8 +84,8 @@
                                     </select>
                                 </div>
                                 <div class="product-widget-group">
-                                    <input type="text" id="decMinPrice" placeholder="min - 00" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                    <input type="text" id="decMaxPrice" placeholder="max - 1B" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <input type="number" id="decMinPrice" placeholder="min - 00" min="0" max="10000000" oninput="if (this.value>10000000) this.value=10000000;">
+                                    <input type="number" id="decMaxPrice" placeholder="max - 1B" min="0" max="10000000" oninput="if (this.value>10000000) this.value=10000000;">
                                 </div>
                                 <button type="button" class="product-widget-btn" onclick="updatePriceRange()">
                                     <i class="fas fa-search"></i>
@@ -691,6 +691,7 @@
     function updateCategory(cat)
     {
         categoryId = cat;
+        subCategoryId = 0;
         updateAdList();
     }
 

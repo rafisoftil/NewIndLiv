@@ -8,7 +8,6 @@ namespace IndiaLivings_Web_UI.Models
     {
         public string Email { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
-        //public string Token { get; set; } = string.Empty;
 
         public async Task<string> Subscribe(EmailSubscriptionViewModel subscribe)
         {

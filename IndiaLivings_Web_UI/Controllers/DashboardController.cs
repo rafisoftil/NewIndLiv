@@ -302,7 +302,6 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 Email = email,
                 FullName = "",
-                Token = token
             };
             string response = await new EmailSubscriptionViewModel().Subscribe(sub);
             try
@@ -943,7 +942,7 @@ namespace IndiaLivings_Web_UI.Controllers
             //}
             if (decMinPrice > 0 || decMaxPrice > 0)
             {
-                products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
+                products = productViewModel.GetProductsList(strProductName, "", strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
             }
             else
             {
