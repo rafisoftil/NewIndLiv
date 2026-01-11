@@ -835,7 +835,7 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns> List of all Ads will be returned</returns>
         /// // Need to be reviewed with Anoop
-        public IActionResult AdsList(int categoryid = 0, int subcategoryid = 0, int page = 1, int ItemsPerPage = 12, bool featured = false)
+        public async Task<IActionResult> AdsList(int categoryid = 0, int subcategoryid = 0, int page = 1, int ItemsPerPage = 12, bool rating = false, bool featured = false, bool trend = false)
         {
             ProductViewModel productModel = new ProductViewModel();
             List<ProductViewModel> products = productModel.GetAds(0);
@@ -854,10 +854,25 @@ namespace IndiaLivings_Web_UI.Controllers
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             List<ProductViewModel> recommendedList = products.Where(product => product.productMembershipID == 2).ToList();
+
             if (featured)
             {
                 products = recommendedList;
             }
+
+            if (trend)
+            {
+                // Use the API to get trending/recommended ads instead of local filtering
+                // Request a reasonable number (0 means let API decide / return full set if supported)
+                var trendingFromApi = await productModel.GetRecommendedAds(12, 4, true);
+                products = trendingFromApi ?? new List<ProductViewModel>();
+            }
+
+            if (rating)
+            {
+                products = products.OrderByDescending(p => p.averageRating).ToList();
+            }
+
             ViewBag.WishlistIds = wishlistIds;
             ViewBag.CurrentPage = page;
             ViewBag.Count = products.Count();
@@ -919,7 +934,7 @@ namespace IndiaLivings_Web_UI.Controllers
 
             return PartialView("_ProductsPartial3", products);
         }
-        public IActionResult productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "", int itemsPerPage = 12, string ratings = "")
+        public async Task<IActionResult> productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "", int itemsPerPage = 12, bool ratings = false, bool recommended = false, bool trend = false, bool featured = false)
         {
             ProductViewModel productViewModel = new ProductViewModel();
             List<ProductViewModel> products;
@@ -940,7 +955,8 @@ namespace IndiaLivings_Web_UI.Controllers
             //{
             //    products = productViewModel.GetProducts(categoryid);
             //}
-            if (decMinPrice > 0 || decMaxPrice > 0)
+            
+            if (trend && decMinPrice > 0 || decMaxPrice > 0)
             {
                 products = productViewModel.GetProductsList(strProductName, "", strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
             }
@@ -949,6 +965,26 @@ namespace IndiaLivings_Web_UI.Controllers
                 products = productViewModel.GetAds(0);
             }
 
+            if (featured)
+            {
+                products = products.Where(product => product.productMembershipID == 2).ToList();
+            }
+
+            if (recommended)
+            {
+                products = products.Where(product => product.productMembershipID == 2).ToList();
+            }
+
+            if (trend)
+            {
+                // Use API for trending results
+                var trendingFromApi = await productViewModel.GetRecommendedAds(12, 4, true);
+                products = trendingFromApi ?? new List<ProductViewModel>();
+            }
+            if (decMinPrice > 0 || decMaxPrice > 0)
+            {
+                products = products.Where(product => product.MaxPrice <= decMaxPrice && product.MinPrice >= decMinPrice).ToList();
+            }
             if (categoryid != 0)
             {
                 products = products.Where(product => product.productCategoryID == categoryid).ToList();
@@ -970,11 +1006,9 @@ namespace IndiaLivings_Web_UI.Controllers
                 List<string> adtypeList = adtype.Split(',').ToList();
                 products = products.Where(product => adtypeList.Contains(product.productAdCategory.ToLower())).ToList();
             }
-            if (!string.IsNullOrEmpty(ratings))
+            if (ratings)
             {
-                //products = products.Where(p => p.averageRating >= ratings);
-                List<string> ratingsList = ratings.Split(',').ToList();
-                products = products.Where(product => ratingsList.Contains(product.averageRating.ToString())).ToList();
+                products = products.OrderByDescending(p => p.averageRating).ToList();
             }
 
             if (sort != "")

@@ -421,6 +421,7 @@ namespace IndiaLivings_Web_UI.Models
                         product.productMembershipID = PVM.productMembershipID != null ? (int)PVM.productMembershipID : 0; //(int)PVM.productMembershipID;
                         product.productMembershipName = PVM.productMembershipName;
                         product.productAdminReview = PVM.productAdminReview;
+                        product.averageRating = PVM.averageRating == null ? 0 : PVM.averageRating;
                         //product.byteProductImageData = PVM.ProductImageData;
                         product.IsActive = PVM.IsActive == null ? Convert.ToBoolean(0) :Convert.ToBoolean(PVM.IsActive);
                         product.createdBy = PVM.createdBy;

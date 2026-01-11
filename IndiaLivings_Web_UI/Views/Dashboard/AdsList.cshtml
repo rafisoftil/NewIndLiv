@@ -635,6 +635,10 @@
     var minPrice = null;
     var maxPrice = null;
     var sort = "";
+    var isFeatured = false;
+    var isTrending = false;
+    var isRecommended = false;
+    
     $('#itemsPerPageSelect').on('change', function () {
         itemsPerPage = $(this).val();
         changePage();
@@ -680,7 +684,7 @@
         $.ajax({
           url: '/Dashboard/ProductList',
           type: 'GET',
-          data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid, ratings: ratings, sort: sort, itemsPerPage: itemsPerPage},
+          data: {decMinPrice: decMinPrice, decMaxPrice: decMaxPrice, adtype: adtype, strCity: strCity, categoryid: categoryid, subcategoryid: subcategoryid, ratings: ratings, sort: sort, itemsPerPage: itemsPerPage, featured: isFeatured, recommended: isRecommended, trend: isTrending},
           contentType: 'application/json',
           success: function (data) {
             $('#divPartial').html(data); // Load updated product list
@@ -741,8 +745,14 @@
         const cityParam = urlParams.get('strCity');
         categoryId = urlParams.get('categoryid');
         subCategoryId = urlParams.get('subcategoryid');
+        isFeatured = urlParams.get('featured') === 'true' || urlParams.get('featured') === 'True';
+        isTrending = urlParams.get('trend') === 'true' || urlParams.get('trend') === 'True';
+        isRecommended = urlParams.get('recommended') === 'true' || urlParams.get('recommended') === 'True';
+        
         console.log(categoryId);
         console.log(subCategoryId);
+        console.log('isFeatured:', isFeatured);
+        console.log('isTrending:', isTrending);
       
         if (cityParam) {
             // Find and check the corresponding checkbox
@@ -895,4 +905,41 @@
             }
         });
     }
+
 </script>
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const selectedCity = urlParams.get('city');
+            const categoryId = urlParams.get('category');
+            const subcategoryId = urlParams.get('subcategory');
+
+            if (selectedCity) {
+
+                $('.filter-city').each(function () {
+                    if ($(this).val().toLowerCase() === selectedCity.toLowerCase()) {
+                        $(this).prop('checked', true);
+                    }
+                });
+         
+                // Trigger existing filter logic
+                $('.filter-city:checked').trigger('change');
+            }
+
+            if (categoryId && categoryId !== "0") {
+
+                 updateCategory(categoryId);
+            }
+
+                // Delay ensures category loads first
+            if (subcategoryId) {
+                setTimeout(() => {
+                    updateSubCategory(subCategoryId, categoryId);
+                }, 300);
+            }
+        });
+    </script>
+}
