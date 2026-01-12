@@ -981,10 +981,10 @@ namespace IndiaLivings_Web_UI.Controllers
                 var trendingFromApi = await productViewModel.GetRecommendedAds(12, 4, true);
                 products = trendingFromApi ?? new List<ProductViewModel>();
             }
-            if (decMinPrice > 0 || decMaxPrice > 0)
-            {
-                products = products.Where(product => product.MaxPrice <= decMaxPrice && product.MinPrice >= decMinPrice).ToList();
-            }
+            //if (decMinPrice > 0 || decMaxPrice > 0)
+            //{
+            //    products = products.Where(product => product.MaxPrice <= decMaxPrice && product.MinPrice >= decMinPrice).ToList();
+            //}
             if (categoryid != 0)
             {
                 products = products.Where(product => product.productCategoryID == categoryid).ToList();
