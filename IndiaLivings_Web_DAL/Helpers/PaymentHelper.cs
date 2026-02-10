@@ -17,7 +17,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             int invoiceId = 0;
             try
             {
-                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Invoices/addInvoice", IM).Trim('\"');
+                response = ServiceAPI.Post_Api("https://apis.indialivings.com/api/Invoices/addInvoice", IM).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -32,7 +32,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             int invoiceId = 0;
             try
             {
-                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Invoices/updateInvoice", IM).Trim('\"');
+                response = ServiceAPI.Post_Api("https://apis.indialivings.com/api/Invoices/updateInvoice", IM).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Invoices/GetInvoiceByUser?UserID=" + userid);
+                response = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/Invoices/GetInvoiceByUser?UserID=" + userid);
                 IM = JsonConvert.DeserializeObject<List<InvoiceModel>>(response);
             }
             catch (Exception ex)

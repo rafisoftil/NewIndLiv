@@ -2,6 +2,7 @@
 using IndiaLivings_Web_DAL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Data;
 using System.Net.Http.Headers;
 
 namespace IndiaLivings_Web_DAL.Helpers
@@ -11,21 +12,28 @@ namespace IndiaLivings_Web_DAL.Helpers
         public List<CategoryModel> GetCategoriesCount()
         {
             List<CategoryModel> categories = new List<CategoryModel>();
-            var lst = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Category/GetCategoryCounts");
+            var lst = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/Category/GetCategoryCounts");
+            categories = JsonConvert.DeserializeObject<List<CategoryModel>>(lst) ?? new List<CategoryModel>(); 
+            return categories;
+        }
+        public static async Task<List<CategoryModel>> GetCategories()
+        {
+            List<CategoryModel> categories = new List<CategoryModel>();
+            var lst = await ServiceAPI.GetAsyncApi("https://apis.indialivings.com/api/Category/GetCategoryCounts");
             categories = JsonConvert.DeserializeObject<List<CategoryModel>>(lst);
             return categories;
         }
         public List<SubCategoryModel> GetSubCategories(int CategoryId)
         {
             List<SubCategoryModel> subCategories = new List<SubCategoryModel>();
-            var lst = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Category/GetActiveListofSubCategory?intCategoryID=" + CategoryId);
+            var lst = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/Category/GetActiveListofSubCategory?intCategoryID=" + CategoryId);
             subCategories = JsonConvert.DeserializeObject<List<SubCategoryModel>>(lst);
             return subCategories;
         }
         public List<AdConitionTypeModel> GetAdConditions()
         {
             List<AdConitionTypeModel> adConitions = new List<AdConitionTypeModel>();
-            string url = "https://api.indialivings.com/api/AdConditions/GetAllAdConditionsTypeName";
+            string url = "https://apis.indialivings.com/api/AdConditions/GetAllAdConditionsTypeName";
             var lst = ServiceAPI.Get_async_Api(url);
             adConitions = JsonConvert.DeserializeObject<List<AdConitionTypeModel>>(lst);
             return adConitions;
@@ -35,7 +43,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ProductModel> products = new List<ProductModel>();
             try
             {
-                var productsList = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Product/GetWishlistProductsByOwner?intProductOwner=" + userid);
+                var productsList = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/Product/GetWishlistProductsByOwner?intProductOwner=" + userid);
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
 
             }
@@ -50,7 +58,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             int count = 0;
             try
             {
-                var wishlistCount = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetWishListCounts?intProductOwner={productOwnerID}");
+                var wishlistCount = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Product/GetWishListCounts?intProductOwner={productOwnerID}");
                 count = JsonConvert.DeserializeObject<int>(wishlistCount);
 
             }
@@ -66,7 +74,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = String.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/AddWishList?productID={productID}&UserID={userID}&createdBy={createdBy}&IsActive={status}");
+                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Product/AddWishList?productID={productID}&UserID={userID}&createdBy={createdBy}&IsActive={status}");
             }
             catch (Exception ex)
             {
@@ -80,7 +88,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ProductModel> products = new List<ProductModel>();
             try
             {
-                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetAdAdminReview?intStatus={status}");
+                var productsList = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Product/GetAdAdminReview?intStatus={status}");
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
             }
             catch (Exception ex)
@@ -94,7 +102,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string reviewStatus = string.Empty;
             try
             {
-                reviewStatus = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/UpdateAdAdminReview?intProductID={productid}&boolProductAdminReview={status}&strUpdatedBy={username}").Trim('\"');
+                reviewStatus = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Product/UpdateAdAdminReview?intProductID={productid}&boolProductAdminReview={status}&strUpdatedBy={username}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -103,12 +111,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return reviewStatus;
         }
 
-        public List<ProductImageModel> GetProductImage(int productId)
+        public static async Task<List<ProductImageModel>> GetProductImage(int productId)
         {
             List<ProductImageModel> productImage = new List<ProductImageModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetProductImagesbyPID?intProductID={productId}");
+                var response = await ServiceAPI.GetAsyncApi($"https://apis.indialivings.com/api/Product/GetProductImagesbyPID?intProductID={productId}");
                 productImage = JsonConvert.DeserializeObject<List<ProductImageModel>>(response);
             }
             catch (Exception ex)
@@ -118,12 +126,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             return productImage;
         }
 
-        public List<ProductModel> GetAdsByOwner(int userid)
+        public static async Task<List<ProductModel>> GetAdsByOwner(int userid)
         {
             List<ProductModel> products = new List<ProductModel>();
             try
             {
-                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetAllProductsByOwner?intProductOwner={userid}");
+                var productsList = await ServiceAPI.GetAsyncApi($"https://apis.indialivings.com/api/Product/GetAllProductsByOwner?intProductOwner={userid}");
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
                 return products;
             }
@@ -139,7 +147,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ProductModel> products = new List<ProductModel>();
             try
             {
-                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetAllAdsByUser?userId={userid}");
+                var productsList = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Product/GetAllAdsByUser?userId={userid}");
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
                 return products;
             }
@@ -155,7 +163,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             int insertedId = 0;
             try
             {
-                var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Product/addProduct", product);
+                var response = ServiceAPI.Post_Api("https://apis.indialivings.com/api/Product/addProduct", product);
                 response = response.Trim('\"');
                 insertedId = Convert.ToInt32(response);
 
@@ -180,7 +188,7 @@ namespace IndiaLivings_Web_DAL.Helpers
 
                 form.Add(byteArrayContent, "ProductImg", productImage.FileName);
             }
-            var Url = $"https://api.indialivings.com/api/Product/AddProductimages?intProductID={productId}&intProductImageID={productImageId}&strProductImageName={imageName}&strProductImageType={imageType}&createdBy={createdBy}";
+            var Url = $"https://apis.indialivings.com/api/Product/AddProductimages?intProductID={productId}&intProductImageID={productImageId}&strProductImageName={imageName}&strProductImageType={imageType}&createdBy={createdBy}";
             var task = ServiceAPI.PostMultipartApi(Url, form);
             task.Wait(); // If you're not using async all the way
             var response = task.Result?.Trim('\"');
@@ -195,7 +203,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ProductModel> products = new List<ProductModel>();
             try
             {
-                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetAllProductsByCategory?intCategoryID={productCategoryID}");
+                var productsList = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Product/GetAllProductsByCategory?intCategoryID={productCategoryID}");
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
                 return products;
             }
@@ -234,7 +242,7 @@ namespace IndiaLivings_Web_DAL.Helpers
                     queryParams.Add($"strSearchText={Uri.EscapeDataString(strSearchText)}");
 
                 string queryString = string.Join("&", queryParams);
-                string mainURL = $"https://api.indialivings.com/api/Product/SearchProductByTopPanel?{queryString}";
+                string mainURL = $"https://apis.indialivings.com/api/Product/SearchProductByTopPanel?{queryString}";
                  productsList = ServiceAPI.Get_async_Api(mainURL);
 
             }
@@ -244,13 +252,27 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return productsList;
         }
-
-        public List<SearchFilterDetailsModel> GetProductFilterDetails()
+        public static async Task<List<SearchFilterDetailsModel>> GetProductFilter()
         {
             var filterDetails = new List<SearchFilterDetailsModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Product/GetSearchFilterDetails");
+                var response = await ServiceAPI.GetAsyncApi("https://apis.indialivings.com/api/Product/GetSearchFilterDetails");
+                filterDetails = JsonConvert.DeserializeObject<List<SearchFilterDetailsModel>>(response);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return filterDetails;
+        }
+
+        public static async Task<List<SearchFilterDetailsModel>> GetProductFilterDetails()
+        {
+            var filterDetails = new List<SearchFilterDetailsModel>();
+            try
+            {
+                var response = await ServiceAPI.GetAsyncApi("https://apis.indialivings.com/api/Product/GetSearchFilterDetails");
                 filterDetails = JsonConvert.DeserializeObject<List<SearchFilterDetailsModel>>(response);
             }
             catch (Exception ex)
@@ -265,7 +287,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             var response = "added";
             try
             {
-                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/AddProductRating?productId={productId}&userId={userId}&rating={rating}&strComments={comments}&createdBy={createdBy}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Product/AddProductRating?productId={productId}&userId={userId}&rating={rating}&strComments={comments}&createdBy={createdBy}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -278,7 +300,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             ProductWithImagesModel productWithImages = new ProductWithImagesModel();
             try
             {
-                var product = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetProductsById?intProductId={productId}");
+                var product = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Product/GetProductsById?intProductId={productId}");
                 productWithImages = JsonConvert.DeserializeObject<ProductWithImagesModel>(product);
                 return productWithImages;
             }
@@ -293,7 +315,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/AddProductNotification?productId={productId}&userId={userId}&notificationType={notificationType}&message={message}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Product/AddProductNotification?productId={productId}&userId={userId}&notificationType={notificationType}&message={message}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -306,7 +328,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ProductModel> products = new List<ProductModel>();
             try
             {
-                var productsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetTopRatedProducts?topCount{count}");
+                var productsList = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Product/GetTopRatedProducts?topCount{count}");
                 products = JsonConvert.DeserializeObject<List<ProductModel>>(productsList);
                 return products;
             }
@@ -321,7 +343,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ProductRatingModel> ratings = new List<ProductRatingModel>();
             try
             {
-                var ratingsList = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Product/GetProductRatings?productId={productId}");
+                var ratingsList = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Product/GetProductRatings?productId={productId}");
                 ratings = JsonConvert.DeserializeObject<List<ProductRatingModel>>(ratingsList);
                 return ratings;
             }
@@ -336,7 +358,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Product/MarkProductNotificationAsRead?notificationId={notificationId}&userId={userId}");
+                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Product/MarkProductNotificationAsRead?notificationId={notificationId}&userId={userId}");
             }
             catch (Exception ex)
             {
@@ -348,7 +370,7 @@ namespace IndiaLivings_Web_DAL.Helpers
         {
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/Product/GetTopRatedAndRecommendedAds?topCount={topCount}&minRating={minRating}&includeRecommended={recommended}");
+                var response = await ServiceAPI.GetAsyncApi($"https://apis.indialivings.com/api/Product/GetTopRatedAndRecommendedAds?topCount={topCount}&minRating={minRating}&includeRecommended={recommended}");
                 return JsonConvert.DeserializeObject<List<ProductModel>>(response) ?? new List<ProductModel>();
             }
             catch (Exception ex)
@@ -356,6 +378,33 @@ namespace IndiaLivings_Web_DAL.Helpers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
                 return new List<ProductModel>();
             }
+        }
+        public static async Task<string> GetAllFilterDetails(int userId, string mode, string productName, string city, string adtypes, int categoryid, int subcategoryid, string rating, decimal? minprice, decimal? maxprice, int page, int pagesize, string sortByPrice)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = await ServiceAPI.GetAsyncApi($"https://apis.indialivings.com/api/Product/GetAllFilterDetails?userId={userId}&mode={mode}&productName={productName}&city={city}&adtypes={adtypes}&categoryid={categoryid}&subcategoryid={subcategoryid}&rating={rating}&minprice={minprice}&maxprice={maxprice}&page={page}&pagesize={pagesize}&sortByPrice={sortByPrice}");
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+        public static async Task<List<FilteredAdModel>> GetFeaturedAds(int userId)
+        {
+            List<FilteredAdModel> FeaturedAds = new List<FilteredAdModel>();
+            try
+            {
+                var response = await ServiceAPI.GetAsyncApi($"https://apis.indialivings.com/api/Product/GetFeaturedAds?userId={userId}");
+                FeaturedAds = JsonConvert.DeserializeObject<List<FilteredAdModel>>(response);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return FeaturedAds;
         }
     }
 }
