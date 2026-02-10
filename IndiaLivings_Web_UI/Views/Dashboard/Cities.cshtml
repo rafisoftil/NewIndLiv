@@ -109,8 +109,8 @@
 </body>
 <script>
     function navigateToAdsListWithCity(cityName) {
-        // Navigate to AdsList page with the city parameter
-        window.location.href = `/Dashboard/AdsList?strCity=${encodeURIComponent(cityName)}`;
+        $("#spinner").removeClass('d-none');
+        window.location.href = `/Dashboard/AdsList?city=${encodeURIComponent(cityName)}`
     }
 </script>
 </html>

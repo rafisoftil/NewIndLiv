@@ -42,7 +42,7 @@
                         <div class="category-card">
                             <div class="category-head">
                                 <img src="@Model[i].CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/no-image.png';" />
-                                <a href="#" class="category-content">
+                                <a href="javascript: void(0)" onclick="navigateToAdsListWithCategory('@Model[i].CategoryID','0')" class="category-content">
                                     <h4>@Model[i].CategoryName</h4>
                                     <p>(@Model[i].CategoryCount)</p>
                                 </a>
@@ -50,7 +50,7 @@
                             @foreach (var subCategory in Model[i].subCategories)
                             {
                                 <ul class="category-list">
-                                    <li><a href="#"><h6>@subCategory.subCatergoryName</h6><p>(@subCategory.intSubCategoryCount)</p></a></li>
+                                    <li><a href="javascript:void(0)" onclick="navigateToAdsListWithCategory('@subCategory.intCategoryID', '@subCategory.subCategoryID')"><h6>@subCategory.subCatergoryName</h6><p>(@subCategory.intSubCategoryCount)</p></a></li>
                                 </ul>
                             }
                         </div>
@@ -269,6 +269,12 @@
     <!--=====================================
                 JS LINK PART START
     =======================================-->
+    <script>
+        function navigateToAdsListWithCategory(categoryId, subcategoryId = 0) {
+            $("#spinner").removeClass('d-none');
+            window.location.href = `/Dashboard/AdsList?categoryid=${categoryId}&subcategoryid=${subcategoryId}`;
+        }
+    </script>
 </body>
 </html>
 

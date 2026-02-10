@@ -68,131 +68,19 @@
     @section Scripts {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
         <script>
-            var spinnerHtml =  '<div class="chat-loading d-flex justify-content-center align-items-center" style="min-height:220px; padding:30px; margin-top:180px">' +
-            '<img src="@Url.Content("/images/spinner.gif")" style="height:80px" alt="Loading...">' + '</div>';
-            $(document).ready(function () {
-                $("#searchUser").on("keypress", function (event) {
-                    const query = $(this).val().trim();
-                    if (event.key === "Enter") {
-                        $.get('/User/SearchUsers', { term: query }, function (data) {
-                            let suggestions = "";
-                            data.forEach(u => {
-                                suggestions += `
-                                    <li class="list-group-item suggestion-item" data-username="${u.username}">
-                                        <img src="${u.byteUserImageData ? `data:image/png;base64,${u.byteUserImageData}` : '/images/user.png'}" width="30" height="30" class="rounded-circle me-2" />
-                                        ${u.username} - ${u.messageText ?? ''}
-                                    </li>`;
-                            });
-                            $("#suggestionList").html(suggestions).show();
-                        });
-                    } else {
-                        $("#suggestionList").hide().empty();
-                    }
-                });
-            });
+            var spinnerHtml = '<div class="chat-loading d-flex justify-content-center align-items-center" style="min-height:220px; padding:30px; margin-top:180px">' +
+                '<img src="@Url.Content("/images/spinner.gif")" style="height:80px" alt="Loading...">' + '</div>';
+            
+            let connection;
+            let isConnected = false;
 
-                // $(document).on("click", ".suggestion-item", function () {
-                //     const username = $(this).data("username");
+            // Initialize SignalR connection
+            function initializeSignalR() {
+                connection = new signalR.HubConnectionBuilder()
+                    .withUrl("/chatHub")
+                    .withAutomaticReconnect()
+                    .build();
 
-                //     //Prevent duplicate users
-                //     if ($(`.message-link[data-username='${username}']`).length === 0) {
-                //         $.get("/User/GetUserChatListItem", { username: username }, function (html) {
-                //             $(".message-list").append(html);
-                //         });
-                //     }
-
-                //     $("#suggestionList").hide().empty();
-                //     $("#searchUser").val('');
-                // });
-            $(document).on("click", ".suggestion-item", function () {
-                const username = $(this).data("username");
-                //const userId = $(this).data("user-id");
-                $("#suggestionList").hide().empty();
-                // Check if the user is already in the sidebar
-                if ($('.message-link[data-username="' + username + '"]').length !== 0) {
-                    $('.message-link[data-username="' + username + '"]').trigger("click");
-                } else {
-                    $('#chat-box').html(spinnerHtml);
-                    $.get("/User/GetUserChatListItem", { username: username }, function (html) {
-                        $(".message-list").prepend(html);
-
-                        // Optionally: load chat messages for that user
-                        // $.get("/User/GetMessageByUser/" + userId, function (data) {
-                        //     $("#chat-box").html(data);
-                        //     $("#receiverId").val(userId);
-                        // });
-
-                        // Highlight newly added user
-                        $(".message-item").removeClass("active");
-                        $('.message-link[data-username="' + username + '"]').closest("li").addClass("active");
-                        $('.message-link[data-username="' + username + '"]').trigger("click");
-                    });
-                }
-            });
-                    // When a search result is clicked
-
-            function loadMessages(ReceiverUserId, UserName) {
-                $('#chat-box').html(spinnerHtml);
-                $.ajax({
-                    url: '/User/GetMessagesByUser',
-                    type: 'GET',
-                    data: { ReceiverUserId: ReceiverUserId, username: UserName},
-                    success: function (partialViewHtml) {
-                        $('#chat-box').html(partialViewHtml);
-                        //setTimeout(scrollToBottom, 100); // scroll to bottom after render
-                    },
-                    error: function () {
-                        //alert("Failed to load messages.");
-                        $('#chat-box').html('<div class="alert alert-danger">Failed to load messages.</div>');
-                    }
-                });
-            }
-
-            // Optional: Call on page load if you have a default user
-            $(document).ready(function () {
-                var defaultUserId = '@defaultUser?.userID';
-                var currentUsername = '@defaultUser?.username';
-                if (defaultUserId) {
-                    loadMessages(defaultUserId, currentUsername);
-                }
-            });
-            const connection = new signalR.HubConnectionBuilder()
-                .withUrl("/chatHub")
-                .build();
-
-            connection.start().then(() => {
-                console.log("SignalR connected");
-
-                // Send message
-                $(document).on("click", "#sendBtn", function () {
-                    const message = $("#chat-emoji").val().trim();
-                    const receiver = $("#receiverId").val();
-                    const sender = '@currentUserId';
-
-                    if (!receiver || !message) {
-                        alert("Please select a user and type a message.");
-                        return;
-                    }
-
-                    $.ajax({
-                        url: '/User/SendMessage',
-                        type: 'GET',
-                        data: {
-                            senderUserId: sender,
-                            receiverUserId: receiver,
-                            messageText: message
-                        },
-                        success: function (response) {
-                            if (response) {
-                                connection.invoke("SendMessage", sender, receiver, message);
-                                $("#chat-emoji").val("");
-                                setTimeout(scrollToBottom, 100);
-                            }
-                        }
-                    });
-                });
-
-                // Receive message live
                 connection.on("ReceiveMessage", function (sender, receiver, message) {
                     const myId = '@currentUserId';
                     const activeUser = $("#receiverId").val();
@@ -214,7 +102,12 @@
                                 </div>
                             </li>`;
                         $("#chatMessageList").append(msgHtml);
-                        setTimeout(scrollToBottom, 100);
+
+                        if (isUserAtBottom) {
+                            scrollToBottom();
+                        } else {
+                            $("#newMsgBtn").show();
+                        }
                     }
 
                     $.ajax({
@@ -228,39 +121,194 @@
                         }
                     });
                 });
-            });
 
-                // Load chat when user clicked
-                $(document).on("click", ".message-link", function (e) {
-                    e.preventDefault();
-                    //const SenderUserId = $(this).data("senderuserid");
-                    const ReceiverUserId = $(this).data("receiveruserid");
-                    const username = $(this).data("username");
-                    //$("#receiverId").val(userId);
-
-                    $('#chat-box').html(spinnerHtml);
-                    $(".message-item").removeClass("active");
-                    $(this).closest("li").addClass("active");
-
-                    $.ajax({
-                        url: '/User/GetMessagesByUser',
-                        type: 'GET',
-                        data: { ReceiverUserId: ReceiverUserId, username: username },
-                        success: function (data) {
-                            $("#chat-box").html(data);
-                            setTimeout(scrollToBottom, 100);
-                        },
-                        error: function () {
-                            $("#chat-box").html('<div class="alert alert-danger">Failed to load messages.</div>');
-                        }
+                connection.on("UpdateReadCount", function () {
+                    $.get('/User/ChatList', function (html) {
+                        $('#chatList').html(html);
                     });
                 });
-                const scrollToBottom = () => {
-                    const list = document.getElementById("chatMessageList");
-                    if (list) {
-                        list.scrollTop = list.scrollHeight;
+
+                connection.onreconnecting((error) => {
+                    console.log("SignalR reconnecting...", error);
+                    isConnected = false;
+                });
+
+                connection.onreconnected((connectionId) => {
+                    console.log("SignalR reconnected with connectionId:", connectionId);
+                    isConnected = true;
+                });
+
+                connection.onclose((error) => {
+                    console.log("SignalR connection closed", error);
+                    isConnected = false;
+                });
+
+                connection.start()
+                    .then(() => {
+                        console.log("SignalR connected successfully");
+                        isConnected = true;
+                    })
+                    .catch(err => {
+                        console.error("SignalR connection error:", err);
+                        isConnected = false;
+                        // Retry connection after 5 seconds
+                        setTimeout(initializeSignalR, 5000);
+                    });
+            }
+
+            $(document).ready(function () {
+                // Initialize SignalR
+                initializeSignalR();
+
+                $("#searchUser").on("keypress", function (event) {
+                    const query = $(this).val().trim();
+                    if (event.key === "Enter") {
+                        $.get('/User/SearchUsers', { term: query }, function (data) {
+                            let suggestions = "";
+                            data.forEach(u => {
+                                suggestions += `
+                                    <li class="list-group-item suggestion-item" data-username="${u.username}">
+                                        <img src="${u.byteUserImageData ? `data:image/png;base64,${u.byteUserImageData}` : '/images/user.png'}" width="30" height="30" class="rounded-circle me-2" />
+                                        ${u.username} - ${u.messageText ?? ''}
+                                    </li>`;
+                            });
+                            $("#suggestionList").html(suggestions).show();
+                        });
+                    } else {
+                        $("#suggestionList").hide().empty();
                     }
-                };
+                });
+
+                var defaultUserId = '@defaultUser?.userID';
+                var currentUsername = '@defaultUser?.username';
+                if (defaultUserId) {
+                    loadMessages(defaultUserId, currentUsername);
+                }
+            });
+
+            $(document).on("click", ".suggestion-item", function () {
+                const username = $(this).data("username");
+                $("#suggestionList").hide().empty();
+                
+                if ($('.message-link[data-username="' + username + '"]').length !== 0) {
+                    $('.message-link[data-username="' + username + '"]').trigger("click");
+                } else {
+                    $('#chat-box').html(spinnerHtml);
+                    $.get("/User/GetUserChatListItem", { username: username }, function (html) {
+                        $(".message-list").prepend(html);
+
+                        $(".message-item").removeClass("active");
+                        $('.message-link[data-username="' + username + '"]').closest("li").addClass("active");
+                        $('.message-link[data-username="' + username + '"]').trigger("click");
+                    });
+                }
+            });
+
+            function loadMessages(ReceiverUserId, UserName) {
+                $('#chat-box').html(spinnerHtml);
+                $.ajax({
+                    url: '/User/GetMessagesByUser',
+                    type: 'GET',
+                    data: { ReceiverUserId: ReceiverUserId, username: UserName },
+                    success: function (partialViewHtml) {
+                        $('#chat-box').html(partialViewHtml);
+                    },
+                    error: function () {
+                        $('#chat-box').html('<div class="alert alert-danger">Failed to load messages.</div>');
+                    }
+                });
+            }
+
+            let isUserAtBottom = true;
+
+            $("#chatMessageList").on("scroll", function () {
+                const el = this;
+                isUserAtBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 60;
+            });
+
+            $("#newMsgBtn").on("click", function () {
+                scrollToBottom();
+                $(this).hide();
+            });
+
+            // Send message
+            $(document).on("click", "#sendBtn", function () {
+                const message = $("#chat-emoji").val().trim();
+                const receiver = $("#receiverId").val();
+                const sender = '@currentUserId';
+
+                if (!receiver || !message) {
+                    alert("Please select a user and type a message.");
+                    return;
+                }
+
+                if (!isConnected) {
+                    alert("Connection not established. Please wait...");
+                    return;
+                }
+
+                $.ajax({
+                    url: '/User/SendMessage',
+                    type: 'GET',
+                    data: {
+                        senderUserId: sender,
+                        receiverUserId: receiver,
+                        messageText: message
+                    },
+                    success: function (response) {
+                        if (response && isConnected) {
+                            connection.invoke("SendMessage", sender, receiver, message)
+                                .catch(err => {
+                                    console.error("SignalR send error:", err);
+                                    alert("Failed to send message via SignalR");
+                                });
+                            $("#chat-emoji").val("");
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error("Send message error:", xhr);
+                        alert("Failed to save message");
+                    }
+                });
+            });
+
+            // Load chat when user clicked
+            $(document).on("click", ".message-link", function (e) {
+                e.preventDefault();
+
+                const receiverId = $(this).data("receiveruserid");
+                const username = $(this).data("username");
+
+                // Mark as read
+                $.post('/User/MarkMessagesAsRead', { senderUserId: receiverId });
+
+                $('#chat-box').html(spinnerHtml);
+                $(".message-item").removeClass("active");
+                $(this).closest("li").addClass("active");
+
+                loadMessages(receiverId, username);
+            });
+
+            const scrollToBottom = () => {
+                const list = document.getElementById("chatMessageList");
+                if (list) {
+                    list.scrollTop = list.scrollHeight;
+                }
+            };
+
+            function scrollToLastReadMessage() {
+                const unread = document.querySelector("#chatMessageList .unread-msg");
+                if (unread) {
+                    unread.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+                } else {
+                    scrollToBottom();
+                }
+            }
+
+            setTimeout(scrollToLastReadMessage, 150);
         </script>
     }
 </body>

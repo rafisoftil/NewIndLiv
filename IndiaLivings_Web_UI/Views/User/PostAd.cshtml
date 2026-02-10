@@ -15,7 +15,7 @@
                 <div class="single-content">
                     <h2>Ad Post</h2>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a class="navigate-link" asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Ad-Post</li>
                     </ol>
                 </div>
@@ -32,15 +32,15 @@
                 <div class="col-lg-12">
                     <div class="dash-menu-list">
                         <ul>
-                            <li><a asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
-                            <li><a asp-controller="User" asp-action="Profile">Profile</a></li>
-                            <li><a asp-controller="User" class="active" asp-action="PostAd">Ad Post</a></li>
-                            <li><a asp-controller="User" asp-action="MyAds">my ads</a></li>
-                            <li><a asp-controller="User" asp-action="Settings">settings</a></li>
-                            <li><a asp-controller="User" asp-action="Bookmark">bookmarks</a></li>
-                            <li><a asp-controller="User" asp-action="Message">message</a></li>
-                            <li><a asp-controller="User" asp-action="Notification">notification</a></li>
-                            <li><a asp-controller="Dashboard" asp-action="Logout">logout</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Profile">Profile</a></li>
+                            <li><a class="navigate-link" asp-controller="User" class="active" asp-action="PostAd">Ad Post</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="MyAds">my ads</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Settings">settings</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Bookmark">bookmarks</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Message">message</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Notification">notification</a></li>
+                            <li><a class="navigate-link" asp-controller="Dashboard" asp-action="Logout">logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -319,7 +319,7 @@
                             </li>
                         </ul>
                         <div class="align-content-center pb-3" style="text-align:center;">
-                            <button name="planTypebtn" type="submit" class="btn btn-outline">
+                            <button name="planTypebtn" type="submit" id="submitMembership" class="btn btn-outline">
                                 <span>Pay Now</span>
                             </button>
                         </div>
@@ -438,6 +438,7 @@
 <div id="toast" class="d-none"></div>
 @* <script src="~/js/vendor/popper.min.js" /> *@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         if (@(Model.product != null ? "true" : "false")) {
@@ -745,28 +746,26 @@
         handleImageSelection(this);
     });
 
-    $(document).ready(function(){
-        $('#takeMembership').on("submit", function(e) {
-            e.preventDefault();
-            if ($('#freePlan').is(':checked')) {
-                alert('Please choose a valid plan');
-            }
-            else {
-                const spinner = document.getElementById('spinner');
-                spinner.classList.remove('d-none');
-                const selectedPlanAmount = $("input[name='planSelection']:checked").val();
-                const newMembershipId = getMembershipIdFromAmount(selectedPlanAmount);
-                $.ajax({
-                    url: "/User/GetMembershipPreview",
-                    type: "GET",
-                    data: { membershipId: newMembershipId },
-                    success: function (res) {
-                        spinner.classList.add('d-none');
-                        showUpgradeModal(res);
-                    }
-                });
-            }
-        })
+    $('#submitMembership').on('click', function (e) {
+        e.preventDefault();
+        if ($('#freePlan').is(':checked')) {
+            alert('Please choose a valid plan');
+        }
+        else {
+            const spinner = document.getElementById('spinner');
+            spinner.classList.remove('d-none');
+            const selectedPlanAmount = $("input[name='planSelection']:checked").val();
+            const newMembershipId = getMembershipIdFromAmount(selectedPlanAmount);
+            $.ajax({
+                url: "/User/GetMembershipPreview",
+                type: "GET",
+                data: { membershipId: newMembershipId },
+                success: function (res) {
+                    spinner.classList.add('d-none');
+                    showUpgradeModal(res);
+                }
+            });
+        }
     });
 
     function showUpgradeModal(data) {
@@ -807,23 +806,9 @@
         $("#upgradeMembershipModal").modal("hide");
         var form = document.getElementById('PostAdForm');
         var formData = new FormData(form);
-        
-        $.ajax({
-            url: '/User/ProcessPayment',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            cache: false,
-
-            success: function (res) {
-                window.location.href = '/User/PostAd';
-            },
-            error: function (err) {
-                console.error(err);
-                alert('Something went wrong');
-            }
-        });
+        formData.append('planSelection', $("input[name='planSelection']:checked").val());
+        allowSubmit = true;
+        $('#takeMembership').submit();
     }
 
 </script>

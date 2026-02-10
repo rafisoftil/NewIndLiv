@@ -1,194 +1,478 @@
 ﻿@model List<ServiceBookingViewModel>
 @{
     ViewBag.Title = "My Services";
-    var upcomingCount = Model.Count(b => b.StatusName == "Pending");
-    var completedCount = Model.Count(b => b.StatusName == "Completed");
-    var cancelledCount = Model.Count(b => b.StatusName == "Cancelled");
+    List<ServiceBookingViewModel> upcomingServices = Model.Where(b => b.StatusName == "Pending").ToList();
+    List<ServiceBookingViewModel> assignedServices = Model.Where(b => b.StatusName == "Assigned").ToList();
+    List<ServiceBookingViewModel> completedServices = Model.Where(b => b.StatusName == "Completed").ToList();
+    List<ServiceBookingViewModel> cancelledServices = Model.Where(b => b.StatusName == "Cancelled").ToList();
     //var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 }
-<!--=====================================
-            SINGLE BANNER PART START
-=======================================-->
-<section class="single-banner dashboard-banner">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="single-content">
-                    <h2>My Services</h2>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">My Services</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--=====================================
-            SINGLE BANNER PART END
-=======================================-->
-<!--=====================================
-        DASHBOARD HEADER PART START
-=======================================-->
-<section class="dash-header-part">
-    <div class="container">
-        <div class="dash-header-card">
-            <div class="row">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="dash-count-card">
-                        <div class="dash-count-text">
-                            <h4>@Model.Count()</h4>
-                            <p>Total Bookings</p>
-                        </div>
-                        <div class="dash-count-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="dash-count-card">
-                        <div class="dash-count-text">
-                            <h4>@upcomingCount</h4>
-                            <p>Upcoming Services</p>
-                        </div>
-                        <div class="dash-count-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="dash-count-card">
-                        <div class="dash-count-text">
-                            <h4>@completedCount</h4>
-                            <p>Completed Services</p>
-                        </div>
-                        <div class="dash-count-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="dash-count-card">
-                        <div class="dash-count-text">
-                            <h4>₹18,540</h4>
-                            <p>Total Spent</p>
-                        </div>
-                        <div class="dash-count-icon">
-                            <i class="fas fa-rupee-sign"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--=====================================
-        DASHBOARD HEADER PART END
-=======================================-->
-<!--=====================================
-        MY SERVICES PART START
-=======================================-->
-<section class="my-services-part">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="my-services-content">
-                    <!-- Filter Tabs -->
-                    <div class="services-filter">
-                        <ul class="nav nav-tabs" id="servicesTabs">
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewBag.Service == "MyServices" ? "active" : "")" asp-controller="Service" asp-action="MyServices">All Services</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewBag.Service == "UpcomingServices" ? "active" : "")" asp-controller="Service" asp-action="UpcomingServices">Upcoming</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewBag.Service == "CompletedServices" ? "active" : "")" asp-controller="Service" asp-action="CompletedServices">Completed</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewBag.Service == "CancelledServices" ? "active" : "")" asp-controller="Service" asp-action="CancelledServices">Cancelled</a>
-                            </li>
-                        </ul>
-                    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--=====================================
+                META-TAG PART START
+    =======================================-->
+    <!-- REQUIRE META -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-                    <div class="tab-content" id="servicesTabContent">
-                        <div class="tab-pane fade show active" id="all-services">
-                            <div class="services-list">
-                                <!-- Service Booking Item -->
-                                @foreach (var booking in Model)
-                                {
-                                    <div class="service-booking-item">
-                                        <div class="booking-status">
-                                            <span class="status-badge upcoming">@booking.StatusName</span>
-                                        </div>
-                                        <div class="booking-content">
-                                            <div class="service-info">
-                                                @* <div class="service-image">
-                                                    <img src="~/images/product/01.jpg" alt="service" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot; style=&quot;display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;background-color:#f8f9fa;color:#6c757d;&quot;><i class=&quot;fas fa-home&quot; style=&quot;font-size:24px;margin-bottom:5px;&quot;></i><span>Cleaning</span></div>';">
-                                                </div> *@
-                                                <div class="service-details">
-                                                    <h4>@booking.ServiceName</h4>
-                                                    <p class="provider-name">
-                                                        <i class="fas fa-user"></i>
-                                                        @booking.ProviderName
-                                                    </p>
-                                                    <p class="booking-date">
-                                                        <i class="fas fa-calendar"></i>
-                                                        @booking.RequestedStartAt.ToString("MMM dd, yyyy h:mm tt") - @booking.RequestedEndAt.ToString("h:mm tt")
-                                                    </p>
-                                                    <p class="booking-address">
-                                                        <i class="fas fa-map-marker-alt"></i>
-                                                        @(booking.AddressLine1 != null ? booking.AddressLine1 + "," + booking.City : booking.City)
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="booking-meta">
-                                                <div class="booking-price">
-                                                    <span class="price">₹@booking.PriceQuoted</span>
-                                                    <small>Total Amount</small>
-                                                </div>
-                                                <div class="booking-actions">
-                                                    @* <button class="btn btn-outline-primary btn-sm" onclick="viewBookingDetails('@booking.BookingId')">
-                                                        <i class="fas fa-eye"></i> View Details
-                                                    </button> *@
-                                                    <button class="btn btn-outline-danger btn-sm" data-bookingId="@booking.BookingId" onclick="cancelBooking('@booking.BookingId')">
-                                                        <i class="fas fa-times"></i> Cancel
-                                                    </button>
-                                                    <button class="btn btn-primary btn-sm" onclick="contactProvider('@booking.BookingId')">
-                                                        <i class="fas fa-phone"></i> Contact
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+    <!-- AUTHOR META -->
+    <meta name="author" content="Mironcoder">
+    <meta name="email" content="mironcoder@gmail.com">
+    <meta name="profile" content="https://themeforest.net/user/mironcoder">
+
+    <!-- TEMPLATE META -->
+    <meta name="name" content="Classicads">
+    <meta name="type" content="Classified Advertising">
+    <meta name="title" content="Classicads - Classified Ads HTML Template">
+    <meta name="keywords" content="classicads, classified, ads, classified ads, listing, business, directory, jobs, marketing, portal, advertising, local, posting, ad listing, ad posting,">
+    <!--=====================================
+                META-TAG PART END
+    =======================================-->
+    <!-- FOR WEBPAGE TITLE -->
+    <title>My Services - Classicads</title>
+
+    <!--=====================================
+                CSS LINK PART START
+    =======================================-->
+    <!-- FAVICON -->
+    <link rel="icon" href="~/images/favicon.png">
+
+    <!-- FONTS -->
+    <link rel="stylesheet" href="fonts/flaticon/flaticon.css">
+    <link rel="stylesheet" href="fonts/font-awesome/fontawesome.css">
+
+    <!-- VENDOR -->
+    <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
+
+    <!-- CUSTOM -->
+    <link rel="stylesheet" href="css/custom/main.css">
+    <link rel="stylesheet" href="css/custom/dashboard.css">
+    <link rel="stylesheet" href="css/custom/services.css">
+    <!--=====================================
+                CSS LINK PART END
+    =======================================-->
+</head>
+<style>
+    :root {
+        --primary-color: #667eea;
+        --secondary-color: #764ba2;
+        --success-color: #4CAF50;
+        --warning-color: #FF9800;
+        --danger-color: #F44336;
+        --light-bg: #f8f9fa;
+        --card-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        --card-shadow-hover: 0 8px 25px rgba(102, 126, 234, 0.15);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Page entrance animation */
+    .page-content {
+        animation: fadeInPage 0.6s ease-out;
+    }
+
+    @@keyframes fadeInPage {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .dash-count-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+        border-left: 4px solid var(--primary-color);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .dash-count-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .dash-count-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+            .dash-count-card:hover::before {
+                opacity: 1;
+            }
+
+        .dash-count-card:nth-child(2) {
+            border-left-color: #FF9800;
+        }
+
+        .dash-count-card:nth-child(3) {
+            border-left-color: #4CAF50;
+        }
+
+        .dash-count-card:nth-child(4) {
+            border-left-color: #F44336;
+        }
+
+    .dash-count-text h4 {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 8px;
+    }
+
+    .dash-count-text p {
+        color: #666;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .dash-count-icon {
+        font-size: 28px;
+        color: var(--primary-color);
+        opacity: 0.3;
+        margin-top: 10px;
+    }
+</style>
+<body>
+    <!--=====================================
+              SINGLE BANNER PART START
+    =======================================-->
+    <section class="single-banner dashboard-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="single-content">
+                        <h2>My Services</h2>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">My Services</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=====================================
+              SINGLE BANNER PART END
+    =======================================-->
+    <!--=====================================
+            DASHBOARD HEADER PART START
+    =======================================-->
+    <section class="dash-header-part">
+        <div class="container">
+            <div class="dash-header-card">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="dash-count-card">
+                            <div class="dash-count-text">
+                                <h4>@upcomingServices.Count()</h4>
+                                <p>Pending Bookings</p>
+                            </div>
+                            <div class="dash-count-icon">
+                                <i class="fas fa-calendar-check"></i>
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="dash-count-card">
+                            <div class="dash-count-text">
+                                <h4>@assignedServices.Count()</h4>
+                                <p>Assigned Services</p>
+                            </div>
+                            <div class="dash-count-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="dash-count-card">
+                            <div class="dash-count-text">
+                                <h4>@completedServices.Count()</h4>
+                                <p>Completed Services</p>
+                            </div>
+                            <div class="dash-count-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="dash-count-card">
+                            <div class="dash-count-text">
+                                <h4>@cancelledServices.Count()</h4>
+                                <p>Cancelled Services</p>
+                            </div>
+                            <div class="dash-count-icon">
+                                <i class="fas fa-rupee-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=====================================
+            DASHBOARD HEADER PART END
+    =======================================-->
+    <!--=====================================
+            MY SERVICES PART START
+    =======================================-->
+    <section class="my-services-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="my-services-content">
+                        <!-- Filter Tabs -->
+                        <div class="services-filter">
+                            <ul class="nav nav-tabs" id="servicesTabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all-services">Pending Services</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="upcoming-tab" data-toggle="tab" href="#upcoming-services">Assigned</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="completed-tab" data-toggle="tab" href="#completed-services">Completed</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="cancelled-tab" data-toggle="tab" href="#cancelled-services">Cancelled</a>
+                                </li>
+                            </ul>
+                        </div>
 
-                    <!-- Quick Actions -->
-                    <div class="quick-actions">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="quick-actions-card">
-                                    <h4>Quick Actions</h4>
-                                    <div class="actions-grid">
-                                        <a href="services-list.html" class="action-item">
-                                            <i class="fas fa-search"></i>
-                                            <span>Book New Service</span>
-                                        </a>
-                                        <a href="#" class="action-item">
-                                            <i class="fas fa-heart"></i>
-                                            <span>Favorite Providers</span>
-                                        </a>
-                                        <a href="#" class="action-item">
-                                            <i class="fas fa-receipt"></i>
-                                            <span>Service History</span>
-                                        </a>
-                                        <a href="#" class="action-item">
-                                            <i class="fas fa-headset"></i>
-                                            <span>Customer Support</span>
-                                        </a>
+                        <div class="tab-content" id="servicesTabContent">
+                            <!-- All Services -->
+                            <div class="tab-pane fade show active" id="all-services">
+                                <div class="services-list">
+                                    <!-- Service Booking Item -->
+                                    @foreach (var booking in upcomingServices)
+                                    {
+                                        <div class="service-booking-item">
+                                            <div class="booking-status">
+                                                <span class="status-badge @booking.StatusName.ToLower()">@booking.StatusName</span>
+                                            </div>
+                                            <div class="booking-content">
+                                                <div class="service-info">
+                                                    <div class="service-details">
+                                                        <h4>@booking.ServiceName</h4>
+                                                        <p class="provider-name">
+                                                            <i class="fas fa-user-circle"></i>
+                                                            @booking.ProviderName
+                                                        </p>
+                                                        <p class="booking-date">
+                                                            <i class="fas fa-calendar-alt"></i>
+                                                            @booking.RequestedStartAt.ToString("MMM dd, yyyy h:mm tt") - @booking.RequestedEndAt.ToString("h:mm tt")
+                                                        </p>
+                                                        <p class="booking-address">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            @(booking.AddressLine1 != null ? booking.AddressLine1 + ", " + booking.City : booking.City)
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="booking-meta">
+                                                    <div class="booking-price">
+                                                        <span class="price">₹@booking.PriceQuoted</span>
+                                                        <small>Total Amount</small>
+                                                    </div>
+                                                    <div class="booking-actions">
+                                                        <button class="btn btn-outline-danger btn-sm" data-bookingId="@booking.BookingId" onclick="cancelBooking('@booking.BookingId')" title="Cancel booking">
+                                                            <i class="fas fa-times"></i> Cancel
+                                                        </button>
+                                                        <button class="btn btn-primary btn-sm" onclick="contactProvider('@booking.BookingId')" title="Contact service provider">
+                                                            <i class="fas fa-phone"></i> Contact
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Upcoming Services -->
+                            <div class="tab-pane fade" id="upcoming-services">
+                                <div class="services-list">
+                                    <!-- Show only upcoming services -->
+                                    @foreach (var booking in assignedServices)
+                                    {
+                                        <div class="service-booking-item">
+                                            <div class="booking-status">
+                                                <span class="status-badge @booking.StatusName.ToLower()">@booking.StatusName</span>
+                                            </div>
+                                            <div class="booking-content">
+                                                <div class="service-info">
+                                                    <div class="service-details">
+                                                        <h4>@booking.ServiceName</h4>
+                                                        <p class="provider-name">
+                                                            <i class="fas fa-user-circle"></i>
+                                                            @booking.ProviderName
+                                                        </p>
+                                                        <p class="booking-date">
+                                                            <i class="fas fa-calendar-alt"></i>
+                                                            @booking.RequestedStartAt.ToString("MMM dd, yyyy h:mm tt") - @booking.RequestedEndAt.ToString("h:mm tt")
+                                                        </p>
+                                                        <p class="booking-address">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            @(booking.AddressLine1 != null ? booking.AddressLine1 + ", " + booking.City : booking.City)
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="booking-meta">
+                                                    <div class="booking-price">
+                                                        <span class="price">₹@booking.PriceQuoted</span>
+                                                        <small>Total Amount</small>
+                                                    </div>
+                                                    <div class="booking-actions">
+                                                        <button class="btn btn-outline-danger btn-sm" data-bookingId="@booking.BookingId" onclick="cancelBooking('@booking.BookingId')" title="Cancel booking">
+                                                            <i class="fas fa-times"></i> Cancel
+                                                        </button>
+                                                        <button class="btn btn-primary btn-sm" onclick="contactProvider('@booking.BookingId')" title="Contact service provider">
+                                                            <i class="fas fa-phone"></i> Contact
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Completed Services -->
+                            <div class="tab-pane fade" id="completed-services">
+                                <div class="services-list">
+                                    <!-- Show only completed services -->
+                                    @foreach (var booking in completedServices)
+                                    {
+                                        <div class="service-booking-item">
+                                            <div class="booking-status">
+                                                <span class="status-badge @booking.StatusName.ToLower()">@booking.StatusName</span>
+                                            </div>
+                                            <div class="booking-content">
+                                                <div class="service-info">
+                                                    <div class="service-details">
+                                                        <h4>@booking.ServiceName</h4>
+                                                        <p class="provider-name">
+                                                            <i class="fas fa-user-circle"></i>
+                                                            @booking.ProviderName
+                                                        </p>
+                                                        <p class="booking-date">
+                                                            <i class="fas fa-calendar-alt"></i>
+                                                            @booking.RequestedStartAt.ToString("MMM dd, yyyy h:mm tt") - @booking.RequestedEndAt.ToString("h:mm tt")
+                                                        </p>
+                                                        <p class="booking-address">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            @(booking.AddressLine1 != null ? booking.AddressLine1 + ", " + booking.City : booking.City)
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="booking-meta">
+                                                    <div class="booking-price">
+                                                        <span class="price">₹@booking.PriceQuoted</span>
+                                                        <small>Total Amount</small>
+                                                    </div>
+                                                    <div class="booking-actions">
+                                                        <button class="btn btn-outline-danger btn-sm" data-bookingId="@booking.BookingId" onclick="cancelBooking('@booking.BookingId')" title="Cancel booking">
+                                                            <i class="fas fa-times"></i> Cancel
+                                                        </button>
+                                                        <button class="btn btn-primary btn-sm" onclick="contactProvider('@booking.BookingId')" title="Contact service provider">
+                                                            <i class="fas fa-phone"></i> Contact
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Cancelled Services -->
+                            <div class="tab-pane fade" id="cancelled-services">
+                                <div class="services-list">
+                                    <!-- Show only cancelled services -->
+                                    @foreach (var booking in cancelledServices)
+                                    {
+                                        <div class="service-booking-item">
+                                            <div class="booking-status">
+                                                <span class="status-badge @booking.StatusName.ToLower()">@booking.StatusName</span>
+                                            </div>
+                                            <div class="booking-content">
+                                                <div class="service-info">
+                                                    <div class="service-details">
+                                                        <h4>@booking.ServiceName</h4>
+                                                        <p class="provider-name">
+                                                            <i class="fas fa-user-circle"></i>
+                                                            @booking.ProviderName
+                                                        </p>
+                                                        <p class="booking-date">
+                                                            <i class="fas fa-calendar-alt"></i>
+                                                            @booking.RequestedStartAt.ToString("MMM dd, yyyy h:mm tt") - @booking.RequestedEndAt.ToString("h:mm tt")
+                                                        </p>
+                                                        <p class="booking-address">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            @(booking.AddressLine1 != null ? booking.AddressLine1 + ", " + booking.City : booking.City)
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="booking-meta">
+                                                    <div class="booking-price">
+                                                        <span class="price">₹@booking.PriceQuoted</span>
+                                                        <small>Total Amount</small>
+                                                    </div>
+                                                    <div class="booking-actions">
+                                                        <button class="btn btn-outline-danger btn-sm" data-bookingId="@booking.BookingId" onclick="cancelBooking('@booking.BookingId')" title="Cancel booking">
+                                                            <i class="fas fa-times"></i> Cancel
+                                                        </button>
+                                                        <button class="btn btn-primary btn-sm" onclick="contactProvider('@booking.BookingId')" title="Contact service provider">
+                                                            <i class="fas fa-phone"></i> Contact
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="quick-actions">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="quick-actions-card">
+                                        <h4>Quick Actions</h4>
+                                        <div class="actions-grid">
+                                            <a asp-action="ServicesList" asp-controller="Service" class="action-item">
+                                                <i class="fas fa-search"></i>
+                                                <span>Book New Service</span>
+                                            </a>
+                                            <a href="#" class="action-item">
+                                                <i class="fas fa-heart"></i>
+                                                <span>Favorite Providers</span>
+                                            </a>
+                                            <a href="#" class="action-item">
+                                                <i class="fas fa-receipt"></i>
+                                                <span>Service History</span>
+                                            </a>
+                                            <a href="#" class="action-item">
+                                                <i class="fas fa-headset"></i>
+                                                <span>Customer Support</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -197,108 +481,56 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<div class="modal fade" id="CancelBookingModal" tabindex="-1" aria-labelledby="cancelBookingLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">   
-                <form>
-                    <input type="hidden" id="CancelBookingId" />
-                    <div class="form-group">
-                        <label for="Reason">Please provide a reason for Cancelling</label>
-                        <textarea id="Reason" class="form-control"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="BookingCancel()">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="spinner" class="d-none">
-    <img style="height: 100px" src="~/images/spinner.gif" />
-</div>
-<div id="toast" class="d-none"></div>
-<!--=====================================
-        MY SERVICES PART END
-=======================================-->
-<!--=====================================
-            JS LINK PART START
-=======================================-->
-<script>
-    // JavaScript functions for booking actions
-    function viewBookingDetails(bookingId) {
-        alert('Viewing details for booking: ' + bookingId);
-        // Redirect to booking details page
-    }
+    </section>
+    <!--=====================================
+            MY SERVICES PART END
+    =======================================-->
+    <!--=====================================
+                JS LINK PART START
+    =======================================-->
+    <!-- VENDOR -->
+    <script src="js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="js/vendor/popper.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
 
-    function cancelBooking(bookingId) {
-        if(confirm('Are you sure you want to cancel this booking?')) {
-            $('#CancelBookingId').val(bookingId);
-            $('#CancelBookingModal').modal('show');
-        }
-    }
-    function BookingCancel() {
-        var bookingId = $('#CancelBookingId').val();
-        var reason = $('#Reason').val();
-        var errors = [];
-
-        if (!reason) {
-            errors.push('Please enter the reason');
-            $('#Reason').addClass('is-invalid');
-        } else if (reason.length > 250) {
-            errors.push('Reason cannot exceed 250 characters.');
-            $('#Reason').addClass('is-invalid');
-        } else {
-            $('#Reason').removeClass('is-invalid');
-        }
-        if (errors.length > 0) {
-            ShowToast('failed', errors.join('\n'));
-            return false;
+    <!-- CUSTOM -->
+    <script src="js/custom/main.js"></script>
+    <script>
+        // JavaScript functions for booking actions
+        function viewBookingDetails(bookingId) {
+            alert('Viewing details for booking: ' + bookingId);
+            // Redirect to booking details page
         }
 
-        $.ajax({
-            url: '@Url.Action("CancelBooking", "Service")',
-            type: 'POST',
-            data: {bookingId: bookingId, reason: reason},
-            success: function(response) {
-                if (response.success) {
-                    ShowToast('success', 'Booking successfully Cancelled');
-                    location.reload();
-                } else {
-                    ShowToast('failed', 'Booking Cancelling Unsuccessful');
-                }
-            },
-            error: function() {
-                ShowToast('failed', 'An error occured while cancelling');
+        function cancelBooking(bookingId) {
+            if(confirm('Are you sure you want to cancel this booking?')) {
+                alert('Booking cancelled: ' + bookingId);
+                // Handle cancellation logic
             }
-        });
-    }
+        }
 
-    function contactProvider(bookingId) {
-        alert('Contacting provider for booking: ' + bookingId);
-        // Open contact modal or redirect to contact page
-    }
+        function contactProvider(bookingId) {
+            alert('Contacting provider for booking: ' + bookingId);
+            // Open contact modal or redirect to contact page
+        }
 
-    function rateService(bookingId) {
-        alert('Rating service for booking: ' + bookingId);
-        // Open rating modal
-    }
+        function rateService(bookingId) {
+            alert('Rating service for booking: ' + bookingId);
+            // Open rating modal
+        }
 
-    function rebookService(bookingId) {
-        alert('Rebooking service for booking: ' + bookingId);
-        // Redirect to service booking page
-    }
+        function rebookService(bookingId) {
+            alert('Rebooking service for booking: ' + bookingId);
+            // Redirect to service booking page
+        }
 
-    function rescheduleBooking(bookingId) {
-        alert('Rescheduling booking: ' + bookingId);
-        // Open reschedule modal
-    }
-
-</script>
-<!--=====================================
-            JS LINK PART END
-=======================================-->
+        function rescheduleBooking(bookingId) {
+            alert('Rescheduling booking: ' + bookingId);
+            // Open reschedule modal
+        }
+    </script>
+    <!--=====================================
+                JS LINK PART END
+    =======================================-->
+</body>
+</html>

@@ -57,8 +57,12 @@
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
+    <div id="spinner" class="d-none">
+        <img style="height: 100px" src="~/images/spinner.gif" />
+    </div>
+    @await Component.InvokeAsync("Footer")
 
-    <partial name="~/Views/Shared/_Footer.cshtml" />
+    @*<partial name="~/Views/Shared/_Footer.cshtml" />*@
     <script type="text/javascript" src="~/js/mvc-grid/mvc-grid.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -97,7 +101,8 @@
             // Create connection to chatHub for messages
             const chatConnection = new signalR.HubConnectionBuilder()
                 .withUrl("/chatHub")
-                .withAutomaticReconnect()
+                .withAutomaticReconnect([0, 2000, 5000, 10000])
+                // .withAutomaticReconnect()
                 .build();
 
             chatConnection.start()
@@ -110,6 +115,11 @@
                 loadUnreadCount(userId); // refresh unread message count
             });
 
+            // chatConnection.on("UpdateReadCount", function (receiverId) {
+            //     console.log("UpdateReadCount receiver for user:", receiverId;
+            //     loadReadCount(userId);
+            // });
+
             function loadUnreadCount(uid) {
                 $.get(`/User/GetUnreadMessageCount?userId=${uid}`, function (msgCount) {
                     console.log("Unread count updated:", msgCount);
@@ -117,6 +127,13 @@
                 }).fail(err => console.error("Failed to load unread count:", err));
             }
 
+            // function loadReadCount(uid) {
+            //     $.get(`/User/GetReadMessageCount?userId=${uid}`, function (msgCount) {
+            //         console.log("Read count updated:", msgCount);
+            //         $('.msg-count').text(msgCount || 0);    
+            //     }).fail(err => console.error("Failed to load read count:", err));
+            // }
+    
             const notificationCount = new signalR.HubConnectionBuilder()
                 .withUrl("/notificationHub")
                 .withAutomaticReconnect()
@@ -176,6 +193,50 @@
             audio.currentTime = 0;
             audio.play().catch(err => console.log("Audio play failed:", err));
         }
+
+        function Home() {
+            $("#spinner").removeClass('d-none');
+            window.location.href = `/Dashboard/Dashboard`;
+        }
+
+        $(".navbar-link").on("click", function (e) {
+
+            var href = $(this).attr("href");
+
+            // If it's a dropdown or empty link, don't show spinner
+            if (!href || href === "#") {
+                return;
+            }
+
+            // Show spinner only for real navigation
+            $("#spinner").removeClass('d-none');
+
+        });
+
+        $('.navigate-link').on("click", function (e) {
+            $("#spinner").removeClass('d-none');
+            $(window).on("load", function () {
+                $("#spinner").addClass('d-none');
+            });
+        });
+        $('.dropdown-link').on("click", function (e) {
+            $("#spinner").removeClass('d-none');
+            $(window).on("load", function () {
+                $("#spinner").addClass('d-none');
+            });
+        });
+
+        // Hide spinner after page load
+        $(window).on("load", function () {
+            $("#spinner").addClass('d-none');
+        });
+
+         // $(".dropdown-link").on("click", function(e){
+         //        $("#spinner").removeClass('d-none');
+         //        $(window).on("load", function () {
+         //            $("#spinner").addClass('d-none');
+         //     });
+         // });
     </script>
 </body>
 </html>

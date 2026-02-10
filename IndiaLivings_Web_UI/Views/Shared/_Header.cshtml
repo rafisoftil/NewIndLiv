@@ -83,6 +83,9 @@
         </div>
     </div>
 </header>
+<div id="spinner" class="d-none">
+    <img style="height: 100px" src="~/images/spinner.gif" />
+</div>
 <script>
 
     function ProductsSearch() {
@@ -96,10 +99,10 @@
         var productName = $('#productName').val();
 
         // Construct query string from inputs
-        var queryParams = `?strProductName=${encodeURIComponent(productName)}&strCity=${encodeURIComponent(city)}&strState=${encodeURIComponent(state)}&decMinPrice=${encodeURIComponent(minPrice)}&decMaxPrice=${encodeURIComponent(maxPrice)}`;
-
+        var queryParams = `?productName=${encodeURIComponent(productName)}&city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}&minprice=${encodeURIComponent(minPrice)}&maxprice=${encodeURIComponent(maxPrice)}`;
+        $('#spinner').removeClass('d-none');
         // Navigate to the AdsList page with query params
-        window.location.href = '/Dashboard/navSearch' + queryParams;
+        window.location.href = '/Dashboard/AdsList' + queryParams;
       }
     function opennavdrop() {
         $.ajax({

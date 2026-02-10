@@ -15,7 +15,7 @@
                 <div class="single-content">
                     <h2>Profile</h2>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a class="navigate-link" asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Profile</li>
                     </ol>
                 </div>
@@ -32,15 +32,15 @@
 
                     <div class="dash-menu-list">
                         <ul>
-                            <li><a asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
-                            <li><a asp-controller="User" asp-action="Profile" class="active">Profile</a></li>
-                            <li><a asp-controller="User" asp-action="PostAd">Ad Post</a></li>
-                            <li><a asp-controller="User" asp-action="MyAds">My Ads</a></li>
-                            <li><a asp-controller="User" asp-action="Settings">Settings</a></li>
-                            <li><a asp-controller="User" asp-action="Bookmark">Bookmarks</a></li>
-                            <li><a asp-controller="User" asp-action="Message">Message</a></li>
-                            <li><a asp-controller="User" asp-action="Notification">Notification</a></li>
-                            <li><a asp-controller="Dashboard" asp-action="Logout">Logout</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Dashboard">Dashboard</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Profile" class="active">Profile</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="PostAd">Ad Post</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="MyAds">My Ads</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Settings">Settings</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Bookmark">Bookmarks</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Message">Message</a></li>
+                            <li><a class="navigate-link" asp-controller="User" asp-action="Notification">Notification</a></li>
+                            <li><a class="navigate-link" asp-controller="Dashboard" asp-action="Logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                             <li><h5>Website:</h5><p>@address.userWebsite</p></li>
                             <li><h5>Email:</h5><p>@address.userEmail</p></li>
                             <li><h5>Phone:</h5><p>@address.userMobile</p></li>
-                            @* <li><h5>Skype:</h5><p></p></li> *@
+                            <li><h5>City:</h5><p>@address.userCity</p></li>
                         </ul>
                     </div>
                     <div class="account-card">

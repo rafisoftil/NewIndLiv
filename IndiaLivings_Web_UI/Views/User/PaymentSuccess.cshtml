@@ -1,0 +1,382 @@
+﻿@{
+    ViewBag.Title = "Payment Successful";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - India Livings</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .success-container {
+            text-align: center;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @@keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 60px;
+            color: #4CAF50;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @@keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .checkmark {
+            animation: checkmark 0.8s ease-out 0.3s backwards;
+        }
+
+        @@keyframes checkmark {
+            0% {
+                stroke-dashoffset: 50;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                stroke-dashoffset: 0;
+                opacity: 1;
+            }
+        }
+
+        .success-content {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            animation: fadeInContent 0.8s ease-out 0.3s backwards;
+        }
+
+        @@keyframes fadeInContent {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            animation: slideInText 0.6s ease-out 0.5s backwards;
+        }
+
+        @@keyframes slideInText {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            animation: slideInText 0.6s ease-out 0.6s backwards;
+        }
+
+        .success-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: left;
+            animation: slideInText 0.6s ease-out 0.7s backwards;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .redirect-timer {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+            animation: slideInText 0.6s ease-out 0.8s backwards;
+        }
+
+        .timer-number {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            animation: slideInText 0.6s ease-out 0.9s backwards;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            flex: 1;
+        }
+
+        .btn-outline:hover {
+            background: #f0f0f5;
+            transform: translateY(-2px);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #667eea;
+            pointer-events: none;
+        }
+
+        @@media (max-width: 600px) {
+            .success-content {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .success-details {
+                text-align: center;
+            }
+
+            .detail-item {
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .detail-label::after {
+                content: ": ";
+            }
+
+            .detail-value::before {
+                content: " ";
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @@keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                box-shadow: 0 10px 60px rgba(102, 126, 234, 0.4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon-wrapper">
+            <div class="success-icon pulse">
+                <i class="fas fa-check checkmark"></i>
+            </div>
+        </div>
+
+        <div class="success-content">
+            <h1>Payment Successful!</h1>
+            <p class="subtitle">Your service booking has been confirmed. We're preparing your booking details.</p>
+
+            <div class="success-details" id="bookingDetails">
+                <div class="detail-item">
+                    <span class="detail-label">Booking ID</span>
+                    <span class="detail-value" id="bookingId">@ViewBag.BookingId</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Service</span>
+                    <span class="detail-value" id="serviceName">@ViewBag.ServiceName</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Amount Paid</span>
+                    <span class="detail-value" id="amountPaid">₹@ViewBag.Amount</span>
+                </div>
+            </div>
+
+            <p class="redirect-timer">
+                Redirecting you to My Services in <span class="timer-number" id="countdown">5</span> seconds...
+            </p>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="redirectToMyServices()">
+                    <i class="fas fa-arrow-right"></i> Go to My Services Now
+                </button>
+                <button class="btn btn-outline" onclick="continueShopping()">
+                    <i class="fas fa-arrow-left"></i> Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Confetti animation
+        function createConfetti() {
+            const colors = ['#667eea', '#764ba2', '#4CAF50', '#FF9800', '#F44336'];
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.opacity = Math.random();
+                document.body.appendChild(confetti);
+
+                const duration = Math.random() * 3 + 2;
+                const distance = Math.random() * 200 + 100;
+                const angle = Math.random() * Math.PI * 2;
+
+                confetti.animate([
+                    { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance + 200}px) rotate(360deg)`, opacity: 0 }
+                ], {
+                    duration: duration * 1000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                });
+
+                setTimeout(() => confetti.remove(), duration * 1000);
+            }
+        }
+
+        // Countdown timer
+        let countdown = 5;
+        const countdownElement = document.getElementById('countdown');
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
+
+        window.addEventListener('load', () => {
+            createConfetti();
+
+            // Auto redirect after 5 seconds
+            setTimeout(() => {
+                redirectToMyServices();
+            }, 5000);
+        });
+
+        function redirectToMyServices() {
+            window.location.href = '@Url.Action("MyServices", "Service")';
+        }
+
+        function continueShopping() {
+            window.location.href = '@Url.Action("ServicesList", "Service")';
+        }
+    </script>
+</body>
+</html>
