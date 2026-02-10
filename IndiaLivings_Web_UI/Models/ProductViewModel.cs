@@ -1,7 +1,9 @@
 ﻿using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using System.Data;
 namespace IndiaLivings_Web_UI.Models
 {
     public class ProductViewModel
@@ -242,13 +244,13 @@ namespace IndiaLivings_Web_UI.Models
             return updatedStatus;
         }
 
-        public List<ProductViewModel> GetAds(int ownerid)
+        public async Task<List<ProductViewModel>> GetAds(int ownerid)
         {
             List<ProductViewModel> products = new List<ProductViewModel>();
-            ProductHelper PH = new ProductHelper();
+
             try
             {
-                var productList = PH.GetAdsByOwner(ownerid);
+                var productList = await ProductHelper.GetAdsByOwner(ownerid);
                 if (productList != null)
                 {
                     foreach (var productDetails in productList)
@@ -628,6 +630,142 @@ namespace IndiaLivings_Web_UI.Models
             }
 
             return products;
+        }
+        public async Task<AdsResponse> GetAllFilterDetails(int userId, string mode, string productName, string city, string adtypes, int categoryid, int subcategoryid, string rating, decimal? minprice, decimal? maxprice, int page, int pagesize, string sortByPrice)
+        {
+            AdsResponse result = new AdsResponse();
+            try
+            {
+                var response = await ProductHelper.GetAllFilterDetails(userId, mode, productName, city, adtypes, categoryid, subcategoryid, rating, minprice, maxprice, page, pagesize, sortByPrice);
+                var filteredProducts = JsonConvert.DeserializeObject<dynamic>(response);
+                if (filteredProducts == null)
+                    return result;
+
+                /* ================= PRODUCTS ================= */
+                foreach (var ad in filteredProducts.ads)
+                {
+                    result.Ads.Add(new FilteredAd
+                    {
+                        ProductId = ad.productId,
+                        ProductName = ad.productName,
+                        ProductDescription = ad.productDescription,
+                        ProductPrice = ad.productPrice,
+                        ProductPriceCondition = ad.productPriceCondition,
+                        ProductAdCategory = ad.productAdCategory,
+                        ProductCategoryID = ad.productCategoryID,
+                        ProductSubCategoryID = ad.productSubCategoryID,
+                        UserContactCity = ad.userContactCity,
+                        ProductOwner = ad.productOwner,
+                        CategoryName = ad.categoryName,
+                        SubCategoryName = ad.subcategoryName,
+                        ProductAdminReview = ad.productAdminReview,
+                        AverageRating = ad.averageRating,
+                        CreatedDate = ad.createdDate,
+                        UserRoleID = ad.userRoleID,
+                        IsWishlisted = ad.isWishlisted,
+                        IsFeatured = ad.isFeatured,
+                        RatingCount = ad.ratingCount,
+                        RecommendationScore = ad.recommendationScore,
+                        EngagementScore = ad.engagementScore,
+                        AdvertiserAdsCount = ad.advertiserAdsCount
+                    });
+                }
+
+                result.TotalRecords = filteredProducts.totalRecords;
+
+                /* ================= CITY FILTER ================= */
+                foreach (var filter in filteredProducts.cities)
+                {
+                    result.Cities.Add(new FilterCount
+                    {
+                        FilterValue = filter.filterValue,
+                        TotalCount = filter.totalCount
+                    });
+                }
+                foreach (var filter in filteredProducts.adTypes)
+                {
+                    result.AdTypes.Add(new FilterCount
+                    {
+                        FilterValue = filter.filterValue,
+                        TotalCount = filter.totalCount
+                    });
+                }
+                foreach (var count in filteredProducts.categories)
+                {
+                    result.Categories.Add(new CategoryCount
+                    {
+                        CategoryId = count.categoryId,
+                        TotalCount = count.totalCount
+                    });
+                }
+                foreach (var subcat in filteredProducts.subCategories)
+                {
+                    result.SubCategories.Add(new SubCategoryCount
+                    {
+                        CategoryId = subcat.categoryId,
+                        SubCategoryId = subcat.subCategoryId,
+                        TotalCount = subcat.totalCount
+                    });
+                }
+                foreach (var rat in filteredProducts.ratings)
+                {
+                    result.Ratings.Add(new RatingCount
+                    {
+                        Rating = rat.rating,
+                        TotalCount = rat.totalCount
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+            return result;
+        }
+
+        public async Task<List<FilteredAd>> GetFeaturedAds(int userId)
+        { 
+            List<FilteredAd> result = new List<FilteredAd>();
+            try
+            {
+                var response = await ProductHelper.GetFeaturedAds(userId);
+                if (response == null)
+                    return result;
+
+                /* ================= PRODUCTS ================= */
+                foreach (var ad in response)
+                {
+                    result.Add(new FilteredAd
+                    {
+                        ProductId = ad.ProductId,
+                        ProductName = ad.ProductName,
+                        ProductDescription = ad.ProductDescription,
+                        ProductPrice = ad.ProductPrice,
+                        ProductPriceCondition = ad.ProductPriceCondition,
+                        ProductAdCategory = ad.ProductAdCategory,
+                        ProductCategoryID = ad.ProductCategoryID,
+                        ProductSubCategoryID = ad.ProductSubCategoryID,
+                        UserContactCity = ad.UserContactCity,
+                        ProductOwner = ad.ProductOwner,
+                        CategoryName = ad.CategoryName,
+                        SubCategoryName = ad.SubCategoryName,
+                        ProductAdminReview = ad.ProductAdminReview,
+                        AverageRating = ad.AverageRating,
+                        CreatedDate = ad.CreatedDate,
+                        UpdatedDate = ad.UpdatedDate,
+                        UserRoleID = ad.UserRoleID,
+                        IsWishlisted = ad.IsWishlisted,
+                        RatingCount = ad.RatingCount
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+            return result;
         }
     }
     public class ProductWithImagesViewModel

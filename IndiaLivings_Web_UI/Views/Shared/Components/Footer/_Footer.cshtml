@@ -5,7 +5,7 @@
             <div class="col-lg-6">
                 <div class="news-content">
                     <h2>Subscribe for Latest Offers</h2>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laboriosam, aliquid reiciendis! Exercitationem soluta provident non.</p>
+                    <p>Stay updated with the latest deals, exclusive offers, and new listings. Subscribe to our newsletter and never miss an opportunity tailored just for you.</p>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -118,6 +118,9 @@
         </div>
     </div>
     <div id="toast" class="d-none"></div>
+    <div id="spinner" class="d-none">
+        <img style="height: 100px" src="~/images/spinner.gif" />
+    </div>
 </footer>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
@@ -167,7 +170,6 @@
                 //     spinner.classList.add('d-none');
                 // }
             //});
-            
             sendSubscribeEmail();
 
             }
@@ -206,16 +208,14 @@
             var UserData = {
                 email: $("#subscriptionEmail").val()
             };
-            //const spinner = document.getElementById('spinner');
-
-            //spinner.classList.remove('d-none');
+            $('#spinner').removeClass('d-none');
             // Send a POST request to the SendEmail action on the server
             $.ajax({
                 url: '@Url.Action("SendSubscribeEmail", "Dashboard")',
                 type: 'POST',
                 data: UserData, // Convert email to JSON
                 success: function (response) {
-                    spinner.classList.add('d-none');
+                    $('#spinner').addClass('d-none');
 
                     if (response.success) {
                         // Properly hide the modal

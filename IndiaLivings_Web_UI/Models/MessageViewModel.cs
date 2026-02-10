@@ -85,6 +85,20 @@ namespace IndiaLivings_Web_UI.Models
             }
             return unreadCount;
         }
+        public int GetReadMessageCount(int receiverUserId)
+        {
+            int readCount = 0;
+            AuthenticationHelper AH = new AuthenticationHelper();
+            try
+            {
+                readCount = AH.GetReadMessageCount(receiverUserId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return readCount;
+        }
         public int GetUnreadNotificationCount(int userId)
         {
             int unreadCount = 0;

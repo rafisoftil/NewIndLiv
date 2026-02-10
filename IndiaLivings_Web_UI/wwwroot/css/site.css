@@ -1020,3 +1020,8 @@ body {
         height: 100%;
         object-fit: cover;
     }
+
+.unread-msg {
+    border-left: 3px solid #0d6efd;
+    background: #f7fbff;
+}

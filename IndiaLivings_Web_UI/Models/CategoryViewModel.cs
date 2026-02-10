@@ -85,6 +85,42 @@ namespace IndiaLivings_Web_UI.Models
             return categories;
         }
 
+        public async Task<List<CategoryViewModel>> GetCategory()
+        {
+            List<CategoryViewModel> categories = new List<CategoryViewModel>();
+            try
+            {
+                var lst = await ProductHelper.GetCategories();
+
+                foreach (CategoryModel cat in lst)
+                {
+                    CategoryViewModel categoryModel = new CategoryViewModel();
+                    categoryModel.CategoryID = cat.intCategoryID;
+                    categoryModel.CategoryName = cat.strCategoryName;
+                    categoryModel.CategoryImage = cat.strCategoryImage;
+                    categoryModel.CategoryCount = cat.intCategoryCount;
+                    List<SubCategoryViewModel> subCategories = new List<SubCategoryViewModel>();
+                    foreach (var subcat in cat.strSubCategoryDetails)
+                    {
+                        SubCategoryViewModel subCategory = new SubCategoryViewModel();
+                        subCategory.subCategoryID = subcat.subCategoryID;
+                        subCategory.subCatergoryName = subcat.subCatergoryName;
+                        subCategory.intCategoryID = subcat.intCategoryID;
+                        subCategory.intSubCategoryCount = subcat.intSubCategoryCount;
+                        subCategories.Add(subCategory);
+                    }
+                    categoryModel.subCategories = subCategories;
+                    categories.Add(categoryModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+
+            return categories;
+        }
+
         public string AddCategory(string name, string image, string createdBy)
         {
             string response = String.Empty;

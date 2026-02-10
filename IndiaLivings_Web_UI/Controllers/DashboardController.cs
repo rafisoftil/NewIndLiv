@@ -1,16 +1,28 @@
 ﻿using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json.Linq;
+using System.Data;
 using System.Dynamic;
 using System.Net.Mail;
 using System.Reflection.Metadata;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace IndiaLivings_Web_UI.Controllers
 {
     public class DashboardController : Controller
     {
+        private readonly IMemoryCache _cache;
+
+        public DashboardController(IMemoryCache cache)
+        {
+            _cache = cache;
+        }
+
         public IActionResult ErrorPage()
         {
             return View();
@@ -19,23 +31,85 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Landing Page
         /// </summary>
         /// <returns>Initially, this page will be the loaded</returns>
+        //public async Task<IActionResult> Dashboard()
+        //{
+        //    CategoryViewModel category = new CategoryViewModel();
+        //    ProductViewModel product = new ProductViewModel();
+        //    List<CategoryViewModel> categoryList = category.GetCategoryCount();
+        //    //List<ProductViewModel> productsList = await product.GetAds(0);
+        //    //List<ProductViewModel> RatedProducts = productsList.Where(product => product.averageRating >= 4).OrderByDescending(x => x.averageRating).ToList();
+        //    //List<ProductViewModel> recommendedList = productsList.Where(product => product.productMembershipID == 2).ToList();
+        //    //List<ProductViewModel> trendingAds = await new ProductViewModel().GetRecommendedAds(6, 4, true);
+        //    int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
+        //    //int wishlistCount = product.GetwishlistCount(productOwnerID);
+        //    SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+        //    List<SearchFilterDetailsViewModel> filDetails = await searchFilterDetails.GetSearchFilterDetails();
+        //    CompanySetupViewModel companySetup = await new CompanySetupViewModel().GetCompanySetupById(1);
+        //    List<int> wishlistIds = product.GetAllWishlist(productOwnerID).Select(w => w.productId).ToList();
+        //    ViewBag.WishlistIds = wishlistIds;
+        //    //HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
+        //    if (productOwnerID != 0)
+        //    {
+        //        //List<ProductViewModel> products = product.GetAds(productOwnerID);
+        //        //int productsCount = products.Count();
+        //        //HttpContext.Session.SetInt32("listingAds", productsCount);
+        //        AdsByMembershipViewModel adsRem = new AdsByMembershipViewModel();
+        //        int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+        //        List<AdsByMembershipViewModel> adData = adsRem.GetUserAdsRemaining(userId);
+        //        if (adData.Count > 0)
+        //        {
+        //            HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
+        //            HttpContext.Session.SetInt32("remainingAds", adData[0].userTotalAdsRemaining);
+        //            HttpContext.Session.SetInt32("pendingAds", adData[0].userMembershipAds - adData[0].userTotalAdsRemaining);
+        //            ViewBag.AdsRemaining = adData[0].userTotalAdsRemaining;
+        //        }
+        //    }
+        //    //dynamic data = new ExpandoObject();
+        //    //data.Categories = categoryList.OrderByDescending(x => x.CategoryCount).ToList();
+        //    //data.Products = productsList;
+        //    //data.RatedProducts = RatedProducts;
+        //    //data.RecommendedAds = recommendedList;
+        //    //data.trendingAds = trendingAds;
+        //    //data.Cities = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
+        //    //data.CompanySetup = companySetup;
+        //    HttpContext.Session.SetString("CompanyName", companySetup.companyName);
+        //    HttpContext.Session.SetString("CompanyEmail", companySetup.email);
+        //    HttpContext.Session.SetString("CompanyPhone", companySetup.phone);
+        //    HttpContext.Session.SetString("CompanyAddress", companySetup.address);
+        //    HttpContext.Session.SetString("CompanyCity", companySetup.city);
+        //    HttpContext.Session.SetString("CompanyState", companySetup.state);
+        //    HttpContext.Session.SetString("CompanyCountry", companySetup.country);
+        //    HttpContext.Session.SetString("CompanyWebsite", companySetup.website);
+        //    HttpContext.Session.SetString("AboutUs", companySetup.aboutUs);
+        //    HttpContext.Session.SetString("ContactUs", companySetup.contactUs);
+
+        //    DashboardAdsViewModel model = new DashboardAdsViewModel();
+        //    AdsResponse featuredAds = await new ProductViewModel().GetAllFilterDetails(productOwnerID, "featured", "", "", "", 0, 0, "", null, null, 1, 8, "");
+        //    AdsResponse recommendedAds = await new ProductViewModel().GetAllFilterDetails(productOwnerID, "recommended", "", "", "", 0, 0, "", null, null, 1, 8, "");
+        //    AdsResponse topratedAds = await new ProductViewModel().GetAllFilterDetails(productOwnerID, "toprated", "", "", "", 0, 0, "", null, null, 1, 8, "");
+        //    model.FeaturedAds = featuredAds.Ads;
+        //    model.RecommendedAds = recommendedAds.Ads;
+        //    model.TopRatedAds = topratedAds.Ads;
+        //    model.Categories = categoryList;
+        //    model.Cities = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
+        //    //model.TopEngagedAds = _adsService.GetAds("topengaged", 1, 8);
+
+        //    return View(model);
+        //    //return View(data);
+        //}
         public async Task<IActionResult> Dashboard()
         {
-            CategoryViewModel category = new CategoryViewModel();
-            ProductViewModel product = new ProductViewModel();
-            List<CategoryViewModel> categoryList = category.GetCategoryCount();
-            List<ProductViewModel> productsList = product.GetAds(0);
-            List<ProductViewModel> RatedProducts = productsList.Where(product => product.averageRating >= 4).OrderByDescending(x => x.averageRating).ToList();
-            List<ProductViewModel> recommendedList = productsList.Where(product => product.productMembershipID == 2).ToList();
-            List<ProductViewModel> trendingAds = await new ProductViewModel().GetRecommendedAds(6, 4, true);
             int productOwnerID = HttpContext.Session.GetInt32("UserId") ?? 0;
-            int wishlistCount = product.GetwishlistCount(productOwnerID);
-            SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
-            List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
-            CompanySetupViewModel companySetup = await new CompanySetupViewModel().GetCompanySetupById(1);
-            List<int> wishlistIds = product.GetAllWishlist(productOwnerID).Select(w => w.productId).ToList();
-            ViewBag.WishlistIds = wishlistIds;
-            HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
+
+            // Categories (same for everyone)
+            //CategoryViewModel category = new CategoryViewModel();
+            //List<CategoryViewModel> categoryList = category.GetCategoryCount();
+            List<CategoryViewModel> categoryList =
+                _cache.GetOrCreate("HOME_CATEGORIES", entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6);
+                    return new CategoryViewModel().GetCategoryCount().Where(c => c.CategoryCount > 0).ToList();
+                });
             if (productOwnerID != 0)
             {
                 //List<ProductViewModel> products = product.GetAds(productOwnerID);
@@ -47,30 +121,103 @@ namespace IndiaLivings_Web_UI.Controllers
                 if (adData.Count > 0)
                 {
                     HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
-                    HttpContext.Session.SetInt32("remainingAds", adData[0].userTotalAdsRemaining);
-                    HttpContext.Session.SetInt32("pendingAds", adData[0].userMembershipAds - adData[0].userTotalAdsRemaining);
+                    int remainingAds = adData[0].userTotalAdsRemaining;
+                    if (remainingAds < 0)
+                    {
+                        remainingAds = 0;
+                    }
+                    HttpContext.Session.SetInt32("remainingAds", remainingAds);
+
+                    int membershipAds = adData[0].userMembershipAds;
+                    if (membershipAds < 0)
+                    {
+                        membershipAds = 0;
+                    }
+                    HttpContext.Session.SetInt32("membershipAds", membershipAds);
                     ViewBag.AdsRemaining = adData[0].userTotalAdsRemaining;
                 }
+                ProductViewModel product = new ProductViewModel();
+                int wishlistCount = product.GetwishlistCount(productOwnerID);
+                List<int> wishlistIds = product.GetAllWishlist(productOwnerID)
+                                               .Select(w => w.productId)
+                                               .ToList();
+                ViewBag.WishlistIds = wishlistIds;
+                HttpContext.Session.SetInt32("wishlistCount", wishlistCount);
             }
-            dynamic data = new ExpandoObject();
-            data.Categories = categoryList.OrderByDescending(x => x.CategoryCount).ToList();
-            data.Products = productsList;
-            data.RatedProducts = RatedProducts;
-            data.RecommendedAds = recommendedList;
-            data.trendingAds = trendingAds;
-            data.Cities = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
-            data.CompanySetup = companySetup;
-            HttpContext.Session.SetString("CompanyName", companySetup.companyName);
-            HttpContext.Session.SetString("CompanyEmail", companySetup.email);
-            HttpContext.Session.SetString("CompanyPhone", companySetup.phone);
-            HttpContext.Session.SetString("CompanyAddress", companySetup.address);
-            HttpContext.Session.SetString("CompanyCity", companySetup.city);
-            HttpContext.Session.SetString("CompanyState", companySetup.state);
-            HttpContext.Session.SetString("CompanyCountry", companySetup.country);
-            HttpContext.Session.SetString("CompanyWebsite", companySetup.website);
-            HttpContext.Session.SetString("AboutUs", companySetup.aboutUs);
-            HttpContext.Session.SetString("ContactUs", companySetup.contactUs);
-            return View(data);
+            var cities = await _cache.GetOrCreateAsync("HOME_CITIES", async entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6);
+
+                var filterDetails = await new SearchFilterDetailsViewModel()
+                                            .GetSearchFilterDetails();
+
+                return filterDetails
+                        .Where(x => x.CategoryType.ToLower() == "cities")
+                        .OrderByDescending(x => x.totalCount)
+                        .ToList();
+            });
+            // Cities
+            //SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+            //List<SearchFilterDetailsViewModel> filDetails = await searchFilterDetails.GetSearchFilterDetails();
+
+            List<FilteredAd> featuredAds =
+                await _cache.GetOrCreateAsync("FEATURED_ADS", async entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6);
+
+                    return await new ProductViewModel()
+                                 .GetFeaturedAds(productOwnerID);
+                });
+
+            DashboardAdsViewModel model = new DashboardAdsViewModel
+            {
+                Categories = categoryList,
+                Cities = cities,
+                // IMPORTANT: Ads are EMPTY initially
+                FeaturedAds = featuredAds,
+                RecommendedAds = new List<FilteredAd>(),
+                TopRatedAds = new List<FilteredAd>()
+            };
+
+            return View(model);
+        }
+        //public async Task<IViewComponentResult> InvokeAsync()
+        //{
+        //    var footerData = await _cache.GetOrCreateAsync("FOOTER_DATA", async entry =>
+        //    {
+        //        entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
+
+        //        // API call (only happens once)
+        //        return await new CompanySetupViewModel().GetCompanySetupById(1);
+        //    });
+
+        //    return View(footerData);
+        //}
+        public async Task<IActionResult> LoadFeaturedAds()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var res = await new ProductViewModel()
+                .GetAllFilterDetails(userId, "featured", "", "", "", 0, 0, "", null, null, 1, 8, "");
+
+            return PartialView("_FeaturedAds", res.Ads);
+        }
+
+        public async Task<IActionResult> LoadRecommendedAds()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var res = await new ProductViewModel()
+                .GetAllFilterDetails(userId, "recommended", "", "", "", 0, 0, "", null, null, 1, 8, "");
+
+            return PartialView("_DashboardAds", res.Ads);
+        }
+
+        public async Task<IActionResult> LoadTopRatedAds()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var res = await new ProductViewModel()
+                .GetAllFilterDetails(userId, "toprated", "", "", "", 0, 0, "", null, null, 1, 8, "");
+
+            return PartialView("_DashboardAds", res.Ads);
         }
 
         /// <summary>
@@ -301,79 +448,90 @@ namespace IndiaLivings_Web_UI.Controllers
             EmailSubscriptionViewModel sub = new EmailSubscriptionViewModel
             {
                 Email = email,
-                FullName = "",
+                FullName = "Valued User",
+                Token = token
             };
-            string response = await new EmailSubscriptionViewModel().Subscribe(sub);
-            try
-            {
-                string resetLink = Url.Action("VerifySubscription", "Dashboard", new { token = token }, Request.Scheme);
-                string unsubscribeLink = Url.Action("Unsubscribe", "Dashboard", new { token = token }, Request.Scheme);
-                var mailMessage = new MailMessage
-                {
-                    From = new MailAddress(senderEmail),
-                    Subject = "Your link for Password Reset",
-                    IsBodyHtml = true,
-                    Body = $@"
-                        <!DOCTYPE html>
-                        <html>
-                        <body style='font-family: Arial, sans-serif; background-color:#f4f6f8; padding:20px;'>
+            string status = await new EmailSubscriptionViewModel().Subscribe(sub);
+            var obj = JObject.Parse(status);
+            string response = obj["message"]?.ToString();
+            //if (response.Contains("Subscription successful!"))
+            //{
+            //    try
+            //    {
+            //        string resetLink = Url.Action("VerifySubscription", "Dashboard", new { token = token }, Request.Scheme);
+            //        string unsubscribeLink = Url.Action("Unsubscribe", "Dashboard", new { token = token }, Request.Scheme);
+            //        var mailMessage = new MailMessage
+            //        {
+            //            From = new MailAddress(senderEmail),
+            //            Subject = "Your link for Password Reset",
+            //            IsBodyHtml = true,
+            //            Body = $@"
+            //            <!DOCTYPE html>
+            //            <html>
+            //            <body style='font-family: Arial, sans-serif; background-color:#f4f6f8; padding:20px;'>
 
-                            <div style='max-width:600px; margin:auto; background:#ffffff; padding:30px; border-radius:6px;'>
+            //                <div style='max-width:600px; margin:auto; background:#ffffff; padding:30px; border-radius:6px;'>
 
-                                <h2 style='color:#333;'>Confirm Your Subscription</h2>
+            //                    <h2 style='color:#333;'>Confirm Your Subscription</h2>
 
-                                <p style='font-size:14px; color:#555;'>
-                                    Thank you for subscribing! Please confirm your email address by clicking the button below.
-                                </p>
+            //                    <p style='font-size:14px; color:#555;'>
+            //                        Thank you for subscribing! Please confirm your email address by clicking the button below.
+            //                    </p>
 
-                                <div style='text-align:center; margin:30px 0;'>
-                                    <a href='{resetLink}'
-                                       style='background-color:#007bff;
-                                              color:#ffffff;
-                                              padding:14px 28px;
-                                              font-size:16px;
-                                              text-decoration:none;
-                                              border-radius:5px;
-                                              display:inline-block;'>
-                                        Confirm Subscription
-                                    </a>
-                                </div>
+            //                    <div style='text-align:center; margin:30px 0;'>
+            //                        <a href='{resetLink}'
+            //                           style='background-color:#007bff;
+            //                                  color:#ffffff;
+            //                                  padding:14px 28px;
+            //                                  font-size:16px;
+            //                                  text-decoration:none;
+            //                                  border-radius:5px;
+            //                                  display:inline-block;'>
+            //                            Confirm Subscription
+            //                        </a>
+            //                    </div>
 
-                                <p style='font-size:12px; color:#888;'>
-                                    If you did not subscribe, you can safely ignore this email.
-                                </p>
+            //                    <p style='font-size:12px; color:#888;'>
+            //                        If you did not subscribe, you can safely ignore this email.
+            //                    </p>
 
-                                <hr style='margin:30px 0; border:none; border-top:1px solid #eee;' />
+            //                    <hr style='margin:30px 0; border:none; border-top:1px solid #eee;' />
 
-                                <p style='font-size:12px; color:#999; text-align:center;'>
-                                    No longer want to receive these emails?
-                                    <br />
-                                    <a href='{unsubscribeLink}'
-                                       style='color:#007bff; text-decoration:none;'>
-                                        Unsubscribe
-                                    </a>
-                                </p>
+            //                    <p style='font-size:12px; color:#999; text-align:center;'>
+            //                        No longer want to receive these emails?
+            //                        <br />
+            //                        <a href='{unsubscribeLink}'
+            //                           style='color:#007bff; text-decoration:none;'>
+            //                            Unsubscribe
+            //                        </a>
+            //                    </p>
 
-                            </div>
+            //                </div>
 
-                        </body>
-                        </html>"
-                };
-                mailMessage.To.Add(email);
+            //            </body>
+            //            </html>"
+            //        };
+            //        mailMessage.To.Add(email);
 
-                using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
-                {
-                    smtpClient.Credentials = new System.Net.NetworkCredential(senderEmail, senderPassword);
-                    smtpClient.EnableSsl = true;
-                    smtpClient.Send(mailMessage);
-                    message = $"Subscribe link sent successfully to {email}";
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error sending email: " + ex.Message);
-                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
-            }
+            //        using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
+            //        {
+            //            smtpClient.Credentials = new System.Net.NetworkCredential(senderEmail, senderPassword);
+            //            smtpClient.EnableSsl = true;
+            //            smtpClient.Send(mailMessage);
+            //            message = $"Subscribe link sent successfully to {email}";
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine("Error sending email: " + ex.Message);
+            //        ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            //    }
+            //}
+            //else
+            //{
+                message = response;
+            //}
+
             return Json(new { success = true, message = message });
         }
         public IActionResult SubscribeStatus(string state)
@@ -419,7 +577,23 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.token = token;
             return View();
         }
-
+        public IActionResult InvoiceByUser(int userId)
+        {
+            InvoiceViewModel invoiceModel = new InvoiceViewModel();
+            List<InvoiceViewModel> invoices = invoiceModel.InvoiceListByUser(userId);
+            return View("UserInvoices", invoices);
+        }
+        /// <summary>
+        /// Get Invoice By User
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public IActionResult UserInvoices()
+        {
+            InvoiceViewModel invoiceModel = new InvoiceViewModel();
+            List<InvoiceViewModel> invoices = new();
+            return View("UserInvoices", invoices);
+        }
         /// <summary>
         /// Resets password through link
         /// </summary>
@@ -545,27 +719,27 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Image Details Page
         /// </summary>
         /// <returns> Get image in bytes </returns>
-        public IActionResult GetImageDetails(int productid)
+        public async Task<IActionResult> GetImageDetails(int productid)
         {
             try
             {
                 ProductImageDetailsViewModel productImageDetails = new ProductImageDetailsViewModel();
-                List<ProductImageDetailsViewModel> imageDetails = productImageDetails.GetImage(productid);
+                List<ProductImageDetailsViewModel> imageDetails = await productImageDetails.GetImage(productid);
 
                 if (imageDetails.Any())
                 {
                     var image = imageDetails.FirstOrDefault().byteProductImageData;
                     string base64String = Convert.ToBase64String(image);
-                    return Json(new { image = base64String });
+                    return File(base64String, "image/png");
                 }
                 else
                 {
-                    return Json(new { image = "" });
+                    return File("/images/no-image.png", "image/png");
                 }
             }
             catch (Exception ex)
             {
-                return Json(new { image = "" });
+                return File("/images/no-image.png", "image/png");
             }
         }
 
@@ -590,12 +764,12 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Product Image
         /// </summary>
         /// <returns>ProductImage in Bytes</returns>
-        public IActionResult GetProductImage(int productid)
+        public async Task<IActionResult> GetProductImage(int productid)
         {
             try
             {
                 ProductImageDetailsViewModel productImageDetails = new ProductImageDetailsViewModel();
-                List<ProductImageDetailsViewModel> imageDetails = productImageDetails.GetImage(productid);
+                List<ProductImageDetailsViewModel> imageDetails = await productImageDetails.GetImage(productid);
 
                 if (imageDetails.Any())
                 {
@@ -701,10 +875,11 @@ namespace IndiaLivings_Web_UI.Controllers
         /// <param name="strMembershipDescription"></param>
         /// <param name="strUpdatedBy"></param>
         /// <returns> Status of the Update Membership </returns>
-        public IActionResult UpdateMembership(int intMembershipID, string strMembershipName, int intMembershipAdsLimit, double decMembershipPrice, string strMembershipDescription, string strUpdatedBy)
+        public IActionResult UpdateMembership(int intMembershipID, string strMembershipName, int intMembershipAdsLimit, double decMembershipPrice, string strMembershipDescription)
         {
             try
             {
+                string strUpdatedBy = HttpContext.Session.GetString("userName");
                 MembershipViewModel userViewModel = new MembershipViewModel();
                 var response = userViewModel.UpdateMembership(intMembershipID, strMembershipName, intMembershipAdsLimit, decMembershipPrice, strMembershipDescription, strUpdatedBy);
                 return Json(new { message = response });
@@ -788,7 +963,7 @@ namespace IndiaLivings_Web_UI.Controllers
             List<BlogViewModel> blogs = BlogViewModel.GetAllBlogs(pageNumber, pageSize, categoryId, publishedOnly);
             return View(blogs);
         }
-        public IActionResult navSearch(int categoryid = 0, int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "")
+        public async Task<IActionResult> navSearch(int categoryid = 0, int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "")
         {
             ProductViewModel productViewModel = new ProductViewModel();
             List<ProductViewModel> products;
@@ -809,11 +984,11 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 products = productViewModel.GetProducts(categoryid);
             }
-            List<ProductViewModel> allProducts = productViewModel.GetAds(0);
+            List<ProductViewModel> allProducts = await productViewModel.GetAds(0);
             CategoryViewModel category = new CategoryViewModel();
             List<CategoryViewModel> categoryList = category.GetCategoryCount();
             SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
-            List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
+            List<SearchFilterDetailsViewModel> filDetails = await searchFilterDetails.GetSearchFilterDetails();
             int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
             List<int> wishlistIds = productViewModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
             ViewBag.WishlistIds = wishlistIds;
@@ -835,57 +1010,125 @@ namespace IndiaLivings_Web_UI.Controllers
         /// </summary>
         /// <returns> List of all Ads will be returned</returns>
         /// // Need to be reviewed with Anoop
-        public async Task<IActionResult> AdsList(int categoryid = 0, int subcategoryid = 0, int page = 1, int ItemsPerPage = 12, bool rating = false, bool featured = false, bool trend = false)
+        public async Task<IActionResult>  AdsList(string mode = "all", string productName = "", string city = "", string adtypes="", int categoryid=0, int subcategoryid=0, string rating="", decimal? minprice=null, decimal? maxprice=null, int page=1, int pagesize=12, string sortByPrice = "")
         {
-            ProductViewModel productModel = new ProductViewModel();
-            List<ProductViewModel> products = productModel.GetAds(0);
-            CategoryViewModel category = new CategoryViewModel();
-            List<CategoryViewModel> categoryList = category.GetCategoryCount();
-            if (categoryid != 0)
-            {
-                products = products.Where(product => product.productCategoryID == categoryid).ToList();
-                if (subcategoryid != 0)
-                {
-                    products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
-                }
-            }
-            SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
-            List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
-            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
-            List<ProductViewModel> recommendedList = products.Where(product => product.productMembershipID == 2).ToList();
-
-            if (featured)
-            {
-                products = recommendedList;
-            }
-
-            if (trend)
-            {
-                // Use the API to get trending/recommended ads instead of local filtering
-                // Request a reasonable number (0 means let API decide / return full set if supported)
-                var trendingFromApi = await productModel.GetRecommendedAds(12, 4, true);
-                products = trendingFromApi ?? new List<ProductViewModel>();
-            }
-
-            if (rating)
-            {
-                products = products.OrderByDescending(p => p.averageRating).ToList();
-            }
-
-            ViewBag.WishlistIds = wishlistIds;
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            AdsResponse filterResponse = await new ProductViewModel().GetAllFilterDetails(userId, mode, productName, city, adtypes, categoryid, subcategoryid, rating, minprice, maxprice, page, pagesize, sortByPrice);
+            ViewBag.TotalCount = filterResponse.TotalRecords;
             ViewBag.CurrentPage = page;
-            ViewBag.Count = products.Count();
-            ViewBag.ItemsPerPage = ItemsPerPage;
-            AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
-            {
-                Products = products,
-                Filters = filDetails,
-                Categories = categoryList,
-                RecommendedAds = recommendedList
-            };
-            return View(adListFilters);
+            ViewBag.PageSize = pagesize;
+            SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+            List<SearchFilterDetailsViewModel> filDetails = await searchFilterDetails.GetSearchFilter();
+            CategoryViewModel category = new CategoryViewModel();
+            List<CategoryViewModel> categoryList = await category.GetCategory();
+            ProductViewModel product = new ProductViewModel();
+            List<FilteredAd> featuredAds =
+                await _cache.GetOrCreateAsync("FEATURED_ADS", async entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6);
+
+                    return await new ProductViewModel()
+                                 .GetFeaturedAds(userId);
+                });
+            List<int> wishlistIds = product.GetAllWishlist(userId)
+                                           .Select(w => w.productId)
+                                           .ToList();
+            ViewBag.WishlistIds = wishlistIds;
+            // PRODUCTS
+            //vm.Products = ds;
+
+            //// TOTAL COUNT
+            //vm.TotalCount = Convert.ToInt32(ds.Tables[1].Rows[0]["TotalCount"]);
+
+            //// FILTERS
+            //vm.Filters = ProductMapper.MapFilters(ds);
+            //vm.Categories = ProductMapper.MapCategories(ds.Tables[4]);
+
+            //// MODE FLAGS
+            //vm.IsTopRated = mode == "toprated";
+            //vm.IsRecommended = mode == "recommended";
+            //vm.IsTrending = mode == "trending";
+            filterResponse.CategoryList = categoryList;
+            filterResponse.FilterDetails = filDetails;
+            filterResponse.FeaturedAds = featuredAds;
+
+            return View(filterResponse);
         }
+        public async Task<IActionResult> ProductsList(string mode = "all", string productName = "", string city = "", string adtypes = "", int categoryid = 0, int subcategoryid = 0, string rating = "", decimal? minprice = null, decimal? maxprice = null, int page = 1, int pagesize = 12, string sortByPrice = "")
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            AdsResponse filterResponse = await new ProductViewModel().GetAllFilterDetails(userId, mode, productName, city, adtypes, categoryid, subcategoryid, rating, minprice, maxprice, page, pagesize, sortByPrice);
+            ViewBag.TotalCount = filterResponse.TotalRecords;
+            ViewBag.CurrentPage = page;
+            return PartialView("_ProductsPartial", filterResponse.Ads);
+        }
+        public async Task<IActionResult> ProductsList2(string mode = "all", string productName = "", string city = "", string adtypes = "", int categoryid = 0, int subcategoryid = 0, string rating = "", decimal? minprice = null, decimal? maxprice = null, int page = 1, int pagesize = 12, string sortByPrice = "")
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            AdsResponse filterResponse = await new ProductViewModel().GetAllFilterDetails(userId, mode, productName, city, adtypes, categoryid, subcategoryid, rating, minprice, maxprice, page, pagesize, sortByPrice);
+            ViewBag.TotalCount = filterResponse.TotalRecords;
+            ViewBag.CurrentPage = page;
+            return PartialView("_ProductsPartial2", filterResponse.Ads);
+        }
+        public async Task<IActionResult> ProductsList3(string mode = "all", string productName = "", string city = "", string adtypes = "", int categoryid = 0, int subcategoryid = 0, string rating = "", decimal? minprice = null, decimal? maxprice = null, int page = 1, int pagesize = 12, string sortByPrice = "")
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            AdsResponse filterResponse = await new ProductViewModel().GetAllFilterDetails(userId, mode, productName, city, adtypes, categoryid, subcategoryid, rating, minprice, maxprice, page, pagesize, sortByPrice);
+            ViewBag.TotalCount = filterResponse.TotalRecords;
+            ViewBag.CurrentPage = page;
+            return PartialView("_ProductsPartial3", filterResponse.Ads);
+        }
+        //public async Task<IActionResult> AdsList(int categoryid = 0, int subcategoryid = 0, int page = 1, int ItemsPerPage = 12, bool rating = false, bool featured = false, bool trend = false)
+        //{
+        //    ProductViewModel productModel = new ProductViewModel();
+        //    List<ProductViewModel> products = productModel.GetAds(0);
+        //    CategoryViewModel category = new CategoryViewModel();
+        //    List<CategoryViewModel> categoryList = category.GetCategoryCount();
+        //    if (categoryid != 0)
+        //    {
+        //        products = products.Where(product => product.productCategoryID == categoryid).ToList();
+        //        if (subcategoryid != 0)
+        //        {
+        //            products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
+        //        }
+        //    }
+        //    SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+        //    List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
+        //    int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+        //    List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+        //    List<ProductViewModel> recommendedList = products.Where(product => product.productMembershipID == 2).ToList();
+
+        //    if (featured)
+        //    {
+        //        products = recommendedList;
+        //    }
+
+        //    if (trend)
+        //    {
+        //        // Use the API to get trending/recommended ads instead of local filtering
+        //        // Request a reasonable number (0 means let API decide / return full set if supported)
+        //        var trendingFromApi = await productModel.GetRecommendedAds(12, 4, true);
+        //        products = trendingFromApi ?? new List<ProductViewModel>();
+        //    }
+
+        //    if (rating)
+        //    {
+        //        products = products.OrderByDescending(p => p.averageRating).ToList();
+        //    }
+
+        //    ViewBag.WishlistIds = wishlistIds;
+        //    ViewBag.CurrentPage = page;
+        //    ViewBag.Count = products.Count();
+        //    ViewBag.ItemsPerPage = ItemsPerPage;
+        //    AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
+        //    {
+        //        Products = products,
+        //        Filters = filDetails,
+        //        Categories = categoryList,
+        //        RecommendedAds = recommendedList
+        //    };
+        //    return View(adListFilters);
+        //}
         public IActionResult BlogDetails(int blogId)
         {
             BlogViewModel blogs = BlogViewModel.GetBlogById(blogId);
@@ -906,145 +1149,145 @@ namespace IndiaLivings_Web_UI.Controllers
             //return Json(new { status = response });
             return RedirectToAction("BlogDetails", new { blogId = blogId });
         }
-        public IActionResult ProductsList([FromBody] List<ProductViewModel> products, int page = 1, int itemsPerPage = 12)
-        {
-            ViewBag.Count = products.Count();
-            ViewBag.CurrentPage = page;
-            ViewBag.ItemsPerPage = itemsPerPage;
-            ProductViewModel productModel = new ProductViewModel();
-            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
-            ViewBag.WishlistIds = wishlistIds;
+        //public IActionResult ProductsList([FromBody] List<ProductViewModel> products, int page = 1, int itemsPerPage = 12)
+        //{
+        //    ViewBag.Count = products.Count();
+        //    ViewBag.CurrentPage = page;
+        //    ViewBag.ItemsPerPage = itemsPerPage;
+        //    ProductViewModel productModel = new ProductViewModel();
+        //    int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+        //    List<int> wishlistIds = productModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+        //    ViewBag.WishlistIds = wishlistIds;
 
-            return PartialView("_ProductsPartial", products);
-        }
-        public IActionResult ProductsList2([FromBody] List<ProductViewModel> products, int page = 1, int itemsPerPage = 12)
-        {
-            ViewBag.Count = products.Count();
-            ViewBag.CurrentPage = page;
-            ViewBag.ItemsPerPage = itemsPerPage;
+        //    return PartialView("_ProductsPartial", products);
+        //}
+        //public IActionResult ProductsList2([FromBody] List<ProductViewModel> products, int page = 1, int itemsPerPage = 12)
+        //{
+        //    ViewBag.Count = products.Count();
+        //    ViewBag.CurrentPage = page;
+        //    ViewBag.ItemsPerPage = itemsPerPage;
 
-            return PartialView("_ProductsPartial2", products);
-        }
-        public IActionResult ProductsList3([FromBody] List<ProductViewModel> products, int page = 1, int itemsPerPage = 12)
-        {
-            ViewBag.Count = products.Count();
-            ViewBag.CurrentPage = page;
-            ViewBag.ItemsPerPage = itemsPerPage;
+        //    return PartialView("_ProductsPartial2", products);
+        //}
+        //public IActionResult ProductsList3([FromBody] List<ProductViewModel> products, int page = 1, int itemsPerPage = 12)
+        //{
+        //    ViewBag.Count = products.Count();
+        //    ViewBag.CurrentPage = page;
+        //    ViewBag.ItemsPerPage = itemsPerPage;
 
-            return PartialView("_ProductsPartial3", products);
-        }
-        public async Task<IActionResult> productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "", int itemsPerPage = 12, bool ratings = false, bool recommended = false, bool trend = false, bool featured = false)
-        {
-            ProductViewModel productViewModel = new ProductViewModel();
-            List<ProductViewModel> products;
+        //    return PartialView("_ProductsPartial3", products);
+        //}
+        //public async Task<IActionResult> productList(int categoryid = 0, int subcategoryid = 0, string adtype = "", int page = 1, string strProductName = "", string strCity = "", string strState = "", decimal decMinPrice = 0, decimal decMaxPrice = 0, string strSearchType = "", string strSearchText = "", string sort = "", int itemsPerPage = 12, bool ratings = false, bool recommended = false, bool trend = false, bool featured = false)
+        //{
+        //    ProductViewModel productViewModel = new ProductViewModel();
+        //    List<ProductViewModel> products;
 
-            // If no search/filter parameters are used, fall back to category-based logic  
-            //bool isSearch = !string.IsNullOrEmpty(strProductName) ||
-            //                !string.IsNullOrEmpty(strCity) ||
-            //                !string.IsNullOrEmpty(strState) ||
-            //                decMinPrice > 0 || decMaxPrice > 0 ||
-            //                !string.IsNullOrEmpty(strSearchType) ||
-            //                !string.IsNullOrEmpty(strSearchText);
+        //    // If no search/filter parameters are used, fall back to category-based logic  
+        //    //bool isSearch = !string.IsNullOrEmpty(strProductName) ||
+        //    //                !string.IsNullOrEmpty(strCity) ||
+        //    //                !string.IsNullOrEmpty(strState) ||
+        //    //                decMinPrice > 0 || decMaxPrice > 0 ||
+        //    //                !string.IsNullOrEmpty(strSearchType) ||
+        //    //                !string.IsNullOrEmpty(strSearchText);
 
-            //if (isSearch)
-            //{
-            //    products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
-            //}
-            //else
-            //{
-            //    products = productViewModel.GetProducts(categoryid);
-            //}
+        //    //if (isSearch)
+        //    //{
+        //    //    products = productViewModel.GetProductsList(strProductName, strCity, strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
+        //    //}
+        //    //else
+        //    //{
+        //    //    products = productViewModel.GetProducts(categoryid);
+        //    //}
             
-            if (trend && decMinPrice > 0 || decMaxPrice > 0)
-            {
-                products = productViewModel.GetProductsList(strProductName, "", strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
-            }
-            else
-            {
-                products = productViewModel.GetAds(0);
-            }
+        //    if (trend && decMinPrice > 0 || decMaxPrice > 0)
+        //    {
+        //        products = productViewModel.GetProductsList(strProductName, "", strState, decMinPrice, decMaxPrice, strSearchType, strSearchText);
+        //    }
+        //    else
+        //    {
+        //        products = productViewModel.GetAds(0);
+        //    }
 
-            if (featured)
-            {
-                products = products.Where(product => product.productMembershipID == 2).ToList();
-            }
+        //    if (featured)
+        //    {
+        //        products = products.Where(product => product.productMembershipID == 2).ToList();
+        //    }
 
-            if (recommended)
-            {
-                products = products.Where(product => product.productMembershipID == 2).ToList();
-            }
+        //    if (recommended)
+        //    {
+        //        products = products.Where(product => product.productMembershipID == 2).ToList();
+        //    }
 
-            if (trend)
-            {
-                // Use API for trending results
-                var trendingFromApi = await productViewModel.GetRecommendedAds(12, 4, true);
-                products = trendingFromApi ?? new List<ProductViewModel>();
-            }
-            //if (decMinPrice > 0 || decMaxPrice > 0)
-            //{
-            //    products = products.Where(product => product.MaxPrice <= decMaxPrice && product.MinPrice >= decMinPrice).ToList();
-            //}
-            if (categoryid != 0)
-            {
-                products = products.Where(product => product.productCategoryID == categoryid).ToList();
+        //    if (trend)
+        //    {
+        //        // Use API for trending results
+        //        var trendingFromApi = await productViewModel.GetRecommendedAds(12, 4, true);
+        //        products = trendingFromApi ?? new List<ProductViewModel>();
+        //    }
+        //    //if (decMinPrice > 0 || decMaxPrice > 0)
+        //    //{
+        //    //    products = products.Where(product => product.MaxPrice <= decMaxPrice && product.MinPrice >= decMinPrice).ToList();
+        //    //}
+        //    if (categoryid != 0)
+        //    {
+        //        products = products.Where(product => product.productCategoryID == categoryid).ToList();
 
-                if (subcategoryid != 0)
-                {
-                    products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
-                }
-            }
+        //        if (subcategoryid != 0)
+        //        {
+        //            products = products.Where(product => product.productsubCategoryID == subcategoryid).ToList();
+        //        }
+        //    }
 
-            if (strCity != "")
-            {
-                List<string> citiesList = strCity.Split(',').ToList();
-                products = products.Where(product => citiesList.Contains(product.userContactCity.ToLower())).ToList();
-            }
+        //    if (strCity != "")
+        //    {
+        //        List<string> citiesList = strCity.Split(',').ToList();
+        //        products = products.Where(product => citiesList.Contains(product.userContactCity.ToLower())).ToList();
+        //    }
 
-            if (adtype != "")
-            {
-                List<string> adtypeList = adtype.Split(',').ToList();
-                products = products.Where(product => adtypeList.Contains(product.productAdCategory.ToLower())).ToList();
-            }
-            if (ratings)
-            {
-                products = products.OrderByDescending(p => p.averageRating).ToList();
-            }
+        //    if (adtype != "")
+        //    {
+        //        List<string> adtypeList = adtype.Split(',').ToList();
+        //        products = products.Where(product => adtypeList.Contains(product.productAdCategory.ToLower())).ToList();
+        //    }
+        //    if (ratings)
+        //    {
+        //        products = products.OrderByDescending(p => p.averageRating).ToList();
+        //    }
 
-            if (sort != "")
-            {
-                if (sort == "desc" || sort == "5")
-                {
-                    products = products.OrderByDescending(p => p.productPrice).ToList();
-                }
-                else if (sort == "1")
-                {
-                    products = products.Where(p => p.productMembershipID == 2).ToList();
-                }
-                else
-                {
-                    products = products.OrderBy(p => p.productPrice).ToList();
-                }
-            }
+        //    if (sort != "")
+        //    {
+        //        if (sort == "desc" || sort == "5")
+        //        {
+        //            products = products.OrderByDescending(p => p.productPrice).ToList();
+        //        }
+        //        else if (sort == "1")
+        //        {
+        //            products = products.Where(p => p.productMembershipID == 2).ToList();
+        //        }
+        //        else
+        //        {
+        //            products = products.OrderBy(p => p.productPrice).ToList();
+        //        }
+        //    }
 
-            //CategoryViewModel category = new CategoryViewModel();
-            //List<CategoryViewModel> categoryList = category.GetCategoryCount();
-            //SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
-            //List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
-            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            List<int> wishlistIds = productViewModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
-            ViewBag.WishlistIds = wishlistIds;
-            ViewBag.CurrentPage = page;
-            ViewBag.Count = products.Count();
-            ViewBag.ItemsPerPage = itemsPerPage;
-            //AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
-            //{
-            //    Products = products,
-            //    Filters = filDetails,
-            //    Categories = categoryList
-            //};
-            return PartialView("_ProductsPartial", products);
-        }
+        //    //CategoryViewModel category = new CategoryViewModel();
+        //    //List<CategoryViewModel> categoryList = category.GetCategoryCount();
+        //    //SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
+        //    //List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
+        //    int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
+        //    List<int> wishlistIds = productViewModel.GetAllWishlist(productOwner).Select(w => w.productId).ToList();
+        //    ViewBag.WishlistIds = wishlistIds;
+        //    ViewBag.CurrentPage = page;
+        //    ViewBag.Count = products.Count();
+        //    ViewBag.ItemsPerPage = itemsPerPage;
+        //    //AdListFiltersViewModel adListFilters = new AdListFiltersViewModel()
+        //    //{
+        //    //    Products = products,
+        //    //    Filters = filDetails,
+        //    //    Categories = categoryList
+        //    //};
+        //    return PartialView("_ProductsPartial", products);
+        //}
         /// <summary>
         /// Categories List
         /// </summary>
@@ -1059,10 +1302,10 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Categories List
         /// </summary>
         /// <returns>List of Categories and Subcategories</returns>
-        public IActionResult Cities()
+        public async Task<IActionResult> Cities()
         {
             SearchFilterDetailsViewModel searchFilterDetails = new SearchFilterDetailsViewModel();
-            List<SearchFilterDetailsViewModel> filDetails = searchFilterDetails.GetSearchFilterDetails();
+            List<SearchFilterDetailsViewModel> filDetails = await searchFilterDetails.GetSearchFilterDetails();
             var citiesList = filDetails.Where(x => x.CategoryType.ToLower().Equals("cities")).OrderByDescending(x => x.totalCount).ToList();
             return View(citiesList);
         }

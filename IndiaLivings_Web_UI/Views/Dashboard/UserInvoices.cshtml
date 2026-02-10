@@ -1,0 +1,49 @@
+﻿@model IEnumerable<IndiaLivings_Web_UI.Models.InvoiceViewModel>
+@using NonFactors.Mvc.Grid
+@{
+    ViewBag.Title = "Membership";
+    <link rel="stylesheet" href="~/fonts/flaticon/flaticon.css" />
+    <link rel="stylesheet" href="~/fonts/font-awesome/fontawesome.css" />
+}
+
+<div class="container">
+    <script src="~/js/mvc-grid/mvc-grid.js"></script>
+    <form asp-action="InvoiceByUser" asp-controller="Dashboard" method="get">
+        <input type="text" name="userId" placeholder="Enter userid" />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <h4 class="m-2">Invoice Details</h4>
+    <div class="container-fluid">
+        @(
+                Html.Grid(Model).Build(col =>
+                {
+                  @* col.Add().RenderedAs((model, row) => row + 1).Titled("#").Width("2%").Css("text-center"); *@
+                    col.Add(Model => Model.intInvoiceID).Titled("ID").Css("text-center");
+                    col.Add(Model => Model.invoiceNumber).Titled("Plan").Css("text-center");
+                    col.Add(Model => Model.invoiceTotal).Titled("Price").Css("text-center");
+                    col.Add(Model => Model.InvoiceType).Titled("Type").Css("text-center");
+                    col.Add(Model => Model.Status).Titled("Status").Css("text-center");
+                                                                                        @* col.Add(Model => Model.discountAmount).Titled("Discount").Css("text-center"); *@
+                    col.Add(Model => Model.createdDate).Titled("Start Date").Css("text-center");
+                    col.Add(Model => Model.dueDate).Titled("End Date").Css("text-center");
+                })
+        @* .Sortable().Filterable() *@
+                .Empty("No data Found")
+                .Pageable(pager =>
+                {
+                    pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 5, "5" }, { 10, "10" }, { 50, "50" } };
+                    pager.ShowPageSizes = false;
+                    pager.PagesToDisplay = 3;
+                    pager.CurrentPage = 1;
+                    pager.RowsPerPage = 10;
+                })
+                )
+    </div>
+    <div id="invoiceDetailsContainer" style="display:none; margin-top:20px;">
+    </div>
+
+</div>
+<script>
+    document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+</script>

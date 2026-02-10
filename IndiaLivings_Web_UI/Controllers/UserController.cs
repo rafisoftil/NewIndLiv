@@ -3,6 +3,7 @@ using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System.Dynamic;
 using System.Reflection;
@@ -15,21 +16,50 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Users Dashboard Page
         /// </summary>
         /// <returns>Ads count created by user</returns>
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            int productOwner = HttpContext.Session.GetInt32("UserId") ?? 0;
-            ProductViewModel productViewModel = new ProductViewModel();
-            List<ProductViewModel> products = productViewModel.GetAds(productOwner);
-            int productsCount = products.Count();
-            HttpContext.Session.SetInt32("listingAds", productsCount);
-            ViewBag.ActiveAds = productsCount;
-            ViewBag.BookingAds = products.Where(p => p.productAdCategory.Equals("Booking")).ToList().Count();
-            ViewBag.SalesAds = products.Where(p => p.productAdCategory.Equals("Sale")).ToList().Count();
-            ViewBag.RentalAds = products.Where(p => p.productAdCategory.Equals("Rent")).ToList().Count();
-            MembershipViewModel membershipModel = new MembershipViewModel();
-            MembershipViewModel membership = membershipModel.GetMembershipDetails(productOwner)[0];
-            return View(membership);
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+
+            if (userId == 0)
+                return RedirectToAction("Login", "Home");
+
+            // Get Products
+            var productVM = new ProductViewModel();
+            var products = await productVM.GetAds(userId);
+
+            // Get Newsletter
+            var newsletterVM = new NewsletterViewModel();
+            var newsletter = await newsletterVM.GetNewsletterByID(0);
+
+            // Get Membership
+            var membershipVM = new MembershipViewModel();
+            var membershipList = membershipVM.GetMembershipDetails(userId);
+            var membership = membershipList.FirstOrDefault();
+
+            // Prepare Dashboard Model
+            var model = new DashboardViewModel
+            {
+                Products = products,
+
+                Newsletter = newsletter,
+
+                Membership = membership,
+
+                ActiveAds = products.Count,
+
+                BookingAds = products.Count(p => p.productAdCategory == "Booking"),
+
+                SalesAds = products.Count(p => p.productAdCategory == "Sale"),
+
+                RentalAds = products.Count(p => p.productAdCategory == "Rent")
+            };
+
+            // Session
+            HttpContext.Session.SetInt32("listingAds", model.ActiveAds);
+
+            return View(model);
         }
+
         public IActionResult PostAd()
         {
             var loggedInUSer = HttpContext.Session.GetInt32("UserId");
@@ -474,6 +504,7 @@ namespace IndiaLivings_Web_UI.Controllers
                     updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Membership");
                     var response = await userViewModel.UpgradeMembership(loggedInUser, currentMembership, 2, Convert.ToString(loggedInUser));
                     //var response = userViewModel.AddUserMembership(1, loggedInUser, Convert.ToString(loggedInUser));
+                    UpdateMembershipDetailsInSession();
                     return RedirectToAction("PostAd");
                 }
                 else if (amt == 4300)
@@ -481,6 +512,7 @@ namespace IndiaLivings_Web_UI.Controllers
                     updateStatus = paymentRequestViewModel.ProcessUpdateRequest(amt, orderid, ApiKey, SecretKey, loggedInUser, "Membership");
                     var response = await userViewModel.UpgradeMembership(loggedInUser, currentMembership, 3, Convert.ToString(loggedInUser));
                     //var response = userViewModel.AddUserMembership(2, loggedInUser, Convert.ToString(loggedInUser));
+                    UpdateMembershipDetailsInSession();
                     return RedirectToAction("PostAd");
                 }
                 else
@@ -492,17 +524,75 @@ namespace IndiaLivings_Web_UI.Controllers
                         JsonConvert.DeserializeObject<ServiceBookingViewModel>(json);
 
                     // NOW create booking + invoice
-                    ServiceBookingViewModel.BookService(booking);
+                    if (booking != null)
+                    {
+                        ServiceBookingViewModel.BookService(booking);
+                    }
 
                     HttpContext.Session.Remove("PendingBooking");
-                    TempData["BookingStatus"] = "Service Booked Successfully";
-                    return RedirectToAction("ServicesList", "Service");
+
+                    // Build query string for payment success page with booking details
+                    var bookingId = booking?.BookingId.ToString() ?? DateTime.Now.Ticks.ToString();
+                    var serviceName = booking?.ServiceName ?? "Professional Service";
+                    var bookingAmount = (amt / 100.0).ToString("F2"); // Convert paise to rupees
+
+                    var successUrl = Url.Action("PaymentSuccess", "User", new
+                    {
+                        bookingId = bookingId,
+                        serviceName = serviceName,
+                        amount = bookingAmount
+                    });
+
+                    return successUrl != null ? Redirect(successUrl) : RedirectToAction("MyServices", "Service");
+
+                    //// NOW create booking + invoice
+                    //ServiceBookingViewModel.BookService(booking);
+
+                    //HttpContext.Session.Remove("PendingBooking");
+                    //TempData["BookingStatus"] = "Service Booked Successfully";
+                    //return RedirectToAction("ServicesList", "Service");
                 }
             }
             return RedirectToAction("Home");
         }
+        public void UpdateMembershipDetailsInSession()
+        {
+            AdsByMembershipViewModel adsRem = new AdsByMembershipViewModel();
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<AdsByMembershipViewModel> adData = adsRem.GetUserAdsRemaining(userId);
+            if (adData.Count > 0)
+            {
+                HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
+                int remainingAds = adData[0].userTotalAdsRemaining;
+                if (remainingAds < 0)
+                {
+                    remainingAds = 0;
+                }
+                HttpContext.Session.SetInt32("remainingAds", remainingAds);
+
+                int membershipAds = adData[0].userMembershipAds;
+                if (membershipAds < 0)
+                {
+                    membershipAds = 0;
+                }
+                HttpContext.Session.SetInt32("membershipAds", membershipAds);
+                ViewBag.AdsRemaining = adData[0].userTotalAdsRemaining;
+            }
+        }
         public IActionResult Payment()
         {
+            return View();
+        }
+
+        /// <summary>
+        /// Payment Success Page with animations
+        /// </summary>
+        /// <returns>Success page with confetti and auto-redirect to MyServices</returns>
+        public IActionResult PaymentSuccess(string bookingId = "", string serviceName = "", string amount = "")
+        {
+            ViewBag.BookingId = bookingId;
+            ViewBag.ServiceName = serviceName;
+            ViewBag.Amount = amount;
             return View();
         }
         [HttpPost]
@@ -538,19 +628,27 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Product Details
         /// </summary>
         /// <returns>Products and its user details</returns>
-        public IActionResult ProductDetails(int productId, string username, int notificatonId = 0)
+        public async Task<IActionResult> ProductDetails(int productId, string username, int notificatonId = 0)
         {
             UserViewModel userViewModel = new UserViewModel();
             ProductViewModel productViewModel = new ProductViewModel();
             // Get product with images from helper
             var productWithImages = productViewModel.GetProductById(productId);
             var product = productWithImages?.Product ?? new ProductViewModel();
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            List<int> wishlistIds = product.GetAllWishlist(userId)
+                                           .Select(w => w.productId)
+                                           .ToList();
+            ViewBag.WishlistIds = wishlistIds;
             UserViewModel user = userViewModel.GetUsersInfo(username).FirstOrDefault() ?? new UserViewModel();
             List<ProductRatingViewModel> ratings = new ProductRatingViewModel().GetProductRatings(productId);
+            AdsResponse filterResponse = await new ProductViewModel().GetAllFilterDetails(0, "all", "", product.userContactCity, "", product.productCategoryID, product.productsubCategoryID, "", null, null, 1, 8, "");
+            List<FilteredAd> filteredAds = filterResponse.Ads;
             dynamic data = new ExpandoObject();
             data.Product = product;
             data.User = user;
             data.Ratings = ratings;
+            data.filterResponse = filteredAds;
             // also expose image list if view needs it
             data.ProductImages = productWithImages?.ProductImages ?? new List<ProductImageDetailsViewModel>();
             NotificationViewModel NVM = new NotificationViewModel();
@@ -835,6 +933,21 @@ namespace IndiaLivings_Web_UI.Controllers
             return Json(unreadCount);
         }
         [HttpGet]
+        public JsonResult GetReadMessageCount(int userId)
+        {
+            int readCount = 0;
+            try
+            {
+                MessageViewModel messageModel = new MessageViewModel();
+                readCount = messageModel.GetReadMessageCount(userId);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return Json(readCount);
+        }
+        [HttpGet]
         public JsonResult GetUnreadNotificationCount(int userId)
         {
             int unreadCount = 0;
@@ -889,11 +1002,23 @@ namespace IndiaLivings_Web_UI.Controllers
             List<InvoiceViewModel> invoices = invoiceModel.InvoiceListByUser(userId);
             return View(invoices);
         }
+        public IActionResult InvoiceByUser(int userId)
+        {
+            InvoiceViewModel invoiceModel = new InvoiceViewModel();
+            List<InvoiceViewModel> invoices = invoiceModel.InvoiceListByUser(userId);
+            return View("UserInvoices", invoices);
+        }
         /// <summary>
         /// Get Invoice By User
         /// </summary>
         /// <param name="productId"></param>
         /// <returns></returns>
+        public IActionResult UserInvoices()
+        {
+            InvoiceViewModel invoiceModel = new InvoiceViewModel();
+            List<InvoiceViewModel> invoices = new();
+            return View("UserInvoices", invoices);
+        }
         public IActionResult GetInvoiceByUser(int id)
         {
             InvoiceViewModel invoiceModel = new InvoiceViewModel();

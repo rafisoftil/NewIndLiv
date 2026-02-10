@@ -17,6 +17,7 @@ namespace IndiaLivings_Web_UI.Hubs
             await Clients.User(senderId).SendAsync("ReceiveMessage", senderId, receiverId, message);
             await Clients.User(receiverId).SendAsync("ReceiveMessage", senderId, receiverId, message);
             await Clients.User(receiverId).SendAsync("UpdateUnreadCount", receiverId);
+            await Clients.User(senderId).SendAsync("UpdateReadCount", senderId);
             await Clients.User(receiverId).SendAsync("UpdateUnreadNotificationCount", receiverId);
 
             await _notificationHub.Clients.User(receiverId).SendAsync("ReceiveNotification", new

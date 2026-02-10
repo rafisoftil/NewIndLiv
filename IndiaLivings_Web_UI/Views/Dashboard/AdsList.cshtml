@@ -1,6 +1,7 @@
-﻿@model AdListFiltersViewModel
+﻿@model AdsResponse
 @{
     ViewBag.Title = "Ads List";
+    List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
 }
 <style>
     .accordion {
@@ -38,7 +39,7 @@
                 <div class="single-content">
                     <h2>ad list</h2>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Dashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0)" onclick="Home()">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">ad-list</li>
                     </ol>
                 </div>
@@ -79,8 +80,8 @@
                                     <label class="filter-label mb-1">Sort by:</label>
                                     <select class="form-select form-select-sm w-auto d-inline-block" onchange="sortByPrice(this.value)">
                                         <option value="" selected>Sort</option>
-                                        <option value="asc">Min-Max</option>
-                                        <option value="desc">Max-Min</option>
+                                        <option value="ASC">Min-Max</option>
+                                        <option value="DESC">Max-Min</option>
                                     </select>
                                 </div>
                                 <div class="product-widget-group">
@@ -108,21 +109,21 @@
                                         <div class="product-widget-checkbox"><input type="checkbox" class="filter-type" onchange="updateAdType('sale', this.checked)" id="filtersale"></div>
                                         <label class="product-widget-label" for="chcek1">
                                             <span class="product-widget-type sale">sales</span>
-                                            <span class="product-widget-number">(@Model.Filters[0].totalCount)</span>
+                                            <span class="product-widget-number">(@(Model.FilterDetails != null && Model.FilterDetails.Count > 0 ? Model.FilterDetails[0].totalCount : 0))</span>
                                         </label>
                                     </li>
                                     <li class="product-widget-item">
                                         <div class="product-widget-checkbox"><input type="checkbox" class="filter-type" onchange="updateAdType('rent', this.checked)" id="filterrent"></div>
                                         <label class="product-widget-label" for="chcek2">
                                             <span class="product-widget-type rent">rental</span>
-                                            <span class="product-widget-number">(@Model.Filters[1].totalCount)</span>
+                                            <span class="product-widget-number">(@(Model.FilterDetails != null && Model.FilterDetails.Count > 1 ? Model.FilterDetails[1].totalCount : 0))</span>
                                         </label>
                                     </li>
                                     <li class="product-widget-item">
                                         <div class="product-widget-checkbox"><input type="checkbox" class="filter-type" onchange="updateAdType('booking', this.checked)" id="filterbooking"></div>
                                         <label class="product-widget-label" for="chcek3">
                                             <span class="product-widget-type booking">booking</span>
-                                            <span class="product-widget-number">(@Model.Filters[2].totalCount)</span>
+                                            <span class="product-widget-number">(@(Model.FilterDetails != null && Model.FilterDetails.Count > 2 ? Model.FilterDetails[2].totalCount : 0))</span>
                                         </label>
                                     </li>
                                 </ul>
@@ -165,7 +166,7 @@
                                                 <i class="fas fa-star"></i>
                                                 <i class="far fa-star"></i>
                                             </span>
-                                            <span class="product-widget-number">(55)</span>
+                                            @* <span class="product-widget-number">(55)</span> *@
                                         </label>
                                     </li>
                                     <li class="product-widget-item">
@@ -180,7 +181,7 @@
                                                 <i class="far fa-star"></i>
                                                 <i class="far fa-star"></i>
                                             </span>
-                                            <span class="product-widget-number">(65)</span>
+                                            @* <span class="product-widget-number">(65)</span> *@
                                         </label>
                                     </li>
                                     <li class="product-widget-item">
@@ -195,7 +196,7 @@
                                                 <i class="far fa-star"></i>
                                                 <i class="far fa-star"></i>
                                             </span>
-                                            <span class="product-widget-number">(75)</span>
+                                            @* <span class="product-widget-number">(75)</span> *@
                                         </label>
                                     </li>
                                     <li class="product-widget-item">
@@ -210,7 +211,7 @@
                                                 <i class="far fa-star"></i>
                                                 <i class="far fa-star"></i>
                                             </span>
-                                            <span class="product-widget-number">(85)</span>
+                                            @* <span class="product-widget-number">(85)</span> *@
                                         </label>
                                     </li>
                                 </ul>
@@ -229,20 +230,20 @@
                                     <input type="text" id="citySearchInput" onkeyup="filterCities()" placeholder="Search">
                                 </div>
                                 <ul class="product-widget-list product-widget-scroll">
-                                    @foreach (var item in Model.Filters)
+                                    @foreach (var item in Model.FilterDetails)
                                     {
                                         if (@item.CategoryType == "Cities")
                                         {
-                                            <li class="product-widget-item city-item">
-                                                <div class="product-widget-checkbox">
+                                        <li class="product-widget-item city-item filter-city">
+                                            <div class="product-widget-checkbox">
                                                     <input type="checkbox" class="city-filter-checkbox" id="city_@item.CategoryValue" onchange="updateCity('@item.CategoryValue', this.checked)">
-                                                </div>
+                                            </div>
                                                 <label class="product-widget-label" for="check_@item.CategoryValue">
                                                     <span class="product-widget-text city-text">@item.CategoryValue</span>
                                                     <span class="product-widget-number">(@item.totalCount)</span>
-                                                </label>
-                                            </li>
-                                        }
+                                            </label>
+                                        </li>
+                                    }
                                     }
                                 </ul>
                                 <button type="button" id="clearCityFilterBtn" class="product-widget-btn" onclick="updateCity('clear', false)">
@@ -357,17 +358,19 @@
                                     <input type="text" placeholder="search" id="categorySearch" onkeyup="filterCategories()">
                                 </div>
                                 <ul class="product-widget-list product-widget-scroll">
-                                    @foreach (var item in Model.Categories)
+                                    @foreach (var item in Model.CategoryList)
                                     {
-                                        <li class="product-widget-dropitem category-item">
-                                            <button type="button" class="product-widget-link" onclick="updateCategory('@item.CategoryID')">
+                                        <li class="product-widget-dropitem category-item" data-category-id="@item.CategoryID">
+                                            <button type="button" class="product-widget-link" data-category-id="@item.CategoryID" onclick="updateCategory('@item.CategoryID')">
                                                 <i class="fas fa-tags"></i>
                                                 @item.CategoryName (@item.CategoryCount)
                                             </button>
                                             <ul class="product-widget-dropdown">
                                                 @foreach (var subCat in item.subCategories)
                                                 {
-                                                    <li><a class="product-subcategory" onclick="updateSubCategory('@subCat.subCategoryID', '@item.CategoryID')">@subCat.subCatergoryName (@subCat.intSubCategoryCount)</a></li>
+                                                    <li>
+                                                        <a class="product-subcategory" data-category-id="@item.CategoryID" data-subcategory-id="@subCat.subCategoryID" onclick="updateSubCategory('@subCat.subCategoryID', '@item.CategoryID')">@subCat.subCatergoryName (@subCat.intSubCategoryCount)</a>
+                                                    </li>
                                                 }
                                             </ul>
                                         </li>
@@ -406,39 +409,41 @@
                                 </select>
                             </div> *@
                             <div class="filter-action">
-                                <a onclick="changeGridView()" id="grid1" title="Three Column" class="active"><i class="fas fa-th"></i></a>
-                                <a onclick="changeGridView2()" id="grid2" title="Two Column"><i class="fas fa-th-large"></i></a>
-                                <a onclick="changeGridView3()" id="grid3" title="One Column"><i class="fas fa-th-list"></i></a>
+                                <a onclick="changeGridView('')" id="grid" title="Three Column" class="active gridsize"><i class="fas fa-th"></i></a>
+                                <a onclick="changeGridView('2')" id="grid2" title="Two Column" class="gridsize"><i class="fas fa-th-large"></i></a>
+                                <a onclick="changeGridView('3')" id="grid3" title="One Column" class="gridsize"><i class="fas fa-th-list"></i></a>
                             </div>
-                        </div>
+                        </div
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ad-feature-slider slider-arrow">
-                            @foreach (var product in Model.RecommendedAds)
+                            @foreach (var product in Model.FeaturedAds)
                             {
                                 <div class="feature-card">
                                     <a href="#" class="feature-img">
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="feature" width="565" height="401" />
+                                        <img src="@Url.Action("GetProductImage", "Dashboard", new { productId = product.ProductId })"
+                                             onerror="this.onerror=null;this.src='/images/no-image.png';"
+                                             alt="@product.ProductName" width="565" height="401" />
                                     </a>
                                     <div class="cross-inline-badge feature-badge">
                                         <span>featured</span>
                                         <i class="fas fa-book-open"></i>
                                     </div>
-                                    <button type="button" class="feature-wish">
-                                        <i class="fas fa-heart"></i>
+                                    <button type="button" class="feature-wish" onclick="AddToWishlist(this, '@product.ProductId', '@product.ProductOwner')">
+                                        <i class="@(product.IsWishlisted) ? "far fa-heart fas" : "far fa-heart")"></i>
                                     </button>
                                     <div class="feature-content">
                                         <ol class="breadcrumb feature-category">
-                                            <li><span class="flat-badge @(product.productAdCategory.ToLower())">@product.productAdCategory</span></li>
-                                            <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
+                                            <li><span class="flat-badge @(product.ProductAdCategory.ToLower())">@product.ProductAdCategory</span></li>
+                                            <li class="breadcrumb-item"><a href="#">@product.CategoryName</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">@product.SubCategoryName</li>
                                         </ol>
-                                        <h3 class="feature-title"><a href="ad-details-left.html">@product.productDescription</a></h3>
+                                        <h3 class="feature-title"><a href="ad-details-left.html">@product.ProductDescription</a></h3>
                                         <div class="feature-meta">
-                                            <span class="feature-price">₹@product.productPrice.ToString("F2")<small>/@product.productPriceCondition</small></span>
-                                            <span class="feature-time"><i class="fas fa-clock"></i>@product.updatedDate.ToString("MMM dd, h:mm tt")</span>
+                                            <span class="feature-price">₹@product.ProductPrice.ToString("F2")<small>/@product.ProductPriceCondition</small></span>
+                                            <span class="feature-time"><i class="fas fa-clock"></i>@((product.UpdatedDate == null) ? product.CreatedDate.ToString("MMM dd, h:mm tt"): product.UpdatedDate.ToString("MMM dd, h:mm tt"))</span>
                                         </div>
                                     </div>
                                 </div>
@@ -447,7 +452,7 @@
                     </div>
                 </div>
                 <div class="row" id="divPartial">
-                    @Html.Partial("_ProductsPartial", Model.Products)
+                    @Html.Partial("_ProductsPartial", Model.Ads)
                 </div>
             </div>
         </div>
@@ -586,7 +591,221 @@
 =======================================-->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
+<script>
+    let selectedAdTypes = [];
+    let selectedCities = [];
+    let selectedRatings = [];
+
+    let filters = {
+        mode: 'all',
+        productName: "",
+        city: "",
+        adtypes: "",
+        rating: "",
+        categoryid: 0,
+        subcategoryid: 0,
+        minprice: null,
+        maxprice: null,
+        page: 1,
+        pagesize: 12,
+        sortByPrice: ""
+    };
+    function updateAdType(type, isChecked) {
+        filters.page = 1;
+        filters.adtypes = "";
+        if (type === 'clear') {
+            document.querySelectorAll('.filter-type').forEach(btn => {
+                btn.checked = false;
+            });
+            selectedAdTypes = [];
+        }
+        else if (isChecked) {
+            selectedAdTypes.push(type.toLowerCase());
+        } else {
+            selectedAdTypes = selectedAdTypes.filter(t => t !== type.toLowerCase());
+        }
+
+        filters.adtypes = selectedAdTypes.join(',');
+        applyFilters();
+    }
+    function updateCity(city, isChecked) {
+        filters.page = 1;
+        if (city === 'clear') {
+            selectedCities = [];
+            document.querySelectorAll('.city-filter-checkbox').forEach(btn => {
+                btn.checked = false;
+            });
+        }
+        else if (isChecked) {
+            selectedCities.push(city.toLowerCase());
+        } else {
+            selectedCities = selectedCities.filter(c => c !== city.toLowerCase());
+        }
+
+        filters.city = selectedCities.join(',');
+        applyFilters();
+    }
+    function updateRating(rating, isChecked) {
+        filters.page = 1;
+        if (rating === 'clear') {
+            selectedRatings = [];
+            document.querySelectorAll('.rating-filter').forEach(btn => {
+                btn.checked = false;
+            });
+        }
+        else if (isChecked) {
+            selectedRatings.push(rating);
+        } else {
+            selectedRatings = selectedRatings.filter(r => r !== rating);
+        }
+        filters.rating = selectedRatings.join(',');
+        applyFilters();
+    }
+    function updatePriceRange(type) {
+        filters.page = 1;
+        filters.minprice = parseFloat($('#decMinPrice').val()) || null;
+        filters.maxprice = parseFloat($('#decMaxPrice').val()) || null;
+
+        if (type === null) {
+            minprice = null;
+            maxprice = null;
+            $('#decMinPrice').val('');
+            $('#decMaxPrice').val('');
+            //$('.form-select').val("0");
+        }
+        applyFilters();
+    }
+    function updateCategory(cat)
+    {
+        filters.page = 1;
+        filters.categoryid = cat;
+        subCategoryId = 0;
+        applyFilters();
+    }
+    function updateSubCategory(subcat, cat) {
+        filters.page = 1;
+        filters.subcategoryid = subcat;
+        filters.categoryid = cat;
+        applyFilters();
+    }
+    function sortByPrice(type) {
+        filters.page = 1;
+        filters.sortByPrice = type;
+        applyFilters();
+    }
+    function applyFilters(resetPage = true) {
+        //if (resetPage) filters.page = 1;
+
+        $("#spinner").removeClass('d-none');
+
+        $.ajax({
+            url: '/Dashboard/ProductsList',
+            type: 'POST',
+            data: filters,
+            success: function (res) {
+                $('#divPartial').html(res);
+                $("#spinner").addClass('d-none');
+                $('html, body').animate({ scrollTop: $('#divPartial').offset().top - 100 }, 300);
+                //updateCounts(res.filterCounts);
+                //renderPagination(res.totalCount);
+            }
+        });
+    }
+    $(document).ready(function () {
+        // Get the city parameter from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const cityParam = urlParams.get('city');
+        const categoryId = urlParams.get('categoryid');
+        const subcategoryId = urlParams.get('subcategoryid');
+        filters.mode = urlParams.get('mode');
+        filters.minprice = urlParams.get('minprice');
+        filters.maxprice = urlParams.get('maxprice');
+        filters.productName = urlParams.get('productName');
+        // isFeatured = urlParams.get('featured') === 'true' || urlParams.get('featured') === 'True';
+        // isTrending = urlParams.get('trend') === 'true' || urlParams.get('trend') === 'True';
+        // isRecommended = urlParams.get('recommended') === 'true' || urlParams.get('recommended') === 'True';
+
+        // console.log('isFeatured:', isFeatured);
+        // console.log('isTrending:', isTrending);
+
+        filters.categoryid = categoryId || 0;
+        filters.subcategoryid = subcategoryId || 0;
+
+        if (cityParam) {
+            // Find and check the corresponding checkbox
+            const cityCheckbox = document.querySelector(`#city_${cityParam}`);
+            if (cityCheckbox) {
+                cityCheckbox.checked = true;
+                // Update the selected cities array and trigger filter
+                updateCity(cityParam, true);
+            }
+        }
+
+        if (categoryId && categoryId !== "0") {
+            const categoryBtn = $(`.category-btn[data-category-id='${categoryId}']`);
+
+            if (categoryBtn.length) {
+                categoryBtn.trigger("click"); // 🔥 SAME as user click
+            }
+        }
+
+        // 2️⃣ Trigger subcategory (after category expands)
+        if (subcategoryId && subcategoryId !== "0") {
+            setTimeout(() => {
+                const subCat = $(
+                    `.product-subcategory[data-subcategory-id='${subcategoryid}']`
+                );
+
+                if (subCat.length) {
+                    subCat.trigger("click"); // 🔥 SAME as user click
+                }
+            }, 300);
+        }
+
+        // Ad Type Checkbox
+        // $('.filter-type').on('change', function () {
+        //     var type = $(this).val();
+        //     updateAdType(type, $(this).is(':checked'));
+        // });
+
+        // // Category Checkbox
+        // $('.filter-category').on('change', function () {
+        //     var catId = $(this).val();
+        //     updateCategory(catId, $(this).is(':checked'));
+        // });
+
+        // // City Checkbox
+        // $('.filter-city').on('change', function () {
+        //     var city = $(this).val();
+        //     updateCity(city, $(this).is(':checked'));
+        // });
+
+        // // Price Range
+        // $('#priceFilterButton').on('click', function () {
+        //     updatePriceRange();
+        // });
+    });
+
+    $('#itemsPerPageSelect').on('change', function () {
+        filters.pagesize = $(this).val();
+        applyFilters();
+    });
+    
+    function changeGridView(page){
+        $("#spinner").removeClass('d-none');
+        $('.gridsize').removeClass('active');
+        $('#grid' + page).addClass('active');
+        $.ajax({
+            url: '/Dashboard/ProductsList' + page,
+            type: 'POST',
+            data: filters,
+            success: function (res) {
+                $('#divPartial').html(res);
+                $("#spinner").addClass('d-none');
+            }
+        });
+    }
+
     function AddToWishlist(button, productID, createdBy) {
         const loggedUserId = '@Context.Session.GetInt32("UserId")';
 
@@ -624,25 +843,37 @@
             }
         });
     }
+</script>
+<script type="text/javascript">
+    let categoryId = 0;
+    let subCategoryId = 0;
+    let minPrice = null;
+    let maxPrice = null;
+    let sort = '';
+    let itemsPerPage = 12;
+
+    
+
+    // function UpdateWishlistCount() {
+    //     $.ajax({
+    //         url: '/User/GetWishlistCount',
+    //         type: 'GET',
+    //         success: function (response) {
+    //             $('.wishlist-count').text(response.count);
+    //         }
+    //     });
+    // }
 
 
     var itemsPerPage = 12;
-    var selectedCities = [];
-    var selectedAdTypes = [];
-    var selectedRatings = [];
-    let categoryId = 0;
-    let subCategoryId = 0;
-    var minPrice = null;
-    var maxPrice = null;
-    var sort = "";
     var isFeatured = false;
     var isTrending = false;
     var isRecommended = false;
     
-    $('#itemsPerPageSelect').on('change', function () {
-        itemsPerPage = $(this).val();
-        changePage();
-    });
+    // $('#itemsPerPageSelect').on('change', function () {
+    //     itemsPerPage = $(this).val();
+    //     changePage();
+    // });
 
     function updatePriceRange(type) {
         minPrice = parseFloat($('#decMinPrice').val());
@@ -739,54 +970,54 @@
         updateAdList();
     }
 
-    $(document).ready(function () {
-        // Get the city parameter from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const cityParam = urlParams.get('strCity');
-        categoryId = urlParams.get('categoryid');
-        subCategoryId = urlParams.get('subcategoryid');
-        isFeatured = urlParams.get('featured') === 'true' || urlParams.get('featured') === 'True';
-        isTrending = urlParams.get('trend') === 'true' || urlParams.get('trend') === 'True';
-        isRecommended = urlParams.get('recommended') === 'true' || urlParams.get('recommended') === 'True';
+    // $(document).ready(function () {
+    //     // Get the city parameter from URL
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     const cityParam = urlParams.get('city');
+    //     // categoryId = urlParams.get('categoryid');
+    //     // subCategoryId = urlParams.get('subcategoryid');
+    //     // isFeatured = urlParams.get('featured') === 'true' || urlParams.get('featured') === 'True';
+    //     // isTrending = urlParams.get('trend') === 'true' || urlParams.get('trend') === 'True';
+    //     // isRecommended = urlParams.get('recommended') === 'true' || urlParams.get('recommended') === 'True';
         
-        console.log(categoryId);
-        console.log(subCategoryId);
-        console.log('isFeatured:', isFeatured);
-        console.log('isTrending:', isTrending);
+    //     // console.log(categoryId);
+    //     // console.log(subCategoryId);
+    //     // console.log('isFeatured:', isFeatured);
+    //     // console.log('isTrending:', isTrending);
       
-        if (cityParam) {
-            // Find and check the corresponding checkbox
-            const cityCheckbox = document.querySelector(`#city_${cityParam}`);
-            if (cityCheckbox) {
-                cityCheckbox.checked = true;
-                // Update the selected cities array and trigger filter
-                updateCity(cityParam, true);
-            }
-        }
+    //     if (cityParam) {
+    //         // Find and check the corresponding checkbox
+    //         const cityCheckbox = document.querySelector(`#city_${cityParam}`);
+    //         if (cityCheckbox) {
+    //             cityCheckbox.checked = true;
+    //             // Update the selected cities array and trigger filter
+    //             updateCity(cityParam, true);
+    //         }
+    //     }
 
-        // Ad Type Checkbox
-        $('.filter-type').on('change', function () {
-            var type = $(this).val();
-            updateAdType(type, $(this).is(':checked'));
-        });
+    //     // Ad Type Checkbox
+    //     $('.filter-type').on('change', function () {
+    //         var type = $(this).val();
+    //         updateAdType(type, $(this).is(':checked'));
+    //     });
 
-        // Category Checkbox
-        $('.filter-category').on('change', function () {
-            var catId = $(this).val();
-            updateCategory(catId, $(this).is(':checked'));
-        });
+    //     // Category Checkbox
+    //     $('.filter-category').on('change', function () {
+    //         var catId = $(this).val();
+    //         updateCategory(catId, $(this).is(':checked'));
+    //     });
 
-        // City Checkbox
-        $('.filter-city').on('change', function () {
-            var city = $(this).val();
-            updateCity(city, $(this).is(':checked'));
-        });
+    //     // City Checkbox
+    //     $('.filter-city').on('change', function () {
+    //         var city = $(this).val();
+    //         updateCity(city, $(this).is(':checked'));
+    //     });
 
-        // Price Range
-        $('#priceFilterButton').on('click', function () {
-            updatePriceRange();
-        });
-    });
+    //     // Price Range
+    //     $('#priceFilterButton').on('click', function () {
+    //         updatePriceRange();
+    //     });
+    // });
 
     function filterCities() {
         const input = document.getElementById("citySearchInput");
@@ -907,7 +1138,7 @@
     }
 
 </script>
-@section Scripts {
+@* @section Scripts {
     <script>
 
         $(document).ready(function () {
@@ -918,9 +1149,9 @@
             const subcategoryId = urlParams.get('subcategory');
 
             if (selectedCity) {
-
                 $('.filter-city').each(function () {
                     if ($(this).val().toLowerCase() === selectedCity.toLowerCase()) {
+                        alert("Hi");
                         $(this).prop('checked', true);
                     }
                 });
@@ -942,4 +1173,4 @@
             }
         });
     </script>
-}
+} *@

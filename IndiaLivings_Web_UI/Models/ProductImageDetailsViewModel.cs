@@ -16,13 +16,12 @@ namespace IndiaLivings_Web_UI.Models
         public DateTime updatedDate { get; set; } = DateTime.MinValue;
         public string updatedBy { get; set; } = string.Empty;
 
-        public List<ProductImageDetailsViewModel> GetImage(int productId)
+        public async Task<List<ProductImageDetailsViewModel>> GetImage(int productId)
         {
             List<ProductImageDetailsViewModel> products = new List<ProductImageDetailsViewModel>();
-            ProductHelper PH = new ProductHelper();
             try
             {
-                var productList = PH.GetProductImage(productId);
+                var productList = await ProductHelper.GetProductImage(productId);
                 if (productList != null)
                 {
                     foreach (var productDetails in productList)

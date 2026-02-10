@@ -10,14 +10,14 @@ namespace IndiaLivings_Web_UI.Models
         #region Properties
         public int userID { get; set; }
         public string user { get; set; } = string.Empty;
-        public string username { get; set; }
-        public string password { get; set; }
+        public string username { get; set; } = string.Empty;
+        public string password { get; set; } = string.Empty;
         public string userFirstName { get; set; } = string.Empty;
         public string userMiddleName { get; set; } = string.Empty;
         public string userLastName { get; set; } = string.Empty;
         public string userDescription { get; set; } = string.Empty;
         public string userEmail { get; set; } = string.Empty;
-        public string? userMobile { get; set; }
+        public string? userMobile { get; set; } = string.Empty;
         public int userAddressID { get; set; }
         public string userFullAddress { get; set; } = string.Empty;
         public string userImagePath { get; set; } = string.Empty;
@@ -41,7 +41,7 @@ namespace IndiaLivings_Web_UI.Models
         public string userCity { get; set; } = string.Empty;
         public string userState { get; set; } = string.Empty;
         public string userCountry { get; set; } = string.Empty;
-        public string userPinCode { get; set; } 
+        public string userPinCode { get; set; } = string.Empty;
         public string strUserImageName { get; set; } = string.Empty;
         public byte[] byteUserImageData { get; set; } = [];
         public string   strUserImageType { get; set; } = string.Empty;

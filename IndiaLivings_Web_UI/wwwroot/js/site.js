@@ -18,3 +18,11 @@ function ShowToast(status, message) {
         toast.classList.remove('toast_failed');
     }, 3000);
 }
+
+function ShowSpinner() {
+    $('#spinner').show();
+}
+
+function HideSpinner() {
+    $('#spinner').hide();
+}

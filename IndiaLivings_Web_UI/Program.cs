@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSession(options =>
 {
@@ -19,11 +20,11 @@ builder.Services.AddSession(options =>
 
 //builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSignalR();
-//builder.Services.AddSignalR(options =>
-//{
-//    options.KeepAliveInterval = TimeSpan.FromSeconds(15); // default is 15 seconds
-//    options.ClientTimeoutInterval = TimeSpan.FromSeconds(60); // default is 30 seconds
-//});
+builder.Services.AddSignalR(options =>
+{
+    options.KeepAliveInterval = TimeSpan.FromSeconds(15); // default is 15 seconds
+    options.ClientTimeoutInterval = TimeSpan.FromSeconds(60); // default is 30 seconds
+});
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
