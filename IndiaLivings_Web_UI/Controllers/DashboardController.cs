@@ -1218,19 +1218,19 @@ namespace IndiaLivings_Web_UI.Controllers
         //        products = products.Where(product => product.productMembershipID == 2).ToList();
         //    }
 
-        //    if (trend)
-        //    {
-        //        // Use API for trending results
-        //        var trendingFromApi = await productViewModel.GetRecommendedAds(12, 4, true);
-        //        products = trendingFromApi ?? new List<ProductViewModel>();
-        //    }
-        //    //if (decMinPrice > 0 || decMaxPrice > 0)
-        //    //{
-        //    //    products = products.Where(product => product.MaxPrice <= decMaxPrice && product.MinPrice >= decMinPrice).ToList();
-        //    //}
-        //    if (categoryid != 0)
-        //    {
-        //        products = products.Where(product => product.productCategoryID == categoryid).ToList();
+            if (trend)
+            {
+                // Use API for trending results
+                var trendingFromApi = await productViewModel.GetRecommendedAds(12, 4, true);
+                products = trendingFromApi ?? new List<ProductViewModel>();
+            }
+            //if (decMinPrice > 0 || decMaxPrice > 0)
+            //{
+            //    products = products.Where(product => product.MaxPrice <= decMaxPrice && product.MinPrice >= decMinPrice).ToList();
+            //}
+            if (categoryid != 0)
+            {
+                products = products.Where(product => product.productCategoryID == categoryid).ToList();
 
         //        if (subcategoryid != 0)
         //        {
