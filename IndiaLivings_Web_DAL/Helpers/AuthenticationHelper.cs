@@ -12,7 +12,7 @@ namespace IndiaLivings_Web_DAL.Helpers
         public bool registerUser(UserModel user)
         {
             bool isRegistered = false;
-            var response = ServiceAPI.Post_Api("https://apis.indialivings.com/api/Users/AddUser", user);
+            var response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/AddUser", user);
             if (response == "1")
                 isRegistered = true;
             return isRegistered;
@@ -23,7 +23,7 @@ namespace IndiaLivings_Web_DAL.Helpers
         {
             dynamic user = null;
             bool isUserExists = false;
-            var response = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/Users/GetUserByUserName?strUserName=" + userName);
+            var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/GetUserByUserName?strUserName=" + userName);
             user = JsonConvert.DeserializeObject(response);
             if (user.Count > 0)
                 isUserExists = true;
@@ -35,7 +35,7 @@ namespace IndiaLivings_Web_DAL.Helpers
         public List<UserModel> ActiveUserList()
         {
             List<UserModel> users = new List<UserModel>();
-            var userList = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/Users/GetActiveListofUsers");
+            var userList = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/GetActiveListofUsers");
             users = JsonConvert.DeserializeObject<List<UserModel>>(userList);
             return users;
 
@@ -46,7 +46,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 user = new UserModel();
-                string response = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/Users/CheckUserLogin?strUserName=" + userName + "&strPWD=" + password);
+                string response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/CheckUserLogin?strUserName=" + userName + "&strPWD=" + password);
                 user = JsonConvert.DeserializeObject<UserModel>(response);
             }
             catch (Exception ex)
@@ -61,7 +61,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 role = new List<RoleModel>();
-                var response = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/Users/GetRoles");
+                var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/GetRoles");
                 role = JsonConvert.DeserializeObject<List<RoleModel>>(response);
             }
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = "";
             try
             {
-                response = ServiceAPI.Post_Api("https://apis.indialivings.com/api/Users/UpdateUser", user).Trim('\"');
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Users/UpdateUser", user).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = String.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Users/AddUserAddress?intUserID={intUserID}&strUserContactFullAddress={strUserContactFullAddress}&strUserContactCity={strUserContactCity}&strUserContactState={strUserContactState}&strUserContactCountry={strUserContactCountry}&strUserContactPinCode={strUserContactPinCode}&intUserAddressType={intUserAddressType}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/AddUserAddress?intUserID={intUserID}&strUserContactFullAddress={strUserContactFullAddress}&strUserContactCity={strUserContactCity}&strUserContactState={strUserContactState}&strUserContactCountry={strUserContactCountry}&strUserContactPinCode={strUserContactPinCode}&intUserAddressType={intUserAddressType}");
             }
             catch (Exception ex)
             {
@@ -106,7 +106,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<UserModel> users = new List<UserModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetUserByUserName?strUserName={userName}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserByUserName?strUserName={userName}");
                 users = JsonConvert.DeserializeObject<List<UserModel>>(response);
             }
             catch (Exception ex)
@@ -121,7 +121,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Users/AddUserPasswordReset?intUserID={userid}&strUserName={username}&strUserPasswordToken={token}&dtmUserTokenExpiration={expirationTime}&createdBy={createdby}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/AddUserPasswordReset?intUserID={userid}&strUserName={username}&strUserPasswordToken={token}&dtmUserTokenExpiration={expirationTime}&createdBy={createdby}");
 
             }
             catch (Exception ex)
@@ -137,7 +137,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<PasswordReset> resetInfo = new List<PasswordReset>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetUserPasswordReset?strUserPasswordToken={token}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserPasswordReset?strUserPasswordToken={token}");
                 resetInfo = JsonConvert.DeserializeObject<List<PasswordReset>>(response);
 
             }
@@ -153,7 +153,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Users/UpdatePasswordfromReset?tokenId={token}&newPassword={newPassword}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/UpdatePasswordfromReset?tokenId={token}&newPassword={newPassword}").Trim('\"');
 
             }
             catch (Exception ex)
@@ -168,7 +168,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Users/UpdateUserPassword?userId={userId}&newPassword={newPassword}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/UpdateUserPassword?userId={userId}&newPassword={newPassword}").Trim('\"');
 
             }
             catch (Exception ex)
@@ -192,7 +192,7 @@ namespace IndiaLivings_Web_DAL.Helpers
                     formData.Add(new StringContent(createdBy), "createdBy");
                     formData.Add(new StreamContent(UserImag.OpenReadStream()), "UserImg", UserImag.FileName);
 
-                    var response = ServiceAPI.PostMultipartApi($"https://apis.indialivings.com/api/Users/AddUserImage?intUserID={intUserID}&strUserImageName={strUserImageName}&strUserImageType={strUserImageType}&createdBy={createdBy}", formData);
+                    var response = ServiceAPI.PostMultipartApi($"https://api.indialivings.com/api/Users/AddUserImage?intUserID={intUserID}&strUserImageName={strUserImageName}&strUserImageType={strUserImageType}&createdBy={createdBy}", formData);
                     response.Wait();
                     var res = response.Result?.Trim('\"');
                     if (res.Contains("Image uploaded successfully."))
@@ -227,7 +227,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             var response = "";
             try
             {
-                response = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/Users/GetCountryName");
+                response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Users/GetCountryName");
             }
             catch (Exception ex)
             {
@@ -241,7 +241,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             var response = "";
             try
             {
-                response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetStateName?intCountryID={countryId}");
+                response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetStateName?intCountryID={countryId}");
             }
             catch (Exception ex)
             {
@@ -255,7 +255,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             var response = "";
             try
             {
-                response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetCityName?intStateID={stateId}");
+                response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetCityName?intStateID={stateId}");
             }
             catch (Exception ex)
             {
@@ -269,7 +269,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<AdsByMembershipModel> adData = new List<AdsByMembershipModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetUserAdsRemaining?UserID={userId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserAdsRemaining?UserID={userId}");
                 adData = JsonConvert.DeserializeObject<List<AdsByMembershipModel>>(response);
             }
             catch (Exception ex)
@@ -284,8 +284,8 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<MembershipModel> adData = new List<MembershipModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Membership/GetMembershipDetailsByUser?intMembershipUserID={userId}");
-                adData = JsonConvert.DeserializeObject<List<MembershipModel>>(response) ?? new List<MembershipModel>();
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Membership/GetMembershipDetailsByUser?intMembershipUserID={userId}");
+                adData = JsonConvert.DeserializeObject<List<MembershipModel>>(response);
             }
             catch (Exception ex)
             {
@@ -299,7 +299,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<MembershipModel> memDetails = new List<MembershipModel>();
             try
             {
-                var details = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Membership/GetAllListofMembership?intMembershipID={memId}");
+                var details = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Membership/GetAllListofMembership?intMembershipID={memId}");
                 memDetails = JsonConvert.DeserializeObject<List<MembershipModel>>(details);
             }
             catch (Exception ex)
@@ -313,7 +313,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Users/AddUserMembership?UserMembershipID={MembershipId}&UserID={userId}&createdBy={createdBy}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/AddUserMembership?UserMembershipID={MembershipId}&UserID={userId}&createdBy={createdBy}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -326,7 +326,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Membership/UpdateMembership?intMembershipID={intMembershipID}&strMembershipName={strMembershipName}&intMembershipAdsLimit={intMembershipAdsLimit}&decMembershipPrice={decMembershipPrice}&strMembershipDescription={strMembershipDescription}&strUpdatedBy={strUpdatedBy}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Membership/UpdateMembership?intMembershipID={intMembershipID}&strMembershipName={strMembershipName}&intMembershipAdsLimit={intMembershipAdsLimit}&decMembershipPrice={decMembershipPrice}&strMembershipDescription={strMembershipDescription}&strUpdatedBy={strUpdatedBy}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -339,7 +339,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Membership/DeleteMembership?intMembershipID={intMembershipID}&strUpdatedBy={updatedBy}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Membership/DeleteMembership?intMembershipID={intMembershipID}&strUpdatedBy={updatedBy}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -353,7 +353,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 // Assuming you have a method to send messages, implement it here.
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Users/SendMessageToUser?senderUserId={senderUserId}&receiverUserId={receiverUserId}&messageText={messageText}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/SendMessageToUser?senderUserId={senderUserId}&receiverUserId={receiverUserId}&messageText={messageText}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -366,7 +366,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<UserModel> chatHistory = new List<UserModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetUserChatHistory?userId={userId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserChatHistory?userId={userId}");
                 chatHistory = JsonConvert.DeserializeObject<List<UserModel>>(response);
             }
             catch (Exception ex)
@@ -380,7 +380,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<MessageModel> messages = new List<MessageModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetUserMessages?SenderUserId={SenderUserId}&ReceiverUserId={ReceiverUserId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUserMessages?SenderUserId={SenderUserId}&ReceiverUserId={ReceiverUserId}");
                 messages = JsonConvert.DeserializeObject<List<MessageModel>>(response);
             }
             catch (Exception ex)
@@ -394,7 +394,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = "An error occured";
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Users/DeleteUserMessage?messageId={messageId}&userId={userId}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/DeleteUserMessage?messageId={messageId}&userId={userId}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -407,7 +407,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api("https://apis.indialivings.com/api/Blog/addBlog", blog).Trim('\"');
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Blog/addBlog", blog).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -420,7 +420,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<BlogCategoriesModel> categories = new List<BlogCategoriesModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/Blog/getAllBlogCategories");
+                var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/Blog/getAllBlogCategories");
                 // Parse the response and extract the "data" property
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
@@ -440,7 +440,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<BlogModel> blogs = new List<BlogModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Blog/getAllBlogs?pageNumber={pageNumber}&pageSize={pageSize}&categoryId={categoryId}&publishedOnly={publishedOnly}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Blog/getAllBlogs?pageNumber={pageNumber}&pageSize={pageSize}&categoryId={categoryId}&publishedOnly={publishedOnly}");
                 // Parse the response and extract the "data" property
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
@@ -460,7 +460,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             BlogModel blog = new BlogModel();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Blog/getBlogById?blogId={blogId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Blog/getBlogById?blogId={blogId}");
                 // Parse the response and extract the "data" property
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
@@ -480,7 +480,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api("https://apis.indialivings.com/api/Blog/updateBlog", blog).Trim('\"');
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/Blog/updateBlog", blog).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -493,7 +493,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Blog/deleteBlog?blogId={blogId}&updatedBy={updatedBy}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Blog/deleteBlog?blogId={blogId}&updatedBy={updatedBy}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -506,7 +506,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Blog/publishBlog?blogId={blogId}&updatedBy={updatedBy}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Blog/publishBlog?blogId={blogId}&updatedBy={updatedBy}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -519,7 +519,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<BlogModel> blogs = new List<BlogModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Blog/getBlogByUser?username={username}&pageNumber={pageNumber}&pageSize={pageSize}&categoryID={categoryId}&publishedOnly={publishedOnly}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Blog/getBlogByUser?username={username}&pageNumber={pageNumber}&pageSize={pageSize}&categoryID={categoryId}&publishedOnly={publishedOnly}");
                 // Parse the response and extract the "data" property
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
@@ -539,7 +539,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api("https://apis.indialivings.com/api/JobNews/addJobNews", job).Trim('\"');
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/JobNews/addJobNews", job).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -552,7 +552,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<JobNewsCategoryModel> categories = new List<JobNewsCategoryModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api("https://apis.indialivings.com/api/JobNews/getAllJobNewsCategories");
+                var response = ServiceAPI.Get_async_Api("https://api.indialivings.com/api/JobNews/getAllJobNewsCategories");
                 // Parse the response and extract the "data" property
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
@@ -572,7 +572,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<JobNewsModel> jobNews = [];
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/JobNews/getAllJobNews?pageNumber={pageNumber}&pageSize={pageSize}&categoryId={categoryId}&publishedOnly={publishedOnly}&activeOnly={activeOnly}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/JobNews/getAllJobNews?pageNumber={pageNumber}&pageSize={pageSize}&categoryId={categoryId}&publishedOnly={publishedOnly}&activeOnly={activeOnly}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -591,7 +591,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             JobNewsModel jobNews = null;
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/JobNews/getJobNewsById?jobNewsId={jobId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/JobNews/getJobNewsById?jobNewsId={jobId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -610,7 +610,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api("https://apis.indialivings.com/api/JobNews/updateJobNews", job).Trim('\"');
+                response = ServiceAPI.Post_Api("https://api.indialivings.com/api/JobNews/updateJobNews", job).Trim('\"');
             }
             catch (Exception ex)
             {
@@ -623,7 +623,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/JobNews/deleteJobNews?jobNewsId={jobId}&updatedBy={updatedBy}").Trim('\"');
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/JobNews/deleteJobNews?jobNewsId={jobId}&updatedBy={updatedBy}").Trim('\"');
             }
             catch (Exception ex)
             {
@@ -636,7 +636,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<NotificationModel> notifications = new List<NotificationModel>();
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetNotificationsByUser?userId={userId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetNotificationsByUser?userId={userId}");
                 notifications = JsonConvert.DeserializeObject<List<NotificationModel>>(response);
             }
             catch (Exception ex)
@@ -650,7 +650,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = "An error occured";
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Users/MarkMessageAsRead?messageId={messageId}&receiverUserId={receiverUserId}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Users/MarkMessageAsRead?messageId={messageId}&receiverUserId={receiverUserId}");
             }
             catch (Exception ex)
             {
@@ -663,21 +663,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             int count = 0;
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetUnreadMessageCount?userId={userId}");
-                count = int.Parse(response);
-            }
-            catch (Exception ex)
-            {
-                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
-            }
-            return count;
-        }
-        public int GetReadMessageCount(int userId)
-        {
-            int count = 0;
-            try
-            {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetReadMessageCount?userId={userId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUnreadMessageCount?userId={userId}");
                 count = int.Parse(response);
             }
             catch (Exception ex)
@@ -691,7 +677,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             int count = 0;
             try
             {
-                var response = ServiceAPI.Get_async_Api($"https://apis.indialivings.com/api/Users/GetUnreadNotificationCount?userId={userId}");
+                var response = ServiceAPI.Get_async_Api($"https://api.indialivings.com/api/Users/GetUnreadNotificationCount?userId={userId}");
                 count = int.Parse(response);
             }
             catch (Exception ex)
@@ -705,7 +691,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync("https://apis.indialivings.com/api/EmailSubscription/Subscribe", subscription);
+                response = await ServiceAPI.PostApiAsync("https://api.indialivings.com/api/EmailSubscription/Subscribe", subscription);
             }
             catch (Exception ex)
             {
@@ -718,7 +704,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.GetAsyncApi($"https://apis.indialivings.com/api/EmailSubscription/VerifyEmail?token={token}");
+                response = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/EmailSubscription/VerifyEmail?token={token}");
             }
             catch (Exception ex)
             {
@@ -731,7 +717,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.GetAsyncApi($"https://apis.indialivings.com/api/EmailSubscription/Unsubscribe?token={token}");
+                response = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/EmailSubscription/Unsubscribe?token={token}");
             }
             catch (Exception ex)
             {
@@ -744,8 +730,8 @@ namespace IndiaLivings_Web_DAL.Helpers
             CompanySetupModel companySetup = null;
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"https://apis.indialivings.com/api/CompanySetup/GetCompanySetupById?companyId={companyId}");
-                companySetup = JsonConvert.DeserializeObject<CompanySetupModel>(response) ?? new CompanySetupModel();
+                var response = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/CompanySetup/GetCompanySetupById?companyId={companyId}");
+                companySetup = JsonConvert.DeserializeObject<CompanySetupModel>(response);
             }
             catch (Exception ex)
             {
@@ -758,7 +744,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             MembershipUpgradePreviewModel response = new MembershipUpgradePreviewModel();
             try
             {
-                var result = await ServiceAPI.GetAsyncApi($"https://apis.indialivings.com/api/Membership/GetMembershipUpgradePreview?intUserID={userid}&intNewMembershipID={membershipid}");
+                var result = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/Membership/GetMembershipUpgradePreview?intUserID={userid}&intNewMembershipID={membershipid}");
                 response = JsonConvert.DeserializeObject<MembershipUpgradePreviewModel>(result);
             }
             catch (Exception ex)
@@ -772,7 +758,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"https://apis.indialivings.com/api/Membership/UpgradeUserMembership?intUserID={userid}&intCurrentMembershipID={currentMembership}&intNewMembershipID={membershipid}&strUpdatedBy={updatedby}");
+                response = await ServiceAPI.PostApiAsync($"https://api.indialivings.com/api/Membership/UpgradeUserMembership?intUserID={userid}&intCurrentMembershipID={currentMembership}&intNewMembershipID={membershipid}&strUpdatedBy={updatedby}");
             }
             catch (Exception ex)
             {

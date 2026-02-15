@@ -11,7 +11,7 @@ namespace IndiaLivings_Web_DAL.Helpers
 {
     public class ServiceHelper
     {
-        private const string BaseApiUrl = "https://apis.indialivings.com/api";
+        private const string BaseApiUrl = "https://api.indialivings.com/api";
 
         public static async Task<string> CreateServiceCategory(ServiceModel service)
         {

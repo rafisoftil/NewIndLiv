@@ -14,7 +14,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = String.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Category/addCategory?strCategoryName={name}&strCategoryImage={image}&strCreatedBy={createdBy}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Category/addCategory?strCategoryName={name}&strCategoryImage={image}&strCreatedBy={createdBy}");
             }
             catch (Exception ex)
             {
@@ -28,7 +28,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = String.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Category/updateCategory?intCategoryID={categoryId}&strCategoryName={name}&strCategoryImage={image}&strUpdatedBy={updatedBy}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Category/updateCategory?intCategoryID={categoryId}&strCategoryName={name}&strCategoryImage={image}&strUpdatedBy={updatedBy}");
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = String.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Category/deleteCategory?intCategoryID={categoryId}&strUpdatedBy={updatedBy}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Category/deleteCategory?intCategoryID={categoryId}&strUpdatedBy={updatedBy}");
             }
             catch (Exception ex)
             {
@@ -56,7 +56,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = String.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Category/addSubCategory?subCatergoryName={subCategoryName}&intCategoryID={categoryId}&strCreatedBy={createdBy}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Category/addSubCategory?subCatergoryName={subCategoryName}&intCategoryID={categoryId}&strCreatedBy={createdBy}");
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = String.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Category/updateSubCategory?subCategoryID={subCategoryId}&subCatergoryName={subCategoryName}&intCategoryID={categoryId}&strUpdatedBy={updatedBy}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Category/updateSubCategory?subCategoryID={subCategoryId}&subCatergoryName={subCategoryName}&intCategoryID={categoryId}&strUpdatedBy={updatedBy}");
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = String.Empty;
             try
             {
-                response = ServiceAPI.Post_Api($"https://apis.indialivings.com/api/Category/deleteSubCategory?subCategoryID={subCategoryId}&strUpdatedBy={updatedBy}");
+                response = ServiceAPI.Post_Api($"https://api.indialivings.com/api/Category/deleteSubCategory?subCategoryID={subCategoryId}&strUpdatedBy={updatedBy}");
             }
             catch (Exception ex)
             {

@@ -15,7 +15,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string result = "An error occured";
             try
             {
-                result = await ServiceAPI.PostApiAsync("https://apis.indialivings.com/api/EmailSubscription/CreateNewsletter", newsletter);
+                result = await ServiceAPI.PostApiAsync("https://api.indialivings.com/api/EmailSubscription/CreateNewsletter", newsletter);
                 //response = JsonConvert.DeserializeObject<string>(result);
             }
             catch (Exception ex)
@@ -29,7 +29,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = "An error occured";
             try
             {
-                var result = await ServiceAPI.PostApiAsync("https://apis.indialivings.com/api/EmailSubscription/UpdateNewsletter", newsletter);
+                var result = await ServiceAPI.PostApiAsync("https://api.indialivings.com/api/EmailSubscription/UpdateNewsletter", newsletter);
                 response = JsonConvert.DeserializeObject<string>(result);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string result = "An error occured";
             try
             {
-                result = await ServiceAPI.PostApiAsync($"https://apis.indialivings.com/api/EmailSubscription/DeleteNewsletter?newsletterId={newsletterId}&updatedBy={updatedBy}");
+                result = await ServiceAPI.PostApiAsync($"https://api.indialivings.com/api/EmailSubscription/DeleteNewsletter?newsletterId={newsletterId}&updatedBy={updatedBy}");
                 //response = JsonConvert.DeserializeObject<string>(result);
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<NewsletterModel> newsletter = new List<NewsletterModel>();
             try
             {
-                var result = await ServiceAPI.GetAsyncApi("https://apis.indialivings.com/api/EmailSubscription/GetAllNewsletters");
+                var result = await ServiceAPI.GetAsyncApi("https://api.indialivings.com/api/EmailSubscription/GetAllNewsletters");
                 newsletter = JsonConvert.DeserializeObject<List<NewsletterModel>>(result);
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             NewsletterModel newsletter = new NewsletterModel();
             try
             {
-                var result = await ServiceAPI.GetAsyncApi($"https://apis.indialivings.com/api/EmailSubscription/GetNewsletter/{newsletterId}?newsletterId={newsletterId}");
+                var result = await ServiceAPI.GetAsyncApi($"https://api.indialivings.com/api/EmailSubscription/GetNewsletter/{newsletterId}?newsletterId={newsletterId}");
                 newsletter = JsonConvert.DeserializeObject<NewsletterModel>(result);
             }
             catch (Exception ex)
@@ -85,7 +85,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string result = "An error occured";
             try
             {
-                result = await ServiceAPI.PostApiAsync("https://apis.indialivings.com/api/EmailSubscription/SendNewsletter", sendNewsletter);
+                result = await ServiceAPI.PostApiAsync("https://api.indialivings.com/api/EmailSubscription/SendNewsletter", sendNewsletter);
             }
             catch (Exception ex)
             {
