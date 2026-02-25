@@ -11,14 +11,12 @@ namespace IndiaLivings_Web_DAL.Helpers
 {
     public class ServiceHelper
     {
-        private const string BaseApiUrl = "https://api.indialivings.com/api";
-
         public static async Task<string> CreateServiceCategory(ServiceModel service)
         {
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/createServiceCategory", service);
+                response = await ServiceAPI.PostApiAsync($"Service/category/createServiceCategory", service);
             }
             catch (Exception ex)
             {
@@ -32,7 +30,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ServicesSubCategoriesModel> subCategories = new List<ServicesSubCategoriesModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getActiveServicesByCategory/{categoryId}");
+                var response = await ServiceAPI.GetAsyncApi($"Service/category/getActiveServicesByCategory/{categoryId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -52,7 +50,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ServiceModel> services = new List<ServiceModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/categories/getActiveServiceCategories");
+                var response = await ServiceAPI.GetAsyncApi("Service/categories/getActiveServiceCategories");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -72,7 +70,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ServiceModel> services = new List<ServiceModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getAllServiceCategories");
+                var response = await ServiceAPI.GetAsyncApi("Service/category/getAllServiceCategories");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -92,7 +90,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/updateServiceCategory", service);
+                response = await ServiceAPI.PostApiAsync($"Service/category/updateServiceCategory", service);
             }
             catch (Exception ex)
             {
@@ -106,7 +104,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/deleteServiceCategory/{categoryId}?categoryId={categoryId}&deletedBy={username}");
+                response = await ServiceAPI.PostApiAsync($"Service/category/deleteServiceCategory/{categoryId}?categoryId={categoryId}&deletedBy={username}");
             }
             catch (Exception ex)
             {
@@ -120,7 +118,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             ServiceModel category = new ServiceModel();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getServiceCategoryById/{categoryId}");
+                var response = await ServiceAPI.GetAsyncApi($"Service/category/getServiceCategoryById/{categoryId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -139,7 +137,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string bookedService = string.Empty;
             try
             {
-                bookedService = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceBooking/CreateBooking", booking);
+                bookedService = await ServiceAPI.PostApiAsync($"ServiceBooking/CreateBooking", booking);
             }
             catch (Exception ex)
             {
@@ -152,7 +150,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<UserBookingResponseModel> myservices = new List<UserBookingResponseModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/ServiceBooking/AllBookings");
+                var response = await ServiceAPI.GetAsyncApi("ServiceBooking/AllBookings");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -171,7 +169,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ServiceBookingModel> myservices = new List<ServiceBookingModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/ServiceBooking/bookingsByUser/{userId}");
+                var response = await ServiceAPI.GetAsyncApi($"ServiceBooking/bookingsByUser/{userId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -190,7 +188,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceBooking/cancelBooking/{bookingId}?bookingId={bookingId}&reason={reason}&cancelledBy={cancelledBy}");
+                response = await ServiceAPI.PostApiAsync($"ServiceBooking/cancelBooking/{bookingId}?bookingId={bookingId}&reason={reason}&cancelledBy={cancelledBy}");
             }
             catch (Exception ex)
             {
@@ -203,7 +201,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceProvider/createServiceProvider", provider);
+                response = await ServiceAPI.PostApiAsync($"ServiceProvider/createServiceProvider", provider);
             }
             catch (Exception ex)
             {
@@ -216,7 +214,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceProvider/updateServiceProvider", provider);
+                response = await ServiceAPI.PostApiAsync($"ServiceProvider/updateServiceProvider", provider);
             }
             catch (Exception ex)
             {
@@ -229,7 +227,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ServiceProviderModel> providers = new List<ServiceProviderModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/ServiceProvider/ServiceProviders");
+                var response = await ServiceAPI.GetAsyncApi("ServiceProvider/ServiceProviders");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -248,7 +246,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ServiceProviderModel> providers = new List<ServiceProviderModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/ServiceProvider/activeServiceProviders");
+                var response = await ServiceAPI.GetAsyncApi("ServiceProvider/activeServiceProviders");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -267,7 +265,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/createCategoryService", subCategory);
+                response = await ServiceAPI.PostApiAsync($"Service/category/createCategoryService", subCategory);
             }
             catch (Exception ex)
             {
@@ -280,7 +278,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/updateService", subCategory);
+                response = await ServiceAPI.PostApiAsync($"Service/category/updateService", subCategory);
             }
             catch (Exception ex)
             {
@@ -293,7 +291,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/Service/category/deleteService/{serviceId}?serviceId={serviceId}&serviceId={username}");
+                response = await ServiceAPI.PostApiAsync($"Service/category/deleteService/{serviceId}?serviceId={serviceId}&serviceId={username}");
             }
             catch (Exception ex)
             {
@@ -306,7 +304,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ServiceSubCategoryModel> subCategory = new List<ServiceSubCategoryModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getAllServices");
+                var response = await ServiceAPI.GetAsyncApi("Service/category/getAllServices");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -325,7 +323,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             ServiceSubCategoryModel subCategory = new ServiceSubCategoryModel();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getServiceById/{serviceId}");
+                var response = await ServiceAPI.GetAsyncApi($"Service/category/getServiceById/{serviceId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -344,7 +342,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<ServiceSubCategoryModel> subCategory = new List<ServiceSubCategoryModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/Service/category/getServicesByCategory/{categoryId}");
+                var response = await ServiceAPI.GetAsyncApi($"Service/category/getServicesByCategory/{categoryId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))
@@ -363,7 +361,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceBooking/approveOrReject", req);
+                response = await ServiceAPI.PostApiAsync($"ServiceBooking/approveOrReject", req);
             }
             catch (Exception ex)
             {
@@ -376,7 +374,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             string response = string.Empty;
             try
             {
-                response = await ServiceAPI.PostApiAsync($"{BaseApiUrl}/ServiceBooking/assignProvider", assignProvider);
+                response = await ServiceAPI.PostApiAsync($"ServiceBooking/assignProvider", assignProvider);
             }
             catch (Exception ex)
             {
@@ -389,7 +387,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             List<AssignedServicesToProviderModel> bookings = new List<AssignedServicesToProviderModel>();
             try
             {
-                var response = await ServiceAPI.GetAsyncApi($"{BaseApiUrl}/ServiceBooking/GetAssignedBookings?UserId={UserId}");
+                var response = await ServiceAPI.GetAsyncApi($"ServiceBooking/GetAssignedBookings?UserId={UserId}");
                 var json = JObject.Parse(response);
                 var data = json["data"]?.ToString();
                 if (!string.IsNullOrEmpty(data))

@@ -9,48 +9,39 @@
     List<AssignedServicesToProviderViewModel> CompletedBookings = Bookings.Where(b => b.Status == "COMPLETED").ToList();
     List<AssignedServicesToProviderViewModel> RejectedBookings = Bookings.Where(b => b.Status == "REJECTED").ToList();
 }
-  
-<!-- VENDOR -->
-<link rel="stylesheet" href="~/css/vendor/bootstrap.min.css">
-<link rel="stylesheet" href="~/css/vendor/chart.min.css">
+<!DOCTYPE html>
+<html lang="en">
+<body>
 
-<!-- CUSTOM -->
-<link rel="stylesheet" href="~/css/custom/main.css">
-<link rel="stylesheet" href="~/css/custom/dashboard.css">
-<link rel="stylesheet" href="~/css/custom/services.css">
-<!--=====================================
-            CSS LINK PART END
-=======================================-->
-
-<!--=====================================
-            SINGLE BANNER PART START
-=======================================-->
-<section class="single-banner dashboard-banner">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="single-content">
-                    <h2>Provider Dashboard</h2>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Provider Dashboard</li>
-                    </ol>
+    <!--=====================================
+                SINGLE BANNER PART START
+    =======================================-->
+    <section class="single-banner dashboard-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="single-content">
+                        <h2>Provider Dashboard</h2>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a class="navigate-link" asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Provider Dashboard</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!--=====================================
-            SINGLE BANNER PART END
-=======================================-->
-<!--=====================================
-        PROVIDER DASHBOARD HEADER START
-=======================================-->
-<section class="dash-header-part">
-    <div class="container">
-        <div class="dash-header-card">
-            <div class="row">
-                @* <div class="col-lg-3 col-sm-6">
+    </section>
+    <!--=====================================
+                SINGLE BANNER PART END
+    =======================================-->
+    <!--=====================================
+            PROVIDER DASHBOARD HEADER START
+    =======================================-->
+    <section class="dash-header-part">
+        <div class="container">
+            <div class="dash-header-card">
+                <div class="row">
+                    @* <div class="col-lg-3 col-sm-6">
                     <div class="dash-count-card">
                         <div class="dash-count-text">
                             <h4>45</h4>
@@ -94,198 +85,198 @@
                         </div>
                     </div>
                 </div> *@
-                <div class="admin-tabs">
-                    <ul class="nav nav-tabs" id="bookingsTabs">
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" id="pending-tab" href="#assigned-bookings">Assigned Assignment</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" id="assigned-tab" href="#accepted-bookings">Accepted Bookings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" id="completed-tab" href="#completed-bookings">Completed</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" id="all-tab" href="#rejected-bookings">Rejected Bookings</a>
-                        </li>
-                    </ul>
+                    <div class="admin-tabs">
+                        <ul class="nav nav-tabs" id="bookingsTabs">
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" id="pending-tab" href="#assigned-bookings">Assigned Assignment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" id="assigned-tab" href="#accepted-bookings">Accepted Bookings</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" id="completed-tab" href="#completed-bookings">Completed</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" id="all-tab" href="#rejected-bookings">Rejected Bookings</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!--=====================================
-        PROVIDER DASHBOARD HEADER END
-=======================================-->
-<!--=====================================
-        PROVIDER DASHBOARD CONTENT START
-=======================================-->
-<section class="provider-dashboard-part">
-    <div class="container">
-        <div class="row">
-            <!-- Recent Bookings -->
-            <div class="col-lg-8">
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h4>Recent Bookings</h4>
-                        <a href="#bookings" class="view-all-link">View All</a>
-                    </div>
-                    <div class="card-content tab-content" id="bookingsTabContent">
-                        <div class="bookings-list tab-pane fade show active" id="assigned-bookings">
-                            <!-- Booking Item -->
-                            @foreach (var booking in AssignedBookings)
-                            {
-                                <div class="booking-item">
-                                    <div class="booking-info">
-                                        <div class="customer-avatar">
-                                            <img src="~/images/avatar/02.jpg" alt="customer">
-                                        </div>
-                                        <div class="booking-details">
-                                            <h5>@booking.ServiceName</h5>
-                                            <p class="customer-name">@booking.CustomerName</p>
-                                            <p class="booking-date">
-                                                <i class="fas fa-calendar"></i>
-                                                @booking.RequestedStartAt - @booking.RequestedEndAt
-                                            </p>
-                                            <p class="booking-address">
-                                                <i class="fas fa-map-marker-alt"></i>
-                                                @booking.AddressLine1 @booking.AddressLine2 @booking.City @booking.State @booking.PostalCode
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="booking-meta">
-                                        <div class="booking-status">
-                                            <span class="status-badge pending">@booking.Status</span>
-                                        </div>
-                                        <div class="booking-amount">
-                                            <span class="amount">₹@booking.BasePrice</span>
-                                        </div>
-                                        <div class="booking-actions">
-                                            <button class="btn btn-sm btn-success" onclick="acceptBooking('@booking.BookingId')">
-                                                <i class="fas fa-check"></i> Accept
-                                            </button>
-                                            <button class="btn btn-sm btn-danger" onclick="rejectBooking('@booking.BookingId')">
-                                                <i class="fas fa-times"></i> Reject
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-
+    </section>
+    <!--=====================================
+            PROVIDER DASHBOARD HEADER END
+    =======================================-->
+    <!--=====================================
+            PROVIDER DASHBOARD CONTENT START
+    =======================================-->
+    <section class="provider-dashboard-part">
+        <div class="container">
+            <div class="row">
+                <!-- Recent Bookings -->
+                <div class="col-lg-8">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h4>Recent Bookings</h4>
+                            <a href="#bookings" class="view-all-link">View All</a>
                         </div>
-                        <div class="bookings-list tab-pane fade" id="accepted-bookings">
-                            <!-- Booking Item -->
-                            @foreach (var booking in AcceptedBookings)
-                            {
-                                <div class="booking-item">
-                                    <div class="booking-info">
-                                        <div class="customer-avatar">
+                        <div class="card-content tab-content" id="bookingsTabContent">
+                            <div class="bookings-list tab-pane fade show active" id="assigned-bookings">
+                                <!-- Booking Item -->
+                                @foreach (var booking in AssignedBookings)
+                                {
+                                    <div class="booking-item">
+                                        <div class="booking-info">
+                                            @* <div class="customer-avatar">
+                                            <img src="~/images/avatar/02.jpg" alt="customer">
+                                        </div> *@
+                                            <div class="booking-details">
+                                                <h5>@booking.ServiceName</h5>
+                                                <p class="customer-name">@booking.CustomerName</p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    @booking.RequestedStartAt - @booking.RequestedEndAt
+                                                </p>
+                                                <p class="booking-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    @booking.AddressLine1 @booking.AddressLine2 @booking.City @booking.State @booking.PostalCode
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="booking-meta">
+                                            <div class="booking-status">
+                                                <span class="status-badge pending">@booking.Status</span>
+                                            </div>
+                                            <div class="booking-amount">
+                                                <span class="amount">₹@booking.BasePrice</span>
+                                            </div>
+                                            <div class="booking-actions">
+                                                <button class="btn btn-sm btn-success navigate-link" onclick="acceptBooking('@booking.BookingId')">
+                                                    <i class="fas fa-check"></i> Accept
+                                                </button>
+                                                <button class="btn btn-sm btn-danger navigate-link" onclick="rejectBooking('@booking.BookingId')">
+                                                    <i class="fas fa-times"></i> Reject
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                            <div class="bookings-list tab-pane fade" id="accepted-bookings">
+                                <!-- Booking Item -->
+                                @foreach (var booking in AcceptedBookings)
+                                {
+                                    <div class="booking-item">
+                                        <div class="booking-info">
+                                            @* <div class="customer-avatar">
                                             <img src="~/images/avatar/03.jpg" alt="customer">
+                                        </div> *@
+                                            <div class="booking-details">
+                                                <h5>@booking.ServiceName</h5>
+                                                <p class="customer-name">@booking.CustomerName</p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    @booking.RequestedStartAt - @booking.RequestedEndAt
+                                                </p>
+                                                <p class="booking-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    @booking.AddressLine1 @booking.AddressLine2 @booking.City @booking.State @booking.PostalCode
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="booking-details">
-                                            <h5>@booking.ServiceName</h5>
-                                            <p class="customer-name">@booking.CustomerName</p>
-                                            <p class="booking-date">
-                                                <i class="fas fa-calendar"></i>
-                                                @booking.RequestedStartAt - @booking.RequestedEndAt
-                                            </p>
-                                            <p class="booking-address">
-                                                <i class="fas fa-map-marker-alt"></i>
-                                                @booking.AddressLine1 @booking.AddressLine2 @booking.City @booking.State @booking.PostalCode
-                                            </p>
+                                        <div class="booking-meta">
+                                            <div class="booking-status">
+                                                <span class="status-badge confirmed">@booking.Status</span>
+                                            </div>
+                                            <div class="booking-amount">
+                                                <span class="amount">₹@booking.BasePrice</span>
+                                            </div>
+                                            <div class="booking-actions">
+                                                <button class="btn btn-sm btn-primary" onclick="startService('booking2')">
+                                                    <i class="fas fa-play"></i> Start
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="contactCustomer('booking2')">
+                                                    <i class="fas fa-phone"></i> Call
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="booking-meta">
-                                        <div class="booking-status">
-                                            <span class="status-badge confirmed">@booking.Status</span>
-                                        </div>
-                                        <div class="booking-amount">
-                                            <span class="amount">₹@booking.BasePrice</span>
-                                        </div>
-                                        <div class="booking-actions">
-                                            <button class="btn btn-sm btn-primary" onclick="startService('booking2')">
-                                                <i class="fas fa-play"></i> Start
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-primary" onclick="contactCustomer('booking2')">
-                                                <i class="fas fa-phone"></i> Call
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        
-                        </div>
-                        <div class="bookings-list tab-pane fade" id="completed-bookings">
-                            <!-- Booking Item -->
-                            @foreach (var booking in CompletedBookings)
-                            {
-                                <div class="booking-item">
-                                    <div class="booking-info">
-                                        <div class="customer-avatar">
+                                }
+
+                            </div>
+                            <div class="bookings-list tab-pane fade" id="completed-bookings">
+                                <!-- Booking Item -->
+                                @foreach (var booking in CompletedBookings)
+                                {
+                                    <div class="booking-item">
+                                        <div class="booking-info">
+                                            @* <div class="customer-avatar">
                                             <img src="~/images/avatar/02.jpg" alt="customer">
+                                        </div> *@
+                                            <div class="booking-details">
+                                                <h5>@booking.ServiceName</h5>
+                                                <p class="customer-name">@booking.CustomerName</p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    @booking.RequestedStartAt - @booking.RequestedEndAt
+                                                </p>
+                                                <p class="booking-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    @booking.AddressLine1 @booking.AddressLine2 @booking.City @booking.State @booking.PostalCode
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="booking-details">
-                                            <h5>@booking.ServiceName</h5>
-                                            <p class="customer-name">@booking.CustomerName</p>
-                                            <p class="booking-date">
-                                                <i class="fas fa-calendar"></i>
-                                                @booking.RequestedStartAt - @booking.RequestedEndAt
-                                            </p>
-                                            <p class="booking-address">
-                                                <i class="fas fa-map-marker-alt"></i>
-                                                @booking.AddressLine1 @booking.AddressLine2 @booking.City @booking.State @booking.PostalCode
-                                            </p>
+                                        <div class="booking-meta">
+                                            <div class="booking-status">
+                                                <span class="status-badge pending">@booking.Status</span>
+                                            </div>
+                                            <div class="booking-amount">
+                                                <span class="amount">₹@booking.BasePrice</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="booking-meta">
-                                        <div class="booking-status">
-                                            <span class="status-badge pending">@booking.Status</span>
-                                        </div>
-                                        <div class="booking-amount">
-                                            <span class="amount">₹@booking.BasePrice</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                        <div class="bookings-list tab-pane fade" id="rejected-bookings">
-                            <!-- Booking Item -->
-                            @foreach (var booking in RejectedBookings)
-                            {
-                                <div class="booking-item">
-                                    <div class="booking-info">
-                                        <div class="customer-avatar">
+                                }
+                            </div>
+                            <div class="bookings-list tab-pane fade" id="rejected-bookings">
+                                <!-- Booking Item -->
+                                @foreach (var booking in RejectedBookings)
+                                {
+                                    <div class="booking-item">
+                                        <div class="booking-info">
+                                            @* <div class="customer-avatar">
                                             <img src="~/images/avatar/02.jpg" alt="customer">
+                                        </div> *@
+                                            <div class="booking-details">
+                                                <h5>@booking.ServiceName</h5>
+                                                <p class="customer-name">@booking.CustomerName</p>
+                                                <p class="booking-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    @booking.RequestedStartAt - @booking.RequestedEndAt
+                                                </p>
+                                                <p class="booking-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    @booking.AddressLine1 @booking.AddressLine2 @booking.City @booking.State @booking.PostalCode
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="booking-details">
-                                            <h5>@booking.ServiceName</h5>
-                                            <p class="customer-name">@booking.CustomerName</p>
-                                            <p class="booking-date">
-                                                <i class="fas fa-calendar"></i>
-                                                @booking.RequestedStartAt - @booking.RequestedEndAt
-                                            </p>
-                                            <p class="booking-address">
-                                                <i class="fas fa-map-marker-alt"></i>
-                                                @booking.AddressLine1 @booking.AddressLine2 @booking.City @booking.State @booking.PostalCode
-                                            </p>
+                                        <div class="booking-meta">
+                                            <div class="booking-status">
+                                                <span class="status-badge pending">@booking.Status</span>
+                                            </div>
+                                            <div class="booking-amount">
+                                                <span class="amount">₹@booking.BasePrice</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="booking-meta">
-                                        <div class="booking-status">
-                                            <span class="status-badge pending">@booking.Status</span>
-                                        </div>
-                                        <div class="booking-amount">
-                                            <span class="amount">₹@booking.BasePrice</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Earnings Chart -->
-                @* <div class="dashboard-card">
+                    <!-- Earnings Chart -->
+                    @* <div class="dashboard-card">
                     <div class="card-header">
                         <h4>Earnings Overview</h4>
                         <div class="chart-period">
@@ -316,7 +307,7 @@
                             </div>
                         </div>
                     </div>*@
-                </div> 
+                </div>
             </div>
 
             <!-- Sidebar Content -->
@@ -487,32 +478,35 @@
                         </div>
                     </div>
                 </div>
-            </div> *@
+            </div> 
+        </div> *@
+        </div>
+    </section>
+    <div class="modal fade" id="CancelBookingModal" tabindex="-1" aria-labelledby="cancelBookingLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                        <input type="hidden" id="CancelBookingId" />
+                        <div class="form-group">
+                            <label for="Reason">Please provide a reason for Rejecting</label>
+                            <textarea id="Reason" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="BookingCancel()">Submit</button>
+                </div>
+            </div>
         </div>
     </div>
-</section>
-<div class="modal fade" id="CancelBookingModal" tabindex="-1" aria-labelledby="cancelBookingLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <form>
-                    <input type="hidden" id="CancelBookingId" />
-                    <div class="form-group">
-                        <label for="Reason">Please provide a reason for Rejecting</label>
-                        <textarea id="Reason" class="form-control"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="BookingCancel()">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--=====================================
-        PROVIDER DASHBOARD CONTENT END
-=======================================-->
+    <!--=====================================
+            PROVIDER DASHBOARD CONTENT END
+    =======================================-->
+</body>
+
+</html>
 <!--=====================================
             JS LINK PART START
 =======================================-->
@@ -557,19 +551,19 @@
     });
 
     // Provider Dashboard Functions
-    function acceptBooking(bookingId) {
-        if(confirm('Accept this booking?')) {
-            alert('Booking accepted: ' + bookingId);
-            // Update booking status
-        }
-    }
+    // function acceptBooking(bookingId) {
+    //     if(confirm('Accept this booking?')) {
+    //         alert('Booking accepted: ' + bookingId);
+    //         // Update booking status
+    //     }
+    // }
 
-    function rejectBooking(bookingId) {
-        if(confirm('Reject this booking?')) {
-            alert('Booking rejected: ' + bookingId);
-            // Update booking status
-        }
-    }
+    // function rejectBooking(bookingId) {
+    //     if(confirm('Reject this booking?')) {
+    //         alert('Booking rejected: ' + bookingId);
+    //         // Update booking status
+    //     }
+    // }
 
     function startService(bookingId) {
         alert('Starting service for booking: ' + bookingId);
@@ -644,6 +638,27 @@
                 ShowToast('failed', 'An error occured while approving');
             }
         });
+    }
+
+    function rejectBooking(bookingId) {
+        if(confirm('Reject this booking?')) {
+            $.ajax({
+            url: '@Url.Action("ApproveOrRejectBooking", "Service")',
+            type: 'POST',
+            data: {bookingId: bookingId, remarks: 'NA', status: 'REJECTED'},
+            success: function(response) {
+                if (response.success) {
+                    ShowToast('success', 'Booking successfully Rejected');
+                    location.reload();
+                } else {
+                    ShowToast('failed', 'Booking rejection Unsuccessful');
+                }
+            },
+            error: function() {
+                ShowToast('failed', 'An error occured while approving');
+            }
+        });
+        }
     }
 </script>
 <!--=====================================

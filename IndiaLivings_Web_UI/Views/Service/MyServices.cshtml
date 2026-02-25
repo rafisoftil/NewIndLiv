@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "My Services";
     List<ServiceBookingViewModel> upcomingServices = Model.Where(b => b.StatusName == "Pending").ToList();
-    List<ServiceBookingViewModel> assignedServices = Model.Where(b => b.StatusName == "Assigned").ToList();
+    List<ServiceBookingViewModel> assignedServices = Model.Where(b => b.StatusName == "Assigned" || b.StatusName == "Approved" || b.StatusName == "Rejected").ToList();
     List<ServiceBookingViewModel> completedServices = Model.Where(b => b.StatusName == "Completed").ToList();
     List<ServiceBookingViewModel> cancelledServices = Model.Where(b => b.StatusName == "Cancelled").ToList();
     //var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
@@ -83,6 +83,7 @@
             transform: translateY(0);
         }
     }
+
     .dash-count-card {
         background: white;
         border-radius: 12px;
@@ -160,7 +161,7 @@
                     <div class="single-content">
                         <h2>My Services</h2>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
+                            <li class="breadcrumb-item"><a class="navigate-link" asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">My Services</li>
                         </ol>
                     </div>

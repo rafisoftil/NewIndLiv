@@ -1,4 +1,4 @@
-﻿@model List<FilteredAd>
+﻿@model List<ProductViewModel>
 <style>
     .product-card:hover {
         transform: scale(1.1);
@@ -12,53 +12,59 @@
 </style>
 @{
     List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
-    int itemsPerPage = 24;
-    int TotalCount = (ViewBag.TotalCount != null) ? (int)ViewBag.TotalCount : 0;
-    int CurrentPage = (ViewBag.CurrentPage != null && (int)ViewBag.CurrentPage > 0) ? (int)ViewBag.CurrentPage : 1;
+    int itemsPerPage = ViewBag.ItemsPerPage;
+    int currentPage = ViewBag.CurrentPage;
+    double modelCount = Model.Count();
+    var pagedProducts = Model.Skip(itemsPerPage * (currentPage - 1)).Take(itemsPerPage).ToList();
+    int productsOnPage = pagedProducts.Count;
 }
 
-@foreach (var product in Model)
+@foreach (var product in pagedProducts)
 {
     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <div class="product-card">
             <div class="product-media">
                 <div class="product-img">
-                    <img src="@Url.Action("GetProductImage", "Dashboard", new { productId = product.ProductId })"
-                         onerror="this.onerror=null;this.src='/images/no-image.png';"
-                         alt="@product.ProductName" width="396" height="281" />
+                    <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                         onerror="this.onerror=null; this.src='/images/no-image.png';"
+                         alt="@product.productImageName" width="396" height="281"/>
                 </div>
                 <div class="cross-vertical-badge product-badge">
                     <i class="fas fa-clipboard-check"></i>
                     <span>recommend</span>
                 </div>
                 <div class="product-type">
-                    <span class="flat-badge @(product.ProductAdCategory.ToLower())">@product.ProductAdCategory</span>
+                    <span class="flat-badge @(product.productAdCategory.ToLower())">@product.productAdCategory</span>
                 </div>
                 <ul class="product-action">
                     @* <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
                     <li class="click"><i class="fas fa-mouse"></i><span>134</span></li> *@
-                    <li class="rating"><i class="fas fa-star"></i><span>@((product.AverageRating != 0) ? @product.AverageRating + "/5" : "NA")</span></li>
+                    <li class="rating"><i class="fas fa-star"></i><span>@((product.averageRating != 0) ? @product.averageRating + "/5" : "NA")</span></li>
                 </ul>
             </div>
             <div class="product-content">
                 <ol class="breadcrumb product-category">
                     <li><i class="fas fa-tags"></i></li>
-                    <li class="breadcrumb-item"><a href="#">@product.CategoryName</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">@product.SubCategoryName</li>
+                    <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
                 </ol>
                 <h5 class="product-title">
-                    <a href="#">@product.ProductName</a>
+                    <a href="#">@product.productName</a>
                 </h5>
                 <div class="product-meta">
-                    <span><i class="fas fa-map-marker-alt"></i>@product.UserContactCity</span>
-                    <span><i class="fas fa-clock"></i>@product.UpdatedDate.ToString("dd MMM yyyy")</span>
+                    <span><i class="fas fa-map-marker-alt"></i>@product.userContactCity</span>
+                    <span><i class="fas fa-clock"></i>@product.updatedDate.ToString("dd MMM yyyy")</span>
                 </div>
                 <div class="product-info">
-                    <h5 class="product-price">₹@Convert.ToInt32(product.ProductPrice)<span>/@product.ProductPriceCondition</span></h5>
+                    <h5 class="product-price">₹@Convert.ToInt32(product.productPrice)<span>/@product.productPriceCondition</span></h5>
                     <div class="product-btn">
-                        <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.ProductOwner" asp-route-productId="@product.ProductId" title="Contact Seller" class="fas fa-eye"></a>
-                        <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.ProductId) ? "far fa-heart fas" : "far fa-heart")"
-                                onclick="AddToWishlist(this, '@product.ProductId', '@product.ProductOwner')"></button>
+                        <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Contact Seller" class="fas fa-eye"></a>
+                        <a href='#' class='fas fa-compress'
+                           data-toggle='modal' data-target='#productDetailsModal'
+                           onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
+                        </a>
+                        <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
+                                onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
                     </div>
                 </div>
             </div>
@@ -86,12 +92,6 @@
     </div>
 </div>
 <script>
-    // $(document).ready(function () {
-    //     $('#grid1').removeClass('active');
-    //     $('#grid2').addClass('active');
-    //     $('#grid3').removeClass('active');
-    //     $("#spinner").addClass('d-none');
-    // }
     function AddToWishlist(button, productID, createdBy) {
         const loggedUserId = '@Context.Session.GetInt32("UserId")';
 
@@ -124,20 +124,22 @@
             }
         });
     }
-    let totalPages = Math.max(1, Math.ceil(@TotalCount / @itemsPerPage));
-    let currentPage = @CurrentPage;
+    let totalPages = @Math.Ceiling((double)modelCount / itemsPerPage);
+    let currentPage = @currentPage;
     const visiblePages = 5;
-    const itemsPerPage = @itemsPerPage;
 
-    // ---------------- Pagination Rendering ----------------
     function renderPagination() {
         const pagination = document.getElementById('pagination');
+        const pageLinks = pagination.querySelectorAll('.page-item');
 
-        // Remove old page numbers (keep arrows)
-        while (pagination.children.length > 2) {
-            pagination.removeChild(pagination.children[1]);
-        }
+        // Remove old page number items (excluding arrows)
+        pageLinks.forEach((item, index) => {
+            if (index !== 0 && index !== pageLinks.length - 1) {
+                item.remove();
+            }
+        });
 
+        // Calculate startPage and endPage with fixed visiblePages
         let half = Math.floor(visiblePages / 2);
         let startPage = currentPage - half;
         let endPage = currentPage + half;
@@ -146,6 +148,7 @@
             startPage = 1;
             endPage = visiblePages;
         }
+
         if (endPage > totalPages) {
             endPage = totalPages;
             startPage = Math.max(1, totalPages - visiblePages + 1);
@@ -161,52 +164,177 @@
         }
     }
 
-    // ---------------- Page Navigation ----------------
     function goToPage(page) {
         currentPage = page;
         renderPagination();
-        loadPage(page);
+        changePage(null, page); // Your actual logic to load page content
     }
 
     function previousPage() {
-        if (currentPage > 1) goToPage(currentPage - 1);
+        if (currentPage > 1) {
+            goToPage(currentPage - 1);
+        }
     }
 
     function nextPage() {
-        if (currentPage < totalPages) goToPage(currentPage + 1);
+        if (currentPage < totalPages) {
+            goToPage(currentPage + 1);
+        }
     }
 
-    // ---------------- AJAX Page Load with Filters ----------------
-    function loadPage(page) {
-        // Collect filter values from main page
-        let categoryIds = [];
-        $('input[name="category"]:checked').each(function() { categoryIds.push($(this).val()); });
+    // Initial render
+    renderPagination();
 
-        let ratings = [];
-        $('input[name="rating"]:checked').each(function() { ratings.push($(this).val()); });
+    function populateModal(product) {
+        // const starRating = document.getElementById('starRating');
+        // starRating.setAttribute('data-selected', '0');
 
-        let minPrice = $('#minPrice').val();
-        let maxPrice = $('#maxPrice').val();
-        let city = $('#citySelect').val();
-        filters.page = page;
-        $("#spinner").removeClass('d-none');
+        // const stars = starRating.querySelectorAll('.fa-star');
+        // stars.forEach(star => {
+        //     star.classList.remove('selected');
+        // });
 
+        // document.getElementById('selectedRating').value  = "0";
+        // if (typeof product === "string") {
+        //     product = JSON.parse(product);
+        // }
+
+        var myModal = new bootstrap.Modal(document.getElementById('productDetailsModal'));
+        myModal.show();
+
+        var image = $('#image-modal');
+        var status = product.IsActiveStatus;
+        var reviewStatus = product.productAdminReviewStatus;
+
+        $('#productId-modal').attr('data-product-id', product.productId);
+        $('#productId-modal').val(product.productId);
+        $('#productName-modal').text(product.productName);
+        $('#productCategory-modal').text(product.productCategoryName);
+        $('#productQuantity-modal').text(product.productQuantity);
+        $('#productPrice-modal').text(`$${product.productPrice}`);
+        $('#productOwner-modal').text(product.createdBy);
+        $('#productDescription-modal').text(product.productDescription);
+        $('#productPublished-modal').text(product.createdDate);
+        $('#productStatus-modal').text(status).attr('data-product-status', status);
+
+        if (product.byteProductImageData) {
+            image.attr("src", "data:image/jpeg;base64," + product.byteProductImageData);
+        } else {
+            image.attr("src", "/images/no-image.png"); // ✅ Replace with your actual default image path
+        }
+    }
+
+    function changePage(curPage, page) {
+        $('.pagination .page-link').removeClass('active');
+
+        // Add "active" class to the clicked page
+        $(curPage).addClass('active');
         $.ajax({
-            url: '/Dashboard/ProductsList',
-            type: 'GET',
-            data: filters,
-            success: function(data) {
+            url: '/Dashboard/ProductsList2?page=' + page + '&itemsPerPage=' + itemsPerPage,
+            type: 'POST',
+            data: JSON.stringify(@Html.Raw(Json.Serialize(Model))),
+            contentType: 'application/json',
+            success: function (data) {
                 $('#divPartial').html(data);
-                $("#spinner").addClass('d-none');
-                $('html, body').animate({ scrollTop: $('#divPartial').offset().top - 100 }, 300);
             },
-            error: function() {
+            error: function () {
                 alert('Failed to load products.');
-                $("#spinner").removeClass('d-none');
             }
         });
     }
 
-    // Initial render of pagination
-    renderPagination();
+    function selectRating(elem) {
+        const value = parseInt($(elem).data("value"));
+        $("#selectedRating").val(value);
+        var rating = $("#selectedRating").val();
+        $(elem).siblings().addClass("selected");
+        $(elem).addClass("selected");
+        $(elem).prevAll().removeClass("selected");
+        submitRating(rating);
+    }
+
+    function submitRating(rating) {
+        const productId = $('#productId-modal').val();
+        $.ajax({
+            url: '/User/AddRating',
+            type: 'POST',
+            data: { productId: productId, rating: rating },
+            success: function (response) {
+                if (response.status.includes("added")){
+                    ShowToast("success", "Rating added successfully");
+                } else {
+                    ShowToast("failed", "An Error occured");
+                }
+            },
+            error: function () {
+                alert("Error submitting rating.");
+            }
+
+        });
+    }
+    function changeGridView() {
+        //$('.pagination .page-link').removeClass('active');
+
+        // Add "active" class to the clicked page
+        //$(curPage).addClass('active');
+        $('#grid1').addClass('active');
+        $('#grid2').removeClass('active');
+        $('#grid3').removeClass('active');
+        $.ajax({
+            url: '/Dashboard/ProductsList?itemsPerPage=' + @itemsPerPage,
+            type: 'POST',
+            data: JSON.stringify(@Html.Raw(Json.Serialize(Model))),
+            contentType: 'application/json',
+            success: function (data) {
+                $('#divPartial').html(data);
+            },
+            error: function () {
+                alert('Failed to load products.');
+            }
+        });
+    }
+
+    function changeGridView2() {
+        //$('.pagination .page-link').removeClass('active');
+
+        // Add "active" class to the clicked page
+        //$(curPage).addClass('active');
+        $('#grid1').removeClass('active');
+        $('#grid2').addClass('active');
+        $('#grid3').removeClass('active');
+        $.ajax({
+            url: '/Dashboard/ProductsList2?itemsPerPage=' + @itemsPerPage,
+            type: 'POST',
+            data: JSON.stringify(@Html.Raw(Json.Serialize(Model))),
+            contentType: 'application/json',
+            success: function (data) {
+                $('#divPartial').html(data);
+            },
+            error: function () {
+                alert('Failed to load products.');
+            }
+        });
+    }
+
+    function changeGridView3() {
+        //$('.pagination .page-link').removeClass('active');
+
+        // Add "active" class to the clicked page
+        //$(curPage).addClass('active');
+        $('#grid1').removeClass('active');
+        $('#grid2').removeClass('active');
+        $('#grid3').addClass('active');
+        $.ajax({
+            url: '/Dashboard/ProductsList3?itemsPerPage=' + @itemsPerPage,
+            type: 'POST',
+            data: JSON.stringify(@Html.Raw(Json.Serialize(Model))),
+            contentType: 'application/json',
+            success: function (data) {
+                $('#divPartial').html(data);
+            },
+            error: function () {
+                alert('Failed to load products.');
+            }
+        });
+    }
 </script>

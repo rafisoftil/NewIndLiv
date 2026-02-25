@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = "Home";
-    // var recommendedAds = (List<ProductViewModel>)Model.RecommendedAds;  
-    // var trendingAds = (List<ProductViewModel>)Model.trendingAds;
-    List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
+ViewBag.Title = "Home";
+var recommendedAds = (List<ProductViewModel>)Model.RecommendedAds;
+var trendingAds = (List<ProductViewModel>)Model.trendingAds;
+List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
 }
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -47,56 +47,47 @@
             <div class="col-md-5 col-lg-5">
                 <div class="section-side-heading">
                     <h2>Find your needs in our best <span>Featured Ads</span></h2>
-                    <p>Discover handpicked featured ads tailored to your needs. Browse top-quality listings from trusted sellers and find the best deals all in one place.</p>
-                    <a href="javascript:void(0);" onclick="filterAds('featured')" class="btn btn-inline">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur fugiat eaque alias nobis doloremque culpa nam.</p>
+                    <a href="@Url.Action("AdsList", "Dashboard", new { featured = true })" class="btn btn-inline">
                         <i class="fas fa-eye"></i>
                         <span>view all featured</span>
                     </a>
                 </div>
             </div>
             <div class="col-md-7 col-lg-7">
-                @* <div id="featuredAds">
-                    <div class="text-center">Loading featured ads...</div>
-                </div> *@
                 <div class="feature-card-slider slider-arrow">
-                    @foreach (var product in Model.FeaturedAds)
+                    @foreach (var product in recommendedAds)
                     {
                         <div class="feature-card">
                             <a href="#" class="feature-img">
-                                <img src="@Url.Action("GetProductImage", "Dashboard", new { productId = product.ProductId })"
-                                     onerror="this.onerror=null;this.src='/images/no-image.png';"
-                                     alt="@product.ProductName" width="565" height="401" />
+                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="feature" width="565" height="401" />
                             </a>
                             <div class="cross-inline-badge feature-badge">
                                 <span>featured</span>
                                 <i class="fas fa-book-open"></i>
                             </div>
-                            <button type="button" class="feature-wish" onclick="AddToWishlist(this, '@product.ProductId', '@product.ProductOwner')">
-                                <i class="@(wishlistIds.Contains(product.ProductId) ? "far fa-heart fas" : "far fa-heart")"></i>
+                            <button type="button" class="feature-wish">
+                                <i class="fas fa-heart"></i>
                             </button>
                             <div class="feature-content">
                                 <ol class="breadcrumb feature-category">
-                                    <li><span class="flat-badge @(product.ProductAdCategory.ToLower())">@product.ProductAdCategory</span></li>
-                                    <li class="breadcrumb-item"><a href="#">@product.CategoryName</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">@product.SubCategoryName</li>
+                                    <li><span class="flat-badge @(product.productAdCategory.ToLower())">@product.productAdCategory</span></li>
+                                    <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
                                 </ol>
-                                <h3 class="feature-title"><a href="ad-details-left.html">@product.ProductDescription</a></h3>
+                                <h3 class="feature-title"><a href="ad-details-left.html">@product.productDescription</a></h3>
                                 <div class="feature-meta">
-                                    <span class="feature-price">₹@product.ProductPrice.ToString("F2")<small>/@product.ProductPriceCondition</small></span>
-                                    <span class="feature-time"><i class="fas fa-clock"></i>@product.UpdatedDate.ToString("MMM dd, h:mm tt")</span>
+                                    <span class="feature-price">₹@product.productPrice.ToString("F2")<small>/@product.productPriceCondition</small></span>
+                                    <span class="feature-time"><i class="fas fa-clock"></i>@product.updatedDate.ToString("MMM dd, h:mm tt")</span>
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
                 <div class="feature-thumb-slider">
-                    @foreach (var product in Model.FeaturedAds)
+                    @foreach (var product in recommendedAds)
                     {
-                        <div class="feature-thumb">
-                            <img src="@Url.Action("GetProductImage", "Dashboard", new { productId = product.ProductId })"
-                                 onerror="this.onerror=null;this.src='/images/no-image.png';"
-                                 alt="@product.ProductName" width="142" height="101" />
-                        </div>
+                        <div class="feature-thumb"><img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="feature" width="142" height="101" /></div>
                     }
                 </div>
             </div>
@@ -219,72 +210,66 @@
             <div class="col-lg-12">
                 <div class="section-center-heading">
                     <h2>Popular Trending <span>Ads</span></h2>
-                    <p>Explore the most popular and trending ads loved by users. Discover hot deals, in-demand products, and listings that everyone is talking about.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur.</p>
                 </div>
             </div>
         </div>
         <div class="row justify-content-center">
-            <div id="recommendedAds">
-                <div class="text-center">Loading trending ads...</div>
-            </div>
-
-            @* @foreach (var product in Model.RecommendedAds)
+            @foreach (var product in trendingAds)
             {
                 <div class="col-md-11 col-lg-8 col-xl-6">
                     <div class="product-card standard">
                         <div class="product-media">
                             <div class="product-img">
-                                <img src="@Url.Action("GetProductImage", "Dashboard", new { productId = product.ProductId })"
-                                     onerror="this.onerror=null;this.src='/images/no-image.png';"
-                                     alt="@product.ProductName" width="250" height="178" />
+                                <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="feature" width="250" height="178" />
                             </div>
                             <div class="cross-vertical-badge product-badge">
                                 <i class="fas fa-bolt"></i>
                                 <span>trending</span>
                             </div>
                             <div class="product-type">
-                                <span class="flat-badge @(product.ProductAdCategory.ToLower())">@product.ProductAdCategory</span>
+                                <span class="flat-badge @(product.productAdCategory.ToLower())">@product.productAdCategory</span>
                             </div>
                             <ul class="product-action">
-                                <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
-                                <li class="click"><i class="fas fa-mouse"></i><span>134</span></li> 
-                                <li class="rating"><i class="fas fa-star"></i><span>@((product.AverageRating != 0) ? @product.AverageRating + "/5" : "NA")</span></li>
+                                @* <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
+                                <li class="click"><i class="fas fa-mouse"></i><span>134</span></li> *@
+                                <li class="rating"><i class="fas fa-star"></i><span>@((product.averageRating != 0) ? @product.averageRating + "/5" : "NA")</span></li>
                             </ul>
                         </div>
                         <div class="product-content">
                             <ol class="breadcrumb product-category">
                                 <li><i class="fas fa-tags"></i></li>
-                                <li class="breadcrumb-item"><a href="#">@product.CategoryName</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">@product.SubCategoryName</li>
+                                <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
                             </ol>
                             <h5 class="product-title">
-                                <a href="ad-details-right.html">@product.ProductName</a>
+                                <a href="ad-details-right.html">@product.productName</a>
                             </h5>
                             <div class="product-meta">
-                                <span><i class="fas fa-map-marker-alt"></i>@product.UserContactCity</span>
-                                <span><i class="fas fa-clock"></i>@product.UpdatedDate.ToString("dd MMM yyyy")</span>
+                                <span><i class="fas fa-map-marker-alt"></i>@product.userContactCity</span>
+                                <span><i class="fas fa-clock"></i>@product.updatedDate.ToString("dd MMM yyyy")</span>
                             </div>
                             <div class="product-info">
-                                <h5 class="product-price">₹@product.ProductPrice.ToString("F2")<span>/@product.ProductPriceCondition</span></h5>
+                                <h5 class="product-price">₹@product.productPrice.ToString("F2")<span>/@product.productPriceCondition</span></h5>
                                 <div class="product-btn">
-                                    <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.ProductOwner" asp-route-productId="@product.ProductId" title="Contact Seller" class="fas fa-eye"></a>
+                                    <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Contact Seller" class="fas fa-eye"></a>
                                     <a href='#' class='fas fa-compress'
                                        data-toggle='modal' data-target='#productDetailsModal'
                                        onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
                                     </a>
-                                    <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.ProductId) ? "far fa-heart fas" : "far fa-heart")"
-                                            onclick="AddToWishlist(this, '@product.ProductId', '@product.ProductOwner')"></button>
+                                    <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
+                                            onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
                                 </div>
                             </div>
                         </div>
-                    </div>                
-            </div>
+                    </div>
+                </div>
             }
-   *@      </div>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="center-20">
-                    <a href="javascript:void(0);" onclick="filterAds('recommended')" class="btn btn-inline">
+                    <a href="@Url.Action("AdsList", "Dashboard", new { trend = true })" class="btn btn-inline">
                         <i class="fas fa-eye"></i>
                         <span>view all trend</span>
                     </a>
@@ -300,7 +285,7 @@
             <div class="col-lg-12">
                 <div class="section-center-heading">
                     <h2>Browse Our Top <span>Niche</span></h2>
-                    <p>Explore our top niche categories carefully selected to match your interests. Find the right products and services across the most popular segments.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur.</p>
                 </div>
             </div>
         </div>
@@ -316,68 +301,62 @@
             </div>
         </div>
 
-        <div id="topRatedAds">
-            <div class="text-center">Loading top rated ads...</div>
-        </div>
-
-
-        @* <div class="tab-pane active" id="ratings">
+        <div class="tab-pane active" id="ratings">
             <div class="row">
-                @foreach (var product in Model.TopRatedAds)
+                @foreach (var product in Model.RatedProducts)
                 {
                     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
                         <div class="product-card">
                             <div class="product-media">
                                 <div class="product-img">
-                                    <img src="@Url.Action("GetProductImage", "Dashboard", new { productId = product.ProductId })"
-                                         onerror="this.onerror=null;this.src='/images/no-image.png';"
-                                         alt="@product.ProductName" width="288" height="205" />
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(product.byteProductImageData)"
+                                         onerror="this.onerror=null; this.src='/images/no-image.png';"
+                                         alt="@product.productImageName" width="288" height="205" />
                                 </div>
                                 <div class="cross-vertical-badge product-badge">
                                     <i class="fas fa-clipboard-check"></i>
                                     <span>recommend</span>
                                 </div>
                                 <div class="product-type">
-                                    <span class="flat-badge @(product.ProductAdCategory.ToLower())">@product.ProductAdCategory</span>
+                                    <span class="flat-badge @(product.productAdCategory.ToLower())">@product.productAdCategory</span>
                                 </div>
                                 <ul class="product-action">
-                                     <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
-                    <li class="click"><i class="fas fa-mouse"></i><span>134</span></li> 
-                                    <li class="rating"><i class="fas fa-star"></i><span>@((product.AverageRating != 0) ? @product.AverageRating + "/5" : "NA")</span></li>
+                                    @* <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
+                    <li class="click"><i class="fas fa-mouse"></i><span>134</span></li> *@
+                                    <li class="rating"><i class="fas fa-star"></i><span>@((product.averageRating != 0) ? @product.averageRating + "/5" : "NA")</span></li>
                                 </ul>
                             </div>
                             <div class="product-content">
                                 <ol class="breadcrumb product-category">
                                     <li><i class="fas fa-tags"></i></li>
-                                    <li class="breadcrumb-item"><a href="#">@product.CategoryName</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">@product.SubCategoryName</li>
+                                    <li class="breadcrumb-item"><a href="#">@product.productCategoryName</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">@product.productSubCategoryName</li>
                                 </ol>
                                 <h5 class="product-title">
-                                    <a href="#">@product.ProductName</a>
+                                    <a href="#">@product.productName</a>
                                 </h5>
                                 <div class="product-meta">
-                                    <span><i class="fas fa-map-marker-alt"></i>@product.UserContactCity</span>
-                                    <span><i class="fas fa-clock"></i>@product.UpdatedDate.ToString("dd MMM yyyy")</span>
+                                    <span><i class="fas fa-map-marker-alt"></i>@product.userContactCity</span>
+                                    <span><i class="fas fa-clock"></i>@product.updatedDate.ToString("dd MMM yyyy")</span>
                                 </div>
                                 <div class="product-info">
-                                    <h5 class="product-price">₹@Convert.ToInt32(product.ProductPrice)<span>/@product.ProductPriceCondition</span></h5>
+                                    <h5 class="product-price">₹@Convert.ToInt32(product.productPrice)<span>/@product.productPriceCondition</span></h5>
                                     <div class="product-btn">
-                                        <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.ProductOwner" asp-route-productId="@product.ProductId" title="Contact Seller" class="fas fa-eye"></a>
+                                        <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Contact Seller" class="fas fa-eye"></a>
                                         <a href='#' class='fas fa-compress'
                                            data-toggle='modal' data-target='#productDetailsModal'
                                            onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
                                         </a>
-                                        <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.ProductId) ? "far fa-heart fas" : "far fa-heart")"
-                                                onclick="AddToWishlist(this, '@product.ProductId', '@product.ProductOwner')"></button>
+                                        <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
+                                                onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 }
-            </divV
-        </div> *@ <!-- Rating ads -->
-
+            </div>
+        </div> <!-- Rating ads -->
         @* <div class="tab-pane " id="advertiser">
             <div class="row">
                 @for (var i = 0; i < Model.Products.Count; i++)
@@ -388,14 +367,14 @@
                             <div class="product-card">
                                 <div class="product-media">
                                     <div class="product-img">
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="@Model.Products[i].ProductImageName" width="288" height="205" />
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="@Model.Products[i].productImageName" width="288" height="205" />
                                     </div>
                                     <div class="cross-vertical-badge product-badge">
                                         <i class="fas fa-fire"></i>
                                         <span>top niche</span>
                                     </div>
                                     <div class="product-type">
-                                        <span class="flat-badge booking">@Model.Products[i].ProductAdCategory</span>
+                                        <span class="flat-badge booking">@Model.Products[i].productAdCategory</span>
                                     </div>
                                     <ul class="product-action">
                             <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
@@ -406,18 +385,18 @@
                                 <div class="product-content">
                                     <ol class="breadcrumb product-category">
                                         <li><i class="fas fa-tags"></i></li>
-                                        <li class="breadcrumb-item"><a href="#">@Model.Products[i].SubCategoryName</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">@Model.Products[i].ProductName</li>
+                                        <li class="breadcrumb-item"><a href="#">@Model.Products[i].productSubCategoryName</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">@Model.Products[i].productName</li>
                                     </ol>
                                     <h5 class="product-title">
-                                        <a href="#">@Model.Products[i].ProductDescription</a>
+                                        <a href="#">@Model.Products[i].productDescription</a>
                                     </h5>
                                     <div class="product-meta">
                                         <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
-                                        <span><i class="fas fa-clock"></i>@Model.Products[i].UpdatedDate</span>
+                                        <span><i class="fas fa-clock"></i>@Model.Products[i].updatedDate</span>
                                     </div>
                                     <div class="product-info">
-                                        <h5 class="product-price">@Model.Products[i].ProductPrice<span>/per week</span></h5>
+                                        <h5 class="product-price">@Model.Products[i].productPrice<span>/per week</span></h5>
                                         <div class="product-btn">
                                             <a href="compare.html" title="Compare" class="fas fa-compress"></a>
                                             <button type="button" title="Wishlist" class="far fa-heart"></button>
@@ -430,7 +409,6 @@
                 }
             </div>
         </div> *@ <!-- Advertiser ads -->
-
         @* <div class="tab-pane" id="engaged">
             <div class="row">
                 @for (var i = 0; i < Model.Products.Count; i++)
@@ -441,14 +419,14 @@
                             <div class="product-card">
                                 <div class="product-media">
                                     <div class="product-img">
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="@Model.Products[i].ProductImageName" width="288" height="205" />
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Products[i].byteProductImageData)" onerror="this.onerror=null; this.src='/images/no-image.png';" alt="@Model.Products[i].productImageName" width="288" height="205" />
                                     </div>
                                     <div class="cross-vertical-badge product-badge">
                                         <i class="fas fa-fire"></i>
                                         <span>top niche</span>
                                     </div>
                                     <div class="product-type">
-                                        <span class="flat-badge booking">@Model.Products[i].ProductAdCategory</span>
+                                        <span class="flat-badge booking">@Model.Products[i].productAdCategory</span>
                                     </div>
                                     <ul class="product-action">
                             <li class="view"><i class="fas fa-eye"></i><span>264</span></li>
@@ -459,18 +437,18 @@
                                 <div class="product-content">
                                     <ol class="breadcrumb product-category">
                                         <li><i class="fas fa-tags"></i></li>
-                                        <li class="breadcrumb-item"><a href="#">@Model.Products[i].SubCategoryName</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">@Model.Products[i].ProductName</li>
+                                        <li class="breadcrumb-item"><a href="#">@Model.Products[i].productSubCategoryName</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">@Model.Products[i].productName</li>
                                     </ol>
                                     <h5 class="product-title">
-                                        <a href="#">@Model.Products[i].ProductDescription</a>
+                                        <a href="#">@Model.Products[i].productDescription</a>
                                     </h5>
                                     <div class="product-meta">
                                         <span><i class="fas fa-map-marker-alt"></i>@Context.Session.GetString("UserAddress")</span>
-                                        <span><i class="fas fa-clock"></i>@Model.Products[i].UpdatedDate</span>
+                                        <span><i class="fas fa-clock"></i>@Model.Products[i].updatedDate</span>
                                     </div>
                                     <div class="product-info">
-                                        <h5 class="product-price">@Model.Products[i].ProductPrice<span>/per week</span></h5>
+                                        <h5 class="product-price">@Model.Products[i].productPrice<span>/per week</span></h5>
                                         <div class="product-btn">
                                             <a href="compare.html" title="Compare" class="fas fa-compress"></a>
                                             <button type="button" title="Wishlist" class="far fa-heart"></button>
@@ -487,7 +465,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="center-20">
-                    <a href="javascript:void(0);" onclick="filterAds('toprated')" class="btn btn-inline">
+                    <a onclick="ViewRatedAds()" class="btn btn-inline">
                         <i class="fas fa-eye"></i>
                         <span>view all ads</span>
                     </a>
@@ -503,30 +481,31 @@
             <div class="col-lg-12">
                 <div class="section-center-heading">
                     <h2>Top Cities by <span>Ads</span></h2>
-                    <p>Explore cities with the highest number of active ads. Find the best deals and listings from top locations near you.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur.</p>
                 </div>
             </div>
         </div>
         <div class="row">
-            @for(var i = 0; i < Model.Cities.Count; i++)
+            @for (var i = 0; i < Model.Cities.Count; i++)
             {
-                if (i<8) {
+                if (i < 8)
+                {
                     <div class="col-sm-6 col-md-6 col-lg-3">
 
-                        <a href="javascript:void(0);" onclick=navigateToAdsListWithCity('@Model.Cities[i].CategoryValue') class="city-card" style="background: url(images/cities/01.jpg) no-repeat center; background-size: cover">
-                        <div class="city-content">
-                            <h4>@Model.Cities[i].CategoryValue</h4>
-                            <p>(@Model.Cities[i].totalCount) ads</p>
-                        </div>
-                    </a>
-                </div>
+                        <a href="/Dashboard/AdsList?strCity=@Model.Cities[i].CategoryValue" class="city-card" style="background: url(images/cities/01.jpg) no-repeat center; background-size: cover">
+                            <div class="city-content">
+                                <h4>@Model.Cities[i].CategoryValue</h4>
+                                <p>(@Model.Cities[i].totalCount) ads</p>
+                            </div>
+                        </a>
+                    </div>
                 }
             }
         </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="center-20">
-                    <a onclick="viewAllCities()" class="btn btn-inline">
+                    <a asp-action="Cities" asp-controller="Dashboard" class="btn btn-inline">
                         <i class="fas fa-eye"></i>
                         <span>view all Cities</span>
                     </a>
@@ -542,20 +521,20 @@
             <div class="col-lg-12">
                 <div class="section-center-heading">
                     <h2>Top Categories by <span>Ads</span></h2>
-                    <p>Browse high-demand categories curated by popularity and quality. Find the best listings in one place.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur.</p>
                 </div>
             </div>
         </div>
         <div class="row">
-            @for(var i = 0; i < Model.Categories.Count; i++)
+            @for (var i = 0; i < Model.Categories.Count; i++)
             {
-                @if (i < 8)
+                @if (Model.Categories[i].CategoryCount > 0 && i < 8)
                 {
                     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
                         <div class="category-card">
                             <div class="category-head">
                                 <img src="@Model.Categories[i].CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/no-image.png';" />
-                                <a href="javascript:void(0);" onclick="navigateToAdsListWithCategory('@Model.Categories[i].CategoryID','0')" class="category-content">
+                                <a href="/Dashboard/AdsList?category=@Model.Categories[i].CategoryID" class="category-content">
                                     <h4>@Model.Categories[i].CategoryName</h4>
                                     <p>(@Model.Categories[i].CategoryCount)</p>
                                 </a>
@@ -564,7 +543,7 @@
                             {
                                 <ul class="category-list">
                                     <li>
-                                        <a href="javascript:void(0);" onclick="navigateToAdsListWithCategory('@Model.Categories[i].CategoryID','@subCategory.subCategoryID')">
+                                        <a href="/Dashboard/AdsList?category=@Model.Categories[i].CategoryID&subcategory=@subCategory.subCategoryID">
                                             <h6>@subCategory.subCatergoryName</h6>
                                             <p>(@subCategory.intSubCategoryCount)</p>
                                         </a>
@@ -579,7 +558,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="center-20">
-                    <a onclick="viewAllCategories()" class="btn btn-inline">
+                    <a asp-action="CategoryList" asp-controller="Dashboard" class="btn btn-inline">
                         <i class="fas fa-eye"></i>
                         <span>view all categories</span>
                     </a>
@@ -594,10 +573,14 @@
             <div class="col-lg-12">
                 <div class="section-center-heading">
                     <h2>Do you have something to advertise?</h2>
-                    <p>Post your ad easily and reach thousands of interested buyers in just a few clicks.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur.</p>
                     <a href="@Url.Action("PostAd", "User")" style="position:relative; z-index:1000; pointer-events:auto;" class="btn btn-outline">
                         <i class="fas fa-plus-circle"></i>
                         <span>post your ad</span>
+                    </a>
+                    <a href="@Url.Action("Index", "Blog")" style="position:relative; z-index:1000; pointer-events:auto;" class="btn btn-primary ms-3">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Blogs</span>
                     </a>
                 </div>
             </div>
@@ -611,7 +594,7 @@
             <div class="col-lg-12">
                 <div class="section-center-heading">
                     <h2>Best Reliable Pricing Plans</h2>
-                    <p>Choose from flexible and reliable pricing plans designed to fit your advertising needs. Get the best value with transparent pricing and powerful features.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur.</p>
                 </div>
             </div>
         </div>
@@ -822,7 +805,6 @@
         </div>
     </div>
 </section>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function AddToWishlist(button, productID, createdBy) {
         const loggedUserId = '@Context.Session.GetInt32("UserId")';
@@ -867,16 +849,16 @@
 
         var image = $('#image-modal');
         var status = product.IsActiveStatus;
-        var reviewStatus = product.ProductAdminReviewStatus;
+        var reviewStatus = product.productAdminReviewStatus;
 
-        $('#productId-modal').attr('data-product-id', product.ProductId);
-        $('#productId-modal').val(product.ProductId);
-        $('#productName-modal').text(product.ProductName);
-        $('#productCategory-modal').text(product.CategoryName);
-        $('#productQuantity-modal').text(product.ProductQuantity);
-        $('#productPrice-modal').text(`$${product.ProductPrice}`);
-        $('#productOwner-modal').text(product.ProductOwner);
-        $('#productDescription-modal').text(product.ProductDescription);
+        $('#productId-modal').attr('data-product-id', product.productId);
+        $('#productId-modal').val(product.productId);
+        $('#productName-modal').text(product.productName);
+        $('#productCategory-modal').text(product.productCategoryName);
+        $('#productQuantity-modal').text(product.productQuantity);
+        $('#productPrice-modal').text(`$${product.productPrice}`);
+        $('#productOwner-modal').text(product.createdBy);
+        $('#productDescription-modal').text(product.productDescription);
         $('#productPublished-modal').text(product.createdDate);
         $('#productStatus-modal').text(status).attr('data-product-status', status);
 
@@ -886,42 +868,16 @@
             image.attr("src", "/images/no-image.png"); // ✅ Replace with your actual default image path
         }
     }
-
     function navigateToAdsListWithCity(cityName) {
-        $("#spinner").removeClass('d-none');
-        window.location.href = `/Dashboard/AdsList?city=${encodeURIComponent(cityName)}`
+        // Navigate to AdsList page with the city parameter
+        window.location.href = `/Dashboard/AdsList?city=${encodeURIComponent(cityName)}`;
     }
     function navigateToAdsListWithCategory(categoryId, subcategoryId = 0) {
         $("#spinner").removeClass('d-none');
-        window.location.href = `/Dashboard/AdsList?categoryid=${categoryId}&subcategoryid=${subcategoryId}`;
+        window.location.href = `/Dashboard/AdsList?categoryid=${encodeURIComponent(categoryId)}&subcategoryid=${encodeURIComponent(subcategoryId)}`;
     }
-
-    function filterAds(mode) {
+    function ViewRatedAds() {
         $("#spinner").removeClass('d-none');
-        window.location.href = `/Dashboard/AdsList?mode=${mode}`;
+        window.location.href = `/Dashboard/AdsList?rating=true`;
     }
-    function showallads() {
-        $("#spinner").removeClass('d-none');
-        window.location.href = `/Dashboard/AdsList`;
-    }
-    function viewAllCities() {
-        $("#spinner").removeClass('d-none');
-        window.location.href = `/Dashboard/Cities`;
-    }
-    function viewAllCategories() {
-        $("#spinner").removeClass('d-none');
-        window.location.href = `/Dashboard/CategoryList`;
-    }
-</script>
-<script>
-    $(document).ready(function () {
-        //$("#spinner").removeClass("d-none");
-        //$("#featuredAds").load("/Dashboard/LoadFeaturedAds");
-        $("#recommendedAds").load("/Dashboard/LoadRecommendedAds");
-        $("#topRatedAds").load("/Dashboard/LoadTopRatedAds");
-
-        $(document).ajaxStop(function () {
-            $("#spinner").addClass("d-none");
-        });
-    });
 </script>

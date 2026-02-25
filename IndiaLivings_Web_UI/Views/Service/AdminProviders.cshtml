@@ -182,7 +182,7 @@
     <section class="admin-providers-part">
         <div class="container">
             <!-- Providers Statistics -->
-            <div class="row">
+            @* <div class="row">
                 <div class="col-lg-3 col-sm-6">
                     <div class="admin-stat-card">
                         <div class="stat-content">
@@ -227,7 +227,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> *@
 
             <!-- Providers Management Content -->
             <div class="row">
@@ -253,7 +253,7 @@
                             <!-- All Providers Tab -->
                             <div class="tab-pane fade show active" id="all-providers">
                                 <div class="content-header">
-                                    <h4>All Service Providers (156)</h4>
+                                    <h4>All Service Providers</h4>
                                     <div class="content-actions">
                                         <select class="form-control form-control-sm" style="width: auto;">
                                             <option>All Categories</option>
@@ -318,7 +318,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="provider-details-grid">
+                                            @* <div class="provider-details-grid">
                                                 <div class="provider-detail-item">
                                                     <h6>Services Offered</h6>
                                                     <div class="provider-services-list">
@@ -344,15 +344,16 @@
                                                         <span class="badge badge-success">? Background Check</span>
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> *@
 
                                             <div class="provider-actions">
-                                                <button class="btn btn-outline-primary btn-sm" onclick="viewProvider(1)">
+                                                @* <button class="btn btn-outline-primary btn-sm" onclick="viewProvider(1)">
                                                     <i class="fas fa-eye"></i> View Profile
-                                                </button>
-                                                <button class="btn btn-outline-secondary btn-sm" 
+                                                </button> *@
+                                                <button class="btn btn-outline-secondary btn-sm"
                                                         onclick="editProvider(this)"
-                                                        data-providerid = "@provider.ProviderId"
+                                                        data-userid="@provider.UserId"
+                                                        data-providerid="@provider.ProviderId"
                                                         data-companyname="@provider.CompanyName"
                                                         data-displayname="@provider.DisplayName"
                                                         data-email="@provider.Email"
@@ -364,7 +365,7 @@
                                                         data-postalcode="@provider.PostalCode">
                                                     <i class="fas fa-edit"></i> Edit
                                                 </button>
-                                                <button class="btn btn-outline-info btn-sm" onclick="viewProviderServices(1)">
+                                                @* <button class="btn btn-outline-info btn-sm" onclick="viewProviderServices(1)">
                                                     <i class="fas fa-tools"></i> Services
                                                 </button>
                                                 <button class="btn btn-outline-warning btn-sm" onclick="suspendProvider(1)">
@@ -372,7 +373,7 @@
                                                 </button>
                                                 <button class="btn btn-outline-success btn-sm" onclick="contactProvider(1)">
                                                     <i class="fas fa-phone"></i> Contact
-                                                </button>
+                                                </button> *@
                                             </div>
                                         </div>
                                     }
@@ -380,7 +381,7 @@
                             </div>
 
                             <!-- Pending Verification Tab -->
-                            <div class="tab-pane fade" id="pending-verification">
+                            @* <div class="tab-pane fade" id="pending-verification">
                                 <div class="content-header">
                                     <h4>Pending Verification (12)</h4>
                                     <div class="content-actions">
@@ -581,7 +582,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                 </div>
@@ -603,6 +604,10 @@
                 </div>
                 <div class="modal-body">
                     <form id="providerForm">
+                        <div class="form-group">
+                            <label>User ID *</label>
+                            <input type="number" class="form-control" name="UserId" id="userId" value="0">
+                        </div>
                         <div class="form-group">
                             <input type="hidden" class="form-control" name="ProviderId" id="providerId" value="0">
                         </div>
@@ -725,15 +730,17 @@
             $('#email').val($(btn).data('email'));
             $('#phone').val($(btn).data('phone'));
             $('#address').val($(btn).data('address'));
-            $('#ProviderId').val($(btn).data('providerid'));
-            
+            $('#providerId').val($(btn).data('providerid'));
+            $('#userId').val($(btn).data('userid'));
+            $('#pincode').val($(btn).data('postalcode'));
+
             const countryToSet = $(btn).data('country');
             const stateToSet = $(btn).data('state');
             const cityToSet = $(btn).data('city');
-            
+
             // Set country first (assuming India)
             $('#countriesDropdown').val('91').trigger('change');
-            
+
             // Wait for states to load then set state
             setTimeout(() => {
                 // Find and set state by name
@@ -742,7 +749,7 @@
                 });
                 if (stateOption.length) {
                     $('#statesDropdown').val(stateOption.val()).trigger('change');
-                    
+
                     // Wait for cities to load then set city
                     setTimeout(() => {
                         // Find and set city by name
@@ -755,10 +762,10 @@
                     }, 2000);
                 }
             }, 3000);
-            
-            $('#pincode').val($(btn).data('postalcode'));
+
+
             $('#providerModal').modal('show');
-            
+
         }
 
         function viewProvider(providerId) {

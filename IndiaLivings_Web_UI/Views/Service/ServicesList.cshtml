@@ -1,5 +1,6 @@
 ﻿@model List<ServiceViewModel>
 @{
+    ViewBag.Title = "Services";
     var message = TempData["BookingStatus"]?.ToString();
 }
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
                     <div class="single-content">
                         <h2>Book Services</h2>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
+                            <li class="breadcrumb-item"><a class="navigate-link" asp-controller="Dashboard" asp-action="Dashboard">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Services</li>
                         </ol>
                     </div>

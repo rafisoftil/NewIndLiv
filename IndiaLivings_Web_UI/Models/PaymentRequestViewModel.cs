@@ -39,7 +39,7 @@ namespace IndiaLivings_Web_UI.Models
                 paymentRequest.PaymentId = paymentId;
                 paymentRequest.Amount = requestedAmout * 100;
                 paymentRequest.RazorPayKey = ApiKey;
-                paymentRequest.Currency = "INR";
+                paymentRequest.Currency = "USD";
                 paymentRequest.Name = "";
                 paymentRequest.Email = "";
                 paymentRequest.Description = "";

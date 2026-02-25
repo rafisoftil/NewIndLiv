@@ -1,10 +1,12 @@
 using IndiaLivings_Web_DAL.Helpers;
 using IndiaLivings_Web_DAL.Models;
 using IndiaLivings_Web_UI.Models;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using Razorpay.Api;
 using System.Dynamic;
 using System.Reflection;
 
@@ -480,6 +482,7 @@ namespace IndiaLivings_Web_UI.Controllers
             var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
             //IHttpContextAccessor httpContextAccessor=null;
             //string paymentCaptured = string.Empty;
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             int loggedInUser = HttpContext.Session.GetInt32("UserId") ?? 0;
             string ApiKey = configuration["PaymentOptions:ApiKey"].ToString();
             string SecretKey = configuration["PaymentOptions:SecretKey"].ToString();
@@ -487,6 +490,44 @@ namespace IndiaLivings_Web_UI.Controllers
             //paymentCaptured = paymentRequestViewModel.CompleteRequest(formData["rzp_paymentid"], formData["rzp_orderid"], ApiKey, SecretKey);
             Razorpay.Api.RazorpayClient client = new Razorpay.Api.RazorpayClient(ApiKey, SecretKey);
             Razorpay.Api.Payment payment = client.Payment.Fetch(formData["rzp_paymentid"]);
+
+            string method = payment["method"];
+
+            string last4 = "";
+            string network = "";
+            string type = "";
+
+            if (method == "card")
+            {
+                var card = payment["card"];
+                last4 = card["last4"];
+                network = card["network"];
+                type = card["type"];
+            }
+
+            var addCardRequest = new
+            {
+                userId = userId,
+                cardNumber = "XXXX-XXXX-XXXX-" + last4,
+                cardHolderName = "NA",
+                expirationDate = DateTime.Now.AddYears(3),
+                securityCode = "XXX",
+                invoiceId = 0,
+                ccRequestJSON = payment.Attributes.ToString()
+            };
+
+            var transactionRequest = new
+            {
+                creditCardId = "XXXX-XXXX-XXXX-" + last4, // from previous API response
+                invoiceId = 0,
+                paymentGatewayTransactionId = formData["rzp_paymentid"],
+                status = payment["status"],
+                amount = payment["amount"] / 100.0,
+                responseCode = "SUCCESS",
+                responseMessage = "Payment Captured",
+                transactionDate = DateTime.Now,
+                rawResponseJson = payment.Attributes.ToString()
+            };
             // This code is for capture the payment
             Dictionary<string, object> options = new Dictionary<string, object>();
             options.Add("amount", payment.Attributes["amount"]);

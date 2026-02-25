@@ -1,4 +1,4 @@
-﻿﻿﻿@*
+﻿﻿﻿﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -45,47 +45,44 @@
                     </div>
                 </div>
             </form>
-                <div class="header-right">
-                    @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
-                    {
-                        <ul class="header-list">
-                            <li class="header-item">
-                                <a href="~/User/Bookmark" class="header-widget">
-                                    <i class="fas fa-heart"></i>
-                                    <sup class="wishlist-count">@Context.Session.GetInt32("wishlistCount")</sup>
-                                </a>
-                            </li>
-                            <li class="header-item">
-                                <a href="~/service/ServicesList" class="header-widget">
-                                    <i class="fas fa-tools"></i>
-                                    @* <span>Services</span> *@
-                                </a>
-                            </li>
-                            <li class="header-item">
+            <div class="header-right">
+                @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
+                {
+                    <ul class="header-list">
+                        <li class="header-item">
+                            <a href="~/User/Bookmark" class="header-widget">
+                                <i class="fas fa-heart"></i>
+                                <sup class="wishlist-count">@Context.Session.GetInt32("wishlistCount")</sup>
+                            </a>
+                        </li>
+                        <li class="header-item">
+                            <a href="~/service/ServicesList" class="header-widget">
+                                <i class="fas fa-tools"></i>
+                                @* <span>Services</span> *@
+                            </a>
+                        </li>
+                        <li class="header-item">
                             <a href="~/User/Message" type="button" class="header-widget">
-                                    <i class="fas fa-envelope"></i>
-                                    <sup class="msg-count">0</sup>
-                                </a>
-                            </li>
-                            <li class="header-item">
-                                <a href="~/User/Notification" type="button" class="header-widget">
-                                    <i class="fas fa-bell"></i>
-                                    <sup class="notification-count">0</sup>
-                                </a>
-                            </li>
-                        </ul>
-                    }
-                    <a asp-controller="User" asp-action="PostAd" class="btn btn-inline post-btn">
-                        <i class="fas fa-plus-circle"></i>
-                        <span>post your ad</span>
-                    </a>
-                </div>
+                                <i class="fas fa-envelope"></i>
+                                <sup class="msg-count">0</sup>
+                            </a>
+                        </li>
+                        <li class="header-item">
+                            <a href="~/User/Notification" type="button" class="header-widget">
+                                <i class="fas fa-bell"></i>
+                                <sup class="notification-count">0</sup>
+                            </a>
+                        </li>
+                    </ul>
+                }
+                <a asp-controller="User" asp-action="PostAd" class="btn btn-inline post-btn">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>post your ad</span>
+                </a>
+            </div>
         </div>
     </div>
 </header>
-<div id="spinner" class="d-none">
-    <img style="height: 100px" src="~/images/spinner.gif" />
-</div>
 <script>
 
     function ProductsSearch() {
@@ -99,10 +96,10 @@
         var productName = $('#productName').val();
 
         // Construct query string from inputs
-        var queryParams = `?productName=${encodeURIComponent(productName)}&city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}&minprice=${encodeURIComponent(minPrice)}&maxprice=${encodeURIComponent(maxPrice)}`;
-        $('#spinner').removeClass('d-none');
+        var queryParams = `?strProductName=${encodeURIComponent(productName)}&strCity=${encodeURIComponent(city)}&strState=${encodeURIComponent(state)}&decMinPrice=${encodeURIComponent(minPrice)}&decMaxPrice=${encodeURIComponent(maxPrice)}`;
+
         // Navigate to the AdsList page with query params
-        window.location.href = '/Dashboard/AdsList' + queryParams;
+        window.location.href = '/Dashboard/navSearch' + queryParams;
       }
     function opennavdrop() {
         $.ajax({

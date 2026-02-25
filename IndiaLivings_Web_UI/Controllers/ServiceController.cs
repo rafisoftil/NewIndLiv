@@ -300,7 +300,7 @@ namespace IndiaLivings_Web_UI.Controllers
             booking.Latitude = 0;
             booking.Longitude = 0;
             booking.AddressLine2 = "";
-            HttpContext.Session.SetString("PendingBooking",JsonConvert.SerializeObject(booking));
+            HttpContext.Session.SetString("PendingBooking", JsonConvert.SerializeObject(booking));
         }
         public async Task<JsonResult> ApproveOrRejectBooking(int bookingId, string status, string remarks)
         {

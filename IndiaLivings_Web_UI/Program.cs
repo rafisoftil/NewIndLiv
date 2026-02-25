@@ -1,3 +1,4 @@
+using IndiaLivings_Web_DAL;
 using IndiaLivings_Web_UI.Controllers;
 using IndiaLivings_Web_UI.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -27,13 +28,19 @@ builder.Services.AddSignalR(options =>
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
-
+// Register ServiceAPI as singleton so static wrapper can resolve a single instance
+builder.Services.AddSingleton<ServiceAPI>();
 
 var app = builder.Build();
 
+ServiceAPI.Initialize(app.Configuration);
+
+// Set the ServiceProvider for ServiceAPI so static methods can resolve instance
+//ServiceAPI.ServiceProvider = app.Services;
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
- {
+{
     app.UseExceptionHandler("/Dashboard/ErrorPage");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
