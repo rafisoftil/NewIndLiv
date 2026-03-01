@@ -13,6 +13,8 @@ namespace IndiaLivings_Web_DAL.Helpers
         {
             List<CategoryModel> categories = new List<CategoryModel>();
             var lst = ServiceAPI.Get_async_Api("Category/GetCategoryCounts");
+            lst = JsonConvert.DeserializeObject<string>(lst);
+
             categories = JsonConvert.DeserializeObject<List<CategoryModel>>(lst) ?? new List<CategoryModel>();
             return categories;
         }
@@ -20,7 +22,8 @@ namespace IndiaLivings_Web_DAL.Helpers
         {
             List<CategoryModel> categories = new List<CategoryModel>();
             var lst = await ServiceAPI.GetAsyncApi("Category/GetCategoryCounts");
-            //categories = JsonConvert.DeserializeObject<List<CategoryModel>>(lst) ?? new List<CategoryModel>();
+            lst = JsonConvert.DeserializeObject<string>(lst);
+            categories = JsonConvert.DeserializeObject<List<CategoryModel>>(lst) ?? new List<CategoryModel>();
             return categories;
         }
         public List<SubCategoryModel> GetSubCategories(int CategoryId)
@@ -274,6 +277,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 var response = await ServiceAPI.GetAsyncApi("Product/GetSearchFilterDetails");
+                response = JsonConvert.DeserializeObject<string>(response);
                 filterDetails = JsonConvert.DeserializeObject<List<SearchFilterDetailsModel>>(response) ?? new List<SearchFilterDetailsModel>();
             }
             catch (Exception ex)

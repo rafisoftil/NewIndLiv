@@ -1,4 +1,10 @@
 ﻿@model List<ProductViewModel>
+@using Microsoft.AspNetCore.DataProtection
+@inject Microsoft.AspNetCore.DataProtection.IDataProtectionProvider DataProtectionProvider
+
+@{
+    var _protector = DataProtectionProvider.CreateProtector("ProductDetailsProtector");
+}
 <style>
     .product-card:hover {
         transform: scale(1.1);
@@ -58,7 +64,7 @@
                 <div class="product-info">
                     <h5 class="product-price">₹@Convert.ToInt32(product.productPrice)<span>/@product.productPriceCondition</span></h5>
                     <div class="product-btn">
-                            <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Contact Seller" class="fas fa-eye"></a>
+                        <a asp-action="ProductDetails" asp-controller="User" asp-route-id="@_protector.Protect($"{product.productId}|{product.createdBy}")" title="Contact Seller" class="fas fa-eye"></a>
                         <a href='#' class='fas fa-compress'
                            data-toggle='modal' data-target='#productDetailsModal'
                            onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>

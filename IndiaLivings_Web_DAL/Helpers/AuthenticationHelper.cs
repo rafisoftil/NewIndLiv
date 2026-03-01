@@ -3,6 +3,7 @@ using IndiaLivings_Web_DAL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
 namespace IndiaLivings_Web_DAL.Helpers
@@ -107,6 +108,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 var response = ServiceAPI.Get_async_Api($"Users/GetUserByUserName?strUserName={userName}");
+                response = JsonConvert.DeserializeObject<string>(response);
                 users = JsonConvert.DeserializeObject<List<UserModel>>(response);
             }
             catch (Exception ex)
@@ -270,6 +272,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 var response = ServiceAPI.Get_async_Api($"Users/GetUserAdsRemaining?UserID={userId}");
+                response = JsonConvert.DeserializeObject<string>(response);
                 adData = JsonConvert.DeserializeObject<List<AdsByMembershipModel>>(response);
             }
             catch (Exception ex)

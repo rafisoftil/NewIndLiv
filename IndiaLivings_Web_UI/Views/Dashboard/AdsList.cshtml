@@ -680,7 +680,7 @@
         var subcategoryid = subCategoryId;
         var decMinPrice = parseFloat($('#decMinPrice').val());
         var decMaxPrice = parseFloat($('#decMaxPrice').val());
-        updateAdList$("#spinner").removeClass('d-none');
+        $("#spinner").removeClass('d-none');
         $.ajax({
           url: '/Dashboard/ProductList',
           type: 'GET',

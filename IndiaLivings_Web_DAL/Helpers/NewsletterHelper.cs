@@ -72,6 +72,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 var result = await ServiceAPI.GetAsyncApi($"EmailSubscription/GetNewsletter/{newsletterId}?newsletterId={newsletterId}");
+                result = JsonConvert.DeserializeObject<string>(result);
                 newsletter = JsonConvert.DeserializeObject<NewsletterModel>(result);
             }
             catch (Exception ex)

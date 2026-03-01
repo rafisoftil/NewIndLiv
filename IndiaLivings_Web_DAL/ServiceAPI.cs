@@ -32,33 +32,37 @@ namespace IndiaLivings_Web_DAL
 
         public static string Get_async_Api(string url)
         {
-
             string fullurl = baseurl + url;
             var handler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
             };
+
             string responseBody = string.Empty;
             using (HttpClient client = new HttpClient(handler))
             {
-                HttpResponseMessage response = new HttpResponseMessage();// await client.GetAsync(url);
                 try
                 {
-                    // Make the GET request asynchronously and return the response as a string.
-                    response = client.GetAsync(fullurl).Result;
-                    response.EnsureSuccessStatusCode(); // Throws an exception for HTTP error codes.
+                    // Make the request headers consistent
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("IndiaLivingsClient/1.0");
 
-                    // Read the response content as a string.
+                    var response = client.GetAsync(fullurl).Result;
+
+                    // Always read the response body so firewall messages can be inspected
                     responseBody = response.Content.ReadAsStringAsync().Result;
-                    //res=JsonConvert.DeserializeObject(responseBody);
-                    //return response;
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        ErrorLog.insertErrorLog($"HTTP {(int)response.StatusCode} {response.ReasonPhrase}: {responseBody}", null, "ServiceAPI.Get_async_Api");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    // Log error or handle the exception appropriately.
                     ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
-                    //return string.Empty; // Return an empty string in case of failure.
                 }
+
                 return responseBody;
             }
         }
@@ -70,27 +74,30 @@ namespace IndiaLivings_Web_DAL
             {
                 ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
             };
+
             string responseBody = string.Empty;
             using (HttpClient client = new HttpClient(handler))
             {
-                HttpResponseMessage response = new HttpResponseMessage();// await client.GetAsync(url);
                 try
                 {
-                    // Make the GET request asynchronously and return the response as a string.
-                    response = await client.GetAsync(fullurl);
-                    response.EnsureSuccessStatusCode(); // Throws an exception for HTTP error codes.
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("IndiaLivingsClient/1.0");
 
-                    // Read the response content as a string.
+                    var response = await client.GetAsync(fullurl);
+
                     responseBody = await response.Content.ReadAsStringAsync();
-                    //res=JsonConvert.DeserializeObject(responseBody);
-                    //return response;
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        ErrorLog.insertErrorLog($"HTTP {(int)response.StatusCode} {response.ReasonPhrase}: {responseBody}", null, "ServiceAPI.GetAsyncApi");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    // Log error or handle the exception appropriately.
                     ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
-                    //return string.Empty; // Return an empty string in case of failure.
                 }
+
                 return responseBody;
             }
         }
@@ -109,8 +116,8 @@ namespace IndiaLivings_Web_DAL
                 using (var client = new HttpClient(handler))
                 {
                     client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(
-                        new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("IndiaLivingsClient/1.0");
 
                     client.Timeout = TimeSpan.FromSeconds(30);
 
@@ -123,6 +130,7 @@ namespace IndiaLivings_Web_DAL
                     if (response.IsSuccessStatusCode)
                         return responseBody;
 
+                    ErrorLog.insertErrorLog($"HTTP {(int)response.StatusCode} {response.ReasonPhrase}: {responseBody}", null, "ServiceAPI.PostApiAsync");
                     return $"Error: {response.StatusCode}, {responseBody}";
                 }
             }
@@ -133,7 +141,6 @@ namespace IndiaLivings_Web_DAL
             }
         }
 
-
         public static string Post_Api(string apiUrl, object clsObject = null)
         {
             string fullurl = baseurl + apiUrl;
@@ -143,22 +150,25 @@ namespace IndiaLivings_Web_DAL
             };
             var responseString = string.Empty;
 
-            // Use a static HttpClient for better performance (reuse the instance)
             using (var client = new HttpClient(handler))
             {
                 try
                 {
-                    // Set the default headers for JSON content
+                    client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.Timeout = TimeSpan.FromSeconds(30); // Optional: Timeout after 30 seconds (adjust as needed)
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("IndiaLivingsClient/1.0");
+
+                    client.Timeout = TimeSpan.FromSeconds(30);
                     string jsonPostData = JsonConvert.SerializeObject(clsObject);
                     var content = new StringContent(jsonPostData, Encoding.UTF8, "application/json");
                     var response = client.PostAsync(fullurl, content).Result;
-                    if (response.IsSuccessStatusCode)
-                        responseString = response.Content.ReadAsStringAsync().Result;
-                    else
-                        responseString = $"Error: {response.StatusCode}, {response.Content.ReadAsStringAsync().Result}";
 
+                    responseString = response.Content.ReadAsStringAsync().Result;
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        ErrorLog.insertErrorLog($"HTTP {(int)response.StatusCode} {response.ReasonPhrase}: {responseString}", null, "ServiceAPI.Post_Api");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -180,8 +190,17 @@ namespace IndiaLivings_Web_DAL
             using var client = new HttpClient(handler);
             try
             {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("IndiaLivingsClient/1.0");
+
                 var response = await client.PostAsync(fullurl, form);
                 var responseString = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    ErrorLog.insertErrorLog($"HTTP {(int)response.StatusCode} {response.ReasonPhrase}: {responseString}", null, "ServiceAPI.PostMultipartApi");
+                }
 
                 return response.IsSuccessStatusCode ? responseString : $"Error: {response.StatusCode}, {responseString}";
             }
@@ -204,15 +223,21 @@ namespace IndiaLivings_Web_DAL
             {
                 try
                 {
+                    client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("IndiaLivingsClient/1.0");
+
                     client.Timeout = TimeSpan.FromSeconds(30);
                     string jsonPutData = JsonConvert.SerializeObject(clsObject);
                     var content = new StringContent(jsonPutData, Encoding.UTF8, "application/json");
                     var response = client.PutAsync(fullurl, content).Result;
-                    if (response.IsSuccessStatusCode)
-                        responseString = response.Content.ReadAsStringAsync().Result;
-                    else
-                        responseString = $"Error: {response.StatusCode}, {response.Content.ReadAsStringAsync().Result}";
+
+                    responseString = response.Content.ReadAsStringAsync().Result;
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        ErrorLog.insertErrorLog($"HTTP {(int)response.StatusCode} {response.ReasonPhrase}: {responseString}", null, "ServiceAPI.Put_Api");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -234,13 +259,19 @@ namespace IndiaLivings_Web_DAL
             {
                 try
                 {
+                    client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("IndiaLivingsClient/1.0");
+
                     client.Timeout = TimeSpan.FromSeconds(30);
                     var response = client.DeleteAsync(fullurl).Result;
-                    if (response.IsSuccessStatusCode)
-                        responseString = response.Content.ReadAsStringAsync().Result;
-                    else
-                        responseString = $"Error: {response.StatusCode}, {response.Content.ReadAsStringAsync().Result}";
+
+                    responseString = response.Content.ReadAsStringAsync().Result;
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        ErrorLog.insertErrorLog($"HTTP {(int)response.StatusCode} {response.ReasonPhrase}: {responseString}", null, "ServiceAPI.Delete_Api");
+                    }
                 }
                 catch (Exception ex)
                 {

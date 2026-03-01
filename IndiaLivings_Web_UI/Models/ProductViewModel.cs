@@ -48,6 +48,7 @@ namespace IndiaLivings_Web_UI.Models
         public decimal MinPrice { get; set; } = 0;
         public decimal MaxPrice { get; set; } = 0;
         public decimal averageRating { get; set; } = 0;
+        public string encryptedProductDetails { get; set; } = string.Empty;
 
         public List<ProductViewModel> GetAllWishlist(int userid)
         {

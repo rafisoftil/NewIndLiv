@@ -70,7 +70,7 @@
         <script>
             var spinnerHtml = '<div class="chat-loading d-flex justify-content-center align-items-center" style="min-height:220px; padding:30px; margin-top:180px">' +
                 '<img src="@Url.Content("/images/spinner.gif")" style="height:80px" alt="Loading...">' + '</div>';
-            
+
             let connection;
             let isConnected = false;
 
@@ -189,7 +189,7 @@
             $(document).on("click", ".suggestion-item", function () {
                 const username = $(this).data("username");
                 $("#suggestionList").hide().empty();
-                
+
                 if ($('.message-link[data-username="' + username + '"]').length !== 0) {
                     $('.message-link[data-username="' + username + '"]').trigger("click");
                 } else {
@@ -280,7 +280,7 @@
                 const username = $(this).data("username");
 
                 // Mark as read
-                $.post('/User/MarkMessagesAsRead', { senderUserId: receiverId });
+                //$.post('/User/MarkMessagesAsRead', { senderUserId: receiverId });
 
                 $('#chat-box').html(spinnerHtml);
                 $(".message-item").removeClass("active");

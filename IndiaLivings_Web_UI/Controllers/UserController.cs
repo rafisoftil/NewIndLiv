@@ -9,11 +9,18 @@ using Newtonsoft.Json;
 using Razorpay.Api;
 using System.Dynamic;
 using System.Reflection;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace IndiaLivings_Web_UI.Controllers
 {
     public class UserController : BaseController
     {
+        private readonly IDataProtector _protector;
+        public UserController(IDataProtectionProvider dataProtectionProvider)
+        {
+            // The DI container provides IDataProtectionProvider. Create a protector instance for product details.
+            _protector = dataProtectionProvider.CreateProtector("ProductDetailsProtector");
+        }
         /// <summary>
         /// Users Dashboard Page
         /// </summary>
@@ -669,8 +676,14 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Product Details
         /// </summary>
         /// <returns>Products and its user details</returns>
-        public async Task<IActionResult> ProductDetails(int productId, string username, int notificatonId = 0)
+        public async Task<IActionResult> ProductDetails(string id, int notificatonId = 0)
         {
+            string decrypted = _protector.Unprotect(id);
+
+            var parts = decrypted.Split('|');
+
+            int productId = Convert.ToInt32(parts[0]);
+            string username = parts[1];
             UserViewModel userViewModel = new UserViewModel();
             ProductViewModel productViewModel = new ProductViewModel();
             // Get product with images from helper
@@ -683,13 +696,13 @@ namespace IndiaLivings_Web_UI.Controllers
             ViewBag.WishlistIds = wishlistIds;
             UserViewModel user = userViewModel.GetUsersInfo(username).FirstOrDefault() ?? new UserViewModel();
             List<ProductRatingViewModel> ratings = new ProductRatingViewModel().GetProductRatings(productId);
-            AdsResponse filterResponse = await new ProductViewModel().GetAllFilterDetails(0, "all", "", product.userContactCity, "", product.productCategoryID, product.productsubCategoryID, "", null, null, 1, 8, "");
-            List<FilteredAd> filteredAds = filterResponse.Ads;
+            //AdsResponse filterResponse = await new ProductViewModel().GetAllFilterDetails(0, "all", "", product.userContactCity, "", product.productCategoryID, product.productsubCategoryID, "", null, null, 1, 8, "");
+            //List<FilteredAd> filteredAds = filterResponse.Ads;
             dynamic data = new ExpandoObject();
             data.Product = product;
             data.User = user;
             data.Ratings = ratings;
-            data.filterResponse = filteredAds;
+            //data.filterResponse = filteredAds;
             // also expose image list if view needs it
             data.ProductImages = productWithImages?.ProductImages ?? new List<ProductImageDetailsViewModel>();
             NotificationViewModel NVM = new NotificationViewModel();
@@ -781,7 +794,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 UserViewModel userDetails = UVM.GetUsersInfo(username)[0];
                 data.UserData = userDetails;
             }
-            string read = messageViewModel.MarkMessagesAsRead(ReceiverUserId, SenderUserId);
+            //string read = messageViewModel.MarkMessagesAsRead(ReceiverUserId, SenderUserId);
             return PartialView("_MessagesByUser", data);
         }
         public IActionResult ChatList()

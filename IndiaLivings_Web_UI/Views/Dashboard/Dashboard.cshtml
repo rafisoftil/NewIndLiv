@@ -4,6 +4,12 @@ var recommendedAds = (List<ProductViewModel>)Model.RecommendedAds;
 var trendingAds = (List<ProductViewModel>)Model.trendingAds;
 List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
 }
+@using Microsoft.AspNetCore.DataProtection
+@inject Microsoft.AspNetCore.DataProtection.IDataProtectionProvider DataProtectionProvider
+
+@{
+    var _protector = DataProtectionProvider.CreateProtector("ProductDetailsProtector");
+}
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -252,7 +258,7 @@ List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
                             <div class="product-info">
                                 <h5 class="product-price">₹@product.productPrice.ToString("F2")<span>/@product.productPriceCondition</span></h5>
                                 <div class="product-btn">
-                                    <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Contact Seller" class="fas fa-eye"></a>
+                                    <a asp-action="ProductDetails" asp-controller="User" asp-route-id="@_protector.Protect($"{product.productId}|{product.createdBy}")" title="Contact Seller" class="fas fa-eye"></a>
                                     <a href='#' class='fas fa-compress'
                                        data-toggle='modal' data-target='#productDetailsModal'
                                        onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
@@ -342,7 +348,7 @@ List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
                                 <div class="product-info">
                                     <h5 class="product-price">₹@Convert.ToInt32(product.productPrice)<span>/@product.productPriceCondition</span></h5>
                                     <div class="product-btn">
-                                        <a asp-action="ProductDetails" asp-controller="User" asp-route-username="@product.createdBy" asp-route-productId="@product.productId" title="Contact Seller" class="fas fa-eye"></a>
+                                        <a asp-action="ProductDetails" asp-controller="User" asp-route-id="@_protector.Protect($"{product.productId}|{product.createdBy}")" title="Contact Seller" class="fas fa-eye"></a>
                                         <a href='#' class='fas fa-compress'
                                            data-toggle='modal' data-target='#productDetailsModal'
                                            onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
@@ -879,5 +885,9 @@ List<int> wishlistIds = ViewBag.WishlistIds ?? new List<int>();
     function ViewRatedAds() {
         $("#spinner").removeClass('d-none');
         window.location.href = `/Dashboard/AdsList?rating=true`;
+    }
+    function showallads() {
+        $("#spinner").removeClass('d-none');
+        window.location.href = `/Dashboard/AdsList`;
     }
 </script>

@@ -2,6 +2,7 @@ using IndiaLivings_Web_DAL;
 using IndiaLivings_Web_UI.Controllers;
 using IndiaLivings_Web_UI.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.StaticFiles;
 
@@ -30,7 +31,20 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 // Register ServiceAPI as singleton so static wrapper can resolve a single instance
 builder.Services.AddSingleton<ServiceAPI>();
-
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/User/Login";
+        options.LogoutPath = "/User/Logout";
+        options.AccessDeniedPath = "/User/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true;
+    });
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
 var app = builder.Build();
 
 ServiceAPI.Initialize(app.Configuration);
@@ -61,5 +75,9 @@ app.MapHub<NotificationHub>("/notificationHub");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Dashboard}/{action=Dashboard}/{id?}");
+app.MapControllerRoute(
+    name: "productDetails",
+    pattern: "product",
+    defaults: new { controller = "User", action = "ProductDetails" });
 
 app.Run();

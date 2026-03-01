@@ -48,7 +48,7 @@
             @foreach (var msg in ((IEnumerable<MessageViewModel>)Model.Messages).OrderBy(m => m.Timestamp))
             {
                 bool isMine = msg.SenderId == currentUserId.ToString();
-                <li class="inbox-chat-item @(isMine ? "my-chat" : "") @(msg.IsRead ? "" : "unread-msg")" data-messageid="@msg.Id">
+                <li class="inbox-chat-item @(isMine ? "my-chat" : "") data-messageid="@msg.Id">
                     <div class="inbox-chat-img">
                         @if (isMine && msg.IsRead && msg.Id == latestReadMsgId)
                         {
