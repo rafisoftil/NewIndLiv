@@ -110,7 +110,7 @@
                         if (typeof states === "string") {
                             states = JSON.parse(states);
                         }
-
+                        console.log("Fetched states:", states);
                         const filteredStates = states
                             .filter(s => s && s.strStateName && s.IsActive)
                             .sort((a, b) => a.strStateName.localeCompare(b.strStateName));
@@ -150,7 +150,7 @@
                         if (typeof cities === "string") {
                             cities = JSON.parse(cities);
                         }
-
+                        
                         const filteredCities = cities
                             .filter(s => s && s.strCityName && s.IsActive)
                             .sort((a, b) => a.strCityName.localeCompare(b.strCityName));

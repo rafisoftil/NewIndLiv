@@ -35,7 +35,7 @@ namespace IndiaLivings_Web_DAL
             string fullurl = baseurl + url;
             var handler = new HttpClientHandler
             {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
+                ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) =>  true
             };
 
             string responseBody = string.Empty;
@@ -165,10 +165,10 @@ namespace IndiaLivings_Web_DAL
 
                     responseString = response.Content.ReadAsStringAsync().Result;
 
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        ErrorLog.insertErrorLog($"HTTP {(int)response.StatusCode} {response.ReasonPhrase}: {responseString}", null, "ServiceAPI.Post_Api");
-                    }
+                    //if (!response.IsSuccessStatusCode)
+                    //{
+                    //    ErrorLog.insertErrorLog($"HTTP {(int)response.StatusCode} {response.ReasonPhrase}: {responseString}", null, "ServiceAPI.Post_Api");
+                    //}
                 }
                 catch (Exception ex)
                 {

@@ -310,7 +310,7 @@ namespace IndiaLivings_Web_UI.Controllers
             {
                 HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
                 HttpContext.Session.SetInt32("remainingAds", adData[0].userTotalAdsRemaining);
-                HttpContext.Session.SetInt32("pendingAds", adData[0].userMembershipAds - adData[0].userTotalAdsRemaining);
+                HttpContext.Session.SetInt32("membershipAds", adData[0].userMembershipAds);
             }
 
             return RedirectToAction("PostAd");
@@ -510,32 +510,35 @@ namespace IndiaLivings_Web_UI.Controllers
                 last4 = card["last4"];
                 network = card["network"];
                 type = card["type"];
+
+                CreateCreditCardRequest addCardRequest = new CreateCreditCardRequest
+                {
+                    UserId = userId,
+                    CardNumber = "XXXX-XXXX-XXXX-" + last4,
+                    CardHolderName = "NA",
+                    ExpirationDate = DateTime.Now.AddYears(3),
+                    SecurityCode = "XXX",
+                    InvoiceId = 0,
+                    CCRequestJSON = payment.Attributes.ToString()
+                };
+
+                CreditCardTransactionResponse transactionRequest = new CreditCardTransactionResponse
+                {
+                    CreditCardId = int.Parse(last4), // from previous API response
+                    InvoiceId = 0,
+                    PaymentGatewayTransactionId = formData["rzp_paymentid"],
+                    Status = payment["status"],
+                    Amount = payment["amount"] / 100.0,
+                    ResponseCode = "SUCCESS",
+                    ResponseMessage = "Payment Captured",
+                    TransactionDate = DateTime.Now,
+                    RawResponseJson = payment.Attributes.ToString()
+                };
+                var cardDetails = new InvoiceViewModel().AddCreditcardDetails(addCardRequest);
+                var cardTransaction = new InvoiceViewModel().AddCreditCardTransaction(transactionRequest);
             }
 
-            var addCardRequest = new
-            {
-                userId = userId,
-                cardNumber = "XXXX-XXXX-XXXX-" + last4,
-                cardHolderName = "NA",
-                expirationDate = DateTime.Now.AddYears(3),
-                securityCode = "XXX",
-                invoiceId = 0,
-                ccRequestJSON = payment.Attributes.ToString()
-            };
-
-            var transactionRequest = new
-            {
-                creditCardId = "XXXX-XXXX-XXXX-" + last4, // from previous API response
-                invoiceId = 0,
-                paymentGatewayTransactionId = formData["rzp_paymentid"],
-                status = payment["status"],
-                amount = payment["amount"] / 100.0,
-                responseCode = "SUCCESS",
-                responseMessage = "Payment Captured",
-                transactionDate = DateTime.Now,
-                rawResponseJson = payment.Attributes.ToString()
-            };
-            // This code is for capture the payment
+            // This code is to capture the payment
             Dictionary<string, object> options = new Dictionary<string, object>();
             options.Add("amount", payment.Attributes["amount"]);
             Razorpay.Api.Payment paymentCaptured = payment.Capture(options);
@@ -757,11 +760,32 @@ namespace IndiaLivings_Web_UI.Controllers
         /// Message Page
         /// </summary>
         /// <returns></returns>
-        public IActionResult Message()
+        public IActionResult Message(string productOwner="", string username="")
         {
+            if (!string.IsNullOrEmpty(productOwner))
+            {
+                TempData["productOwner"] = productOwner;
+                TempData["username"] = username;
+            }
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
             UserViewModel userViewModel = new UserViewModel();
             List<UserViewModel> chatHistory = userViewModel.GetUserChatHistory(userId);
+
+            // If productOwner is provided, try to find that user in the chat history or get their details
+            if (!string.IsNullOrEmpty(productOwner) && !string.IsNullOrEmpty(username))
+            {
+                // Ensure the user is in the chat history
+                var targetUser = chatHistory.FirstOrDefault(u => u.userID == int.Parse(productOwner) || u.username == username);
+                if (targetUser == null)
+                {
+                    // If not in history, fetch the user details and add to the beginning
+                    targetUser = userViewModel.GetUsersInfo(username).FirstOrDefault();
+                    if (targetUser != null)
+                    {
+                        chatHistory.Insert(0, targetUser);
+                    }
+                }
+            }
 
             ViewBag.DefaultChatUserId = chatHistory.FirstOrDefault()?.userID;
 
@@ -794,7 +818,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 UserViewModel userDetails = UVM.GetUsersInfo(username)[0];
                 data.UserData = userDetails;
             }
-            //string read = messageViewModel.MarkMessagesAsRead(ReceiverUserId, SenderUserId);
+            string read = messageViewModel.MarkMessagesAsRead(ReceiverUserId, SenderUserId);
             return PartialView("_MessagesByUser", data);
         }
         public IActionResult ChatList()
@@ -957,10 +981,10 @@ namespace IndiaLivings_Web_UI.Controllers
             return View(blogs);
         }
 
-        public IActionResult JobInfo()
+        public IActionResult JobInfo(int pageNumber = 1, int pageSize = 10, int categoryId = 0, bool publishedOnly = false, bool activeOnly = true)
         {
             JobNewsViewModel jobNews = new JobNewsViewModel();
-            List<JobNewsViewModel> jobList = new List<JobNewsViewModel>();
+            List<JobNewsViewModel> jobList = jobNews.GetAllJobNews(pageNumber, pageSize, categoryId, publishedOnly, activeOnly);
             return View(jobList.ToList());
         }
 
@@ -1320,6 +1344,32 @@ namespace IndiaLivings_Web_UI.Controllers
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
             return membershipPreview;
+        }
+
+        [HttpPost]
+        public JsonResult MarkMessagesAsRead(int senderUserId)
+        {
+            object result = null;
+            try
+            {
+                int receiverUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
+                if (receiverUserId == 0)
+                {
+                    result = new { status = "unauthenticated" };
+                    return Json(result);
+                }
+
+                MessageViewModel messageModel = new MessageViewModel();
+                string response = messageModel.MarkMessagesAsRead(senderUserId, receiverUserId);
+                result = new { status = response };
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+                result = new { status = "error" };
+            }
+
+            return Json(result);
         }
     }
 }

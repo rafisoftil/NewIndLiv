@@ -56,5 +56,33 @@ namespace IndiaLivings_Web_DAL.Helpers
             }
             return IM;
         }
+
+        public string AddCreditcardDetails(CreateCreditCardRequest CCDM)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api("Invoices/addCreditCard", CCDM).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
+
+        public string AddCreditcardTransactionDetails(CreditCardTransactionResponse req)
+        {
+            string response = string.Empty;
+            try
+            {
+                response = ServiceAPI.Post_Api("Invoices/addCreditCardTransaction", req).Trim('\"');
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            }
+            return response;
+        }
     }
 }

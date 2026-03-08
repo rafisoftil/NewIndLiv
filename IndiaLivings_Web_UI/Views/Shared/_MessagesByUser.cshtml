@@ -17,6 +17,18 @@
         .OrderByDescending(m => m.Timestamp)
         .FirstOrDefault()?.Id;
 }
+<style>
+    .inbox-chat-form textarea {
+        width: 100%;
+        height: 70px;
+        padding: 15px 60px 15px 15px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--chalk);
+        resize: none;
+        font-size: 15px;
+    }
+</style>
 
 <section>
     <div class="message-inbox">
@@ -38,11 +50,11 @@
                     <span>active now</span>
                 </div>
             </div>
-            <ul class="inbox-header-list">
+            @* <ul class="inbox-header-list">
                 <li><a href="/User/DeleteUserMessage" title="Delete" class="fas fa-trash-alt"></a></li>
                 <li><a href="#" title="Report" class="fas fa-flag"></a></li>
                 <li><a href="#" title="Block" class="fas fa-shield-alt"></a></li>
-            </ul>
+            </ul> *@
         </div>
         <ul class="inbox-chat-list message-list" id="chatMessageList">
             @foreach (var msg in ((IEnumerable<MessageViewModel>)Model.Messages).OrderBy(m => m.Timestamp))

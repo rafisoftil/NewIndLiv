@@ -68,6 +68,22 @@
     @section Scripts {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
         <script>
+            var productOwner = '@TempData["productOwner"]';
+            var User = '@TempData["username"]';
+
+            if (productOwner) {
+                const receiverId = productOwner;
+                const username = User;
+
+                // Mark as read
+                $.post('/User/MarkMessagesAsRead', { senderUserId: receiverId });
+
+                $('#chat-box').html(spinnerHtml);
+                $(".message-item").removeClass("active");
+                $(this).closest("li").addClass("active");
+
+                loadMessages(receiverId, username);
+            }
             var spinnerHtml = '<div class="chat-loading d-flex justify-content-center align-items-center" style="min-height:220px; padding:30px; margin-top:180px">' +
                 '<img src="@Url.Content("/images/spinner.gif")" style="height:80px" alt="Loading...">' + '</div>';
 
@@ -166,9 +182,11 @@
                         $.get('/User/SearchUsers', { term: query }, function (data) {
                             let suggestions = "";
                             data.forEach(u => {
+                                // Use byteUserImageData if available (already formatted), otherwise use byteUserImageDataBase64
+                                let imageSrc = u.byteUserImageData || (u.byteUserImageDataBase64 ? `data:image/png;base64,${u.byteUserImageDataBase64}` : '/images/user.png');
                                 suggestions += `
                                     <li class="list-group-item suggestion-item" data-username="${u.username}">
-                                        <img src="${u.byteUserImageData ? `data:image/png;base64,${u.byteUserImageData}` : '/images/user.png'}" width="30" height="30" class="rounded-circle me-2" />
+                                        <img src="${imageSrc}" width="30" height="30" class="rounded-circle me-2" />
                                         ${u.username} - ${u.messageText ?? ''}
                                     </li>`;
                             });
@@ -280,7 +298,7 @@
                 const username = $(this).data("username");
 
                 // Mark as read
-                //$.post('/User/MarkMessagesAsRead', { senderUserId: receiverId });
+                $.post('/User/MarkMessagesAsRead', { senderUserId: receiverId });
 
                 $('#chat-box').html(spinnerHtml);
                 $(".message-item").removeClass("active");

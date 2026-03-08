@@ -41,4 +41,40 @@ namespace IndiaLivings_Web_DAL.Models
          public string invoiceItemName { get; set; } = string.Empty;
          public string invoiceItemDescription { get; set; } = string.Empty;
     }
+    public class CreateCreditCardRequest
+    {
+        public int UserId { get; set; }
+        public string CardNumber { get; set; } = string.Empty;
+        public string CardHolderName { get; set; } = string.Empty;
+        public DateTime ExpirationDate { get; set; }
+        public string SecurityCode { get; set; } = string.Empty;
+        public int InvoiceId { get; set; }
+        public string CCRequestJSON { get; set; } = string.Empty;
+    }
+
+    public class CreditCardResponse
+    {
+        public int ccId { get; set; }
+        public int UserId { get; set; }
+        public string MaskedCardNumber { get; set; } = string.Empty;
+        public string CardHolderName { get; set; } = string.Empty;
+        public DateTime ExpirationDate { get; set; }
+        public int InvoiceId { get; set; }
+        public string CCRequestJSON { get; set; } = string.Empty;
+        public DateTime CreateDate { get; set; }
+
+    }
+    public class CreditCardTransactionResponse
+    {
+        public int CreditCardId { get; set; }
+        public int InvoiceId { get; set; }
+        public string PaymentGatewayTransactionId { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+        public decimal Amount { get; set; }
+        public string ResponseCode { get; set; } = string.Empty;
+        public string ResponseMessage { get; set; } = string.Empty;
+        public DateTime TransactionDate { get; set; }
+        public string RawResponseJson { get; set; } = string.Empty;
+    }
+
 }

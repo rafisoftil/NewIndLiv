@@ -64,11 +64,11 @@
                 <div class="product-info">
                     <h5 class="product-price">₹@Convert.ToInt32(product.productPrice)<span>/@product.productPriceCondition</span></h5>
                     <div class="product-btn">
-                        <a asp-action="ProductDetails" asp-controller="User" asp-route-id="@_protector.Protect($"{product.productId}|{product.createdBy}")" title="Contact Seller" class="fas fa-eye"></a>
-                        <a href='#' class='fas fa-compress'
-                           data-toggle='modal' data-target='#productDetailsModal'
-                           onclick='populateModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(product)))'>
-                        </a>
+                        @if (!string.IsNullOrEmpty(Context.Session.GetString("userName")))
+                        {
+                            <a href="javascript:void(0);" onclick="OpenUserChat('@product.productOwner', '@product.createdBy')" title="Message" class="navigate-link fas fa-envelope"></a>
+                        }
+                        <a asp-action="ProductDetails" asp-controller="User" asp-route-id="@_protector.Protect($"{product.productId}|{product.createdBy}")" title="Contact Seller" class="navigate-link fas fa-compress"></a>
                         <button type="button" title="Wishlist" class="@(wishlistIds.Contains(product.productId) ? "far fa-heart fas" : "far fa-heart")"
                                 onclick="AddToWishlist(this, '@product.productId', '@product.createdBy')"></button>
                     </div>
@@ -130,6 +130,7 @@
             }
         });
     }
+
     let totalPages = @Math.Ceiling((double)modelCount / itemsPerPage);
     let currentPage = @currentPage;
     const visiblePages = 5;
@@ -342,5 +343,17 @@
                 alert('Failed to load products.');
             }
         });
+    }
+
+    function OpenUserChat(productOwner, username) {
+        const loggedUserId = '@Context.Session.GetInt32("UserId")';
+
+        if (!loggedUserId || loggedUserId === "null") {
+            window.location.href = "/Dashboard/Login";
+            return;
+        }
+
+        // Navigate to Message page with proper parameters
+        window.location.href = `/User/Message?productOwner=${encodeURIComponent(productOwner)}&username=${encodeURIComponent(username)}`;
     }
 </script>

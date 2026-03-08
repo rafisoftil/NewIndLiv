@@ -19,7 +19,7 @@
                         <h2>blog details</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Dashboard">Home</a></li>
-                            <li class="breadcrumb-item"><a asp-action="ManageBlog">blog-list</a></li>
+                            <li class="breadcrumb-item"><a asp-action="Index" asp-action="Blog">blog-list</a></li>
                             <li class="breadcrumb-item active" aria-current="page">blog-details</li>
                         </ol>
                     </div>
@@ -37,7 +37,7 @@
     <section class="blog-details-part">
         <div class="container">
             <div class="row">
-                @if (Model.isPublished)
+                @* @if (Model.isPublished)
                 {
                     <div class="col-lg-10 m-auto d-flex justify-content-end">
                         <div class="alert alert-success" role="alert">
@@ -50,7 +50,7 @@
                     <div class="col-lg-10 m-auto d-flex justify-content-end">
                         <a class="btn btn-primary" asp-action="PublishBlog" asp-controller="Dashboard" asp-route-blogId="@Model.blogId">Publish</a>
                     </div>
-                }
+                } *@
                 <div class="col-lg-10 m-auto">
                     <div class="blog-details-title">
                         <h2><a href="#">@Model.title</a></h2>
@@ -59,16 +59,16 @@
                         <li>
                             <a href="#">
                                 <i class="far fa-user"></i>
-                                <p>MironMahmud</p>
+                                <p>@Model.author</p>
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <i class="far fa-calendar-alt"></i>
-                                <p>02 Feb 2020</p>
+                                <p>@Model.publishedDate.ToString("dd MMM yyyy")</p>
                             </a>
                         </li>
-                        <li>
+                        @* <li>
                             <a href="#">
                                 <i class="far fa-folder-open"></i>
                                 <p>advertising</p>
@@ -85,7 +85,7 @@
                                 <i class="far fa-share-square"></i>
                                 <p>21 Share</p>
                             </a>
-                        </li>
+                        </li> *@
                     </ul>
                     <div class="blog-details-image">
                         @{
@@ -101,6 +101,10 @@
                             <p>@Model.summary</p>
                         </div>
                         <div class="sub-content">
+                            @* <h3>How to manage your advertise?</h3> *@
+                            <p>@Model.content</p>
+                        </div>
+                        @* <div class="sub-content">
                             <h3>How to manage your advertise?</h3>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos quasi deleniti voluptatem sint incidunt quos corporis recusandae repudiandae aspernatur voluptates omnis illum quaerat quidem veritatis, facilis enim quis quo ipsam ipsa doloribus, nostrum adipisci eligendi <a href="#">consequuntur</a> consequatur. Animi molestias ab ex eius, doloremque corporis sunt alias non deleniti doloribus</p>
                         </div>
@@ -118,9 +122,9 @@
                             <li>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Ad ullam impedit architecto porro.</p>
                             </li>
-                        </ul>
+                        </ul> *@
                     </div>
-                    <div class="blog-details-widget">
+                    @* <div class="blog-details-widget">
                         <ul class="tag-list">
                             <li><h4>Tags:</h4></li>
                             <li><a href="#">Crowd</a></li>
@@ -327,7 +331,7 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div> *@
                 </div>
             </div>
         </div>

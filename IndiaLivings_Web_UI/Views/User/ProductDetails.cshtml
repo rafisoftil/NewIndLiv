@@ -39,8 +39,8 @@
                     <div class="single-content">
                         <h2>ad details left</h2>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Dashboard">Home</a></li>
-                            <li class="breadcrumb-item"><a asp-action="AdsList" asp-controller="Dashboard">ad-list</a></li>
+                            <li class="breadcrumb-item"><a class="navigate-link" asp-action="Dashboard" asp-controller="Dashboard">Home</a></li>
+                            <li class="breadcrumb-item"><a class="navigate-link" asp-action="AdsList" asp-controller="Dashboard">ad-list</a></li>
                             <li class="breadcrumb-item active" aria-current="page">ad-details-left</li>
                         </ol>
                     </div>
@@ -75,7 +75,7 @@
                     <div class="common-card">
                         <div class="card-header">
                             <h5 class="card-title">author info</h5>
-                        </div>
+                        </div> 
                         <div class="ad-details-author">
                             <a href="#" class="author-img active">
                                 <img src="data:image/png;base64,@Convert.ToBase64String(user.byteUserImageData)"
@@ -88,10 +88,10 @@
                             </div>
                              <div class="author-widget">
                                 @* <a href="profile.html" title="Profile" class="fas fa-eye"></a> *@
-                                <a href="message.html" title="Message" class="fas fa-envelope"></a>
-                                <button type="button" title="Follow" class="follow fas fa-heart"></button>
+                                <a href="javascript:void(0);" onclick="OpenUserChat('@product.productOwner', '@product.createdBy')" title="Message" class="navigate-link fas fa-envelope"></a>
+                                @* <button type="button" title="Follow" class="follow fas fa-heart"></button>
                                 <button type="button" title="Number" class="fas fa-phone" data-toggle="modal" data-target="#number"></button>
-                                <button type="button" title="Share" class="fas fa-share-alt" data-toggle="modal" data-target="#profile-share"></button>
+                                <button type="button" title="Share" class="fas fa-share-alt" data-toggle="modal" data-target="#profile-share"></button> *@
                             </div>
                            @* <ul class="author-list">
                                 <li><h6>total ads</h6><p>134</p></li>
@@ -752,6 +752,17 @@
                     ShowToast('failed', 'Error in processing request.');
                 }
             });
+        }
+        function OpenUserChat(productOwner, username) {
+            const loggedUserId = '@Context.Session.GetInt32("UserId")';
+
+            if (!loggedUserId || loggedUserId === "null") {
+                window.location.href = "/Dashboard/Login";
+                return;
+            }
+
+            // Navigate to Message page with proper parameters
+            window.location.href = `/User/Message?productOwner=${encodeURIComponent(productOwner)}&username=${encodeURIComponent(username)}`;
         }
     </script>
 </body>

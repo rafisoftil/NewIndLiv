@@ -48,7 +48,7 @@ namespace IndiaLivings_Web_UI.Controllers
                 {
                     HttpContext.Session.SetInt32("listingAds", adData[0].userTotalAdsPosted);
                     HttpContext.Session.SetInt32("remainingAds", adData[0].userTotalAdsRemaining);
-                    HttpContext.Session.SetInt32("pendingAds", adData[0].userMembershipAds - adData[0].userTotalAdsRemaining);
+                    HttpContext.Session.SetInt32("membershipAds", adData[0].userMembershipAds);
                     ViewBag.AdsRemaining = adData[0].userTotalAdsRemaining;
                 }
             }
@@ -295,86 +295,96 @@ namespace IndiaLivings_Web_UI.Controllers
             string senderPassword = configuration["EmailSender:Password"]; // Replace with your email password
             string smtpHost = configuration["EmailSender:smtp"]; // Gmail SMTP host
             int smtpPort = Convert.ToInt32(configuration["EmailSender:port"]); // TLS port for Gmail
-            string token = Guid.NewGuid().ToString();
-            string message = "Subscribe link is not sent";
+            //string token = Guid.NewGuid().ToString();
+            //string message = "Subscribe link is not sent";
 
             EmailSubscriptionViewModel sub = new EmailSubscriptionViewModel
             {
                 Email = email,
-                FullName = "",
+                FullName = "Valued User",
             };
-            string response = await new EmailSubscriptionViewModel().Subscribe(sub);
+            string response = "An error occured. Please try again later";
             try
             {
-                string resetLink = Url.Action("VerifySubscription", "Dashboard", new { token = token }, Request.Scheme);
-                string unsubscribeLink = Url.Action("Unsubscribe", "Dashboard", new { token = token }, Request.Scheme);
-                var mailMessage = new MailMessage
-                {
-                    From = new MailAddress(senderEmail),
-                    Subject = "Your link for Password Reset",
-                    IsBodyHtml = true,
-                    Body = $@"
-                        <!DOCTYPE html>
-                        <html>
-                        <body style='font-family: Arial, sans-serif; background-color:#f4f6f8; padding:20px;'>
-
-                            <div style='max-width:600px; margin:auto; background:#ffffff; padding:30px; border-radius:6px;'>
-
-                                <h2 style='color:#333;'>Confirm Your Subscription</h2>
-
-                                <p style='font-size:14px; color:#555;'>
-                                    Thank you for subscribing! Please confirm your email address by clicking the button below.
-                                </p>
-
-                                <div style='text-align:center; margin:30px 0;'>
-                                    <a href='{resetLink}'
-                                       style='background-color:#007bff;
-                                              color:#ffffff;
-                                              padding:14px 28px;
-                                              font-size:16px;
-                                              text-decoration:none;
-                                              border-radius:5px;
-                                              display:inline-block;'>
-                                        Confirm Subscription
-                                    </a>
-                                </div>
-
-                                <p style='font-size:12px; color:#888;'>
-                                    If you did not subscribe, you can safely ignore this email.
-                                </p>
-
-                                <hr style='margin:30px 0; border:none; border-top:1px solid #eee;' />
-
-                                <p style='font-size:12px; color:#999; text-align:center;'>
-                                    No longer want to receive these emails?
-                                    <br />
-                                    <a href='{unsubscribeLink}'
-                                       style='color:#007bff; text-decoration:none;'>
-                                        Unsubscribe
-                                    </a>
-                                </p>
-
-                            </div>
-
-                        </body>
-                        </html>"
-                };
-                mailMessage.To.Add(email);
-
-                using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
-                {
-                    smtpClient.Credentials = new System.Net.NetworkCredential(senderEmail, senderPassword);
-                    smtpClient.EnableSsl = true;
-                    smtpClient.Send(mailMessage);
-                    message = $"Subscribe link sent successfully to {email}";
-                }
+                response = await new EmailSubscriptionViewModel().Subscribe(sub);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error sending email: " + ex.Message);
                 ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
             }
-            return Json(new { success = true, message = message });
+            
+            //try
+            //{
+            //    string resetLink = Url.Action("VerifySubscription", "Dashboard", new { token = token }, Request.Scheme);
+            //    string unsubscribeLink = Url.Action("Unsubscribe", "Dashboard", new { token = token }, Request.Scheme);
+            //    var mailMessage = new MailMessage
+            //    {
+            //        From = new MailAddress(senderEmail),
+            //        Subject = "Your link for Password Reset",
+            //        IsBodyHtml = true,
+            //        Body = $@"
+            //            <!DOCTYPE html>
+            //            <html>
+            //            <body style='font-family: Arial, sans-serif; background-color:#f4f6f8; padding:20px;'>
+
+            //                <div style='max-width:600px; margin:auto; background:#ffffff; padding:30px; border-radius:6px;'>
+
+            //                    <h2 style='color:#333;'>Confirm Your Subscription</h2>
+
+            //                    <p style='font-size:14px; color:#555;'>
+            //                        Thank you for subscribing! Please confirm your email address by clicking the button below.
+            //                    </p>
+
+            //                    <div style='text-align:center; margin:30px 0;'>
+            //                        <a href='{resetLink}'
+            //                           style='background-color:#007bff;
+            //                                  color:#ffffff;
+            //                                  padding:14px 28px;
+            //                                  font-size:16px;
+            //                                  text-decoration:none;
+            //                                  border-radius:5px;
+            //                                  display:inline-block;'>
+            //                            Confirm Subscription
+            //                        </a>
+            //                    </div>
+
+            //                    <p style='font-size:12px; color:#888;'>
+            //                        If you did not subscribe, you can safely ignore this email.
+            //                    </p>
+
+            //                    <hr style='margin:30px 0; border:none; border-top:1px solid #eee;' />
+
+            //                    <p style='font-size:12px; color:#999; text-align:center;'>
+            //                        No longer want to receive these emails?
+            //                        <br />
+            //                        <a href='{unsubscribeLink}'
+            //                           style='color:#007bff; text-decoration:none;'>
+            //                            Unsubscribe
+            //                        </a>
+            //                    </p>
+
+            //                </div>
+
+            //            </body>
+            //            </html>"
+            //    };
+            //    mailMessage.To.Add(email);
+
+            //    using (var smtpClient = new SmtpClient(smtpHost, smtpPort))
+            //    {
+            //        smtpClient.Credentials = new System.Net.NetworkCredential(senderEmail, senderPassword);
+            //        smtpClient.EnableSsl = true;
+            //        smtpClient.Send(mailMessage);
+            //        message = $"Subscribe link sent successfully to {email}";
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("Error sending email: " + ex.Message);
+            //    ErrorLog.insertErrorLog(ex.Message, ex.StackTrace, ex.Source);
+            //}
+            //return Json(new { success = true, message = message });
+            return Json(new { success = true, message = response });
         }
         public IActionResult SubscribeStatus(string state)
         {

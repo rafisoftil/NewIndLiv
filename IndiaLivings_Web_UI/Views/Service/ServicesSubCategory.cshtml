@@ -2,6 +2,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services Sub Category</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
     <style>
         .category-services-part {
             padding: 60px 0;
@@ -377,52 +391,68 @@
                 </div>
                 <div class="modal-body">
                     <form id="bookingForm" method="post" asp-action="ServiceProcessPayment" asp-controller="User">
-                        <input type="hidden" id="bookingServiceId"/>
-                        <input type="hidden" id="bookingPrice" name="price"/>
-                        <div class="form-group">
-                            <label>Date</label>
-                            <input type="date" class="form-control" id="bookingDate" required>
+
+                        <input type="hidden" id="bookingServiceId" />
+                        <input type="hidden" id="bookingPrice" name="price" />
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label>Date</label>
+                                <input type="date" class="form-control" id="bookingDate" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Time Slot</label>
+                                <select class="form-control" id="bookingSlot" required>
+                                    <option value="">Select</option>
+                                    <option>Morning (8AM - 12PM)</option>
+                                    <option>Afternoon (12PM - 4PM)</option>
+                                    <option>Evening (4PM - 8PM)</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="countriesDropdown">Country</label>
+                                <select id="countriesDropdown" class="form-control" style="width:100%">India</select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="statesDropdown">State</label>
+                                <select id="statesDropdown" class="form-control" style="width:100%" value="@Context.Session.GetString("State")"></select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="citiesDropdown">City</label>
+                                <select id="citiesDropdown" class="form-control" style="width:100%" value="@Context.Session.GetString("City")"></select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="pincode">Pincode</label>
+                                <input id="pincode" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Address</label>
+                                <textarea class="form-control" id="bookingAddress" rows="2" required placeholder="Enter service address..."></textarea>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Notes (Optional)</label>
+                                <textarea class="form-control" id="bookingNotes" rows="2" placeholder="Any extra details..."></textarea>
+                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label>Time Slot</label>
-                            <select class="form-control" id="bookingSlot" required>
-                                <option value="">Select</option>
-                                <option>Morning (8AM - 12PM)</option>
-                                <option>Afternoon (12PM - 4PM)</option>
-                                <option>Evening (4PM - 8PM)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="countriesDropdown" class="form-label">Country</label>
-                            <select id="countriesDropdown" class="form-control" style="width: 100%" value="" placeholder="select a country">India</select>
-                        </div>
-                        <div class="form-group">
-                            <label for="statesDropdown" class="form-label">State</label>
-                            <select id="statesDropdown" class="form-control" style="width: 100%" value="@Context.Session.GetString("State")"></select>
-                        </div>
-                        <div class="form-group">
-                            <label for="citiesDropdown" class="form-label">City</label>
-                            <select id="citiesDropdown" class="form-control" style="width: 100%" value="@Context.Session.GetString("City")"></select>
-                        </div>
-                        <div class="form-group">
-                            <label for="pincode" class="form-label">Pincode</label>
-                            <input id="pincode" class="form-control" style="width: 100%" />
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea class="form-control" id="bookingAddress" rows="2" required placeholder="Enter service address..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Notes (Optional)</label>
-                            <textarea class="form-control" id="bookingNotes" rows="2" placeholder="Any extra details..."></textarea>
-                        </div>
+
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div><strong>Total:</strong> <span id="bookingPriceDisplay">₹0</span></div>
-                            @* <a href="Service/ServiceDetails/" id="viewDetailsLink" class="btn btn-outline-service" style="padding:8px 14px;">Full Details</a> *@
                         </div>
+
                         <button type="submit" class="btn btn-inline btn-block" style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;">
-                            <i class="fas fa-calendar-check"></i><span>Confirm Booking</span>
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Confirm Booking</span>
                         </button>
+
                     </form>
                 </div>
             </div>
@@ -434,8 +464,9 @@
     <div id="toast" class="d-none"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-
         function getParam(name)
         {
             const url=new URL(window.location.href);return url.searchParams.get(name);
@@ -656,7 +687,7 @@
                                 $cityDropdown.val("").trigger('change');
                             }
 
-                            $stateDropdown.select2({
+                            $cityDropdown.select2({
                                 placeholder: "Select a city",
                                 allowClear: true
                             });

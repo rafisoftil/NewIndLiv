@@ -38,23 +38,26 @@
             <div class="row">
                 @for (var i = 0; i < Model.Count; i++)
                 {
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <div class="category-card">
-                            <div class="category-head">
-                                <img src="@Model[i].CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/no-image.png';" />
-                                <a href="javascript: void(0)" onclick="navigateToAdsListWithCategory('@Model[i].CategoryID','0')" class="category-content">
-                                    <h4>@Model[i].CategoryName</h4>
-                                    <p>(@Model[i].CategoryCount)</p>
-                                </a>
+                    @if (Model[i].CategoryCount > 0)
+                    {
+                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            <div class="category-card">
+                                <div class="category-head">
+                                    <img src="@Model[i].CategoryImage" alt="Category" onerror="this.onerror=null; this.src='/images/no-image.png';" />
+                                    <a href="javascript: void(0)" onclick="navigateToAdsListWithCategory('@Model[i].CategoryID','0')" class="category-content">
+                                        <h4>@Model[i].CategoryName</h4>
+                                        <p>(@Model[i].CategoryCount)</p>
+                                    </a>
+                                </div>
+                                @foreach (var subCategory in Model[i].subCategories)
+                                {
+                                    <ul class="category-list">
+                                        <li><a href="javascript:void(0)" onclick="navigateToAdsListWithCategory('@subCategory.intCategoryID', '@subCategory.subCategoryID')"><h6>@subCategory.subCatergoryName</h6><p>(@subCategory.intSubCategoryCount)</p></a></li>
+                                    </ul>
+                                }
                             </div>
-                            @foreach (var subCategory in Model[i].subCategories)
-                            {
-                                <ul class="category-list">
-                                    <li><a href="javascript:void(0)" onclick="navigateToAdsListWithCategory('@subCategory.intCategoryID', '@subCategory.subCategoryID')"><h6>@subCategory.subCatergoryName</h6><p>(@subCategory.intSubCategoryCount)</p></a></li>
-                                </ul>
-                            }
                         </div>
-                    </div>
+                    }
                 }
             </div>
             @* <div class="row">
@@ -79,7 +82,7 @@
                     <div class="section-center-heading">
                         <h2>Do you have something to advertise?</h2>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit aspernatur illum vel sunt libero voluptatum repudiandae veniam maxime tenetur.</p>
-                        <a href="@Url.Action("PostAd", "User")" class="btn btn-outline">
+                        <a href="@Url.Action("PostAd", "User")" class="navigate-link btn btn-outline">
                             <i class="fas fa-plus-circle"></i>
                             <span>post your ad</span>
                         </a>

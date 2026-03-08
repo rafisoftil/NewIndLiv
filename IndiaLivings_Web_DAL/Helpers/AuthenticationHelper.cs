@@ -47,7 +47,12 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 user = new UserModel();
-                string response = ServiceAPI.Get_async_Api("Users/CheckUserLogin?strUserName=" + userName + "&strPWD=" + password);
+                var loginUser = new
+                {
+                    UserName = userName,
+                    Password = password
+                };
+                string response = ServiceAPI.Post_Api("Users/CheckUserLogin", loginUser);
                 user = JsonConvert.DeserializeObject<UserModel>(response);
             }
             catch (Exception ex)
@@ -230,6 +235,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 response = ServiceAPI.Get_async_Api("Users/GetCountryName");
+                response = JsonConvert.DeserializeObject<string>(response);
             }
             catch (Exception ex)
             {
@@ -244,6 +250,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 response = ServiceAPI.Get_async_Api($"Users/GetStateName?intCountryID={countryId}");
+                response = JsonConvert.DeserializeObject<string>(response);
             }
             catch (Exception ex)
             {
@@ -258,6 +265,7 @@ namespace IndiaLivings_Web_DAL.Helpers
             try
             {
                 response = ServiceAPI.Get_async_Api($"Users/GetCityName?intStateID={stateId}");
+                response = JsonConvert.DeserializeObject<string>(response);
             }
             catch (Exception ex)
             {
